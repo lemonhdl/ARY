@@ -1,0 +1,93 @@
+[
+  {
+    "recordId": "record-session-01",
+    "eventNo": 1,
+    "type": "prompt",
+    "title": "建立共同语言",
+    "content": "用户从不持久化、PoC、DCR 等概念开始提问，让 Agent 先解释项目语境。"
+  },
+  {
+    "recordId": "record-session-01",
+    "eventNo": 2,
+    "type": "agent",
+    "title": "Agent 归类概念",
+    "content": "Agent 将术语放回 ARY 和智能体工程语境，帮助后续讨论收敛。"
+  },
+  {
+    "recordId": "record-session-01",
+    "eventNo": 3,
+    "type": "steering",
+    "title": "Docs 成为约束",
+    "content": "用户提供课堂转录和 PPT 转录，并要求后续围绕这些原始材料判断项目目标。"
+  },
+  {
+    "recordId": "record-session-01",
+    "eventNo": 4,
+    "type": "prompt",
+    "title": "PRD 方法形成",
+    "content": "用户提出用场景、角色、职责、用例推导数据和数据安全要求。"
+  },
+  {
+    "recordId": "record-session-01",
+    "eventNo": 5,
+    "type": "steering",
+    "title": "修正不持久化含义",
+    "content": "用户明确不持久化不是平台没有数据库，而是敏感完整数据不在 ARY 长期落盘。"
+  },
+  {
+    "recordId": "record-session-01",
+    "eventNo": 6,
+    "type": "validation",
+    "title": "沉淀为项目知识库",
+    "content": "Agent 将讨论整理到 Knowledge，形成后续 PRD 和 PoC 的依据。"
+  },
+  {
+    "recordId": "record-session-02",
+    "eventNo": 1,
+    "type": "prompt",
+    "title": "Race 目标下达",
+    "content": "用户要求以 Docs 转录文档为最高约束，自主完成可交付 PoC。"
+  },
+  {
+    "recordId": "record-session-02",
+    "eventNo": 2,
+    "type": "agent",
+    "title": "Agent 拆解任务",
+    "content": "Agent 安排约束复核和项目结构勘察，先确认 PoC 必须证明什么。"
+  },
+  {
+    "recordId": "record-session-02",
+    "eventNo": 3,
+    "type": "agent",
+    "title": "双服务方案",
+    "content": "Agent 选择两个独立进程，用平台页面和外部评测能力表达数据边界。"
+  },
+  {
+    "recordId": "record-session-02",
+    "eventNo": 4,
+    "type": "validation",
+    "title": "自动验收建立",
+    "content": "Agent 编写 verify 脚本，检查平台页面不提前显示评测结果，也不暴露未公开材料。"
+  },
+  {
+    "recordId": "record-session-02",
+    "eventNo": 5,
+    "type": "steering",
+    "title": "复核发现泄露风险",
+    "content": "子 Agent 发现完整题解展示范围过宽，用户和 Agent 将其修正为受保护提交内容。"
+  },
+  {
+    "recordId": "record-session-02",
+    "eventNo": 6,
+    "type": "steering",
+    "title": "用户 Steering",
+    "content": "用户指出交付 PoC 不应包含太多实现细节表述，页面必须面向评审展示。"
+  },
+  {
+    "recordId": "record-session-02",
+    "eventNo": 7,
+    "type": "validation",
+    "title": "最终验证",
+    "content": "Agent 重新运行自动验收和页面冒烟检查，确认 PoC 可交付。"
+  }
+]

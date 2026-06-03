@@ -1,0 +1,16 @@
+[
+  {
+    "sourceId": "session-01",
+    "title": "coding agent session 01",
+    "localPath": "/media/lemonhdl/Shared/Software_Engineering/ARY/coding-agent-sessions/session-01-claude-code.md",
+    "privateContentRetainedBy": "Organizer",
+    "publicProjectionId": "record-session-01"
+  },
+  {
+    "sourceId": "session-02",
+    "title": "coding agent session 02",
+    "localPath": "/media/lemonhdl/Shared/Software_Engineering/ARY/coding-agent-sessions/session-02-claude-code.md",
+    "privateContentRetainedBy": "Organizer",
+    "publicProjectionId": "record-session-02"
+  }
+]

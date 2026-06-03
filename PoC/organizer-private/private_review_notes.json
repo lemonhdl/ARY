@@ -1,0 +1,18 @@
+{
+  "raceId": "ary-grs-001-agent-riding-record",
+  "privateReviewFocus": [
+    "哪些 session 片段适合公开展示",
+    "哪些 Steering 体现 Agentic Development",
+    "哪些原始内容只应保留在 Organizer 侧",
+    "公开投影是否足以支持回放和展示"
+  ],
+  "disclosedToAry": [
+    "recordId",
+    "record 标题",
+    "公开摘要",
+    "公开步骤摘要",
+    "公开回放事件",
+    "数据版本指纹"
+  ],
+  "statement": "Organizer 保留完整来源和筛选标准，ARY 只接收可公开的 Riding Record 投影。"
+}

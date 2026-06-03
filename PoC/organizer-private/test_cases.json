@@ -1,0 +1,9 @@
+{
+  "raceId": "grs-001-demo",
+  "secret": "这些隐藏测试数据只能由 Organizer evaluator 读取。",
+  "cases": [
+    { "input": "alpha", "expected": "agent" },
+    { "input": "beta", "expected": "racing" },
+    { "input": "gamma", "expected": "yard" }
+  ]
+}

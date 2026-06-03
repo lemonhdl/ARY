@@ -1,0 +1,36 @@
+{
+  "raceId": "ary-grs-001-agent-riding-record",
+  "title": "ARY GRS 001：Agent Riding Record",
+  "organizer": "ARY Genesis Organizer",
+  "privateDefinition": {
+    "fullChallengeBrief": "完整 Race 定义、组织方知识、完整 coding agent session 原文和未公开筛选标准，仅保留在 Organizer 侧。",
+    "privateAssets": [
+      "完整 Race 说明",
+      "完整 coding agent session 原文",
+      "Organizer 私有筛选标准",
+      "未公开项目材料",
+      "后续披露策略"
+    ],
+    "dataSovereigntyRule": "Organizer 决定哪些 Riding Record 内容可以披露为公开投影。ARY 不保存完整 Race 私有数据或完整 session 原文。"
+  },
+  "publicProjection": {
+    "raceId": "ary-grs-001-agent-riding-record",
+    "title": "ARY GRS 001：Agent Riding Record",
+    "summary": "展示 Rider 如何通过 Prompt、Agent Output 和 Steering 驾驭 Agent 推进真实项目，同时证明完整私有材料留在 Organizer 侧。",
+    "organizer": "ARY Genesis Organizer",
+    "status": "已披露",
+    "publishedAt": "2026-06-03",
+    "dataVersionHash": "organizer-riding-projection-v1-4f91c8",
+    "publicFields": [
+      "Race 标题",
+      "公开摘要",
+      "Record 标题",
+      "公开步骤摘要",
+      "Prompt 摘要",
+      "Agent Output 摘要",
+      "Steering 摘要",
+      "公开回放事件"
+    ],
+    "proofStatement": "本公开投影由 Organizer 主动披露，不包含完整 Race 私有数据或完整 session 原文。"
+  }
+}
