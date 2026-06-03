@@ -1,0 +1,13 @@
+[
+  {
+    "raceId": "grs-001",
+    "title": "ARY GRS 001：Agent Riding Record Challenge",
+    "status": "open",
+    "summary": "队伍需要提交一次 Agent Riding Record 的公开投影，组织方基于本地保留的完整记录和评价标准完成多维评价。",
+    "publicRules": [
+      "队伍只能查看自己的提交、评测状态和回放投影",
+      "组织方可以查看全部队伍的公开提交摘要和评价状态",
+      "完整 Riding Record、评审细则和未公开材料不进入参赛队伍页面"
+    ]
+  }
+]

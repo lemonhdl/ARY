@@ -1,0 +1,14 @@
+[
+  {
+    "teamId": "team_001",
+    "rank": 1,
+    "scoreBand": "excellent",
+    "publicComment": "目标清楚，Steering 证据强，数据边界说明充分。"
+  },
+  {
+    "teamId": "team_002",
+    "rank": 2,
+    "scoreBand": "good",
+    "publicComment": "验证和回放证据较完整，Steering 过程还可以更清楚。"
+  }
+]

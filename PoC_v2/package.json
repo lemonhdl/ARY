@@ -1,0 +1,11 @@
+{
+  "name": "ary-poc-v2-role-boundary",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node src/start.js",
+    "start:organizer": "node src/start-organizer.js",
+    "verify": "node src/verify.js"
+  }
+}

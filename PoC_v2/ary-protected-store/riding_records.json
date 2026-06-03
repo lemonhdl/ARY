@@ -1,0 +1,30 @@
+[
+  {
+    "recordId": "record-team-001",
+    "teamId": "team_001",
+    "title": "Team 001：需求边界与 Steering 纠偏",
+    "agent": "Claude Code",
+    "rider": "Team 001",
+    "summary": "从项目目标拆解开始，队伍通过 Steering 把 Agent 从普通评测页面拉回 Agent Riding Record 主线。",
+    "dimensions": [
+      "目标与边界",
+      "Steering",
+      "数据边界"
+    ],
+    "projectionOnly": true
+  },
+  {
+    "recordId": "record-team-002",
+    "teamId": "team_002",
+    "title": "Team 002：验证证据与回放组织",
+    "agent": "Claude Code",
+    "rider": "Team 002",
+    "summary": "队伍重点整理验证动作、页面 smoke test 和回放事件，使评审能复盘关键过程。",
+    "dimensions": [
+      "验证证据",
+      "可回放性",
+      "交付质量"
+    ],
+    "projectionOnly": true
+  }
+]

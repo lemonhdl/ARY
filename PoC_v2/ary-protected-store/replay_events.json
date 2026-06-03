@@ -1,0 +1,51 @@
+[
+  {
+    "recordId": "record-team-001",
+    "eventNo": 1,
+    "type": "prompt",
+    "title": "固定任务边界",
+    "content": "队伍先明确本轮 Riding 的目标、范围和不做事项。"
+  },
+  {
+    "recordId": "record-team-001",
+    "eventNo": 2,
+    "type": "agent",
+    "title": "拆解页面结构",
+    "content": "过程记录整理出 Race、Records、Replay 和 Evidence 的页面组合。"
+  },
+  {
+    "recordId": "record-team-001",
+    "eventNo": 3,
+    "type": "steering",
+    "title": "用户 Steering",
+    "content": "Rider 要求页面回到 Agent Riding Record 的展示和回放主线。"
+  },
+  {
+    "recordId": "record-team-001",
+    "eventNo": 4,
+    "type": "validation",
+    "title": "检查展示范围",
+    "content": "最终检查页面只显示可展示内容，不显示未公开材料。"
+  },
+  {
+    "recordId": "record-team-002",
+    "eventNo": 1,
+    "type": "prompt",
+    "title": "建立验证目标",
+    "content": "队伍把验证动作和回放事件作为主要交付证据。"
+  },
+  {
+    "recordId": "record-team-002",
+    "eventNo": 2,
+    "type": "agent",
+    "title": "整理验证流程",
+    "content": "过程记录覆盖登录、身份分流、队伍隔离和未授权访问检查。"
+  },
+  {
+    "recordId": "record-team-002",
+    "eventNo": 3,
+    "type": "validation",
+    "title": "通过隔离检查",
+    "content": "验证结果确认两个队伍只能看到各自的提交和回放内容。"
+  }
+]

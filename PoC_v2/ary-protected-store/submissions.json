@@ -1,0 +1,26 @@
+[
+  {
+    "submissionId": "sub-team-001-r1",
+    "teamId": "team_001",
+    "raceId": "grs-001",
+    "title": "Team 001 Agent Riding Record 投影",
+    "submittedAt": "2026-06-04T09:12:00+08:00",
+    "status": "evaluated",
+    "score": 92,
+    "publicSummary": "Team 001 展示了明确目标、及时 Steering 和可回放的关键事件。",
+    "recordId": "record-team-001",
+    "visibleToTeam": "team_001"
+  },
+  {
+    "submissionId": "sub-team-002-r1",
+    "teamId": "team_002",
+    "raceId": "grs-001",
+    "title": "Team 002 Agent Riding Record 投影",
+    "submittedAt": "2026-06-04T09:28:00+08:00",
+    "status": "evaluated",
+    "score": 86,
+    "publicSummary": "Team 002 的验证证据较完整，回放结构清楚，但 Steering 证据略少。",
+    "recordId": "record-team-002",
+    "visibleToTeam": "team_002"
+  }
+]

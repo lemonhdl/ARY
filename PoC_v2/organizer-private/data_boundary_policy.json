@@ -1,0 +1,22 @@
+{
+  "owner": "Organizer_001",
+  "retainedData": [
+    "未公开过程材料",
+    "未公开评价材料",
+    "未公开项目材料",
+    "队伍提交原始内容",
+    "组织方内部记录"
+  ],
+  "disclosedToTeams": [
+    "本队提交摘要",
+    "本队评价结果",
+    "本队 Riding Record 公开投影",
+    "本队回放事件"
+  ],
+  "disclosedToPublicLeaderboard": [
+    "队伍编号",
+    "公开排名",
+    "评价等级",
+    "公开评语"
+  ]
+}
