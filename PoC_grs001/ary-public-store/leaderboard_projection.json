@@ -1,0 +1,14 @@
+[
+  {
+    "teamId": "team_001",
+    "rank": 1,
+    "scoreBand": "excellent",
+    "publicComment": "证明链清楚，能说明 Organizer 数据缺失时 ARY 不能伪造评分。"
+  },
+  {
+    "teamId": "team_002",
+    "rank": 2,
+    "scoreBand": "good",
+    "publicComment": "过程证据完整，公开展示边界清楚。"
+  }
+]

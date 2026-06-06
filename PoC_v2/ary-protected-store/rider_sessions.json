@@ -1,0 +1,491 @@
+[
+  {
+    "sessionId": "session-team-001-devcompass-000",
+    "teamId": "team_001",
+    "recordId": "record-team-001-scope",
+    "title": "从项目讨论到需求边界",
+    "sourceTool": "DevCompass",
+    "workspaceLabel": "ARY product workspace",
+    "timeLabel": "阶段整理 1",
+    "status": "ready",
+    "objectiveSummary": "把课堂资料、PPT 转录和用户逐句讨论整理成 Race 目标、角色、场景、职责、用例和资料风险。",
+    "constraints": [
+      "讨论整合由用户逐句主导",
+      "需求从场景、角色、职责和用例推导",
+      "对外展示不暴露内部分析"
+    ],
+    "nonGoals": [
+      "不提前替用户定完整方案",
+      "不把 ARY 做成普通赛事站"
+    ],
+    "acceptanceSummary": "项目目标、角色分析方法、功能性与非功能性需求、资料风险和远端评测方向都进入知识库。",
+    "validationSummary": "通过知识库索引和过程记录确认讨论结论被持续沉淀，并能作为后续页面与验证依据。",
+    "buildTimeline": [
+      {
+        "step": 1,
+        "phase": "资料落盘",
+        "riderMove": "Rider 要求把课堂录音转录和 PPT 转录放进项目目录，作为后续实现依据。",
+        "agentWork": "Agent 建立 Docs 与 Knowledge，并把关键资料整理到本地项目。",
+        "artifactChange": "ARY 有了可追溯的资料来源和知识库索引。",
+        "validation": "目录中能看到课堂资料、PPT 转录和知识库索引。",
+        "outcome": "项目不再只靠口头记忆推进。"
+      },
+      {
+        "step": 2,
+        "phase": "Race 范围收敛",
+        "riderMove": "Rider 要求围绕第一场 Race 的产品定义和技术验证，不要泛化成完整平台。",
+        "agentWork": "Agent 读取资料后收敛目标：证明 Organizer 侧保留关键资料，ARY 仍能组织和展示 Race。",
+        "artifactChange": "项目从泛赛事平台收敛到 GRS 001 的关键假设。",
+        "validation": "知识库记录本轮 Race 的范围和不做事项。",
+        "outcome": "后续实现有了明确边界。"
+      },
+      {
+        "step": 3,
+        "phase": "用户主导讨论",
+        "riderMove": "Rider 明确项目讨论由用户逐句主导，Agent 只补充归类、关系和风险。",
+        "agentWork": "Agent 调整协作方式，不再提前替用户产出完整方案。",
+        "artifactChange": "讨论过程变成用户主导的需求澄清，而不是 Agent 单向生成。",
+        "validation": "对应协作偏好被写入记忆和知识库。",
+        "outcome": "后续需求整合不偏离用户判断。"
+      },
+      {
+        "step": 4,
+        "phase": "内外表达分层",
+        "riderMove": "Rider 指出内部分析可以充分展开，对外展示要选择适合评审者理解的表达。",
+        "agentWork": "Agent 将 PRD 分为内部分析和对外展示，并用角色、职责、用例挖掘需求。",
+        "artifactChange": "产品文档方法从功能清单转为场景化需求分析。",
+        "validation": "知识库记录内外表达边界和角色职责用例方法。",
+        "outcome": "页面和文档开始避免把内部推理直接暴露给用户。"
+      },
+      {
+        "step": 5,
+        "phase": "资料风险具体化",
+        "riderMove": "Rider 用组织方上传测评样例的场景说明资料风险，要求不要只写抽象安全口号。",
+        "agentWork": "Agent 把资料风险拆到场景、角色、职责、用例和具体资料对象。",
+        "artifactChange": "数据安全从口号变成可验证的资料范围要求。",
+        "validation": "知识库新增功能性与非功能性需求区分，并记录测评样例泄漏风险。",
+        "outcome": "后续技术验证能围绕具体风险展开。"
+      }
+    ],
+    "containsFullSession": false,
+    "sourceRetainedLocally": true
+  },
+  {
+    "sessionId": "session-team-001-devcompass-001",
+    "teamId": "team_001",
+    "recordId": "record-team-001",
+    "title": "从需求边界到页面收敛",
+    "sourceTool": "DevCompass",
+    "workspaceLabel": "ARY workspace",
+    "timeLabel": "最近一次整理",
+    "status": "ready",
+    "objectiveSummary": "把参赛过程从普通评测页面拉回 Agent Riding Record 的展示和回放主线。",
+    "constraints": [
+      "登录页只处理登录任务",
+      "页面不展示开发说明",
+      "Records 和 Replay 必须由本队提交后开放"
+    ],
+    "nonGoals": [
+      "不把完整本地历史上传到 ARY",
+      "不做通用聊天记录浏览器"
+    ],
+    "acceptanceSummary": "登录、提交、解锁、Records、详情和 Replay 都通过自动验证，并且不同队伍互不串联。",
+    "validationSummary": "验证脚本覆盖登录聚焦、评测服务可用性、本队解锁、跨队访问拒绝、页面文案收敛和赛事化 UI 重构后的关键标题保留。",
+    "buildTimeline": [
+      {
+        "step": 1,
+        "phase": "第一版资料范围实验",
+        "riderMove": "Rider 要求第一版先证明组织方材料留在组织方一侧，ARY 只能在参赛者提交后尝试取得评测结果。",
+        "agentWork": "Agent 搭建 ARY 平台和组织方评测进程，提交后才尝试评测，平台不能控制评测进程。",
+        "artifactChange": "参赛者提交前没有结果；评测进程不可用时不产生结果；评测进程可用时才返回本次评测结果。",
+        "validation": "三阶段实验确认未提交、评测不可用、评测可用三种状态。",
+        "outcome": "第一版先用可运行实验证明平台没有提前持有完整评测材料。"
+      },
+      {
+        "step": 2,
+        "phase": "公开内容收敛",
+        "riderMove": "独立复核发现公开提交摘要一度保存了完整题解，Rider 要求重新划分公开展示和受保护提交。",
+        "agentWork": "Agent 把完整题解移入受保护提交区，公开提交列表只保留摘要和引用标记。",
+        "artifactChange": "公开页面只展示提交状态和结果摘要，不展示参赛者提交原文。",
+        "validation": "公开展示检查确认页面不展示完整提交内容。",
+        "outcome": "第一版从文件边界证明推进到可验收的数据展示边界。"
+      },
+      {
+        "step": 3,
+        "phase": "转向 Riding Record",
+        "riderMove": "Rider 指出第一版像普通编程题平台，需要展示 Agent Riding Record 和过程回放。",
+        "agentWork": "Agent 把首页、Records、Record 详情和 Replay 改成围绕 Riding Record 展示。",
+        "artifactChange": "页面从提交结果主导，转为展示 Rider 指令、Agent 输出、Steering 和 Riding Signal。",
+        "validation": "验收改为检查 Records、详情和 Replay，并防止页面回到普通评测表达。",
+        "outcome": "第一版主线从评测网站转向 ARY 的 Agent Riding 过程。"
+      },
+      {
+        "step": 4,
+        "phase": "第一版回放搭建",
+        "riderMove": "Rider 要求可以使用 coding-agent-sessions 作为示例数据，最终能展示和回放 Riding Record。",
+        "agentWork": "Agent 使用公开摘要构造 Records、步骤摘要和事件流回放。",
+        "artifactChange": "Record 详情展示 Prompt、Agent Output、Steering 和 Riding Signal，Replay 按事件流展示过程。",
+        "validation": "自动验收确认 Records、详情和 Replay 可访问，并且不展示完整协作原文。",
+        "outcome": "第一版具备了 Riding Record 展示与回放的最初形态。"
+      },
+      {
+        "step": 5,
+        "phase": "第一版页面收敛",
+        "riderMove": "Rider 截图指出页面仍有难读标识、来源说明和调试式内容，要求主动清理所有类似展示。",
+        "agentWork": "Agent 删除原始快照、难读标识、内部通信说明和技术证明文本。",
+        "artifactChange": "用户页面只保留赛事、记录、回放、提交状态，不再像内部调试工具。",
+        "validation": "页面黑名单扫描通过，自动验收通过。",
+        "outcome": "第一版页面从证据堆叠收敛为可展示产品页面。"
+      },
+      {
+        "step": 6,
+        "phase": "提交后解锁",
+        "riderMove": "Rider 要求第一版 Records、详情和 Replay 刚开始也不能直接显示，必须在参赛者提交后才开放。",
+        "agentWork": "Agent 给 Records、Record 详情和 Replay 增加提交前锁定状态，提交成功后才展示内容。",
+        "artifactChange": "未提交时只看到提交引导；提交后才能看到 Riding Record 详情和回放内容。",
+        "validation": "自动验收确认未提交时不显示 Record 内容，提交后带解锁状态才显示 Records、详情和 Replay。",
+        "outcome": "第一版形成了提交触发评测并解锁回放的参赛者体验。"
+      },
+      {
+        "step": 7,
+        "phase": "继承边界",
+        "riderMove": "Rider 发现新版只强调登录、组织方视图和队伍隔离，缺少提交、评测、提交后解锁 Records、详情和 Replay 的完整流程。",
+        "agentWork": "Agent 补回提交页、Records、Record 详情和 Replay，并让提交成功后才开放本队记录。",
+        "artifactChange": "team_001 登录后先看到未提交状态，提交成功后才能进入 Records 和 Replay。",
+        "validation": "检查未提交时页面不出现 Team 001 的 Record，提交成功后本队 Records 和 Replay 开放。",
+        "outcome": "新版从局部隔离样例恢复为完整参赛流程。"
+      },
+      {
+        "step": 8,
+        "phase": "评测依赖",
+        "riderMove": "Rider 要求保留双进程证明：平台不能凭空给出评测结果，提交后要依赖组织方评测服务。",
+        "agentWork": "Agent 让提交动作请求组织方评测服务，服务不可用时不解锁，服务可用后才开放本队记录。",
+        "artifactChange": "同一个提交动作会因为评测服务是否可用而出现不同结果。",
+        "validation": "先在评测服务未启动时提交，确认不解锁；再启动评测服务提交，确认本队解锁。",
+        "outcome": "系统边界变成可观察行为，而不是页面固定结果。"
+      },
+      {
+        "step": 9,
+        "phase": "登录页纠偏",
+        "riderMove": "Rider 指出登录页不应该解释角色、权限、数据、提交、评价和回放，只需要完成登录。",
+        "agentWork": "Agent 删除登录页上的访问说明和角色介绍，只保留 ARY 标识、账号输入、密码输入和进入按钮。",
+        "artifactChange": "登录页从产品说明入口收敛成单一登录卡片。",
+        "validation": "验证登录页不出现组织方、队伍、提交、评价、回放、数据、赛事管理、工作区、公开结果等说明词。",
+        "outcome": "Rider 的 Steering 把页面从内部说明拉回用户当前动作。"
+      },
+      {
+        "step": 10,
+        "phase": "队伍隔离",
+        "riderMove": "Rider 要求即使是本地样例，也要按登录后的角色和队伍身份过滤，不能只靠页面不显示来保证隔离。",
+        "agentWork": "Agent 让本队提交、本队历史、本队 Record 和本队 Replay 都按当前队伍过滤。",
+        "artifactChange": "team_001 看不到 team_002 的提交、历史和回放；team_002 也看不到 team_001 的记录。",
+        "validation": "team_001 和 team_002 互相读取对方提交摘要时被拒绝，匿名访问也被拒绝。",
+        "outcome": "数据隔离从视觉隐藏变成跨页面、跨请求的规则。"
+      },
+      {
+        "step": 11,
+        "phase": "页面字段收敛",
+        "riderMove": "Rider 要求页面不要展示过细的内部标识，安全验证可以保留，但不应该污染参赛者页面。",
+        "agentWork": "Agent 从队伍页面移除内部标识展示，只保留提交标题、状态、分数和摘要。",
+        "artifactChange": "参赛者看到的是提交结果和公开摘要，不会看到调试用标识。",
+        "validation": "页面泄露检查通过，跨队读取检查仍然通过。",
+        "outcome": "用户可见页面和验证机制被区分开。"
+      },
+      {
+        "step": 12,
+        "phase": "访问说明页删除",
+        "riderMove": "Rider 要求不要把权限模型做成说明页，访问限制应通过真实行为体现。",
+        "agentWork": "Agent 删除访问说明入口和说明页面，只保留真实登录、提交、Records 和 Replay 流程。",
+        "artifactChange": "用户只能通过页面行为感知权限边界。",
+        "validation": "导航不再出现访问说明，访问该页返回未找到。",
+        "outcome": "产品不再用说明替代交互证明。"
+      },
+      {
+        "step": 13,
+        "phase": "历史入口",
+        "riderMove": "Rider 要求关注本地历史和 session，历史页必须在提交前就能查看，因为 Rider 要先整理过程再提交 Record。",
+        "agentWork": "Agent 在队伍导航加入历史入口，新增历史列表和历史详情，把本队整理出的回放记录接到 Record。",
+        "artifactChange": "team_001 可以在提交前打开历史页，看到从需求边界到页面收敛这条记录，并从详情进入关联 Record。",
+        "validation": "检查 team_001 历史页不出现 team_002 的从验证证据到回放组织，打开 team_002 历史详情只显示未找到。",
+        "outcome": "Riding 过程不再只藏在最终结果后面，而是成为提交前可整理的素材。"
+      },
+      {
+        "step": 14,
+        "phase": "组织方验收失败",
+        "riderMove": "Rider 要求 UI 可以改，但不能破坏组织方评价能力。",
+        "agentWork": "Agent 重构组织方页面后验证失败，因为页面缺少多维评价；随后把表格标题改回多维评价。",
+        "artifactChange": "组织方控制台保留队伍提交表格，也保留多维评价表格。",
+        "validation": "自动验收从 organizer should see evaluation dimensions 失败，修复后继续运行。",
+        "outcome": "回放保留了真实开发中的失败点，而不是只展示顺利结果。"
+      },
+      {
+        "step": 15,
+        "phase": "队伍身份失败",
+        "riderMove": "Rider 需要演示页面仍能被验收脚本确认是 team_001 自己的参赛空间。",
+        "agentWork": "Agent 在赛事化重构时一度把队伍首页标题改得太简短，验证失败后恢复 Team 001 的参赛空间。",
+        "artifactChange": "队伍首页既保留赛事工作台视觉，也保留能确认本队空间的标题。",
+        "validation": "自动验收从 team_001 should see own workspace 失败，修复标题后通过。",
+        "outcome": "UI 重构没有牺牲队伍身份确认。"
+      },
+      {
+        "step": 16,
+        "phase": "赛事化重构",
+        "riderMove": "Rider 指出页面一眼 AI 风格，要求调研赛事平台模板，并结合赛事管理平台和 Hackathon judging dashboard。",
+        "agentWork": "Agent 去掉顶部胶囊导航和大渐变 hero，改成左侧赛事导航、主工作区、指标卡、表格、组织方 judging dashboard 和 Replay 时间线。",
+        "artifactChange": "队伍首页变成 Team Console，历史页变成 session browser 表格，组织方页变成 judging dashboard，Replay 变成事件时间线。",
+        "validation": "重构后再次验证登录、提交、历史、Records、Replay、榜单和跨队访问。",
+        "outcome": "软件外观从通用 AI 展示页变成更接近 ARY 赛事平台的工作台。"
+      }
+    ],
+    "containsFullSession": false,
+    "sourceRetainedLocally": true
+  },
+  {
+    "sessionId": "session-team-001-devcompass-002",
+    "teamId": "team_001",
+    "recordId": "record-team-001-data-proof",
+    "title": "从资料范围到可运行验证",
+    "sourceTool": "DevCompass",
+    "workspaceLabel": "ARY validation workspace",
+    "timeLabel": "阶段整理 2",
+    "status": "ready",
+    "objectiveSummary": "把资料范围约束做成可运行技术验证：组织方保留关键资料，ARY 只接收提交摘要、结果摘要和回放记录。",
+    "constraints": [
+      "关键资料保留在 Organizer 侧",
+      "公开展示不出现完整提交内容",
+      "每次文案清理后都要重新验证"
+    ],
+    "nonGoals": [
+      "不做完整生产平台",
+      "不把技术取舍写成用户页面说明"
+    ],
+    "acceptanceSummary": "双进程评测、提交保护、公开展示收敛、自动验收和页面清理都完成闭环。",
+    "validationSummary": "自动验收确认未提交、评测不可用、评测可用、公开展示收敛和页面清理都符合预期。",
+    "buildTimeline": [
+      {
+        "step": 1,
+        "phase": "技术形态选择",
+        "riderMove": "Rider 要求以资料转录为最高约束，自主完成一个可交付技术验证。",
+        "agentWork": "Agent 采用 ARY 页面服务和 Organizer 评测服务分开运行的方式。",
+        "artifactChange": "评测能力与 ARY 页面展示被分成两个可观察进程。",
+        "validation": "本地运行可分别启动页面服务和评测服务。",
+        "outcome": "资料保留在组织方一侧成为可演示行为。"
+      },
+      {
+        "step": 2,
+        "phase": "提交内容保护",
+        "riderMove": "蜂群复核指出公开提交摘要不应保存完整内容。",
+        "agentWork": "Agent 将完整提交内容移到受保护区域，公开展示只保留摘要和结果。",
+        "artifactChange": "公开页面不再展示完整提交内容。",
+        "validation": "验收检查公开区域不含完整提交内容。",
+        "outcome": "公开展示和受保护提交范围被区分开。"
+      },
+      {
+        "step": 3,
+        "phase": "证据页收敛",
+        "riderMove": "Rider 要求交付页面不要像内部设计稿或调试台。",
+        "agentWork": "Agent 清理技术说明、英文标签和难读标识，改成更适合课堂展示的中文页面。",
+        "artifactChange": "页面从内部证明文本收敛为可点击演示路径。",
+        "validation": "页面检查通过，核心页面都返回成功状态。",
+        "outcome": "技术验证可以被非开发者看懂。"
+      },
+      {
+        "step": 4,
+        "phase": "验证固化",
+        "riderMove": "Rider 要求不能只靠肉眼演示，要有自动验收。",
+        "agentWork": "Agent 写入验证脚本，覆盖提交、评测、排行榜、公开展示和敏感内容扫描。",
+        "artifactChange": "技术验证有了可重复运行的验收命令。",
+        "validation": "自动验收输出 VERIFY_PASS。",
+        "outcome": "每次改动都可以回归检查。"
+      }
+    ],
+    "containsFullSession": false,
+    "sourceRetainedLocally": true
+  },
+  {
+    "sessionId": "session-team-001-devcompass-003",
+    "teamId": "team_001",
+    "recordId": "record-team-001-race-experience",
+    "title": "从 PPT 页面到 Race 体验",
+    "sourceTool": "DevCompass",
+    "workspaceLabel": "ARY race workspace",
+    "timeLabel": "阶段整理 3",
+    "status": "ready",
+    "objectiveSummary": "逐页吸收 PPT，将 Coder 到 Rider、Race Flow、交付物、训练证据和 Ready to Ride 变成现有平台中的可操作体验。",
+    "constraints": [
+      "每次只实现一页内容",
+      "实现后必须蜂群反思并优化",
+      "不能新增静态宣传页"
+    ],
+    "nonGoals": [
+      "不把 PPT 原文堆成静态宣传内容",
+      "不把 ARY 做成普通编程题评测站"
+    ],
+    "acceptanceSummary": "PPT 第 1 到第 16 页内容都通过现有页面、子页面、Records、Replay 和公开榜单承载。",
+    "validationSummary": "自动验收覆盖 Race 主线、训练证据、Race Flow、交付物、七维评价、Ready to Ride 和公开页面边界。",
+    "buildTimeline": [
+      {
+        "step": 1,
+        "phase": "Coder 到 Rider",
+        "riderMove": "Rider 要求评价对象从代码产出数量转向驾驭 Agent 的能力。",
+        "agentWork": "Agent 新增目标清晰、Agent 行动、干预验收和能力复盘视图。",
+        "artifactChange": "页面开始展示目标、Steering、验证和复盘，而不是只展示产出数量。",
+        "validation": "验收检查 Agent Riding Skill 训练证据在队伍侧和详情页可见。",
+        "outcome": "评价主线从 Coder 指标转向 Rider 能力。"
+      },
+      {
+        "step": 2,
+        "phase": "Race 闭环",
+        "riderMove": "Rider 要求 ARY 体现训练场、竞技场和组织方资料归属。",
+        "agentWork": "Agent 增加创建、披露、组织、运行、评审、展示的 Race 闭环。",
+        "artifactChange": "队伍、组织方和公开页面分别承担参赛、管理和展示角色。",
+        "validation": "验收检查组织方和队伍页面的 Race 闭环。",
+        "outcome": "平台从页面集合变成赛事流程。"
+      },
+      {
+        "step": 3,
+        "phase": "指导与成长",
+        "riderMove": "Rider 要求 DevCompass Racing 体现过程指导，而不是培训宣传。",
+        "agentWork": "Agent 把目标描述、任务拆解、方向检查、方案判断、架构理解和可执行计划绑定到历史与回放。",
+        "artifactChange": "指导证据可以在历史详情、Record 和 Replay 中查看。",
+        "validation": "验收检查 DevCompass Racing 指导证据。",
+        "outcome": "Race 变成可学习、可复盘的过程。"
+      },
+      {
+        "step": 4,
+        "phase": "流程与交付",
+        "riderMove": "Rider 要求按 PPT 第 13、14 页补齐从组队到复盘和交付物检查。",
+        "agentWork": "Agent 增加 Race Flow 和 Race Deliverables 组件。",
+        "artifactChange": "Race Brief、Team Build、工具准备、Riding Plan、Co-Riding、Checkpoint、Submission、Review & Replay 都有对应产出。",
+        "validation": "验收检查流程、交付物和提交前后状态。",
+        "outcome": "参赛者知道如何参加，也知道交付什么。"
+      },
+      {
+        "step": 5,
+        "phase": "评价与行动",
+        "riderMove": "Rider 要求补齐优秀作品七维评价和 Ready to Ride 行动入口。",
+        "agentWork": "Agent 增加七维评价和 Ready to Ride 组件，并保持公开榜单不展示内部评价细节。",
+        "artifactChange": "队伍可以自查问题定义、产品逻辑、资料主权、关键假设验证、架构边界、展示可理解和协作可复盘。",
+        "validation": "验收检查七维评价、Ready to Ride 和公开榜单负向边界。",
+        "outcome": "PPT 收束为真实参赛动作。"
+      }
+    ],
+    "containsFullSession": false,
+    "sourceRetainedLocally": true
+  },
+  {
+    "sessionId": "session-team-001-devcompass-004",
+    "teamId": "team_001",
+    "recordId": "record-team-001-ia-ux",
+    "title": "从信息过载到驾驶舱分层",
+    "sourceTool": "DevCompass",
+    "workspaceLabel": "ARY cockpit workspace",
+    "timeLabel": "阶段整理 4",
+    "status": "ready",
+    "objectiveSummary": "把首页从说明和卡片堆叠重构为驾驶舱与总览，细节下沉到子页面和折叠区。",
+    "constraints": [
+      "首页只保留用户下一步要做的事情",
+      "内部评价和方法论下沉到子页面",
+      "次要内容先通过清单入口承载"
+    ],
+    "nonGoals": [
+      "不把 UI 做成内部说明页",
+      "不让评价细节压住主行动"
+    ],
+    "acceptanceSummary": "队伍驾驶舱、组织方总览、Race 指南、自查页、Race 管理和评价工作台都完成分层。",
+    "validationSummary": "自动验收从首页细节断言改为首页入口断言，并继续检查子页面承载完整内容。",
+    "buildTimeline": [
+      {
+        "step": 1,
+        "phase": "问题识别",
+        "riderMove": "Rider 截图指出页面可见部分有内部设计意图外泄和视觉引导差两个问题。",
+        "agentWork": "Agent 调用蜂群从信息架构和视觉层级反思。",
+        "artifactChange": "明确队伍首页要变成驾驶舱，组织方首页要变成总览。",
+        "validation": "重构任务被记录并进入实现。",
+        "outcome": "页面问题从主观观感变成可执行改造方向。"
+      },
+      {
+        "step": 2,
+        "phase": "页面嵌套",
+        "riderMove": "Rider 追加要求多一些页面嵌套。",
+        "agentWork": "Agent 新增队伍 Race 指南、队伍提交前自查、组织方 Race 管理和组织方评价工作台。",
+        "artifactChange": "Race Flow、交付物、七维评价、训练证据和资料范围从首页下沉。",
+        "validation": "验收确认首页只显示入口，子页面继续显示完整细节。",
+        "outcome": "用户先看下一步，再按需进入详情。"
+      },
+      {
+        "step": 3,
+        "phase": "视觉层级",
+        "riderMove": "Rider 要求减少横竖方框堆叠，降低视觉压力。",
+        "agentWork": "Agent 增加 dashboard、priority-panel、metric-strip、action-list、section-shell 和 disclosure 样式。",
+        "artifactChange": "页面有了主面板、指标条、主行动和折叠详情。",
+        "validation": "自动验收通过，页面边界保持。",
+        "outcome": "信息层级比卡片平铺更清楚。"
+      },
+      {
+        "step": 4,
+        "phase": "七维图形化",
+        "riderMove": "Rider 问七维评价能不能做成雷达图。",
+        "agentWork": "Agent 用纯 SVG 加入七维雷达图，并把文字依据放到折叠区。",
+        "artifactChange": "七维评价先显示图形概览，再展开查看证据。",
+        "validation": "自动验收继续通过。",
+        "outcome": "评价从文字墙变成可扫读图形。"
+      },
+      {
+        "step": 5,
+        "phase": "自查文案纠偏",
+        "riderMove": "Rider 截图追问 Coder 到 Rider 卡片想表达什么。",
+        "agentWork": "Agent 把抽象指标墙改成队伍自查卡：不看什么、开场能力、指挥能力、控场能力、成长能力。",
+        "artifactChange": "卡片改成自查什么和当前证据，减少内部评审口吻。",
+        "validation": "自动验收通过。",
+        "outcome": "用户能理解这组内容为何存在。"
+      }
+    ],
+    "containsFullSession": false,
+    "sourceRetainedLocally": true
+  },
+  {
+    "sessionId": "session-team-002-devcompass-001",
+    "teamId": "team_002",
+    "recordId": "record-team-002",
+    "title": "从验证证据到回放组织",
+    "sourceTool": "DevCompass",
+    "workspaceLabel": "ARY validation workspace",
+    "timeLabel": "最近一次整理",
+    "status": "ready",
+    "objectiveSummary": "把验证动作、纠偏节点和交付结果整理成可以复盘的 Riding 回放。",
+    "constraints": [
+      "只整理本队 session",
+      "回放事件必须能解释 Rider 的介入",
+      "公开榜单只展示结果摘要"
+    ],
+    "nonGoals": [
+      "不上传完整会话原文",
+      "不展示其他队伍的历史"
+    ],
+    "acceptanceSummary": "本队历史、Record 和 Replay 能串成一条可检查的回放线。",
+    "validationSummary": "验证脚本确认本队历史可见、其他队伍历史不可见，回放事件不串队。",
+    "buildTimeline": [
+      {
+        "step": 1,
+        "phase": "隔离目标",
+        "riderMove": "Rider 要求 team_002 只能看到自己的历史和回放，不能看到 team_001 的需求边界记录。",
+        "agentWork": "Agent 让历史列表、历史详情、Record 和 Replay 都按当前队伍过滤。",
+        "artifactChange": "team_002 历史页只显示从验证证据到回放组织。",
+        "validation": "检查 team_002 历史页不出现从需求边界到页面收敛。",
+        "outcome": "第二支队伍成为数据隔离的反向证明。"
+      },
+      {
+        "step": 2,
+        "phase": "解锁隔离",
+        "riderMove": "Rider 要求 team_001 提交成功不能让 team_002 直接看到回放。",
+        "agentWork": "Agent 用队伍自己的提交状态控制 Records 和 Replay 开放。",
+        "artifactChange": "team_002 未提交时 Replay 仍显示请先提交参赛内容。",
+        "validation": "检查 team_002 不会继承 team_001 的提交解锁状态。",
+        "outcome": "队伍级解锁和回放事件没有串队。"
+      }
+    ],
+    "containsFullSession": false,
+    "sourceRetainedLocally": true
+  }
+]

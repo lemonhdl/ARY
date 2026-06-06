@@ -1,0 +1,80 @@
+[
+  {
+    "recordId": "record-team-001-grs001",
+    "sourceSessionId": "session-team-001-grs001-001",
+    "eventNo": 1,
+    "type": "plan",
+    "actor": "rider",
+    "phase": "Riding Plan",
+    "title": "把作业要求收敛成一条证明链",
+    "content": "Rider 要求先读取作业 README，再围绕 Organizer 数据主权重构提交版本。",
+    "artifactChange": "重构目标从功能堆叠改为证明 Organizer 源数据留侧、ARY 只展示公开摘要。",
+    "validation": "评分标准中的数据主权、关键技术验证和过程记录被映射为验收场景。",
+    "riderIntent": "先定义要证明什么，再让 Agent 改页面和数据。"
+  },
+  {
+    "recordId": "record-team-001-grs001",
+    "sourceSessionId": "session-team-001-grs001-001",
+    "eventNo": 2,
+    "type": "agent-action",
+    "actor": "agent",
+    "phase": "Agent Action",
+    "title": "建立三层数据样例",
+    "content": "Agent 将数据整理为 Organizer 私有源数据、ARY 公开披露和 Rider 过程证据。",
+    "artifactChange": "新增 race_source 与 public_disclosures，精简公开 Race、榜单、提交和 Riding Record。",
+    "validation": "公开披露不包含完整 Race brief、未公开评测材料或真实材料路径。",
+    "riderIntent": "让数据结构本身证明 ARY 没有成为中心化 Race 数据库。"
+  },
+  {
+    "recordId": "record-team-001-grs001",
+    "sourceSessionId": "session-team-001-grs001-001",
+    "eventNo": 3,
+    "type": "steering",
+    "actor": "rider",
+    "phase": "Rider Steering",
+    "title": "不要把过程证据写成自动抓完整日志",
+    "content": "Rider 要求防造假表达改为 DevCompass 整理回放记录，而不是平台默认拿走本地素材原文。",
+    "artifactChange": "Riding Record 只保留时间线、事件、actor 和验证节点摘要。",
+    "validation": "过程证据标记 containsFullSession=false，sourceRetainedLocally=true。",
+    "riderIntent": "表达防造假，同时避免暗示平台拿走本地完整历史。"
+  },
+  {
+    "recordId": "record-team-001-grs001",
+    "sourceSessionId": "session-team-001-grs001-001",
+    "eventNo": 4,
+    "type": "validation",
+    "actor": "agent",
+    "phase": "Validation",
+    "title": "用数据缺失状态证明不能伪造评分",
+    "content": "提交后只有 Organizer 评测能力可用时才返回评分；不可用时显示数据缺失，暂无法评分。",
+    "artifactChange": "验证脚本覆盖评测服务开启和关闭两种状态。",
+    "validation": "数据缺失时不解锁过程证据和回放内容。",
+    "riderIntent": "把数据主权边界变成可观察的运行状态。"
+  },
+  {
+    "recordId": "record-team-001-grs001",
+    "sourceSessionId": "session-team-001-grs001-001",
+    "eventNo": 5,
+    "type": "review",
+    "actor": "rider",
+    "phase": "Review",
+    "title": "提交版本应服务评分主线",
+    "content": "复盘确认页面要帮助评委快速看懂证明链，而不是继续解释平台内部设计。",
+    "artifactChange": "页面收敛为 Public Yard、Organizer Console、Team Submit、Riding Evidence 和 Leaderboard。",
+    "validation": "产品页不出现内部路径、实现细节、本地素材原文和未公开评测材料。",
+    "riderIntent": "让最终提交更像一个清楚的 GRS001 作品。"
+  },
+  {
+    "recordId": "record-team-002-grs001",
+    "sourceSessionId": "session-team-002-grs001-001",
+    "eventNo": 1,
+    "type": "plan",
+    "actor": "rider",
+    "phase": "Riding Plan",
+    "title": "整理验证与公开展示证据",
+    "content": "Team 002 选择重点说明公开结果和组间隔离。",
+    "artifactChange": "提交摘要和公开评语只进入公开榜单。",
+    "validation": "team_001 无法访问 team_002 的 record。",
+    "riderIntent": "证明公开展示不等于公开所有过程材料。"
+  }
+]

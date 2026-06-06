@@ -1,0 +1,33 @@
+[
+  {
+    "recordId": "record-team-001-grs001",
+    "teamId": "team_001",
+    "title": "Team 001：Public Yard / Private Race Source 证明记录",
+    "agent": "Claude Code",
+    "rider": "Team 001",
+    "summary": "Rider 将作业要求收敛为一条可运行证明链：Organizer 持有源数据，ARY 展示公开摘要，提交后依赖 Organizer 完成评测，过程证据只提交整理后的回放记录。",
+    "dimensions": [
+      "产品定义",
+      "数据主权",
+      "技术验证",
+      "过程证据"
+    ],
+    "containsFullSession": false,
+    "sourceRetainedLocally": true
+  },
+  {
+    "recordId": "record-team-002-grs001",
+    "teamId": "team_002",
+    "title": "Team 002：验证状态与公开展示记录",
+    "agent": "Claude Code",
+    "rider": "Team 002",
+    "summary": "队伍重点整理评测依赖、公开榜单和组间隔离证据。",
+    "dimensions": [
+      "验证证据",
+      "公开展示",
+      "组间隔离"
+    ],
+    "containsFullSession": false,
+    "sourceRetainedLocally": true
+  }
+]

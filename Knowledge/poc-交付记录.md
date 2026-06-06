@@ -130,6 +130,8 @@ PoC_v2 在 v1 提交评测闭环上增加登录、组织方视图和多队伍隔
 - `/login` 登录
 - `/organizer` 组织方控制台
 - `/team` 队伍首页
+- `/team/history` 本队历史
+- `/team/history/:sessionId` 本队历史详情
 - `/team/submit` 本队提交
 - `/team/records` 本队 Records
 - `/team/records/:recordId` 本队 Record 详情
@@ -140,10 +142,12 @@ PoC_v2 已覆盖的用例：
 
 - 组织方登录后查看队伍提交摘要和评价维度
 - 队伍登录后进入本队工作区
+- 队伍可以查看从本地素材整理出的本队历史
+- 队伍可以查看历史详情中的目标、Rider 约束、软件搭建过程、关键 Steering 和验证摘要
 - 未提交时，本队 Records、详情和回放不开放
 - 组织方评测服务不可用时，队伍提交后显示暂时无法完成评测
 - 组织方评测服务可用时，队伍提交后开放本队 Records、详情和回放
-- 队伍只能看到本队提交、本队 Riding Record 和本队回放事件
+- 队伍只能看到本队提交、本队历史、本队 Riding Record 和本队回放事件
 - 队伍不能访问组织方控制台
 - 组织方不能作为队伍进入队伍页面
 - 队伍不能通过接口读取其他队伍的提交
@@ -165,6 +169,15 @@ VERIFY_PASS ARY PoC_v2 role boundary holds
 本次实现过程记录：
 
 `/media/lemonhdl/Shared/Software_Engineering/ARY/coding-agent-sessions/session-03-poc-v2-claude-code.md`
+`/media/lemonhdl/Shared/Software_Engineering/ARY/coding-agent-sessions/session-04-rider-history-session.md`
+
+DevCompass 方向：
+
+- 当前 PoC_v2 使用回放记录样例，不读取真实本地目录
+- 回放记录整理目标、Rider 动作、Agent 工作、产物变化、验证结果和修复节点
+- 后续 DevCompass 可下载安装到 Rider 本地，把本地所有 `*/.claude` 作为素材库
+- DevCompass 从本地素材中整理目标、关键指令、Steering、验证动作和回放事件
+- 完整历史保留在 Rider 本地，ARY 接收整理后的回放记录和评价结果
 
 ## 实验性证明
 

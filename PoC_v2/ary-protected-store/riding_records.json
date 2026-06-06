@@ -9,7 +9,63 @@
     "dimensions": [
       "目标与边界",
       "Steering",
-      "数据边界"
+      "内容范围"
+    ],
+    "projectionOnly": true
+  },
+  {
+    "recordId": "record-team-001-data-proof",
+    "teamId": "team_001",
+    "title": "Team 001：资料范围与可运行验证",
+    "agent": "Claude Code",
+    "rider": "Team 001",
+    "summary": "用双进程评测、提交保护、公开展示收敛和自动验收证明关键资料不进入公开展示。",
+    "dimensions": [
+      "资料范围",
+      "远端评测",
+      "验证证据"
+    ],
+    "projectionOnly": true
+  },
+  {
+    "recordId": "record-team-001-ia-ux",
+    "teamId": "team_001",
+    "title": "Team 001：驾驶舱分层与评价图形化",
+    "agent": "Claude Code",
+    "rider": "Team 001",
+    "summary": "把首页改为驾驶舱和总览，细节下沉到子页面与折叠区，并用雷达图呈现七维评价。",
+    "dimensions": [
+      "信息架构",
+      "视觉引导",
+      "自查体验"
+    ],
+    "projectionOnly": true
+  },
+  {
+    "recordId": "record-team-001-race-experience",
+    "teamId": "team_001",
+    "title": "Team 001：Race 体验补全",
+    "agent": "Claude Code",
+    "rider": "Team 001",
+    "summary": "逐页吸收 PPT，将训练、流程、交付、评价和行动入口落到现有 Race 体验中。",
+    "dimensions": [
+      "Race Flow",
+      "交付检查",
+      "训练证据"
+    ],
+    "projectionOnly": true
+  },
+  {
+    "recordId": "record-team-001-scope",
+    "teamId": "team_001",
+    "title": "Team 001：项目讨论与需求边界",
+    "agent": "Claude Code",
+    "rider": "Team 001",
+    "summary": "从课堂资料和用户逐句讨论中整理 Race 目标、角色、场景、职责、用例和资料风险。",
+    "dimensions": [
+      "需求边界",
+      "场景用例",
+      "资料风险"
     ],
     "projectionOnly": true
   },

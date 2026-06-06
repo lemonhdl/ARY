@@ -1,0 +1,21 @@
+[
+  {
+    "raceId": "grs-001",
+    "title": "ARY GRS 001：Product Definition Race",
+    "status": "open",
+    "organizerName": "Organizer 001",
+    "publicGoal": "证明 Race 数据留在 Organizer 侧时，ARY 仍能完成赛事发现、参与入口、提交状态和公开展示。",
+    "publicSummary": "参赛队伍需要给出 ARY 的产品定义、系统方案、关键技术验证和整理后的 Riding Record。",
+    "entryLabel": "进入本轮 Race",
+    "disclosedAt": "2026-06-06 18:30",
+    "disclosureVersion": "v3",
+    "sourceStateLabel": "Organizer 数据可用",
+    "reviewStateLabel": "可提交，评测依赖 Organizer",
+    "publicRequirements": [
+      "说明 ARY、Organizer、Rider、Audience 的参与路径",
+      "证明 ARY 只展示 Organizer 主动披露的公开摘要",
+      "提交方案摘要和整理后的 Riding Record",
+      "用运行结果说明 Organizer 数据缺失时不能评分"
+    ]
+  }
+]
