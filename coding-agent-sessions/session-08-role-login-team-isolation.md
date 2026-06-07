@@ -1,4 +1,12 @@
-# Session 03：PoC_v2 登录、组织方与队伍隔离
+# session 08：角色登录与队伍隔离验证
+
+## Agent Riding Skill 证据摘要
+
+- Plan：在已有 PoC 的基础上增量实现登录、角色分流、组织方视图和队伍隔离，不直接覆盖原 PoC。
+- Observation：仅靠前端隐藏不等于数据安全；登录页和页面文案也可能暴露 mock、内部说明或权限模型，影响产品表达。
+- Steering：Rider 要求服务端按 role 和 teamId 过滤数据，并在后续纠偏中补回提交、评测、解锁链路，避免 v2 丢掉 v1 的主证明闭环。
+- Validation：验证脚本覆盖错误密码、角色跳转、队伍不能越权读取 submissionId、组织方与队伍互斥访问、公开榜单只展示授权结果。
+- Review：本轮 Riding 重点是把“组间隔离”从需求表述落到路由、API 和页面三层可检查行为。
 
 ## 目标
 
@@ -525,4 +533,3 @@ npm --prefix /media/lemonhdl/Shared/Software_Engineering/ARY/PoC_v2 run verify
 ```text
 VERIFY_PASS ARY PoC_v2 role boundary holds
 ```
-

@@ -3,12 +3,28 @@
     "teamId": "team_001",
     "rank": 1,
     "scoreBand": "excellent",
-    "publicComment": "证明链清楚，能说明 Organizer 数据缺失时 ARY 不能伪造评分。"
+    "publicComment": "证明链清楚，数据缺失时不评分。",
+    "resultDimensions": [
+      { "label": "产品定义", "score": 5 },
+      { "label": "去中心化架构", "score": 5 },
+      { "label": "技术验证", "score": 5 },
+      { "label": "智能体骑行", "score": 5 },
+      { "label": "展示体验", "score": 4.5 },
+      { "label": "创世骑手", "score": 5 }
+    ]
   },
   {
     "teamId": "team_002",
     "rank": 2,
     "scoreBand": "good",
-    "publicComment": "过程证据完整，公开展示边界清楚。"
+    "publicComment": "过程证据完整，展示边界清楚。",
+    "resultDimensions": [
+      { "label": "产品定义", "score": 4 },
+      { "label": "去中心化架构", "score": 4 },
+      { "label": "技术验证", "score": 4.5 },
+      { "label": "智能体骑行", "score": 4 },
+      { "label": "展示体验", "score": 4.5 },
+      { "label": "创世骑手", "score": 4 }
+    ]
   }
 ]

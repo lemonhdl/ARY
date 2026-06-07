@@ -1,4 +1,12 @@
-# Session 04：Rider 历史与 session 回放记录
+# session 09：Rider 历史与 DevCompass 回放
+
+## Agent Riding Skill 证据摘要
+
+- Plan：先区分 ARY 与 OJ，再围绕 Rider 历史、DevCompass、本地素材和回放记录设计能力。
+- Observation：如果回放只展示最终总结，就不能证明 Rider 如何设定目标、观察 Agent、干预方向和验证结果。
+- Steering：用户纠正“投影”表述，要求改为“回放记录”，并明确完整本地历史留在 Rider 本地，ARY 只接收整理后的记录。
+- Validation：新增 team 级历史页面、session 详情和 API 后，验证 team_001 / team_002 历史、Records、Replay 都按队伍过滤，且不暴露完整 session、本地路径和内部文件名。
+- Review：本轮体现了 ARY 不是 OJ 的核心差异：评价对象从最终答案转向 Rider 驾驭 Agent 的过程证据。
 
 ## 目标
 
@@ -250,7 +258,7 @@ VERIFY_PASS ARY PoC_v2 role boundary holds
 
 新增本文件：
 
-`/media/lemonhdl/Shared/Software_Engineering/ARY/coding-agent-sessions/session-04-rider-history-session.md`
+`/media/lemonhdl/Shared/Software_Engineering/ARY/coding-agent-sessions/session-09-rider-history-devcompass-replay.md`
 
 文档新增内容：
 
@@ -584,8 +592,8 @@ VERIFY_PASS ARY PoC_v2 role boundary holds
 
 读取并对齐：
 
-- `/media/lemonhdl/Shared/Software_Engineering/ARY/coding-agent-sessions/session-02-claude-code.md`
-- `/media/lemonhdl/Shared/Software_Engineering/ARY/coding-agent-sessions/session-03-poc-v2-claude-code.md`
+- `/media/lemonhdl/Shared/Software_Engineering/ARY/coding-agent-sessions/session-07-data-boundary-poc-validation.md`
+- `/media/lemonhdl/Shared/Software_Engineering/ARY/coding-agent-sessions/session-08-role-login-team-isolation.md`
 - `/media/lemonhdl/Shared/Software_Engineering/ARY/Knowledge/poc-交付记录.md`
 - `/media/lemonhdl/Shared/Software_Engineering/ARY/PoC_v2/ary-protected-store/rider_sessions.json`
 - `/media/lemonhdl/Shared/Software_Engineering/ARY/PoC_v2/ary-protected-store/replay_events.json`
@@ -2089,7 +2097,7 @@ VERIFY_PASS ARY PoC_v2 role boundary holds
 - `/media/lemonhdl/Shared/Software_Engineering/ARY/PoC_v2/src/server.js`
 - `/media/lemonhdl/Shared/Software_Engineering/ARY/PoC_v2/src/verify.js`
 - `/media/lemonhdl/Shared/Software_Engineering/ARY/PoC_v2/README.md`
-- `/media/lemonhdl/Shared/Software_Engineering/ARY/coding-agent-sessions/session-04-rider-history-session.md`
+- `/media/lemonhdl/Shared/Software_Engineering/ARY/coding-agent-sessions/session-09-rider-history-devcompass-replay.md`
 
 主要改动：
 
@@ -2232,7 +2240,7 @@ VERIFY_PASS ARY PoC_v2 role boundary holds
 - `/media/lemonhdl/Shared/Software_Engineering/ARY/PoC_v2/src/server.js`
 - `/media/lemonhdl/Shared/Software_Engineering/ARY/PoC_v2/src/verify.js`
 - `/media/lemonhdl/Shared/Software_Engineering/ARY/PoC_v2/README.md`
-- `/media/lemonhdl/Shared/Software_Engineering/ARY/coding-agent-sessions/session-04-rider-history-session.md`
+- `/media/lemonhdl/Shared/Software_Engineering/ARY/coding-agent-sessions/session-09-rider-history-devcompass-replay.md`
 
 主要改动：
 
@@ -2372,7 +2380,7 @@ VERIFY_PASS ARY PoC_v2 role boundary holds
 - `/media/lemonhdl/Shared/Software_Engineering/ARY/PoC_v2/src/server.js`
 - `/media/lemonhdl/Shared/Software_Engineering/ARY/PoC_v2/src/verify.js`
 - `/media/lemonhdl/Shared/Software_Engineering/ARY/PoC_v2/README.md`
-- `/media/lemonhdl/Shared/Software_Engineering/ARY/coding-agent-sessions/session-04-rider-history-session.md`
+- `/media/lemonhdl/Shared/Software_Engineering/ARY/coding-agent-sessions/session-09-rider-history-devcompass-replay.md`
 
 主要改动：
 
@@ -2511,7 +2519,7 @@ VERIFY_PASS ARY PoC_v2 role boundary holds
 - `/media/lemonhdl/Shared/Software_Engineering/ARY/PoC_v2/src/server.js`
 - `/media/lemonhdl/Shared/Software_Engineering/ARY/PoC_v2/src/verify.js`
 - `/media/lemonhdl/Shared/Software_Engineering/ARY/PoC_v2/README.md`
-- `/media/lemonhdl/Shared/Software_Engineering/ARY/coding-agent-sessions/session-04-rider-history-session.md`
+- `/media/lemonhdl/Shared/Software_Engineering/ARY/coding-agent-sessions/session-09-rider-history-devcompass-replay.md`
 
 主要改动：
 
@@ -2646,7 +2654,7 @@ VERIFY_PASS ARY PoC_v2 role boundary holds
 - `/media/lemonhdl/Shared/Software_Engineering/ARY/PoC_v2/src/server.js`
 - `/media/lemonhdl/Shared/Software_Engineering/ARY/PoC_v2/src/verify.js`
 - `/media/lemonhdl/Shared/Software_Engineering/ARY/PoC_v2/README.md`
-- `/media/lemonhdl/Shared/Software_Engineering/ARY/coding-agent-sessions/session-04-rider-history-session.md`
+- `/media/lemonhdl/Shared/Software_Engineering/ARY/coding-agent-sessions/session-09-rider-history-devcompass-replay.md`
 
 主要改动：
 
@@ -2785,10 +2793,10 @@ VERIFY_PASS ARY PoC_v2 role boundary holds
 
 重新整理现有过程记录：
 
-- `session-01-claude-code.md`：项目启动、资料整理、PRD 边界、角色职责用例方法、资料风险定义
-- `session-02-claude-code.md`：资料范围验证、双进程评测、公开展示收敛、自动验收
-- `session-03-poc-v2-claude-code.md`：登录、队伍隔离、提交解锁、页面收敛
-- `session-04-rider-history-session.md`：Rider 历史、DevCompass 回放记录、逐页吸收 PPT、信息架构重构、雷达图和自查体验
+- `session-02-project-scope-knowledge-base.md`：项目启动、资料整理、PRD 边界、角色职责用例方法、资料风险定义
+- `session-07-data-boundary-poc-validation.md`：资料范围验证、双进程评测、公开展示收敛、自动验收
+- `session-08-role-login-team-isolation.md`：登录、队伍隔离、提交解锁、页面收敛
+- `session-09-rider-history-devcompass-replay.md`：Rider 历史、DevCompass 回放记录、逐页吸收 PPT、信息架构重构、雷达图和自查体验
 
 修改文件：
 
@@ -2797,7 +2805,7 @@ VERIFY_PASS ARY PoC_v2 role boundary holds
 - `/media/lemonhdl/Shared/Software_Engineering/ARY/PoC_v2/ary-protected-store/replay_events.json`
 - `/media/lemonhdl/Shared/Software_Engineering/ARY/PoC_v2/src/verify.js`
 - `/media/lemonhdl/Shared/Software_Engineering/ARY/PoC_v2/README.md`
-- `/media/lemonhdl/Shared/Software_Engineering/ARY/coding-agent-sessions/session-04-rider-history-session.md`
+- `/media/lemonhdl/Shared/Software_Engineering/ARY/coding-agent-sessions/session-09-rider-history-devcompass-replay.md`
 
 主要改动：
 
@@ -2917,7 +2925,7 @@ VERIFY_PASS ARY PoC_v2 role boundary holds
 - `/media/lemonhdl/Shared/Software_Engineering/ARY/PoC_v2/src/verify.js`
 - `/media/lemonhdl/Shared/Software_Engineering/ARY/PoC_v2/ary-protected-store/rider_sessions.json`
 - `/media/lemonhdl/Shared/Software_Engineering/ARY/PoC_v2/ary-protected-store/replay_events.json`
-- `/media/lemonhdl/Shared/Software_Engineering/ARY/coding-agent-sessions/session-04-rider-history-session.md`
+- `/media/lemonhdl/Shared/Software_Engineering/ARY/coding-agent-sessions/session-09-rider-history-devcompass-replay.md`
 
 主要改动：
 
@@ -2986,7 +2994,7 @@ VERIFY_PASS ARY PoC_v2 role boundary holds
 - `/media/lemonhdl/Shared/Software_Engineering/ARY/PoC_v2/src/verify.js`
 - `/media/lemonhdl/Shared/Software_Engineering/ARY/PoC_v2/ary-protected-store/rider_sessions.json`
 - `/media/lemonhdl/Shared/Software_Engineering/ARY/PoC_v2/ary-protected-store/replay_events.json`
-- `/media/lemonhdl/Shared/Software_Engineering/ARY/coding-agent-sessions/session-04-rider-history-session.md`
+- `/media/lemonhdl/Shared/Software_Engineering/ARY/coding-agent-sessions/session-09-rider-history-devcompass-replay.md`
 
 主要改动：
 
@@ -3036,7 +3044,7 @@ VERIFY_PASS ARY PoC_v2 role boundary holds
 
 - `/media/lemonhdl/Shared/Software_Engineering/ARY/PoC_v2/src/server.js`
 - `/media/lemonhdl/Shared/Software_Engineering/ARY/PoC_v2/src/verify.js`
-- `/media/lemonhdl/Shared/Software_Engineering/ARY/coding-agent-sessions/session-04-rider-history-session.md`
+- `/media/lemonhdl/Shared/Software_Engineering/ARY/coding-agent-sessions/session-09-rider-history-devcompass-replay.md`
 
 主要改动：
 
@@ -3081,7 +3089,7 @@ VERIFY_PASS ARY PoC_v2 role boundary holds
 - `/media/lemonhdl/Shared/Software_Engineering/ARY/PoC_v2/src/server.js`
 - `/media/lemonhdl/Shared/Software_Engineering/ARY/PoC_v2/src/verify.js`
 - `/media/lemonhdl/Shared/Software_Engineering/ARY/PoC_v2/organizer-private/evaluator_service.json`
-- `/media/lemonhdl/Shared/Software_Engineering/ARY/coding-agent-sessions/session-04-rider-history-session.md`
+- `/media/lemonhdl/Shared/Software_Engineering/ARY/coding-agent-sessions/session-09-rider-history-devcompass-replay.md`
 
 主要改动：
 
