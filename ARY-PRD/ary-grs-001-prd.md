@@ -1,11 +1,5 @@
 # ARY GRS 001 产品需求文档
 
-> **飞书文档**：https://jcnboj5dg0t7.feishu.cn/docx/YJO8duPcKow8N6xg8E3cNStTn9f
-> **Document ID**：YJO8duPcKow8N6xg8E3cNStTn9f
-> **知识库路径**：ARY 项目知识库 / `ZRkvfoRGhlL1ggd3HOxctSB2nYf`
-
----
-
 ## §1 问题与动机
 
 ### 1.1 一个真实困境
@@ -287,7 +281,7 @@ Rider → ARY
 
 下图展示 ARY 在 Race 流程中的数据流向。红色受限数据始终留在 Organizer 侧；蓝色公开披露数据可以由 ARY 展示；橙色受控数据可以由 ARY 保存，但必须受到角色权限和授权范围保护。完整 Riding session 原文默认留在 Rider 或队伍本地，ARY 只接收被选择和授权后的摘要、关键事件或公开投影。
 
-![ARY 数据流与数据主权边界](Docs/images/ary-data-flow-boundary.png)
+![ARY 数据流与数据主权边界](images/ary-data-flow-boundary.png)
 
 ### 6.3 权限矩阵
 

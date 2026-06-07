@@ -1,9 +1,0 @@
-[
-  {
-    "raceId": "ary-grs-001-agent-riding-record",
-    "title": "ARY GRS 001：Agent Riding Record",
-    "summary": "展示 Rider 如何通过 Prompt、Agent Output 和 Steering 驾驭 Agent 推进真实项目，并用提交评测流程说明平台不会提前产生结果。",
-    "status": "已发布",
-    "publishedAt": "2026-06-03"
-  }
-]

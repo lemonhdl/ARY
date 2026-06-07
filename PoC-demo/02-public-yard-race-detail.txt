@@ -1,0 +1,9 @@
+02-public-yard-race-detail.mp4
+
+视频说明：
+本视频演示 ARY 通过 Organizer 披露出的公开摘要完成 Race 发现、详情展示和参与入口展示。Public Yard 展示公开 Race 列表；Race 详情页展示公开任务、提交要求、当前状态和参与路径，但不展示完整 Race brief 或 Organizer 私有材料。
+
+对应 README 第 3 项评分点：
+- 演示 ARY 展示 Race 列表、详情、状态和入口。
+- 演示 ARY 使用公开披露数据完成赛事发现与组织入口。
+- 支撑核心假设：ARY 不需要保存完整 Race 数据，也能让参赛队伍找到 Race、理解公开要求并进入参与流程。
