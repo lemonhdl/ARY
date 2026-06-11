@@ -155,6 +155,45 @@ try {
   assertIncludes(yard.body, 'Organizer 数据可用', 'yard should show public source state');
   assertNoLeaks(yard.body, 'public yard');
 
+  const jumbotron = await text('/jumbotron');
+  assert(jumbotron.response.status === 200, 'jumbotron should load');
+  assertIncludes(jumbotron.body, 'Jumbotron 赛事直播视图', 'jumbotron should show live view');
+  assertIncludes(jumbotron.body, 'ARY GRS 001：Product Definition Race', 'jumbotron should show disclosed race');
+  assertIncludes(jumbotron.body, 'Team 001', 'jumbotron should show first team');
+  assertIncludes(jumbotron.body, 'Team 002', 'jumbotron should show second team');
+  assertIncludes(jumbotron.body, '赛道进度', 'jumbotron should show entry progress mapping');
+  assertIncludes(jumbotron.body, '小地图', 'jumbotron should show mini map');
+  assertIncludes(jumbotron.body, 'Entry 图例', 'jumbotron should show entry legend');
+  assertIncludes(jumbotron.body, '查看更多', 'jumbotron should show ticker view more');
+  assertIncludes(jumbotron.body, '系统时间', 'jumbotron should show system time');
+  assertNotIncludes(jumbotron.body, 'HorsePose', 'public jumbotron should hide runtime debug output');
+  assertNotIncludes(jumbotron.body, 'Track Profile 校准器 Preview', 'public jumbotron should hide calibrator by default');
+  assertNotIncludes(jumbotron.body, '调试模式', 'public jumbotron should hide debug mode by default');
+  assertNotIncludes(jumbotron.body, 'Track Profile 校验', 'public jumbotron should hide validation by default');
+  assertIncludes(jumbotron.body, '底部消息条', 'jumbotron should show ticker');
+  assertIncludes(jumbotron.body, '风险 / 阻塞 / 违规', 'jumbotron should show attention categories');
+  assertIncludes(jumbotron.body, '悬停提示', 'jumbotron should expose hover tooltip structure');
+  assertIncludes(jumbotron.body, '焦点详情栏', 'jumbotron should expose focus details panel');
+  assertIncludes(jumbotron.body, '当前焦点对象详情', 'jumbotron should expose pinned focus detail content');
+  assertIncludes(jumbotron.body, 'data-focus-kind="entry"', 'jumbotron should support entry focus details');
+  assertIncludes(jumbotron.body, 'data-focus-kind="message"', 'jumbotron should support message focus details');
+  assertNoLeaks(jumbotron.body, 'jumbotron');
+
+  const jumbotronDebug = await text('/jumbotron?debug=1');
+  assert(jumbotronDebug.response.status === 200, 'jumbotron debug should load');
+  assertIncludes(jumbotronDebug.body, 'HorsePose', 'debug jumbotron should show runtime output');
+  assertIncludes(jumbotronDebug.body, 'Track Profile 校准器 Preview', 'debug jumbotron should show calibrator preview');
+  assertIncludes(jumbotronDebug.body, '调试模式', 'debug jumbotron should show debug mode');
+  assertIncludes(jumbotronDebug.body, 'Track Profile 校验', 'debug jumbotron should show profile validation');
+  assertIncludes(jumbotronDebug.body, '运行时校验', 'debug jumbotron should show runtime validation');
+  assertIncludes(jumbotronDebug.body, 'Profile 版本匹配', 'debug jumbotron should validate profile version');
+  assertIncludes(jumbotronDebug.body, '泳道偏移不重复', 'debug jumbotron should validate unique lane offsets');
+  assertIncludes(jumbotronDebug.body, '背景资产可加载', 'debug jumbotron should validate background asset');
+  assertIncludes(jumbotronDebug.body, '弯道转角自然', 'debug jumbotron should validate turn angle');
+  assertIncludes(jumbotronDebug.body, 'obstacleCount', 'debug jumbotron should validate obstacle count contract');
+  assertIncludes(jumbotronDebug.body, 'violationCount', 'debug jumbotron should validate violation count contract');
+  assertNoLeaks(jumbotronDebug.body, 'jumbotron debug');
+
   const race = await text('/race/grs-001');
   assert(race.response.status === 200, 'race detail should load');
   assertIncludes(race.body, 'Public Disclosure', 'race detail should show disclosure');

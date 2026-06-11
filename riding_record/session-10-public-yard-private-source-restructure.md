@@ -481,3 +481,25 @@ PoC-GRS-001/src/verify.js
 riding_record/session-10-public-yard-private-source-restructure.md
 ```
 
+## Step 18：关键技术 PoC 录屏整理
+
+用户开始按 README 第 3 项“关键技术 PoC 有效性”录制短视频，要求用简单录屏证明关键链路，不做复杂剪辑。
+
+本轮处理：
+
+1. 为 4 段录屏分别加入 3 秒中文片头，统一命名为：
+   - `01-organizer-create-disclose.mp4`
+   - `02-public-yard-race-detail.mp4`
+   - `03-local-data-service-cutoff.mp4`
+   - `04-restore-submit-result.mp4`
+2. 每段视频配套同名 `.txt` 说明，直接说明对应 README 第 3 项评分点。
+3. 新建提交仓库目录 `PoC-demo/`，放入 4 段视频和 4 份说明。
+4. 更新 `提交说明.md` 和 `PoC-GRS-001/PoC说明文档.md`，把录屏证据作为提交材料的一部分列出。
+
+4 段视频对应证明点：
+
+1. Organizer 侧创建 Race 并披露公开字段。
+2. ARY Public Yard 和 Race 详情展示公开摘要、状态和入口。
+3. 切断 Organizer 本地数据服务后，Team 提交显示数据缺失，过程证据不解锁。
+4. 恢复服务后，Team 完成评测，结果进入过程证据页和公开榜单。
+

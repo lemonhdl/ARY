@@ -1,6 +1,34 @@
 # PoC 交付记录
 
-## 当前交付物
+## GRS001 提交版 PoC 与录屏交付
+
+当前提交仓库：
+
+`/media/lemonhdl/Shared/Software_Engineering/ary-grs-001-sinbawang`
+
+核心交付物：
+
+- `ARY-PRD/ary-grs-001-prd.md`：PRD 提交稿。
+- `PoC-GRS-001/`：可运行 PoC、数据样例和自动验收脚本。
+- `PoC-demo/`：关键技术 PoC 录屏证据和文字说明。
+- `riding_record/`：Agent Riding 过程记录和视觉素材 prompt。
+
+PoC 当前证明主线：Race 源数据留在 Organizer 侧，ARY 只读取公开摘要，也能完成 Race 发现、详情展示、参与入口、提交状态和公开结果展示。
+
+录屏 demo 当前包含：
+
+1. `01-organizer-create-disclose.mp4`：Organizer 侧创建 Race 并披露公开字段。
+2. `02-public-yard-race-detail.mp4`：ARY Public Yard 和 Race 详情展示公开摘要、状态和入口。
+3. `03-local-data-service-cutoff.mp4`：切断 Organizer 本地数据服务后，Team 提交显示数据缺失，过程证据不解锁。
+4. `04-restore-submit-result.mp4`：恢复服务后，Team 完成评测，结果进入过程证据页和公开榜单。
+
+当前自动验收结果：
+
+```text
+VERIFY_PASS GRS001 creation disclosure lifecycle riding evidence result radar holds
+```
+
+## 历史交付物
 
 路径：
 
