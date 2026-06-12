@@ -537,3 +537,62 @@ Week2-Jumbotron/review-ledger/screenshots/2026-06-12-jumbotron-compact-labels/ju
 ```
 
 本轮没有 commit / push。
+
+## Iteration 14：Race Live View 动态态势与现场感收敛
+
+本轮输入继续由两类 prompt 构成：
+
+1. 用户 steer：Jumbotron 审阅不能停滞；cc-Jumbotron 的来信可以概括后作为 prompt 的一部分，但 cc-data 的 data profile / debug / adapter checklist 仍必须由 cc-data 自己实现。
+2. cc-Jumbotron 来信概括：`2026-06-12T15:31:26Z-cc-Jumbotron-9a87db5c` 确认 Rider 比值和 data asset 边界小修通过，并派发下一批仅限 `/jumbotron` Race Live View UI/runtime 的任务：增强动态态势可见性、强化领先 / 追赶 / 风险叙事、增加轻量现场感动效、让 drill-down / focus detail 更贴近观众路径，同时明确不处理 cc-data、Calibrator、Validate / Export 或 Track Profile asset production。
+
+本轮判断：这是一组公开大屏视觉层和 runtime 派生规则收敛，不应新增数据源或 debug 面板。所有动态态势必须从现有 `RacingEntrySnapshot`、`RidingMessageSnapshot` 和 `AttentionItem` 字段派生，避免把 data-side 责任混入 cc-ARY 实现线。
+
+实现动作：
+
+1. 动态态势 marker：
+   - 新增 `jumbotronMotionStateShortLabel(state)`，把 `motionState` 派生为赛道 marker 上的短标签。
+   - 新增 `jumbotronHorseVisualClass(entry)`，从 `motionState / riskLevel / rank` 派生 `horse-state-*`、`horse-risk-*` 和 `horse-rank-leader`。
+   - `renderJumbotronTrack(...)` 为 horse marker 增加 `data-motion-state`、`data-risk-level`、状态短标签和 high / critical 风险的 `track-alert-ring`。
+
+2. 领先 / 追赶 / 风险叙事：
+   - 新增 `top3GapLabel(entry, entries)`，用 `roundProgress` 计算 TOP3 的 `领先` 或 `追 x% / 距首 y%`。
+   - 新增 `riskStatePill(entry)`，在侧栏队伍图例和进度快照中显示状态 / 风险 pill。
+   - attention 卡片按 severity 增加克制强调，只突出 high / critical 或 risk / obstacle / violation。
+
+3. 现场感动效：
+   - 新增低频 `@keyframes jumbotronLowPulse`。
+   - 仅用于 leader、sprinting、高风险 marker 和高优先级 attention；避免高频闪烁或影响 label / bubble 可读性。
+
+4. Focus detail：
+   - 队伍 focus card 改为优先展示排名、进度、阶段、分数、状态、风险和最近消息。
+   - 保持公开页边界，不展示完整 session、长日志、复杂 diff、raw `targetUrl` 或 raw `remoteCockpitUrl`。
+
+5. stale 修正：
+   - 复查 fresh HTML 时发现所有 marker 被历史 `updatedAt` 统一推断为 `stale`。
+   - 调整 `normalizeMotionState(state, updatedAt)` 优先级：显式合法 `motionState` 优先；只有缺失或非法状态且时间戳过期时才推断 `stale`。
+   - 重新启动 4419 后，fresh HTML 实际渲染出 `blocked / finished / idle / pit_stop / running / slowed / sprinting / stale / takeover`。
+
+验证结果：
+
+```bash
+npm --prefix /media/lemonhdl/Shared/Software_Engineering/ARY/PoC-GRS-001 run verify
+```
+
+结果：`VERIFY_PASS GRS001 creation disclosure lifecycle riding evidence result radar holds`
+
+Fresh `/jumbotron` 指标：
+
+- `data-label-overlaps=0`
+- `data-label-marker-overlaps=0`
+- `data-label-bubble-overlaps=0`
+- `data-label-out-of-viewbox=0`
+- 公开 HTML 不包含 `Far Turn / Back Straight / Home Straight / Remote Racing Cockpit / targetUrl / remoteCockpitUrl`。
+- 动效和态势证据包含 `horse-state-sprinting`、`horse-state-blocked`、`horse-state-takeover`、`horse-state-finished`、`horse-status-pill`、`track-alert-ring`、`gap-pill`、`最近消息：`、`jumbotronLowPulse`。
+
+截图证据：
+
+```text
+Week2-Jumbotron/review-ledger/screenshots/2026-06-12-jumbotron-dynamic-situation/jumbotron-dynamic-situation-4419-1920x1080.png
+```
+
+已按 mailbox 协议回信 cc-Jumbotron。本轮没有 commit / push。

@@ -144,20 +144,51 @@ VERIFY_PASS GRS001 creation disclosure lifecycle riding evidence result radar ho
 - `coverage-9-enum-complete`：validatorStatus `pass`，entries 9，messages 10，attentionItems 11，motion/message coverage complete。
 - lastMessage mapping：full 12/12 resolved，smoke-8 8/8 resolved，coverage-9 9/9 resolved，三套 synthetic missing id fallback 均通过。
 
-## 接轨实现边界
+## runtime profile/debug/evidence 接入
 
-当前 cc-data 已自行完成 data-side 契约和证据：
+按 `cc-Jumbotron` 在 `2026-06-12T15:25:17Z` 布置的任务，cc-data 已自行把 data-side profile/debug/adapter 证据接入 runtime，而不是转交给 cc-ARY 代做：
 
-- `/jumbotron` 已优先读取 curated `race-snapshot.json` 与 `track.profile.json`。
-- adapter 已保留 `laneId`，优先使用 `motionState`，并按 `roundProgress` 驱动 HorsePose 链路。
-- public-hidden 边界保留，`remoteCockpitUrl`、`targetUrl` 作为数据存在但不应直接公开渲染。
-- profile/debug/adapter 的 data-side evidence 已由 `generate-data-side-evidence.js` 生成，可供实现和审阅复核。
+- `PoC-GRS-001/src/server.js`
+  - `/jumbotron` 默认使用 `full -> curated-full-12`。
+  - `/jumbotron?profile=full|smoke-8|coverage-9` 支持三套 profile 切换，并保留 canonical `dataProfileId`。
+  - `/jumbotron?debug=1&profile=...` 展示 data profile、entry/message/attention counts、motion/message coverage、public-hidden fields、validatorStatus、profileUsageGuard。
+  - debug panel 展示逐 entry `latestMessageId + messages[] -> lastMessage` 解析状态，以及 `resolvedCount / fallbackCount / unresolvedCount / syntheticMissingIdFallsBack` 聚合证据。
+  - `adaptJumbotronSnapshot(...)` 已把 resolved 或 fallback 的 `lastMessage` 放入 runtime entry，契合 `RacingEntrySnapshot.lastMessage?: RidingMessageSnapshot` 契约。
+  - 新增只读 `/api/jumbotron-data-evidence?profile=full|smoke-8|coverage-9`，非法 profile 返回显式错误和 allowed profiles，不 silent fallback。
+  - `/api/jumbotron-bubbles?profile=...` 与当前页面 profile 保持一致。
+- `PoC-GRS-001/src/verify.js`
+  - 覆盖 full / smoke-8 / coverage-9 页面、debug panel、JSON evidence endpoint、invalid profile、防 raw URL 泄漏、lastMessage fallback 证据。
 
-仍不属于 cc-data 狭义 data 缺口、需要 UI/runtime/视觉线继续消化的事项：
+复验命令：
 
-- 将 data profile 选择入口实际接入页面 UI 或 URL 参数。
-- 将 data evidence 中的 counts/coverage/public-hidden/validator status 以 debug UI 呈现。
+```bash
+node /media/lemonhdl/Shared/Software_Engineering/ARY/Week2-Jumbotron/mock-data/review-package/validate-curated-mock-data.js
+node /media/lemonhdl/Shared/Software_Engineering/ARY/Week2-Jumbotron/mock-data/review-package/validate-curated-mock-data.js /media/lemonhdl/Shared/Software_Engineering/ARY/Week2-Jumbotron/mock-data/review-package/smoke-race-snapshot-8.json /media/lemonhdl/Shared/Software_Engineering/ARY/PoC-GRS-001/jumbotron-mock-data/curated/track.profile.json
+node /media/lemonhdl/Shared/Software_Engineering/ARY/Week2-Jumbotron/mock-data/review-package/validate-curated-mock-data.js /media/lemonhdl/Shared/Software_Engineering/ARY/Week2-Jumbotron/mock-data/review-package/smoke-race-snapshot-9-coverage.json /media/lemonhdl/Shared/Software_Engineering/ARY/PoC-GRS-001/jumbotron-mock-data/curated/track.profile.json
+node /media/lemonhdl/Shared/Software_Engineering/ARY/Week2-Jumbotron/mock-data/review-package/generate-data-side-evidence.js
+npm --prefix /media/lemonhdl/Shared/Software_Engineering/ARY/PoC-GRS-001 run verify
+```
+
+结果：
+
+- full validator：pass，0 errors，0 warnings。
+- smoke-8 validator：pass，0 errors，保留预期 enum coverage warnings。
+- coverage-9 validator：pass，0 errors，0 warnings。
+- data-side evidence generator：重新生成 profile/mapping/summary evidence，三套 synthetic missing id fallback 均通过。
+- PoC verify：`VERIFY_PASS GRS001 creation disclosure lifecycle riding evidence result radar holds`。
+- public-hidden：public page、debug panel、bubble API、JSON evidence API 不输出 raw `remoteCockpitUrl` / `targetUrl` value，只输出字段名、计数或 `targetUrlHidden` 等布尔 evidence。
+## 当前实现接轨状态
+
+- `/jumbotron` 已优先读取 curated `race-snapshot.json` 与 `track.profile.json`，并支持 `profile=full|smoke-8|coverage-9`。
+- adapter 已保留 `laneId`，优先使用 `motionState`，按 `roundProgress` 驱动 HorsePose 链路，并补齐 runtime `lastMessage` 映射。
+- debug UI 已展示 data profile、counts、coverage、public-hidden、validator status 和 lastMessage mapping evidence。
+- JSON evidence endpoint 已接入，只读返回三套 profile 的 runtime evidence，并对非法 profile 显式报错。
+- public-hidden 边界保留，`remoteCockpitUrl`、`targetUrl` 作为数据存在但不直接公开渲染。
+
+仍不属于 cc-data 狭义 data 缺口、需要视觉/审阅线继续消化的事项：
+
 - 继续用截图和视频复审 label-bubble overlap、弯道自然、risk/obstacle/violation 是否清晰且不过载。
+- 视觉资产、Calibrator UI、短视频录制与最终展示审美仍由 cc-Jumbotron/cc-ARY 线处理。
 
 ## 当前边界
 
