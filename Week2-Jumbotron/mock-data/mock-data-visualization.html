@@ -1,0 +1,639 @@
+<!doctype html>
+<html lang='zh-CN'>
+<head>
+<meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>Jumbotron Mock Data 可视化</title>
+<style>
+:root { color-scheme: dark; --bg:#08111f; --card:#101b2e; --muted:#94a3b8; --text:#e5eefb; --line:#22324d; --accent:#38bdf8; }
+* { box-sizing:border-box; }
+body { margin:0; font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background:radial-gradient(circle at top left,#18345c 0,#08111f 42%,#050914 100%); color:var(--text); }
+header { padding:42px 48px 26px; border-bottom:1px solid rgba(148,163,184,.22); }
+h1 { margin:0 0 10px; font-size:36px; letter-spacing:.02em; }
+.subtitle { color:#b6c6dd; max-width:1100px; line-height:1.65; }
+main { padding:28px 48px 56px; display:grid; gap:24px; }
+.grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:16px; }
+.grid-2 { display:grid; grid-template-columns:1.2fr .8fr; gap:18px; }
+.card { background:rgba(16,27,46,.84); border:1px solid rgba(148,163,184,.2); border-radius:18px; padding:20px; box-shadow:0 18px 60px rgba(0,0,0,.28); overflow:hidden; }
+.metric { font-size:34px; font-weight:800; margin:4px 0; }
+.label { color:var(--muted); font-size:13px; text-transform:uppercase; letter-spacing:.08em; }
+h2 { margin:0 0 14px; font-size:20px; }
+h3 { margin:18px 0 8px; font-size:15px; color:#cbd5e1; }
+table { width:100%; border-collapse:collapse; font-size:13px; }
+th, td { padding:10px 9px; border-bottom:1px solid rgba(148,163,184,.16); vertical-align:top; }
+th { text-align:left; color:#bfdbfe; font-weight:700; background:rgba(15,23,42,.42); }
+.rank { font-weight:800; font-size:18px; color:#facc15; }
+.muted { color:var(--muted); }
+.pill { display:inline-flex; align-items:center; gap:6px; padding:3px 9px; border-radius:999px; background:color-mix(in srgb,var(--pill) 24%,transparent); color:#f8fafc; border:1px solid color-mix(in srgb,var(--pill) 62%,transparent); font-size:12px; white-space:nowrap; }
+.progress { height:8px; width:110px; background:#17233a; border-radius:999px; overflow:hidden; margin-bottom:4px; }
+.progress span { display:block; height:100%; background:linear-gradient(90deg,#38bdf8,#22c55e,#facc15); }
+.bar-row { display:grid; grid-template-columns:110px 1fr 42px; gap:10px; align-items:center; margin:10px 0; }
+.bar-label { color:#dbeafe; font-size:13px; overflow:hidden; text-overflow:ellipsis; }
+.bar-track { height:11px; background:#17233a; border-radius:999px; overflow:hidden; }
+.bar-fill { height:100%; border-radius:999px; }
+.bar-count { text-align:right; color:#e2e8f0; font-weight:700; }
+.flow { display:flex; flex-wrap:wrap; gap:10px; align-items:center; }
+.node { padding:12px 14px; border-radius:14px; background:#0f2741; border:1px solid rgba(56,189,248,.35); font-weight:700; }
+.arrow { color:#7dd3fc; font-weight:900; }
+.track-wrap { background:linear-gradient(135deg,#13243d,#0b1424); border-radius:16px; padding:12px; }
+svg { width:100%; height:auto; display:block; }
+.track-line { fill:none; stroke:#38bdf8; stroke-width:5; opacity:.85; }
+.checkpoint { fill:#facc15; stroke:#020617; stroke-width:2; }
+.note-list { margin:0; padding-left:20px; color:#cbd5e1; line-height:1.65; }
+.warn { color:#fbbf24; }
+.ok { color:#86efac; }
+@media (max-width:1100px) { .grid { grid-template-columns:repeat(2,1fr); } .grid-2 { grid-template-columns:1fr; } header, main { padding-left:22px; padding-right:22px; } }
+</style>
+</head>
+<body>
+<header>
+  <div class='label'>Week2 Jumbotron · cc-data curated mock-data</div>
+  <h1>Jumbotron Mock Data 包含什么</h1>
+  <p class='subtitle'>这页把原始 zip 与 curated 数据转成可视化说明：它不是公开大屏页面，而是给 cc-data / cc-Jumbotron / cc-ARY 审阅用的数据地图。核心链路是 RaceSnapshot → Adapter → RacingEntrySnapshot[] → track-runtime → Race Live View。</p>
+</header>
+<main>
+  <section class='card'>
+    <h2>数据链路</h2>
+    <div class='flow'>
+      <div class='node'>mock_data.zip</div><div class='arrow'>→</div>
+      <div class='node'>raw manifest</div><div class='arrow'>→</div>
+      <div class='node'>curated RaceSnapshot</div><div class='arrow'>→</div>
+      <div class='node'>Jumbotron Adapter</div><div class='arrow'>→</div>
+      <div class='node'>Track Runtime</div><div class='arrow'>→</div>
+      <div class='node'>Race Live View</div>
+    </div>
+  </section>
+
+  <section class='grid'>
+    <div class='card'><div class='label'>entries</div><div class='metric'>12</div><div class='muted'>Racing Entry / Rider 项目</div></div>
+    <div class='card'><div class='label'>messages</div><div class='metric'>13</div><div class='muted'>bubble 与 ticker 消息池</div></div>
+    <div class='card'><div class='label'>attention</div><div class='metric'>13</div><div class='muted'>risk / obstacle / violation</div></div>
+    <div class='card'><div class='label'>track lanes</div><div class='metric'>12</div><div class='muted'>赛道 lane 与马匹偏移</div></div>
+  </section>
+
+  <section class='grid-2'>
+    <div class='card'>
+      <h2>Competition + KPI</h2>
+      <table>
+        <tr><th>字段</th><th>值</th></tr>
+        <tr><td>title</td><td>DevCompass Racing</td></tr>
+        <tr><td>theme</td><td>Agentic Development</td></tr>
+        <tr><td>organizer</td><td>DevCompass</td></tr>
+        <tr><td>liveStatus</td><td>赛事直播中</td></tr>
+        <tr><td>currentRound / currentPhase</td><td>ROUND 3 · ROUND 3 · 实时赛事</td></tr>
+        <tr><td>nextPhase</td><td>ROUND 4 · 最终冲刺</td></tr>
+        <tr><td>completionRate</td><td>68%</td></tr>
+        <tr><td>tokens</td><td>12.84M · Codex 59% / Claude 41%</td></tr>
+        <tr><td>risk / obstacle / violation</td><td>6 / 4 / 3</td></tr>
+      </table>
+    </div>
+    <div class='card'>
+      <h2>Raw zip 文件</h2>
+      <table><tr><th>路径</th><th>大小</th></tr><tr><td>mock_data/README.md</td><td>6899 bytes</td></tr><tr><td>mock_data/index.js</td><td>2638 bytes</td></tr><tr><td>mock_data/race-snapshot.json</td><td>23525 bytes</td></tr><tr><td>mock_data/racing-entry-snapshots.json</td><td>11887 bytes</td></tr><tr><td>mock_data/tracks/grandstand-oval/notes.md</td><td>3279 bytes</td></tr><tr><td>mock_data/tracks/grandstand-oval/track.profile.json</td><td>4101 bytes</td></tr></table>
+    </div>
+  </section>
+
+  <section class='grid-2'>
+    <div class='card'>
+      <h2>Track Profile 预览</h2>
+      <div class='track-wrap'>
+        <svg viewBox='0 0 1200 620' role='img' aria-label='track centerline preview'>
+          <rect x='0' y='0' width='1200' height='620' rx='26' fill='#102033'/>
+          <polyline class='track-line' points='1087.5,350.19 1050.62,286.46 945.0,232.5 786.88,196.33 600.0,183.7 413.12,196.33 255.62,232.5 149.38,286.46 112.5,350.19 149.38,413.91 255.62,467.87 413.12,504.04 600.0,516.67 786.88,504.04 945.0,467.87 1050.62,413.91 1087.5,350.19'/>
+          <circle class='checkpoint' cx='1087.5' cy='350.19' r='6'/><circle class='checkpoint' cx='600.0' cy='183.7' r='6'/><circle class='checkpoint' cx='112.5' cy='350.19' r='6'/><circle class='checkpoint' cx='600.0' cy='516.67' r='6'/><circle class='checkpoint' cx='1087.5' cy='350.19' r='6'/>
+          <g><circle cx='1087.5' cy='350.19' r='10' fill='#22c55e' opacity='0.92'/><text x='1099.5' y='342.19'>1</text><title>AI Sudoku · finished · 100.0%</title></g><g><circle cx='786.88' cy='504.04' r='10' fill='#38bdf8' opacity='0.92'/><text x='798.88' y='496.04'>2</text><title>DevCompass Racing · running · 87.0%</title></g><g><circle cx='786.88' cy='504.04' r='10' fill='#38bdf8' opacity='0.92'/><text x='798.88' y='496.04'>3</text><title>Travel AIAR · running · 84.0%</title></g><g><circle cx='600.0' cy='516.67' r='10' fill='#facc15' opacity='0.92'/><text x='612.0' y='508.66999999999996'>4</text><title>Study Copilot · slowed · 81.0%</title></g><g><circle cx='600.0' cy='516.67' r='10' fill='#ef4444' opacity='0.92'/><text x='612.0' y='508.66999999999996'>5</text><title>DocPilot · blocked · 76.0%</title></g><g><circle cx='413.12' cy='504.04' r='10' fill='#f97316' opacity='0.92'/><text x='425.12' y='496.04'>6</text><title>CodeLab · sprinting · 73.0%</title></g><g><circle cx='413.12' cy='504.04' r='10' fill='#a78bfa' opacity='0.92'/><text x='425.12' y='496.04'>7</text><title>DataForge · pit_stop · 69.0%</title></g><g><circle cx='255.62' cy='467.87' r='10' fill='#38bdf8' opacity='0.92'/><text x='267.62' y='459.87'>8</text><title>PixelMind · running · 66.0%</title></g><g><circle cx='149.38' cy='413.91' r='10' fill='#fb7185' opacity='0.92'/><text x='161.38' y='405.91'>9</text><title>ChatOps Hub · takeover · 61.0%</title></g><g><circle cx='112.5' cy='350.19' r='10' fill='#facc15' opacity='0.92'/><text x='124.5' y='342.19'>10</text><title>FinSight · slowed · 56.0%</title></g><g><circle cx='112.5' cy='350.19' r='10' fill='#64748b' opacity='0.92'/><text x='124.5' y='342.19'>11</text><title>MediScribe · stale · 52.0%</title></g><g><circle cx='149.38' cy='286.46' r='10' fill='#94a3b8' opacity='0.92'/><text x='161.38' y='278.46'>12</text><title>GreenRoute · idle · 47.0%</title></g>
+        </svg>
+      </div>
+      <p class='muted'>圆点按 entry 的 roundProgress 粗略落到 centerline 点上，显示的是数据覆盖视图，不等同最终 runtime 的精确插值渲染。</p>
+    </div>
+    <div class='card'>
+      <h2>TrackProfile 元数据</h2>
+      <table>
+        <tr><th>字段</th><th>值</th></tr>
+        <tr><td>trackId</td><td>grandstand-oval</td></tr>
+        <tr><td>schemaVersion</td><td>0.1.0</td></tr>
+        <tr><td>viewBox</td><td>{&#x27;x&#x27;: 0, &#x27;y&#x27;: 0, &#x27;width&#x27;: 1200, &#x27;height&#x27;: 620}</td></tr>
+        <tr><td>direction</td><td>clockwise</td></tr>
+        <tr><td>background</td><td>/assets/public-yard-hero.webp</td></tr>
+      </table>
+      <h3>人工复核状态</h3>
+      <table><tr><th>check</th><th>status</th></tr><tr><td>horseOnTrack</td><td><span class='pill' style='--pill:#22c55e'>已人工确认</span></td></tr><tr><td>curveNatural</td><td><span class='pill' style='--pill:#f59e0b'>待人工复核</span></td></tr><tr><td>bubbleClearance</td><td><span class='pill' style='--pill:#f59e0b'>待人工复核</span></td></tr><tr><td>checkpointMeaning</td><td><span class='pill' style='--pill:#f59e0b'>待人工复核</span></td></tr></table>
+    </div>
+  </section>
+
+  <section class='grid'>
+    <section class='card'><h2>Motion State 分布</h2>
+        <div class='bar-row'>
+          <div class='bar-label'>running</div>
+          <div class='bar-track'><div class='bar-fill' style='width:25.0%; background:#38bdf8'></div></div>
+          <div class='bar-count'>3</div>
+        </div>
+        <div class='bar-row'>
+          <div class='bar-label'>slowed</div>
+          <div class='bar-track'><div class='bar-fill' style='width:16.7%; background:#facc15'></div></div>
+          <div class='bar-count'>2</div>
+        </div>
+        <div class='bar-row'>
+          <div class='bar-label'>blocked</div>
+          <div class='bar-track'><div class='bar-fill' style='width:8.3%; background:#ef4444'></div></div>
+          <div class='bar-count'>1</div>
+        </div>
+        <div class='bar-row'>
+          <div class='bar-label'>finished</div>
+          <div class='bar-track'><div class='bar-fill' style='width:8.3%; background:#22c55e'></div></div>
+          <div class='bar-count'>1</div>
+        </div>
+        <div class='bar-row'>
+          <div class='bar-label'>idle</div>
+          <div class='bar-track'><div class='bar-fill' style='width:8.3%; background:#94a3b8'></div></div>
+          <div class='bar-count'>1</div>
+        </div>
+        <div class='bar-row'>
+          <div class='bar-label'>pit_stop</div>
+          <div class='bar-track'><div class='bar-fill' style='width:8.3%; background:#a78bfa'></div></div>
+          <div class='bar-count'>1</div>
+        </div>
+        <div class='bar-row'>
+          <div class='bar-label'>sprinting</div>
+          <div class='bar-track'><div class='bar-fill' style='width:8.3%; background:#f97316'></div></div>
+          <div class='bar-count'>1</div>
+        </div>
+        <div class='bar-row'>
+          <div class='bar-label'>stale</div>
+          <div class='bar-track'><div class='bar-fill' style='width:8.3%; background:#64748b'></div></div>
+          <div class='bar-count'>1</div>
+        </div>
+        <div class='bar-row'>
+          <div class='bar-label'>takeover</div>
+          <div class='bar-track'><div class='bar-fill' style='width:8.3%; background:#fb7185'></div></div>
+          <div class='bar-count'>1</div>
+        </div></section>
+    <section class='card'><h2>Risk Level 分布</h2>
+        <div class='bar-row'>
+          <div class='bar-label'>medium</div>
+          <div class='bar-track'><div class='bar-fill' style='width:33.3%; background:#f59e0b'></div></div>
+          <div class='bar-count'>4</div>
+        </div>
+        <div class='bar-row'>
+          <div class='bar-label'>high</div>
+          <div class='bar-track'><div class='bar-fill' style='width:25.0%; background:#ef4444'></div></div>
+          <div class='bar-count'>3</div>
+        </div>
+        <div class='bar-row'>
+          <div class='bar-label'>none</div>
+          <div class='bar-track'><div class='bar-fill' style='width:25.0%; background:#22c55e'></div></div>
+          <div class='bar-count'>3</div>
+        </div>
+        <div class='bar-row'>
+          <div class='bar-label'>low</div>
+          <div class='bar-track'><div class='bar-fill' style='width:16.7%; background:#84cc16'></div></div>
+          <div class='bar-count'>2</div>
+        </div></section>
+    <section class='card'><h2>CA Provider 分布</h2>
+        <div class='bar-row'>
+          <div class='bar-label'>claude</div>
+          <div class='bar-track'><div class='bar-fill' style='width:50.0%; background:#8b5cf6'></div></div>
+          <div class='bar-count'>6</div>
+        </div>
+        <div class='bar-row'>
+          <div class='bar-label'>codex</div>
+          <div class='bar-track'><div class='bar-fill' style='width:41.7%; background:#06b6d4'></div></div>
+          <div class='bar-count'>5</div>
+        </div>
+        <div class='bar-row'>
+          <div class='bar-label'>other</div>
+          <div class='bar-track'><div class='bar-fill' style='width:8.3%; background:#94a3b8'></div></div>
+          <div class='bar-count'>1</div>
+        </div></section>
+    <section class='card'><h2>Message Type 分布</h2>
+        <div class='bar-row'>
+          <div class='bar-label'>progress_update</div>
+          <div class='bar-track'><div class='bar-fill' style='width:23.1%; background:#38bdf8'></div></div>
+          <div class='bar-count'>3</div>
+        </div>
+        <div class='bar-row'>
+          <div class='bar-label'>quality_signal</div>
+          <div class='bar-track'><div class='bar-fill' style='width:15.4%; background:#38bdf8'></div></div>
+          <div class='bar-count'>2</div>
+        </div>
+        <div class='bar-row'>
+          <div class='bar-label'>risk_alert</div>
+          <div class='bar-track'><div class='bar-fill' style='width:15.4%; background:#38bdf8'></div></div>
+          <div class='bar-count'>2</div>
+        </div>
+        <div class='bar-row'>
+          <div class='bar-label'>milestone</div>
+          <div class='bar-track'><div class='bar-fill' style='width:7.7%; background:#38bdf8'></div></div>
+          <div class='bar-count'>1</div>
+        </div>
+        <div class='bar-row'>
+          <div class='bar-label'>obstacle</div>
+          <div class='bar-track'><div class='bar-fill' style='width:7.7%; background:#38bdf8'></div></div>
+          <div class='bar-count'>1</div>
+        </div>
+        <div class='bar-row'>
+          <div class='bar-label'>pit_stop</div>
+          <div class='bar-track'><div class='bar-fill' style='width:7.7%; background:#38bdf8'></div></div>
+          <div class='bar-count'>1</div>
+        </div>
+        <div class='bar-row'>
+          <div class='bar-label'>strategy_change</div>
+          <div class='bar-track'><div class='bar-fill' style='width:7.7%; background:#38bdf8'></div></div>
+          <div class='bar-count'>1</div>
+        </div>
+        <div class='bar-row'>
+          <div class='bar-label'>takeover</div>
+          <div class='bar-track'><div class='bar-fill' style='width:7.7%; background:#38bdf8'></div></div>
+          <div class='bar-count'>1</div>
+        </div>
+        <div class='bar-row'>
+          <div class='bar-label'>violation</div>
+          <div class='bar-track'><div class='bar-fill' style='width:7.7%; background:#38bdf8'></div></div>
+          <div class='bar-count'>1</div>
+        </div></section>
+  </section>
+
+  <section class='card'>
+    <h2>Racing Entries</h2>
+    <table>
+      <tr><th>#</th><th>Entry</th><th>Project</th><th>CA</th><th>Motion</th><th>Risk</th><th>Round Progress</th><th>Score</th><th>Tokens</th><th>Latest Message</th></tr>
+      
+    <tr>
+      <td class='rank'>1</td>
+      <td><strong>AI Sudoku</strong><br><span class='muted'>林知衡</span></td>
+      <td>AI Sudoku</td>
+      <td><span class='pill' style='--pill:#8b5cf6'>claude</span></td>
+      <td><span class='pill' style='--pill:#22c55e'>finished</span></td>
+      <td><span class='pill' style='--pill:#22c55e'>none</span></td>
+      <td><div class='progress'><span style='width:100.0%'></span></div><small>100.0%</small></td>
+      <td>9420</td>
+      <td>1900000</td>
+      <td>AI Sudoku 冲线完成！</td>
+    </tr>
+    <tr>
+      <td class='rank'>2</td>
+      <td><strong>DevCompass Racing</strong><br><span class='muted'>周聿明</span></td>
+      <td>DevCompass Racing</td>
+      <td><span class='pill' style='--pill:#06b6d4'>codex</span></td>
+      <td><span class='pill' style='--pill:#38bdf8'>running</span></td>
+      <td><span class='pill' style='--pill:#22c55e'>none</span></td>
+      <td><div class='progress'><span style='width:87.0%'></span></div><small>87.0%</small></td>
+      <td>9180</td>
+      <td>1780000</td>
+      <td>DevCompass 过弯漂亮！</td>
+    </tr>
+    <tr>
+      <td class='rank'>3</td>
+      <td><strong>Travel AIAR</strong><br><span class='muted'>苏曼</span></td>
+      <td>Travel AIAR</td>
+      <td><span class='pill' style='--pill:#8b5cf6'>claude</span></td>
+      <td><span class='pill' style='--pill:#38bdf8'>running</span></td>
+      <td><span class='pill' style='--pill:#f59e0b'>medium</span></td>
+      <td><div class='progress'><span style='width:84.0%'></span></div><small>84.0%</small></td>
+      <td>9035</td>
+      <td>1500000</td>
+      <td>Travel AIAR 守住第二！</td>
+    </tr>
+    <tr>
+      <td class='rank'>4</td>
+      <td><strong>Study Copilot</strong><br><span class='muted'>高维</span></td>
+      <td>Study Copilot</td>
+      <td><span class='pill' style='--pill:#06b6d4'>codex</span></td>
+      <td><span class='pill' style='--pill:#facc15'>slowed</span></td>
+      <td><span class='pill' style='--pill:#84cc16'>low</span></td>
+      <td><div class='progress'><span style='width:81.0%'></span></div><small>81.0%</small></td>
+      <td>8720</td>
+      <td>1340000</td>
+      <td>Study Copilot 稳住！</td>
+    </tr>
+    <tr>
+      <td class='rank'>5</td>
+      <td><strong>DocPilot</strong><br><span class='muted'>陈彦</span></td>
+      <td>DocPilot</td>
+      <td><span class='pill' style='--pill:#8b5cf6'>claude</span></td>
+      <td><span class='pill' style='--pill:#ef4444'>blocked</span></td>
+      <td><span class='pill' style='--pill:#ef4444'>high</span></td>
+      <td><div class='progress'><span style='width:76.0%'></span></div><small>76.0%</small></td>
+      <td>8410</td>
+      <td>1180000</td>
+      <td>DocPilot 这一段很关键</td>
+    </tr>
+    <tr>
+      <td class='rank'>6</td>
+      <td><strong>CodeLab</strong><br><span class='muted'>罗骁</span></td>
+      <td>CodeLab</td>
+      <td><span class='pill' style='--pill:#06b6d4'>codex</span></td>
+      <td><span class='pill' style='--pill:#f97316'>sprinting</span></td>
+      <td><span class='pill' style='--pill:#f59e0b'>medium</span></td>
+      <td><div class='progress'><span style='width:73.0%'></span></div><small>73.0%</small></td>
+      <td>8290</td>
+      <td>1080000</td>
+      <td>CodeLab 追上来了！</td>
+    </tr>
+    <tr>
+      <td class='rank'>7</td>
+      <td><strong>DataForge</strong><br><span class='muted'>江照</span></td>
+      <td>DataForge</td>
+      <td><span class='pill' style='--pill:#06b6d4'>codex</span></td>
+      <td><span class='pill' style='--pill:#a78bfa'>pit_stop</span></td>
+      <td><span class='pill' style='--pill:#f59e0b'>medium</span></td>
+      <td><div class='progress'><span style='width:69.0%'></span></div><small>69.0%</small></td>
+      <td>8050</td>
+      <td>980000</td>
+      <td>DataForge 进站补给</td>
+    </tr>
+    <tr>
+      <td class='rank'>8</td>
+      <td><strong>PixelMind</strong><br><span class='muted'>韩沐</span></td>
+      <td>PixelMind</td>
+      <td><span class='pill' style='--pill:#8b5cf6'>claude</span></td>
+      <td><span class='pill' style='--pill:#38bdf8'>running</span></td>
+      <td><span class='pill' style='--pill:#22c55e'>none</span></td>
+      <td><div class='progress'><span style='width:66.0%'></span></div><small>66.0%</small></td>
+      <td>7860</td>
+      <td>880000</td>
+      <td>PixelMind 渲染质量达标</td>
+    </tr>
+    <tr>
+      <td class='rank'>9</td>
+      <td><strong>ChatOps Hub</strong><br><span class='muted'>邱泽</span></td>
+      <td>ChatOps Hub</td>
+      <td><span class='pill' style='--pill:#06b6d4'>codex</span></td>
+      <td><span class='pill' style='--pill:#fb7185'>takeover</span></td>
+      <td><span class='pill' style='--pill:#ef4444'>high</span></td>
+      <td><div class='progress'><span style='width:61.0%'></span></div><small>61.0%</small></td>
+      <td>7610</td>
+      <td>780000</td>
+      <td>ChatOps Hub 远程接管中</td>
+    </tr>
+    <tr>
+      <td class='rank'>10</td>
+      <td><strong>FinSight</strong><br><span class='muted'>文澜</span></td>
+      <td>FinSight</td>
+      <td><span class='pill' style='--pill:#8b5cf6'>claude</span></td>
+      <td><span class='pill' style='--pill:#facc15'>slowed</span></td>
+      <td><span class='pill' style='--pill:#f59e0b'>medium</span></td>
+      <td><div class='progress'><span style='width:56.0%'></span></div><small>56.0%</small></td>
+      <td>7350</td>
+      <td>620000</td>
+      <td>FinSight 通过合规检查</td>
+    </tr>
+    <tr>
+      <td class='rank'>11</td>
+      <td><strong>MediScribe</strong><br><span class='muted'>叶临</span></td>
+      <td>MediScribe</td>
+      <td><span class='pill' style='--pill:#8b5cf6'>claude</span></td>
+      <td><span class='pill' style='--pill:#64748b'>stale</span></td>
+      <td><span class='pill' style='--pill:#ef4444'>high</span></td>
+      <td><div class='progress'><span style='width:52.0%'></span></div><small>52.0%</small></td>
+      <td>7140</td>
+      <td>480000</td>
+      <td>MediScribe 长时间无响应</td>
+    </tr>
+    <tr>
+      <td class='rank'>12</td>
+      <td><strong>GreenRoute</strong><br><span class='muted'>秦野</span></td>
+      <td>GreenRoute</td>
+      <td><span class='pill' style='--pill:#94a3b8'>other</span></td>
+      <td><span class='pill' style='--pill:#94a3b8'>idle</span></td>
+      <td><span class='pill' style='--pill:#84cc16'>low</span></td>
+      <td><div class='progress'><span style='width:47.0%'></span></div><small>47.0%</small></td>
+      <td>6880</td>
+      <td>320000</td>
+      <td>GreenRoute 准备出发</td>
+    </tr>
+    </table>
+  </section>
+
+  <section class='grid-2'>
+    <div class='card'>
+      <h2>Riding Messages</h2>
+      <table><tr><th>id</th><th>entry</th><th>type</th><th>display</th><th>severity</th><th>summary</th></tr>
+    <tr>
+      <td>msg-1</td>
+      <td>ent-ai-sudoku</td>
+      <td><span class='pill' style='--pill:#38bdf8'>milestone</span></td>
+      <td><span class='pill' style='--pill:#6366f1'>bubble</span></td>
+      <td>info</td>
+      <td>AI Sudoku 冲线完成！</td>
+    </tr>
+    <tr>
+      <td>msg-2</td>
+      <td>ent-devcompass</td>
+      <td><span class='pill' style='--pill:#38bdf8'>progress_update</span></td>
+      <td><span class='pill' style='--pill:#6366f1'>bubble</span></td>
+      <td>info</td>
+      <td>DevCompass 过弯漂亮！</td>
+    </tr>
+    <tr>
+      <td>msg-3</td>
+      <td>ent-travel-aiar</td>
+      <td><span class='pill' style='--pill:#38bdf8'>strategy_change</span></td>
+      <td><span class='pill' style='--pill:#6366f1'>bubble</span></td>
+      <td>info</td>
+      <td>Travel AIAR 守住第二！</td>
+    </tr>
+    <tr>
+      <td>msg-4</td>
+      <td>ent-study-copilot</td>
+      <td><span class='pill' style='--pill:#38bdf8'>progress_update</span></td>
+      <td><span class='pill' style='--pill:#6366f1'>ticker</span></td>
+      <td>info</td>
+      <td>Study Copilot 稳住！</td>
+    </tr>
+    <tr>
+      <td>msg-5</td>
+      <td>ent-docpilot</td>
+      <td><span class='pill' style='--pill:#38bdf8'>risk_alert</span></td>
+      <td><span class='pill' style='--pill:#6366f1'>bubble</span></td>
+      <td>warning</td>
+      <td>DocPilot 这一段很关键</td>
+    </tr>
+    <tr>
+      <td>msg-6</td>
+      <td>ent-codelab</td>
+      <td><span class='pill' style='--pill:#38bdf8'>progress_update</span></td>
+      <td><span class='pill' style='--pill:#6366f1'>bubble</span></td>
+      <td>info</td>
+      <td>CodeLab 追上来了！</td>
+    </tr>
+    <tr>
+      <td>msg-7</td>
+      <td>ent-dataforge</td>
+      <td><span class='pill' style='--pill:#38bdf8'>pit_stop</span></td>
+      <td><span class='pill' style='--pill:#6366f1'>ticker</span></td>
+      <td>info</td>
+      <td>DataForge 进站补给</td>
+    </tr>
+    <tr>
+      <td>msg-8</td>
+      <td>ent-pixelmind</td>
+      <td><span class='pill' style='--pill:#38bdf8'>quality_signal</span></td>
+      <td><span class='pill' style='--pill:#6366f1'>ticker</span></td>
+      <td>info</td>
+      <td>PixelMind 渲染质量达标</td>
+    </tr>
+    <tr>
+      <td>msg-9</td>
+      <td>ent-chatops-hub</td>
+      <td><span class='pill' style='--pill:#38bdf8'>takeover</span></td>
+      <td><span class='pill' style='--pill:#6366f1'>bubble</span></td>
+      <td>warning</td>
+      <td>ChatOps Hub 远程接管中</td>
+    </tr>
+    <tr>
+      <td>msg-10</td>
+      <td>ent-finsight</td>
+      <td><span class='pill' style='--pill:#38bdf8'>quality_signal</span></td>
+      <td><span class='pill' style='--pill:#6366f1'>ticker</span></td>
+      <td>info</td>
+      <td>FinSight 通过合规检查</td>
+    </tr>
+    <tr>
+      <td>msg-11</td>
+      <td>ent-mediscribe</td>
+      <td><span class='pill' style='--pill:#38bdf8'>risk_alert</span></td>
+      <td><span class='pill' style='--pill:#6366f1'>ticker</span></td>
+      <td>warning</td>
+      <td>MediScribe 长时间无响应</td>
+    </tr>
+    <tr>
+      <td>msg-12</td>
+      <td>ent-greenroute</td>
+      <td><span class='pill' style='--pill:#38bdf8'>violation</span></td>
+      <td><span class='pill' style='--pill:#6366f1'>ticker</span></td>
+      <td>warning</td>
+      <td>GreenRoute 未按模板提交 PRD，进入违规提示。</td>
+    </tr>
+    <tr>
+      <td>msg-13</td>
+      <td>ent-docpilot</td>
+      <td><span class='pill' style='--pill:#38bdf8'>obstacle</span></td>
+      <td><span class='pill' style='--pill:#6366f1'>ticker</span></td>
+      <td>warning</td>
+      <td>DocPilot 发布流水线阻塞，需要现场关注。</td>
+    </tr></table>
+    </div>
+    <div class='card'>
+      <h2>Attention Items</h2>
+      <table><tr><th>id</th><th>entry</th><th>category</th><th>severity</th><th>status</th><th>summary</th></tr>
+    <tr>
+      <td>att-1</td>
+      <td>ent-travel-aiar</td>
+      <td><span class='pill' style='--pill:#f59e0b'>risk</span></td>
+      <td>medium</td>
+      <td>open</td>
+      <td>测试覆盖率下滑至 61%</td>
+    </tr>
+    <tr>
+      <td>att-2</td>
+      <td>ent-docpilot</td>
+      <td><span class='pill' style='--pill:#ef4444'>obstacle</span></td>
+      <td>high</td>
+      <td>open</td>
+      <td>发布流水线卡在镜像构建</td>
+    </tr>
+    <tr>
+      <td>att-3</td>
+      <td>ent-codelab</td>
+      <td><span class='pill' style='--pill:#f59e0b'>risk</span></td>
+      <td>low</td>
+      <td>resolved</td>
+      <td>依赖版本待升级</td>
+    </tr>
+    <tr>
+      <td>att-4</td>
+      <td>ent-study-copilot</td>
+      <td><span class='pill' style='--pill:#fb7185'>violation</span></td>
+      <td>medium</td>
+      <td>open</td>
+      <td>提交超出 token 预算 8%</td>
+    </tr>
+    <tr>
+      <td>att-5</td>
+      <td>ent-chatops-hub</td>
+      <td><span class='pill' style='--pill:#ef4444'>obstacle</span></td>
+      <td>critical</td>
+      <td>open</td>
+      <td>远程接管等待人工确认</td>
+    </tr>
+    <tr>
+      <td>att-6</td>
+      <td>ent-travel-aiar</td>
+      <td><span class='pill' style='--pill:#f59e0b'>risk</span></td>
+      <td>low</td>
+      <td>open</td>
+      <td>接口响应 P95 偏高</td>
+    </tr>
+    <tr>
+      <td>att-7</td>
+      <td>ent-devcompass</td>
+      <td><span class='pill' style='--pill:#ef4444'>obstacle</span></td>
+      <td>low</td>
+      <td>ack</td>
+      <td>等待外部配额</td>
+    </tr>
+    <tr>
+      <td>att-8</td>
+      <td>ent-docpilot</td>
+      <td><span class='pill' style='--pill:#fb7185'>violation</span></td>
+      <td>high</td>
+      <td>open</td>
+      <td>检测到未签名提交</td>
+    </tr>
+    <tr>
+      <td>att-9</td>
+      <td>ent-codelab</td>
+      <td><span class='pill' style='--pill:#f59e0b'>risk</span></td>
+      <td>medium</td>
+      <td>open</td>
+      <td>近 5 分钟无单测通过</td>
+    </tr>
+    <tr>
+      <td>att-10</td>
+      <td>ent-dataforge</td>
+      <td><span class='pill' style='--pill:#ef4444'>obstacle</span></td>
+      <td>medium</td>
+      <td>ack</td>
+      <td>Pit Stop：等待数据集导入</td>
+    </tr>
+    <tr>
+      <td>att-11</td>
+      <td>ent-finsight</td>
+      <td><span class='pill' style='--pill:#f59e0b'>risk</span></td>
+      <td>medium</td>
+      <td>open</td>
+      <td>合规校验项待补充</td>
+    </tr>
+    <tr>
+      <td>att-12</td>
+      <td>ent-mediscribe</td>
+      <td><span class='pill' style='--pill:#f59e0b'>risk</span></td>
+      <td>high</td>
+      <td>open</td>
+      <td>超过 3 分钟无新数据 (stale)</td>
+    </tr>
+    <tr>
+      <td>att-13</td>
+      <td>ent-greenroute</td>
+      <td><span class='pill' style='--pill:#fb7185'>violation</span></td>
+      <td>medium</td>
+      <td>open</td>
+      <td>未按模板提交 PRD</td>
+    </tr></table>
+    </div>
+  </section>
+
+  <section class='grid-2'>
+    <div class='card'>
+      <h2>已经补齐/转换</h2>
+      <ul class='note-list'><li>Converted 0-1 progress ratios to current PoC 0-100 percentages.</li><li>Converted raw 1920x1080 TrackProfile to current 1200x620 runtime canvas.</li><li>Added finished motion state coverage through the leading entry.</li><li>Added violation and obstacle Riding Message coverage.</li><li>Added critical attention severity and resolved attention status coverage.</li><li>Mapped raw background placeholder to an existing allowlisted local asset.</li></ul>
+    </div>
+    <div class='card'>
+      <h2>仍 Pending</h2>
+      <ul class='note-list'><li class='warn'>Formal human confirmation remains pending for curve naturalness, bubble clearance, and checkpoint visual semantics.</li><li class='warn'>Raw background.webp/preview.png assets are not included in the original zip; curated profile uses existing local allowlisted background asset.</li></ul>
+    </div>
+  </section>
+</main>
+</body>
+</html>

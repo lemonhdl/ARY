@@ -1,0 +1,878 @@
+[
+  {
+    "doc": "评审标准",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/ARY GRS 002 Jumbotron 评审标准.md",
+    "line": 8,
+    "text": "> Calibrator 如何把 AI 生成或人工绘制的赛道底图，校准为可被运行时稳定使用的 `track.profile.json`。"
+  },
+  {
+    "doc": "评审标准",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/ARY GRS 002 Jumbotron 评审标准.md",
+    "line": 10,
+    "text": "本次 Race 评审的是学生作为 **智能体工程师 / Agentic Engineer** 的综合能力，包括实时可视化理解、交互与信息架构、前端工程实现、几何与动画建模、资产生产工具设计、演示表达，以及与 Agent 协同完成真实创造的 **Agent Riding Skill**。"
+  },
+  {
+    "doc": "评审标准",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/ARY GRS 002 Jumbotron 评审标准.md",
+    "line": 14,
+    "text": "> 一块赛事大屏可以由可信数据、可信赛道几何和可维护资产流程驱动，而不是靠手写位置、静态贴图或一次性动画伪装出来。"
+  },
+  {
+    "doc": "评审标准",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/ARY GRS 002 Jumbotron 评审标准.md",
+    "line": 30,
+    "text": "- Race Live 主赛道；"
+  },
+  {
+    "doc": "评审标准",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/ARY GRS 002 Jumbotron 评审标准.md",
+    "line": 33,
+    "text": "- Riding Message 气泡或底部 ticker；"
+  },
+  {
+    "doc": "评审标准",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/ARY GRS 002 Jumbotron 评审标准.md",
+    "line": 38,
+    "text": "### 2. 必须有 Calibrator 或可验证的赛道校准流程"
+  },
+  {
+    "doc": "评审标准",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/ARY GRS 002 Jumbotron 评审标准.md",
+    "line": 40,
+    "text": "作品必须说明并演示赛道底图如何变成可运行的语义赛道资产。"
+  },
+  {
+    "doc": "评审标准",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/ARY GRS 002 Jumbotron 评审标准.md",
+    "line": 44,
+    "text": "- 导入或使用一张赛道底图；"
+  },
+  {
+    "doc": "评审标准",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/ARY GRS 002 Jumbotron 评审标准.md",
+    "line": 45,
+    "text": "- 定义或编辑 centerline points；"
+  },
+  {
+    "doc": "评审标准",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/ARY GRS 002 Jumbotron 评审标准.md",
+    "line": 49,
+    "text": "- 导出或展示 `track.profile.json`；"
+  },
+  {
+    "doc": "评审标准",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/ARY GRS 002 Jumbotron 评审标准.md",
+    "line": 52,
+    "text": "Calibrator 可以是完整工具、简化工具、开发者工具页，或具备清楚操作流程的 PoC，但不能完全没有赛道校准过程。"
+  },
+  {
+    "doc": "评审标准",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/ARY GRS 002 Jumbotron 评审标准.md",
+    "line": 58,
+    "text": "- 赛道底图只负责视觉；"
+  },
+  {
+    "doc": "评审标准",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/ARY GRS 002 Jumbotron 评审标准.md",
+    "line": 59,
+    "text": "- 赛道几何由 `track.profile.json` 或等价结构描述；"
+  },
+  {
+    "doc": "评审标准",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/ARY GRS 002 Jumbotron 评审标准.md",
+    "line": 62,
+    "text": "- 不能把马匹、排名编号、气泡和风险标记直接画死在底图中。"
+  },
+  {
+    "doc": "评审标准",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/ARY GRS 002 Jumbotron 评审标准.md",
+    "line": 73,
+    "text": "2. 多个 Racing Entry 在赛道上随进度变化；"
+  },
+  {
+    "doc": "评审标准",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/ARY GRS 002 Jumbotron 评审标准.md",
+    "line": 75,
+    "text": "4. Calibrator 导入或使用赛道底图；"
+  },
+  {
+    "doc": "评审标准",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/ARY GRS 002 Jumbotron 评审标准.md",
+    "line": 77,
+    "text": "6. 导出的 `track.profile.json` 如何被 Jumbotron 使用；"
+  },
+  {
+    "doc": "评审标准",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/ARY GRS 002 Jumbotron 评审标准.md",
+    "line": 107,
+    "text": "   - 数据与资产说明；"
+  },
+  {
+    "doc": "评审标准",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/ARY GRS 002 Jumbotron 评审标准.md",
+    "line": 119,
+    "text": "4. **赛道资产**"
+  },
+  {
+    "doc": "评审标准",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/ARY GRS 002 Jumbotron 评审标准.md",
+    "line": 120,
+    "text": "   - `background.webp` 或等价底图；"
+  },
+  {
+    "doc": "评审标准",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/ARY GRS 002 Jumbotron 评审标准.md",
+    "line": 121,
+    "text": "   - `track.profile.json`；"
+  },
+  {
+    "doc": "评审标准",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/ARY GRS 002 Jumbotron 评审标准.md",
+    "line": 124,
+    "text": "   - `source.prompt.md`，若使用 AI 生成底图。"
+  },
+  {
+    "doc": "评审标准",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/ARY GRS 002 Jumbotron 评审标准.md",
+    "line": 166,
+    "text": "- Header、KPI Strip、主赛道、TOP3、底部 ticker 等区域是否清楚；"
+  },
+  {
+    "doc": "评审标准",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/ARY GRS 002 Jumbotron 评审标准.md",
+    "line": 169,
+    "text": "- 是否能展示 Riding Message 气泡或现场播报；"
+  },
+  {
+    "doc": "评审标准",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/ARY GRS 002 Jumbotron 评审标准.md",
+    "line": 182,
+    "text": "## 3. Calibrator 与赛道资产生产｜20 分"
+  },
+  {
+    "doc": "评审标准",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/ARY GRS 002 Jumbotron 评审标准.md",
+    "line": 184,
+    "text": "评审重点：团队是否证明了赛道资产可以被生产、校准、验证和复用。"
+  },
+  {
+    "doc": "评审标准",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/ARY GRS 002 Jumbotron 评审标准.md",
+    "line": 189,
+    "text": "- 是否能导入或使用赛道底图；"
+  },
+  {
+    "doc": "评审标准",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/ARY GRS 002 Jumbotron 评审标准.md",
+    "line": 190,
+    "text": "- 是否能创建、编辑或导入 centerline points；"
+  },
+  {
+    "doc": "评审标准",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/ARY GRS 002 Jumbotron 评审标准.md",
+    "line": 197,
+    "text": "- 是否能 Export `track.profile.json`；"
+  },
+  {
+    "doc": "评审标准",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/ARY GRS 002 Jumbotron 评审标准.md",
+    "line": 198,
+    "text": "- 是否能解释 `track.profile.json` 中的关键字段；"
+  },
+  {
+    "doc": "评审标准",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/ARY GRS 002 Jumbotron 评审标准.md",
+    "line": 199,
+    "text": "- 是否能说明 AI 生成底图与人工校准之间的关系；"
+  },
+  {
+    "doc": "评审标准",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/ARY GRS 002 Jumbotron 评审标准.md",
+    "line": 200,
+    "text": "- 是否能提交至少一套可用赛道资产。"
+  },
+  {
+    "doc": "评审标准",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/ARY GRS 002 Jumbotron 评审标准.md",
+    "line": 204,
+    "text": "> Calibrator 不是摆设，而是真正让一张视觉底图变成可运行赛道资产；评委能看到从底图、路径校准、预览、验证到导出 profile 的完整流程。"
+  },
+  {
+    "doc": "评审标准",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/ARY GRS 002 Jumbotron 评审标准.md",
+    "line": 217,
+    "text": "- 是否能将 progress 映射到 centerline path 上的采样点；"
+  },
+  {
+    "doc": "评审标准",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/ARY GRS 002 Jumbotron 评审标准.md",
+    "line": 223,
+    "text": "- 是否支持 debug mode 或等价调试视图，展示 centerline、sampled points、lane offsets、checkpoints、horse s value；"
+  },
+  {
+    "doc": "评审标准",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/ARY GRS 002 Jumbotron 评审标准.md",
+    "line": 229,
+    "text": "> 评委可以相信这套系统不是一次性动效，而是由 track profile、snapshot data 和 runtime logic 驱动；换一套数据或换一条赛道，仍然有机会继续工作。"
+  },
+  {
+    "doc": "评审标准",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/ARY GRS 002 Jumbotron 评审标准.md",
+    "line": 251,
+    "text": "> 看完短视频，不需要额外解释，就能理解这套 Jumbotron 怎么跑、Calibrator 怎么用、赛道资产怎么进入运行时。"
+  },
+  {
+    "doc": "评审标准",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/ARY GRS 002 Jumbotron 评审标准.md",
+    "line": 294,
+    "text": "> 评委或后续团队不需要猜，就能快速理解：你做了什么，怎么运行，数据怎么进来，赛道怎么校准，哪些地方还需要继续完善。"
+  },
+  {
+    "doc": "评审标准",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/ARY GRS 002 Jumbotron 评审标准.md",
+    "line": 317,
+    "text": "### 3. 多赛道资产能力"
+  },
+  {
+    "doc": "评审标准",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/ARY GRS 002 Jumbotron 评审标准.md",
+    "line": 319,
+    "text": "不仅完成一条赛道，还能展示至少两条不同赛道资产，并证明 Jumbotron 可以切换 profile 运行。"
+  },
+  {
+    "doc": "评审标准",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/ARY GRS 002 Jumbotron 评审标准.md",
+    "line": 323,
+    "text": "提供 centerline、sampled points、lane offsets、checkpoints、collision boxes、stale entries 等调试展示，让评委能看懂底层几何和运行时状态。"
+  },
+  {
+    "doc": "评审标准",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/ARY GRS 002 Jumbotron 评审标准.md",
+    "line": 331,
+    "text": "能说明 Riding Message、风险、违章、ticker、气泡如何排序、筛选、限流和 fallback，避免现场大屏被消息淹没。"
+  },
+  {
+    "doc": "评审标准",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/ARY GRS 002 Jumbotron 评审标准.md",
+    "line": 348,
+    "text": "2. 没有 Calibrator，也无法说明赛道资产如何被校准为可运行 profile；"
+  },
+  {
+    "doc": "评审标准",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/ARY GRS 002 Jumbotron 评审标准.md",
+    "line": 351,
+    "text": "5. 赛马位置、排名、气泡和风险标记全部写死在图片或设计稿中；"
+  },
+  {
+    "doc": "评审标准",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/ARY GRS 002 Jumbotron 评审标准.md",
+    "line": 352,
+    "text": "6. 无法解释 `track.profile.json` 或等价赛道语义资产的作用；"
+  },
+  {
+    "doc": "评审标准",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/ARY GRS 002 Jumbotron 评审标准.md",
+    "line": 356,
+    "text": "10. 无法说明本次 PoC 与“可信赛事大屏 / 可校准赛道资产”之间的关系。"
+  },
+  {
+    "doc": "评审标准",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/ARY GRS 002 Jumbotron 评审标准.md",
+    "line": 369,
+    "text": "核心命题理解准确，Jumbotron 和 Calibrator 都有可演示成果，赛道几何与数据映射基本正确。过程记录较完整，短视频能讲清主要链路，但工程完整度、异常处理、debug mode 或资产流程仍有提升空间。"
+  },
+  {
+    "doc": "评审标准",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/ARY GRS 002 Jumbotron 评审标准.md",
+    "line": 373,
+    "text": "基本完成 Jumbotron 原型，有一定 Calibrator 或赛道配置流程，但系统边界、track-runtime 复用、数据契约、动画正确性或短视频表达存在明显不足。"
+  },
+  {
+    "doc": "评审标准",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/ARY GRS 002 Jumbotron 评审标准.md",
+    "line": 377,
+    "text": "完成了基本提交，但更多停留在 UI Demo 或概念展示。Jumbotron 可看但不够可信，Calibrator 证明力不足，赛道位置和数据驱动关系不清楚，过程记录较弱。"
+  },
+  {
+    "doc": "评审标准",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/ARY GRS 002 Jumbotron 评审标准.md",
+    "line": 392,
+    "text": "   最佳赛道校准工具奖：奖励 Calibrator 使用流程最完整、赛道资产生产最清楚的团队。"
+  },
+  {
+    "doc": "评审标准",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/ARY GRS 002 Jumbotron 评审标准.md",
+    "line": 396,
+    "text": "   最佳动态表现奖：奖励赛马位置、方向、补间、状态机、消息气泡表现最自然的团队。"
+  },
+  {
+    "doc": "评审标准",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/ARY GRS 002 Jumbotron 评审标准.md",
+    "line": 416,
+    "text": "> **他们能够通过 Calibrator 把赛道视觉资产校准为可运行的语义赛道，并通过短视频清楚说明 Jumbotron 与 Calibrator 的使用方式？**"
+  },
+  {
+    "doc": "信息架构",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron信息架构.md",
+    "line": 4,
+    "text": "> Jumbotron 是 Workshop / Hackathon / 团队协作场景下的公开大屏容器，负责展示赛事化摘要、实时态势、赛道位置、风险和协作入口；它不展示完整 Coding Agent Session 细节。"
+  },
+  {
+    "doc": "信息架构",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron信息架构.md",
+    "line": 65,
+    "text": "它面向现场观众和组织者，强调赛道、位置、追赶关系、实时消息和现场氛围。"
+  },
+  {
+    "doc": "信息架构",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron信息架构.md",
+    "line": 191,
+    "text": "赛道模板由视觉底图和语义赛道共同构成。"
+  },
+  {
+    "doc": "信息架构",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron信息架构.md",
+    "line": 199,
+    "text": "├── centerlinePath"
+  },
+  {
+    "doc": "信息架构",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron信息架构.md",
+    "line": 204,
+    "text": "└── safeZones"
+  },
+  {
+    "doc": "信息架构",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron信息架构.md",
+    "line": 207,
+    "text": "`backgroundAsset` 是视觉皮肤，`centerlinePath` 才是用于定位的赛道中心线。"
+  },
+  {
+    "doc": "信息架构",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron信息架构.md",
+    "line": 211,
+    "text": "Race Live View 中的赛马位置不是固定 `x / y` 坐标，而是由进度和赛道几何派生。"
+  },
+  {
+    "doc": "信息架构",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron信息架构.md",
+    "line": 220,
+    "text": "roundProgress → centerlinePath distance → point → rotation → laneOffset → displayAdjustment"
+  },
+  {
+    "doc": "信息架构",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron信息架构.md",
+    "line": 233,
+    "text": "| blocked | 被阻碍或存在高风险 | 停顿 / 警示标记 |"
+  },
+  {
+    "doc": "信息架构",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron信息架构.md",
+    "line": 236,
+    "text": "| finished | 当前 Round 或阶段完成 | 冲线 / 完成标记 |"
+  },
+  {
+    "doc": "信息架构",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron信息架构.md",
+    "line": 284,
+    "text": "它以赛道主视觉为中心，用马匹位置、排名编号、项目气泡、TOP3 和底部 ticker 表达赛事进行态。"
+  },
+  {
+    "doc": "信息架构",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron信息架构.md",
+    "line": 310,
+    "text": "│   ├── Track Background"
+  },
+  {
+    "doc": "信息架构",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron信息架构.md",
+    "line": 311,
+    "text": "│   ├── Semantic Track Overlay"
+  },
+  {
+    "doc": "信息架构",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron信息架构.md",
+    "line": 312,
+    "text": "│   ├── Racing Entry Markers"
+  },
+  {
+    "doc": "信息架构",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron信息架构.md",
+    "line": 313,
+    "text": "│   ├── Ranking Number Badges"
+  },
+  {
+    "doc": "信息架构",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron信息架构.md",
+    "line": 314,
+    "text": "│   ├── Horse / Rider Visuals"
+  },
+  {
+    "doc": "信息架构",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron信息架构.md",
+    "line": 315,
+    "text": "│   ├── Riding Message Bubbles"
+  },
+  {
+    "doc": "信息架构",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron信息架构.md",
+    "line": 316,
+    "text": "│   └── LIVE Indicator"
+  },
+  {
+    "doc": "信息架构",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron信息架构.md",
+    "line": 349,
+    "text": "赛道主视觉需要同时承载视觉氛围和数据定位，但二者必须解耦。"
+  },
+  {
+    "doc": "信息架构",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron信息架构.md",
+    "line": 352,
+    "text": "Static Track Background"
+  },
+  {
+    "doc": "信息架构",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron信息架构.md",
+    "line": 363,
+    "text": "- 马匹、编号、气泡和风险标记不能写死在底图里；"
+  },
+  {
+    "doc": "信息架构",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron信息架构.md",
+    "line": 365,
+    "text": "- 赛道位置由 `roundProgress` 映射到 `centerlinePath`；"
+  },
+  {
+    "doc": "信息架构",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron信息架构.md",
+    "line": 366,
+    "text": "- 气泡、标签和马匹需要落在 `safeZones` 内或经过避让计算；"
+  },
+  {
+    "doc": "信息架构",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron信息架构.md",
+    "line": 384,
+    "text": "### 5.5 Riding Message 气泡规则"
+  },
+  {
+    "doc": "信息架构",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron信息架构.md",
+    "line": 386,
+    "text": "气泡用于表达现场播报感。"
+  },
+  {
+    "doc": "信息架构",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron信息架构.md",
+    "line": 425,
+    "text": "观众通过 Race Live View 的赛道主视觉理解比赛推进状态。"
+  },
+  {
+    "doc": "信息架构",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron信息架构.md",
+    "line": 433,
+    "text": "观众通过赛道上的 Racing Entry 位置、排名编号和项目名理解相对进度。"
+  },
+  {
+    "doc": "信息架构",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron信息架构.md",
+    "line": 437,
+    "text": "观众通过 Riding Message 气泡或 ticker 看到重点动态。"
+  },
+  {
+    "doc": "信息架构",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron信息架构.md",
+    "line": 441,
+    "text": "组织者通过底部 ticker 或赛道上的风险标记识别需要介入的项目。"
+  },
+  {
+    "doc": "信息架构",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron信息架构.md",
+    "line": 447,
+    "text": "- Racing Entry 标记；"
+  },
+  {
+    "doc": "信息架构",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron信息架构.md",
+    "line": 469,
+    "text": "| 赛道地图 | Track Stage | Main Content |"
+  },
+  {
+    "doc": "信息架构",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron信息架构.md",
+    "line": 470,
+    "text": "| 赛道底图 | Track Template.backgroundAsset | Track Stage |"
+  },
+  {
+    "doc": "信息架构",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron信息架构.md",
+    "line": 471,
+    "text": "| 赛道路径 | Track Template.centerlinePath | Track Stage |"
+  },
+  {
+    "doc": "信息架构",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron信息架构.md",
+    "line": 473,
+    "text": "| 气泡消息 | Riding Message Bubble | Track Stage |"
+  },
+  {
+    "doc": "信息架构",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron信息架构.md",
+    "line": 488,
+    "text": "2. Race Live View 默认用 `roundProgress` 映射赛道位置。"
+  },
+  {
+    "doc": "信息架构",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron信息架构.md",
+    "line": 489,
+    "text": "3. 赛道底图只负责视觉，不负责语义。"
+  },
+  {
+    "doc": "信息架构",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron信息架构.md",
+    "line": 490,
+    "text": "4. 赛道几何必须显式存在，不能从图片反推。"
+  },
+  {
+    "doc": "信息架构",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron信息架构.md",
+    "line": 491,
+    "text": "5. 马匹位置由进度和赛道几何派生，不把设计稿 `x / y` 当作业务事实。"
+  },
+  {
+    "doc": "信息架构",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron信息架构.md",
+    "line": 493,
+    "text": "7. 数据更新慢时，使用短时间补间、原地动效、气泡和高亮，不伪造连续推进。"
+  },
+  {
+    "doc": "信息架构",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron信息架构.md",
+    "line": 505,
+    "text": "├── Race Live 主赛道"
+  },
+  {
+    "doc": "信息架构",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron信息架构.md",
+    "line": 520,
+    "text": "├── 气泡避让优化"
+  },
+  {
+    "doc": "子系统定义",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron子系统定义.md",
+    "line": 4,
+    "text": "> Jumbotron 子系统由运行时 **Jumbotron / Race Live View** 与设计时 **Track Profile Calibrator** 组成，目标是让赛马主视觉可以被稳定资产、可信几何和 DCR 快照数据驱动。"
+  },
+  {
+    "doc": "子系统定义",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron子系统定义.md",
+    "line": 12,
+    "text": "它负责把 DCR 的赛事快照数据、赛道资产和 Riding Message 映射为一套可在 16:9 大屏上展示的 horse-racing live screen。"
+  },
+  {
+    "doc": "子系统定义",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron子系统定义.md",
+    "line": 22,
+    "text": "同时，它提供设计时 Calibrator，用于把 AI 生成或人工绘制的赛道底图校准为可运行的 `track.profile.json`。"
+  },
+  {
+    "doc": "子系统定义",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron子系统定义.md",
+    "line": 25,
+    "text": "AI / Design Track Background"
+  },
+  {
+    "doc": "子系统定义",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron子系统定义.md",
+    "line": 27,
+    "text": "  → track.profile.json"
+  },
+  {
+    "doc": "子系统定义",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron子系统定义.md",
+    "line": 48,
+    "text": "│   └── AI-assisted Asset Pipeline"
+  },
+  {
+    "doc": "子系统定义",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron子系统定义.md",
+    "line": 52,
+    "text": "    ├── track.profile.json"
+  },
+  {
+    "doc": "子系统定义",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron子系统定义.md",
+    "line": 66,
+    "text": "- 展示赛道主视觉；"
+  },
+  {
+    "doc": "子系统定义",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron子系统定义.md",
+    "line": 69,
+    "text": "- 展示 Riding Message 气泡；"
+  },
+  {
+    "doc": "子系统定义",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron子系统定义.md",
+    "line": 83,
+    "text": "设计时赛道校准工具。"
+  },
+  {
+    "doc": "子系统定义",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron子系统定义.md",
+    "line": 87,
+    "text": "- 导入赛道底图；"
+  },
+  {
+    "doc": "子系统定义",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron子系统定义.md",
+    "line": 89,
+    "text": "- 编辑 centerline points；"
+  },
+  {
+    "doc": "子系统定义",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron子系统定义.md",
+    "line": 90,
+    "text": "- 设置赛道方向；"
+  },
+  {
+    "doc": "子系统定义",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron子系统定义.md",
+    "line": 95,
+    "text": "- 预览消息气泡；"
+  },
+  {
+    "doc": "子系统定义",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron子系统定义.md",
+    "line": 97,
+    "text": "- 导出冻结后的 `track.profile.json`。"
+  },
+  {
+    "doc": "子系统定义",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron子系统定义.md",
+    "line": 99,
+    "text": "Calibrator 不是运行时 UI。它是设计 / 资产生产工具。"
+  },
+  {
+    "doc": "子系统定义",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron子系统定义.md",
+    "line": 108,
+    "text": "- 将 centerline 转换为可采样路径；"
+  },
+  {
+    "doc": "子系统定义",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron子系统定义.md",
+    "line": 122,
+    "text": "track.profile.json"
+  },
+  {
+    "doc": "子系统定义",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron子系统定义.md",
+    "line": 153,
+    "text": "1. 选择用于赛道位置的进度字段；"
+  },
+  {
+    "doc": "子系统定义",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron子系统定义.md",
+    "line": 155,
+    "text": "3. 在只有 `overallProgress` 时显式标记临时映射；"
+  },
+  {
+    "doc": "子系统定义",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron子系统定义.md",
+    "line": 199,
+    "text": "Jumbotron Prototype 必须支持 debug mode，用于验证资产和运行时逻辑。"
+  },
+  {
+    "doc": "子系统定义",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron子系统定义.md",
+    "line": 202,
+    "text": "- show centerline"
+  },
+  {
+    "doc": "子系统定义",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron子系统定义.md",
+    "line": 253,
+    "text": "1. 导入底图；"
+  },
+  {
+    "doc": "子系统定义",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron子系统定义.md",
+    "line": 255,
+    "text": "3. 添加、删除、拖拽 centerline points；"
+  },
+  {
+    "doc": "子系统定义",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron子系统定义.md",
+    "line": 269,
+    "text": "1. 气泡区域编辑；"
+  },
+  {
+    "doc": "子系统定义",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron子系统定义.md",
+    "line": 284,
+    "text": "Track Profile 是赛道的语义资产，也是运行时事实来源。"
+  },
+  {
+    "doc": "子系统定义",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron子系统定义.md",
+    "line": 296,
+    "text": "- 气泡区域；"
+  },
+  {
+    "doc": "子系统定义",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron子系统定义.md",
+    "line": 309,
+    "text": "├── centerline"
+  },
+  {
+    "doc": "子系统定义",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron子系统定义.md",
+    "line": 411,
+    "text": "  → sampled centerline point"
+  },
+  {
+    "doc": "子系统定义",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron子系统定义.md",
+    "line": 433,
+    "text": "Jumbotron 子系统优先使用 `roundProgress` 作为赛道位置来源。"
+  },
+  {
+    "doc": "子系统定义",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron子系统定义.md",
+    "line": 468,
+    "text": "这样可以避免弯道处马匹穿越赛道内侧。"
+  },
+  {
+    "doc": "子系统定义",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron子系统定义.md",
+    "line": 523,
+    "text": "## 8. 资产生产与冻结"
+  },
+  {
+    "doc": "子系统定义",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron子系统定义.md",
+    "line": 525,
+    "text": "### 8.1 AI-assisted Asset Pipeline"
+  },
+  {
+    "doc": "子系统定义",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron子系统定义.md",
+    "line": 527,
+    "text": "AI 不参与运行时可信计算，只参与设计时候选资产生产。"
+  },
+  {
+    "doc": "子系统定义",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron子系统定义.md",
+    "line": 532,
+    "text": "1. 编写赛道视觉 prompt"
+  },
+  {
+    "doc": "子系统定义",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron子系统定义.md",
+    "line": 533,
+    "text": "2. AI 生成 16:9 赛道底图"
+  },
+  {
+    "doc": "子系统定义",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron子系统定义.md",
+    "line": 534,
+    "text": "3. AI 输出候选 centerline points"
+  },
+  {
+    "doc": "子系统定义",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron子系统定义.md",
+    "line": 540,
+    "text": "9. 提交资产"
+  },
+  {
+    "doc": "子系统定义",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron子系统定义.md",
+    "line": 543,
+    "text": "### 8.2 资产目录规范"
+  },
+  {
+    "doc": "子系统定义",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron子系统定义.md",
+    "line": 548,
+    "text": "  track.profile.json"
+  },
+  {
+    "doc": "子系统定义",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron子系统定义.md",
+    "line": 556,
+    "text": "- `background.webp`：最终视觉底图；"
+  },
+  {
+    "doc": "子系统定义",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron子系统定义.md",
+    "line": 557,
+    "text": "- `track.profile.json`：运行时事实来源；"
+  },
+  {
+    "doc": "子系统定义",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron子系统定义.md",
+    "line": 562,
+    "text": "### 8.3 资产冻结规则"
+  },
+  {
+    "doc": "子系统定义",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron子系统定义.md",
+    "line": 570,
+    "text": "5. 没有明显跑出赛道；"
+  },
+  {
+    "doc": "子系统定义",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron子系统定义.md",
+    "line": 588,
+    "text": "- centerline points 数量足够"
+  },
+  {
+    "doc": "子系统定义",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron子系统定义.md",
+    "line": 620,
+    "text": "- 马是否跑在赛道上"
+  },
+  {
+    "doc": "子系统定义",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron子系统定义.md",
+    "line": 623,
+    "text": "- 气泡是否遮挡标题 / KPI / 顶部区域"
+  },
+  {
+    "doc": "子系统定义",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron子系统定义.md",
+    "line": 670,
+    "text": "        track.profile.json"
+  },
+  {
+    "doc": "子系统定义",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron子系统定义.md",
+    "line": 687,
+    "text": "1. `track.profile.json` 能描述一条完整赛道；"
+  },
+  {
+    "doc": "子系统定义",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron子系统定义.md",
+    "line": 688,
+    "text": "2. Calibrator 能从候选路径微调出可用赛道；"
+  },
+  {
+    "doc": "子系统定义",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron子系统定义.md",
+    "line": 691,
+    "text": "5. 一匹马可按 0% → 100% 沿赛道移动；"
+  },
+  {
+    "doc": "子系统定义",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron子系统定义.md",
+    "line": 695,
+    "text": "9. Riding Message 可在气泡或 ticker 中降噪展示；"
+  },
+  {
+    "doc": "子系统定义",
+    "path": "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron子系统定义.md",
+    "line": 696,
+    "text": "10. 至少有 2 条可用示例赛道资产；"
+  }
+]

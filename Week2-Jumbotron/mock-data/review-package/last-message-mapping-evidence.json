@@ -1,0 +1,591 @@
+{
+  "generatedAt": "2026-06-12T15:42:36.858Z",
+  "script": "Week2-Jumbotron/mock-data/review-package/generate-data-side-evidence.js",
+  "rule": "entry.latestMessageId + raceSnapshot.messages[] -> entry.lastMessage?: RidingMessageSnapshot; fallback to entry.latestMessage summary",
+  "publicHiddenRule": "targetUrl and remoteCockpitUrl are reported only as hidden field names or booleans; raw URL values are excluded from this evidence",
+  "profiles": [
+    {
+      "id": "curated-full-12",
+      "path": "PoC-GRS-001/jumbotron-mock-data/curated/race-snapshot.json",
+      "counts": {
+        "entries": 12,
+        "resolved": 12,
+        "fallbackUsed": 0,
+        "unresolvedWithoutFallback": 0
+      },
+      "entryMappings": [
+        {
+          "entryId": "ent-ai-sudoku",
+          "latestMessagePresent": true,
+          "remoteCockpitUrlHidden": true,
+          "resolved": true,
+          "fallbackUsed": false,
+          "latestMessageId": "msg-1",
+          "lastMessage": {
+            "messageId": "msg-1",
+            "entryId": "ent-ai-sudoku",
+            "type": "milestone",
+            "severity": "info",
+            "displayMode": "bubble",
+            "summaryPresent": true,
+            "targetUrlHidden": true
+          }
+        },
+        {
+          "entryId": "ent-devcompass",
+          "latestMessagePresent": true,
+          "remoteCockpitUrlHidden": true,
+          "resolved": true,
+          "fallbackUsed": false,
+          "latestMessageId": "msg-2",
+          "lastMessage": {
+            "messageId": "msg-2",
+            "entryId": "ent-devcompass",
+            "type": "progress_update",
+            "severity": "info",
+            "displayMode": "bubble",
+            "summaryPresent": true,
+            "targetUrlHidden": true
+          }
+        },
+        {
+          "entryId": "ent-travel-aiar",
+          "latestMessagePresent": true,
+          "remoteCockpitUrlHidden": true,
+          "resolved": true,
+          "fallbackUsed": false,
+          "latestMessageId": "msg-3",
+          "lastMessage": {
+            "messageId": "msg-3",
+            "entryId": "ent-travel-aiar",
+            "type": "strategy_change",
+            "severity": "info",
+            "displayMode": "bubble",
+            "summaryPresent": true,
+            "targetUrlHidden": true
+          }
+        },
+        {
+          "entryId": "ent-study-copilot",
+          "latestMessagePresent": true,
+          "remoteCockpitUrlHidden": true,
+          "resolved": true,
+          "fallbackUsed": false,
+          "latestMessageId": "msg-4",
+          "lastMessage": {
+            "messageId": "msg-4",
+            "entryId": "ent-study-copilot",
+            "type": "progress_update",
+            "severity": "info",
+            "displayMode": "ticker",
+            "summaryPresent": true,
+            "targetUrlHidden": true
+          }
+        },
+        {
+          "entryId": "ent-docpilot",
+          "latestMessagePresent": true,
+          "remoteCockpitUrlHidden": true,
+          "resolved": true,
+          "fallbackUsed": false,
+          "latestMessageId": "msg-5",
+          "lastMessage": {
+            "messageId": "msg-5",
+            "entryId": "ent-docpilot",
+            "type": "risk_alert",
+            "severity": "warning",
+            "displayMode": "bubble",
+            "summaryPresent": true,
+            "targetUrlHidden": true
+          }
+        },
+        {
+          "entryId": "ent-codelab",
+          "latestMessagePresent": true,
+          "remoteCockpitUrlHidden": true,
+          "resolved": true,
+          "fallbackUsed": false,
+          "latestMessageId": "msg-6",
+          "lastMessage": {
+            "messageId": "msg-6",
+            "entryId": "ent-codelab",
+            "type": "progress_update",
+            "severity": "info",
+            "displayMode": "bubble",
+            "summaryPresent": true,
+            "targetUrlHidden": true
+          }
+        },
+        {
+          "entryId": "ent-dataforge",
+          "latestMessagePresent": true,
+          "remoteCockpitUrlHidden": true,
+          "resolved": true,
+          "fallbackUsed": false,
+          "latestMessageId": "msg-7",
+          "lastMessage": {
+            "messageId": "msg-7",
+            "entryId": "ent-dataforge",
+            "type": "pit_stop",
+            "severity": "info",
+            "displayMode": "ticker",
+            "summaryPresent": true,
+            "targetUrlHidden": true
+          }
+        },
+        {
+          "entryId": "ent-pixelmind",
+          "latestMessagePresent": true,
+          "remoteCockpitUrlHidden": true,
+          "resolved": true,
+          "fallbackUsed": false,
+          "latestMessageId": "msg-8",
+          "lastMessage": {
+            "messageId": "msg-8",
+            "entryId": "ent-pixelmind",
+            "type": "quality_signal",
+            "severity": "info",
+            "displayMode": "ticker",
+            "summaryPresent": true,
+            "targetUrlHidden": true
+          }
+        },
+        {
+          "entryId": "ent-chatops-hub",
+          "latestMessagePresent": true,
+          "remoteCockpitUrlHidden": true,
+          "resolved": true,
+          "fallbackUsed": false,
+          "latestMessageId": "msg-9",
+          "lastMessage": {
+            "messageId": "msg-9",
+            "entryId": "ent-chatops-hub",
+            "type": "takeover",
+            "severity": "warning",
+            "displayMode": "bubble",
+            "summaryPresent": true,
+            "targetUrlHidden": true
+          }
+        },
+        {
+          "entryId": "ent-finsight",
+          "latestMessagePresent": true,
+          "remoteCockpitUrlHidden": true,
+          "resolved": true,
+          "fallbackUsed": false,
+          "latestMessageId": "msg-10",
+          "lastMessage": {
+            "messageId": "msg-10",
+            "entryId": "ent-finsight",
+            "type": "quality_signal",
+            "severity": "info",
+            "displayMode": "ticker",
+            "summaryPresent": true,
+            "targetUrlHidden": true
+          }
+        },
+        {
+          "entryId": "ent-mediscribe",
+          "latestMessagePresent": true,
+          "remoteCockpitUrlHidden": true,
+          "resolved": true,
+          "fallbackUsed": false,
+          "latestMessageId": "msg-11",
+          "lastMessage": {
+            "messageId": "msg-11",
+            "entryId": "ent-mediscribe",
+            "type": "risk_alert",
+            "severity": "warning",
+            "displayMode": "ticker",
+            "summaryPresent": true,
+            "targetUrlHidden": true
+          }
+        },
+        {
+          "entryId": "ent-greenroute",
+          "latestMessagePresent": true,
+          "remoteCockpitUrlHidden": true,
+          "resolved": true,
+          "fallbackUsed": false,
+          "latestMessageId": "msg-12",
+          "lastMessage": {
+            "messageId": "msg-12",
+            "entryId": "ent-greenroute",
+            "type": "violation",
+            "severity": "warning",
+            "displayMode": "ticker",
+            "summaryPresent": true,
+            "targetUrlHidden": true
+          }
+        }
+      ],
+      "syntheticFallbackCheck": {
+        "entryId": "ent-ai-sudoku",
+        "latestMessageId": "__missing_message_id__",
+        "result": {
+          "resolved": false,
+          "fallbackUsed": true,
+          "latestMessageId": "__missing_message_id__",
+          "fallback": {
+            "summaryPresent": true,
+            "source": "entry.latestMessage"
+          }
+        }
+      },
+      "acceptance": {
+        "allExistingIdsResolve": true,
+        "syntheticMissingIdFallsBack": true,
+        "rawUrlValuesExcludedFromEvidence": true
+      }
+    },
+    {
+      "id": "smoke-8-visual-low-load",
+      "path": "Week2-Jumbotron/mock-data/review-package/smoke-race-snapshot-8.json",
+      "counts": {
+        "entries": 8,
+        "resolved": 8,
+        "fallbackUsed": 0,
+        "unresolvedWithoutFallback": 0
+      },
+      "entryMappings": [
+        {
+          "entryId": "ent-ai-sudoku",
+          "latestMessagePresent": true,
+          "remoteCockpitUrlHidden": true,
+          "resolved": true,
+          "fallbackUsed": false,
+          "latestMessageId": "msg-1",
+          "lastMessage": {
+            "messageId": "msg-1",
+            "entryId": "ent-ai-sudoku",
+            "type": "milestone",
+            "severity": "info",
+            "displayMode": "bubble",
+            "summaryPresent": true,
+            "targetUrlHidden": true
+          }
+        },
+        {
+          "entryId": "ent-devcompass",
+          "latestMessagePresent": true,
+          "remoteCockpitUrlHidden": true,
+          "resolved": true,
+          "fallbackUsed": false,
+          "latestMessageId": "msg-2",
+          "lastMessage": {
+            "messageId": "msg-2",
+            "entryId": "ent-devcompass",
+            "type": "progress_update",
+            "severity": "info",
+            "displayMode": "bubble",
+            "summaryPresent": true,
+            "targetUrlHidden": true
+          }
+        },
+        {
+          "entryId": "ent-travel-aiar",
+          "latestMessagePresent": true,
+          "remoteCockpitUrlHidden": true,
+          "resolved": true,
+          "fallbackUsed": false,
+          "latestMessageId": "msg-3",
+          "lastMessage": {
+            "messageId": "msg-3",
+            "entryId": "ent-travel-aiar",
+            "type": "strategy_change",
+            "severity": "info",
+            "displayMode": "bubble",
+            "summaryPresent": true,
+            "targetUrlHidden": true
+          }
+        },
+        {
+          "entryId": "ent-docpilot",
+          "latestMessagePresent": true,
+          "remoteCockpitUrlHidden": true,
+          "resolved": true,
+          "fallbackUsed": false,
+          "latestMessageId": "msg-5",
+          "lastMessage": {
+            "messageId": "msg-5",
+            "entryId": "ent-docpilot",
+            "type": "risk_alert",
+            "severity": "warning",
+            "displayMode": "bubble",
+            "summaryPresent": true,
+            "targetUrlHidden": true
+          }
+        },
+        {
+          "entryId": "ent-codelab",
+          "latestMessagePresent": true,
+          "remoteCockpitUrlHidden": true,
+          "resolved": true,
+          "fallbackUsed": false,
+          "latestMessageId": "msg-6",
+          "lastMessage": {
+            "messageId": "msg-6",
+            "entryId": "ent-codelab",
+            "type": "progress_update",
+            "severity": "info",
+            "displayMode": "bubble",
+            "summaryPresent": true,
+            "targetUrlHidden": true
+          }
+        },
+        {
+          "entryId": "ent-pixelmind",
+          "latestMessagePresent": true,
+          "remoteCockpitUrlHidden": true,
+          "resolved": true,
+          "fallbackUsed": false,
+          "latestMessageId": "msg-8",
+          "lastMessage": {
+            "messageId": "msg-8",
+            "entryId": "ent-pixelmind",
+            "type": "quality_signal",
+            "severity": "info",
+            "displayMode": "ticker",
+            "summaryPresent": true,
+            "targetUrlHidden": true
+          }
+        },
+        {
+          "entryId": "ent-mediscribe",
+          "latestMessagePresent": true,
+          "remoteCockpitUrlHidden": true,
+          "resolved": true,
+          "fallbackUsed": false,
+          "latestMessageId": "msg-11",
+          "lastMessage": {
+            "messageId": "msg-11",
+            "entryId": "ent-mediscribe",
+            "type": "risk_alert",
+            "severity": "warning",
+            "displayMode": "ticker",
+            "summaryPresent": true,
+            "targetUrlHidden": true
+          }
+        },
+        {
+          "entryId": "ent-greenroute",
+          "latestMessagePresent": true,
+          "remoteCockpitUrlHidden": true,
+          "resolved": true,
+          "fallbackUsed": false,
+          "latestMessageId": "msg-12",
+          "lastMessage": {
+            "messageId": "msg-12",
+            "entryId": "ent-greenroute",
+            "type": "violation",
+            "severity": "warning",
+            "displayMode": "ticker",
+            "summaryPresent": true,
+            "targetUrlHidden": true
+          }
+        }
+      ],
+      "syntheticFallbackCheck": {
+        "entryId": "ent-ai-sudoku",
+        "latestMessageId": "__missing_message_id__",
+        "result": {
+          "resolved": false,
+          "fallbackUsed": true,
+          "latestMessageId": "__missing_message_id__",
+          "fallback": {
+            "summaryPresent": true,
+            "source": "entry.latestMessage"
+          }
+        }
+      },
+      "acceptance": {
+        "allExistingIdsResolve": true,
+        "syntheticMissingIdFallsBack": true,
+        "rawUrlValuesExcludedFromEvidence": true
+      }
+    },
+    {
+      "id": "coverage-9-enum-complete",
+      "path": "Week2-Jumbotron/mock-data/review-package/smoke-race-snapshot-9-coverage.json",
+      "counts": {
+        "entries": 9,
+        "resolved": 9,
+        "fallbackUsed": 0,
+        "unresolvedWithoutFallback": 0
+      },
+      "entryMappings": [
+        {
+          "entryId": "ent-ai-sudoku",
+          "latestMessagePresent": true,
+          "remoteCockpitUrlHidden": true,
+          "resolved": true,
+          "fallbackUsed": false,
+          "latestMessageId": "msg-1",
+          "lastMessage": {
+            "messageId": "msg-1",
+            "entryId": "ent-ai-sudoku",
+            "type": "milestone",
+            "severity": "info",
+            "displayMode": "bubble",
+            "summaryPresent": true,
+            "targetUrlHidden": true
+          }
+        },
+        {
+          "entryId": "ent-travel-aiar",
+          "latestMessagePresent": true,
+          "remoteCockpitUrlHidden": true,
+          "resolved": true,
+          "fallbackUsed": false,
+          "latestMessageId": "msg-3",
+          "lastMessage": {
+            "messageId": "msg-3",
+            "entryId": "ent-travel-aiar",
+            "type": "strategy_change",
+            "severity": "info",
+            "displayMode": "bubble",
+            "summaryPresent": true,
+            "targetUrlHidden": true
+          }
+        },
+        {
+          "entryId": "ent-docpilot",
+          "latestMessagePresent": true,
+          "remoteCockpitUrlHidden": true,
+          "resolved": true,
+          "fallbackUsed": false,
+          "latestMessageId": "msg-5",
+          "lastMessage": {
+            "messageId": "msg-5",
+            "entryId": "ent-docpilot",
+            "type": "risk_alert",
+            "severity": "warning",
+            "displayMode": "bubble",
+            "summaryPresent": true,
+            "targetUrlHidden": true
+          }
+        },
+        {
+          "entryId": "ent-codelab",
+          "latestMessagePresent": true,
+          "remoteCockpitUrlHidden": true,
+          "resolved": true,
+          "fallbackUsed": false,
+          "latestMessageId": "msg-6",
+          "lastMessage": {
+            "messageId": "msg-6",
+            "entryId": "ent-codelab",
+            "type": "progress_update",
+            "severity": "info",
+            "displayMode": "bubble",
+            "summaryPresent": true,
+            "targetUrlHidden": true
+          }
+        },
+        {
+          "entryId": "ent-dataforge",
+          "latestMessagePresent": true,
+          "remoteCockpitUrlHidden": true,
+          "resolved": true,
+          "fallbackUsed": false,
+          "latestMessageId": "msg-7",
+          "lastMessage": {
+            "messageId": "msg-7",
+            "entryId": "ent-dataforge",
+            "type": "pit_stop",
+            "severity": "info",
+            "displayMode": "ticker",
+            "summaryPresent": true,
+            "targetUrlHidden": true
+          }
+        },
+        {
+          "entryId": "ent-chatops-hub",
+          "latestMessagePresent": true,
+          "remoteCockpitUrlHidden": true,
+          "resolved": true,
+          "fallbackUsed": false,
+          "latestMessageId": "msg-9",
+          "lastMessage": {
+            "messageId": "msg-9",
+            "entryId": "ent-chatops-hub",
+            "type": "takeover",
+            "severity": "warning",
+            "displayMode": "bubble",
+            "summaryPresent": true,
+            "targetUrlHidden": true
+          }
+        },
+        {
+          "entryId": "ent-finsight",
+          "latestMessagePresent": true,
+          "remoteCockpitUrlHidden": true,
+          "resolved": true,
+          "fallbackUsed": false,
+          "latestMessageId": "msg-10",
+          "lastMessage": {
+            "messageId": "msg-10",
+            "entryId": "ent-finsight",
+            "type": "quality_signal",
+            "severity": "info",
+            "displayMode": "ticker",
+            "summaryPresent": true,
+            "targetUrlHidden": true
+          }
+        },
+        {
+          "entryId": "ent-mediscribe",
+          "latestMessagePresent": true,
+          "remoteCockpitUrlHidden": true,
+          "resolved": true,
+          "fallbackUsed": false,
+          "latestMessageId": "msg-11",
+          "lastMessage": {
+            "messageId": "msg-11",
+            "entryId": "ent-mediscribe",
+            "type": "risk_alert",
+            "severity": "warning",
+            "displayMode": "ticker",
+            "summaryPresent": true,
+            "targetUrlHidden": true
+          }
+        },
+        {
+          "entryId": "ent-greenroute",
+          "latestMessagePresent": true,
+          "remoteCockpitUrlHidden": true,
+          "resolved": true,
+          "fallbackUsed": false,
+          "latestMessageId": "msg-12",
+          "lastMessage": {
+            "messageId": "msg-12",
+            "entryId": "ent-greenroute",
+            "type": "violation",
+            "severity": "warning",
+            "displayMode": "ticker",
+            "summaryPresent": true,
+            "targetUrlHidden": true
+          }
+        }
+      ],
+      "syntheticFallbackCheck": {
+        "entryId": "ent-ai-sudoku",
+        "latestMessageId": "__missing_message_id__",
+        "result": {
+          "resolved": false,
+          "fallbackUsed": true,
+          "latestMessageId": "__missing_message_id__",
+          "fallback": {
+            "summaryPresent": true,
+            "source": "entry.latestMessage"
+          }
+        }
+      },
+      "acceptance": {
+        "allExistingIdsResolve": true,
+        "syntheticMissingIdFallsBack": true,
+        "rawUrlValuesExcludedFromEvidence": true
+      }
+    }
+  ]
+}

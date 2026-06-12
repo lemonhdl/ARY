@@ -1,0 +1,427 @@
+{
+  "generatedAt": "2026-06-12T15:42:36.858Z",
+  "script": "Week2-Jumbotron/mock-data/review-package/generate-data-side-evidence.js",
+  "trackProfile": "PoC-GRS-001/jumbotron-mock-data/curated/track.profile.json",
+  "profileSelectorContract": {
+    "validProfileIds": [
+      "curated-full-12",
+      "smoke-8-visual-low-load",
+      "coverage-9-enum-complete"
+    ],
+    "suggestedQueryParam": "profile",
+    "requiredDebugFields": [
+      "dataProfileId",
+      "entryCount",
+      "messageCount",
+      "attentionItemCount",
+      "motionStateCoverage",
+      "messageTypeCoverage",
+      "publicHiddenFields",
+      "validatorStatus"
+    ]
+  },
+  "profiles": [
+    {
+      "id": "curated-full-12",
+      "path": "PoC-GRS-001/jumbotron-mock-data/curated/race-snapshot.json",
+      "defaultUse": "complete Jumbotron data evidence and pressure profile",
+      "recommendedSurface": [
+        "/jumbotron default",
+        "/jumbotron?debug=1",
+        "final completeness evidence"
+      ],
+      "notFor": [
+        "the only video main-shot profile if labels and bubbles overload the screen"
+      ],
+      "counts": {
+        "entries": 12,
+        "messages": 13,
+        "attentionItems": 13
+      },
+      "motionStateCoverage": {
+        "expected": [
+          "idle",
+          "running",
+          "sprinting",
+          "slowed",
+          "blocked",
+          "pit_stop",
+          "takeover",
+          "finished",
+          "stale"
+        ],
+        "present": [
+          "blocked",
+          "finished",
+          "idle",
+          "pit_stop",
+          "running",
+          "slowed",
+          "sprinting",
+          "stale",
+          "takeover"
+        ],
+        "missing": [],
+        "complete": true
+      },
+      "messageTypeCoverage": {
+        "expected": [
+          "progress_update",
+          "milestone",
+          "strategy_change",
+          "quality_signal",
+          "risk_alert",
+          "obstacle",
+          "violation",
+          "takeover",
+          "pit_stop"
+        ],
+        "present": [
+          "milestone",
+          "obstacle",
+          "pit_stop",
+          "progress_update",
+          "quality_signal",
+          "risk_alert",
+          "strategy_change",
+          "takeover",
+          "violation"
+        ],
+        "missing": [],
+        "complete": true
+      },
+      "attentionCategoryCoverage": {
+        "expected": [
+          "risk",
+          "obstacle",
+          "violation"
+        ],
+        "present": [
+          "obstacle",
+          "risk",
+          "violation"
+        ],
+        "missing": [],
+        "complete": true
+      },
+      "publicHiddenFields": {
+        "rawValuesExcludedFromEvidence": true,
+        "fields": [
+          {
+            "field": "remoteCockpitUrl",
+            "locations": [
+              "entries"
+            ],
+            "count": 12
+          },
+          {
+            "field": "targetUrl",
+            "locations": [
+              "messages"
+            ],
+            "count": 13
+          },
+          {
+            "field": "targetUrl",
+            "locations": [
+              "attentionItems"
+            ],
+            "count": 13
+          }
+        ],
+        "publicRule": "data/model may contain remoteCockpitUrl and targetUrl; public pages and public evidence must not render raw URL values"
+      },
+      "validatorStatus": "pass",
+      "validator": {
+        "status": "pass",
+        "errors": [],
+        "warnings": [],
+        "counts": {
+          "entries": 12,
+          "messages": 13,
+          "attentionItems": 13,
+          "lanes": 12
+        }
+      },
+      "expectationCheck": {
+        "statusMatches": true,
+        "expectedValidatorStatus": "pass",
+        "expectedWarnings": [],
+        "warningsMatchExpected": true
+      }
+    },
+    {
+      "id": "smoke-8-visual-low-load",
+      "path": "Week2-Jumbotron/mock-data/review-package/smoke-race-snapshot-8.json",
+      "defaultUse": "low-load visual smoke, classroom screen, video main-shot candidate",
+      "recommendedSurface": [
+        "video main shot",
+        "visual smoke review",
+        "label-bubble overlap review"
+      ],
+      "notFor": [
+        "proving all 9 motion states",
+        "proving all 9 message types"
+      ],
+      "counts": {
+        "entries": 8,
+        "messages": 9,
+        "attentionItems": 9
+      },
+      "motionStateCoverage": {
+        "expected": [
+          "idle",
+          "running",
+          "sprinting",
+          "slowed",
+          "blocked",
+          "pit_stop",
+          "takeover",
+          "finished",
+          "stale"
+        ],
+        "present": [
+          "blocked",
+          "finished",
+          "idle",
+          "running",
+          "sprinting",
+          "stale"
+        ],
+        "missing": [
+          "slowed",
+          "pit_stop",
+          "takeover"
+        ],
+        "complete": false
+      },
+      "messageTypeCoverage": {
+        "expected": [
+          "progress_update",
+          "milestone",
+          "strategy_change",
+          "quality_signal",
+          "risk_alert",
+          "obstacle",
+          "violation",
+          "takeover",
+          "pit_stop"
+        ],
+        "present": [
+          "milestone",
+          "obstacle",
+          "progress_update",
+          "quality_signal",
+          "risk_alert",
+          "strategy_change",
+          "violation"
+        ],
+        "missing": [
+          "takeover",
+          "pit_stop"
+        ],
+        "complete": false
+      },
+      "attentionCategoryCoverage": {
+        "expected": [
+          "risk",
+          "obstacle",
+          "violation"
+        ],
+        "present": [
+          "obstacle",
+          "risk",
+          "violation"
+        ],
+        "missing": [],
+        "complete": true
+      },
+      "publicHiddenFields": {
+        "rawValuesExcludedFromEvidence": true,
+        "fields": [
+          {
+            "field": "remoteCockpitUrl",
+            "locations": [
+              "entries"
+            ],
+            "count": 8
+          },
+          {
+            "field": "targetUrl",
+            "locations": [
+              "messages"
+            ],
+            "count": 9
+          },
+          {
+            "field": "targetUrl",
+            "locations": [
+              "attentionItems"
+            ],
+            "count": 9
+          }
+        ],
+        "publicRule": "data/model may contain remoteCockpitUrl and targetUrl; public pages and public evidence must not render raw URL values"
+      },
+      "validatorStatus": "pass_with_expected_warnings",
+      "validator": {
+        "status": "pass",
+        "errors": [],
+        "warnings": [
+          "motionState not covered: slowed",
+          "motionState not covered: pit_stop",
+          "motionState not covered: takeover",
+          "message type not covered: takeover",
+          "message type not covered: pit_stop"
+        ],
+        "counts": {
+          "entries": 8,
+          "messages": 9,
+          "attentionItems": 9,
+          "lanes": 12
+        }
+      },
+      "expectationCheck": {
+        "statusMatches": true,
+        "expectedValidatorStatus": "pass_with_expected_warnings",
+        "expectedWarnings": [
+          "motionState not covered: slowed",
+          "motionState not covered: pit_stop",
+          "motionState not covered: takeover",
+          "message type not covered: takeover",
+          "message type not covered: pit_stop"
+        ],
+        "warningsMatchExpected": true
+      }
+    },
+    {
+      "id": "coverage-9-enum-complete",
+      "path": "Week2-Jumbotron/mock-data/review-package/smoke-race-snapshot-9-coverage.json",
+      "defaultUse": "coverage/debug/validator profile for all motion states and message types",
+      "recommendedSurface": [
+        "debug coverage page",
+        "validator evidence",
+        "technical explanation segment"
+      ],
+      "notFor": [
+        "lowest-load main visual screenshot"
+      ],
+      "counts": {
+        "entries": 9,
+        "messages": 10,
+        "attentionItems": 11
+      },
+      "motionStateCoverage": {
+        "expected": [
+          "idle",
+          "running",
+          "sprinting",
+          "slowed",
+          "blocked",
+          "pit_stop",
+          "takeover",
+          "finished",
+          "stale"
+        ],
+        "present": [
+          "blocked",
+          "finished",
+          "idle",
+          "pit_stop",
+          "running",
+          "slowed",
+          "sprinting",
+          "stale",
+          "takeover"
+        ],
+        "missing": [],
+        "complete": true
+      },
+      "messageTypeCoverage": {
+        "expected": [
+          "progress_update",
+          "milestone",
+          "strategy_change",
+          "quality_signal",
+          "risk_alert",
+          "obstacle",
+          "violation",
+          "takeover",
+          "pit_stop"
+        ],
+        "present": [
+          "milestone",
+          "obstacle",
+          "pit_stop",
+          "progress_update",
+          "quality_signal",
+          "risk_alert",
+          "strategy_change",
+          "takeover",
+          "violation"
+        ],
+        "missing": [],
+        "complete": true
+      },
+      "attentionCategoryCoverage": {
+        "expected": [
+          "risk",
+          "obstacle",
+          "violation"
+        ],
+        "present": [
+          "obstacle",
+          "risk",
+          "violation"
+        ],
+        "missing": [],
+        "complete": true
+      },
+      "publicHiddenFields": {
+        "rawValuesExcludedFromEvidence": true,
+        "fields": [
+          {
+            "field": "remoteCockpitUrl",
+            "locations": [
+              "entries"
+            ],
+            "count": 9
+          },
+          {
+            "field": "targetUrl",
+            "locations": [
+              "messages"
+            ],
+            "count": 10
+          },
+          {
+            "field": "targetUrl",
+            "locations": [
+              "attentionItems"
+            ],
+            "count": 11
+          }
+        ],
+        "publicRule": "data/model may contain remoteCockpitUrl and targetUrl; public pages and public evidence must not render raw URL values"
+      },
+      "validatorStatus": "pass",
+      "validator": {
+        "status": "pass",
+        "errors": [],
+        "warnings": [],
+        "counts": {
+          "entries": 9,
+          "messages": 10,
+          "attentionItems": 11,
+          "lanes": 12
+        }
+      },
+      "expectationCheck": {
+        "statusMatches": true,
+        "expectedValidatorStatus": "pass",
+        "expectedWarnings": [],
+        "warningsMatchExpected": true
+      }
+    }
+  ]
+}
