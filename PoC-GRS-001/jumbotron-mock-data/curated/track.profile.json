@@ -1,0 +1,385 @@
+{
+  "schemaVersion": "0.1.0",
+  "trackId": "grandstand-oval",
+  "name": "Grandstand Oval",
+  "label": "Grandstand Oval",
+  "background": {
+    "assetId": "public-yard-hero",
+    "src": "/assets/public-yard-hero.webp",
+    "kind": "webp"
+  },
+  "backgroundAsset": "public-yard-hero",
+  "viewBox": {
+    "x": 0,
+    "y": 0,
+    "width": 1200,
+    "height": 620
+  },
+  "designSize": {
+    "width": 1200,
+    "height": 675,
+    "aspectRatio": "16:9"
+  },
+  "direction": "clockwise",
+  "centerline": {
+    "type": "polyline",
+    "closed": true,
+    "smoothing": "mvp-polyline",
+    "points": [
+      {
+        "x": 1087.5,
+        "y": 350.19
+      },
+      {
+        "x": 1050.62,
+        "y": 286.46
+      },
+      {
+        "x": 945.0,
+        "y": 232.5
+      },
+      {
+        "x": 786.88,
+        "y": 196.33
+      },
+      {
+        "x": 600.0,
+        "y": 183.7
+      },
+      {
+        "x": 413.12,
+        "y": 196.33
+      },
+      {
+        "x": 255.62,
+        "y": 232.5
+      },
+      {
+        "x": 149.38,
+        "y": 286.46
+      },
+      {
+        "x": 112.5,
+        "y": 350.19
+      },
+      {
+        "x": 149.38,
+        "y": 413.91
+      },
+      {
+        "x": 255.62,
+        "y": 467.87
+      },
+      {
+        "x": 413.12,
+        "y": 504.04
+      },
+      {
+        "x": 600.0,
+        "y": 516.67
+      },
+      {
+        "x": 786.88,
+        "y": 504.04
+      },
+      {
+        "x": 945.0,
+        "y": 467.87
+      },
+      {
+        "x": 1050.62,
+        "y": 413.91
+      },
+      {
+        "x": 1087.5,
+        "y": 350.19
+      }
+    ]
+  },
+  "centerlinePath": [
+    {
+      "x": 1087.5,
+      "y": 350.19
+    },
+    {
+      "x": 1050.62,
+      "y": 286.46
+    },
+    {
+      "x": 945.0,
+      "y": 232.5
+    },
+    {
+      "x": 786.88,
+      "y": 196.33
+    },
+    {
+      "x": 600.0,
+      "y": 183.7
+    },
+    {
+      "x": 413.12,
+      "y": 196.33
+    },
+    {
+      "x": 255.62,
+      "y": 232.5
+    },
+    {
+      "x": 149.38,
+      "y": 286.46
+    },
+    {
+      "x": 112.5,
+      "y": 350.19
+    },
+    {
+      "x": 149.38,
+      "y": 413.91
+    },
+    {
+      "x": 255.62,
+      "y": 467.87
+    },
+    {
+      "x": 413.12,
+      "y": 504.04
+    },
+    {
+      "x": 600.0,
+      "y": 516.67
+    },
+    {
+      "x": 786.88,
+      "y": 504.04
+    },
+    {
+      "x": 945.0,
+      "y": 467.87
+    },
+    {
+      "x": 1050.62,
+      "y": 413.91
+    },
+    {
+      "x": 1087.5,
+      "y": 350.19
+    }
+  ],
+  "startFinish": {
+    "startS": 0,
+    "finishS": 1,
+    "label": "终点线"
+  },
+  "startLine": {
+    "s": 0,
+    "label": "Start"
+  },
+  "finishLine": {
+    "s": 1,
+    "label": "Finish"
+  },
+  "lanes": [
+    {
+      "laneId": "lane-1",
+      "offset": -50.52,
+      "label": "Lane 1 (最内)"
+    },
+    {
+      "laneId": "lane-2",
+      "offset": -41.33,
+      "label": "Lane 2"
+    },
+    {
+      "laneId": "lane-3",
+      "offset": -32.15,
+      "label": "Lane 3"
+    },
+    {
+      "laneId": "lane-4",
+      "offset": -22.96,
+      "label": "Lane 4"
+    },
+    {
+      "laneId": "lane-5",
+      "offset": -13.78,
+      "label": "Lane 5"
+    },
+    {
+      "laneId": "lane-6",
+      "offset": -4.59,
+      "label": "Lane 6"
+    },
+    {
+      "laneId": "lane-7",
+      "offset": 4.59,
+      "label": "Lane 7"
+    },
+    {
+      "laneId": "lane-8",
+      "offset": 13.78,
+      "label": "Lane 8"
+    },
+    {
+      "laneId": "lane-9",
+      "offset": 22.96,
+      "label": "Lane 9"
+    },
+    {
+      "laneId": "lane-10",
+      "offset": 32.15,
+      "label": "Lane 10"
+    },
+    {
+      "laneId": "lane-11",
+      "offset": 41.33,
+      "label": "Lane 11"
+    },
+    {
+      "laneId": "lane-12",
+      "offset": 50.52,
+      "label": "Lane 12 (最外)"
+    }
+  ],
+  "laneOffsets": [
+    -50.52,
+    -41.33,
+    -32.15,
+    -22.96,
+    -13.78,
+    -4.59,
+    4.59,
+    13.78,
+    22.96,
+    32.15,
+    41.33,
+    50.52
+  ],
+  "checkpoints": [
+    {
+      "checkpointId": "cp-start",
+      "s": 0.0,
+      "label": "终点线"
+    },
+    {
+      "checkpointId": "cp-1",
+      "s": 0.25,
+      "label": "Far Turn"
+    },
+    {
+      "checkpointId": "cp-2",
+      "s": 0.5,
+      "label": "Back Straight"
+    },
+    {
+      "checkpointId": "cp-3",
+      "s": 0.75,
+      "label": "Home Straight"
+    }
+  ],
+  "messageZones": [
+    {
+      "zoneId": "track-bubble",
+      "offsetX": 28,
+      "offsetY": -64,
+      "rect": {
+        "x": 93.75,
+        "y": 86.11,
+        "width": 1012.5,
+        "height": 97.59
+      }
+    }
+  ],
+  "noBubbleZones": [
+    {
+      "zoneId": "nb-header",
+      "x": 0.0,
+      "y": 0.0,
+      "width": 1200.0,
+      "height": 68.89,
+      "label": "Header（标题/LIVE/计时）"
+    },
+    {
+      "zoneId": "nb-summary",
+      "x": 0.0,
+      "y": 68.89,
+      "width": 1200.0,
+      "height": 51.67,
+      "label": "TOP3 + KPI 摘要行"
+    },
+    {
+      "zoneId": "nb-leftrail",
+      "x": 0.0,
+      "y": 120.56,
+      "width": 187.5,
+      "height": 396.11,
+      "label": "左侧小地图 + 图例"
+    },
+    {
+      "zoneId": "nb-ticker",
+      "x": 0.0,
+      "y": 522.41,
+      "width": 1200.0,
+      "height": 51.67,
+      "label": "底部风险/违章 ticker"
+    },
+    {
+      "zoneId": "nb-footer",
+      "x": 0.0,
+      "y": 574.07,
+      "width": 1200.0,
+      "height": 45.93,
+      "label": "Footer（主题/主办方/时间）"
+    }
+  ],
+  "safeZones": [
+    {
+      "zoneId": "safe-track",
+      "x": 95,
+      "y": 110,
+      "width": 1010,
+      "height": 390
+    }
+  ],
+  "riskZones": [
+    {
+      "zoneId": "critical-takeover-watch",
+      "x": 760,
+      "y": 230,
+      "width": 170,
+      "height": 120,
+      "severity": "critical"
+    }
+  ],
+  "displayAdjustment": {
+    "horseX": 0,
+    "horseY": 0,
+    "bubbleX": 28,
+    "bubbleY": -64
+  },
+  "debug": {
+    "sampleCount": 28,
+    "collisionBox": {
+      "width": 44,
+      "height": 44
+    },
+    "manualChecks": {
+      "horseOnTrack": {
+        "status": "confirmed",
+        "label": "已人工确认"
+      },
+      "curveNatural": {
+        "status": "pending",
+        "label": "待人工复核"
+      },
+      "bubbleClearance": {
+        "status": "pending",
+        "label": "待人工复核"
+      },
+      "checkpointMeaning": {
+        "status": "pending",
+        "label": "待人工复核"
+      }
+    }
+  }
+}

@@ -29,6 +29,165 @@ function assertNotIncludes(text, value, message) {
   assert(!text.includes(value), message);
 }
 
+function bubbleVisibleAtSecond(item, second, cycleSeconds) {
+  if (item.duration >= cycleSeconds) return true;
+  if (item.start + item.duration <= cycleSeconds) return second >= item.start && second < item.start + item.duration;
+  return second >= item.start || second < (item.start + item.duration) % cycleSeconds;
+}
+
+function circularSecondDistance(a, b, cycleSeconds) {
+  const direct = Math.abs(a - b);
+  return Math.min(direct, cycleSeconds - direct);
+}
+
+function bubbleEndSecond(item, cycleSeconds) {
+  return (item.start + item.duration) % cycleSeconds;
+}
+
+function intersects(a, b) {
+  return a.x < b.x + b.width && a.x + a.width > b.x && a.y < b.y + b.height && a.y + a.height > b.y;
+}
+
+function rectCenterDistance(a, b) {
+  return Math.hypot(a.x + a.width / 2 - (b.x + b.width / 2), a.y + a.height / 2 - (b.y + b.height / 2));
+}
+
+function assertSvgMessageBubblesInViewBox(html) {
+  assertIncludes(html, 'message-bubble-anchor', 'jumbotron should render dynamic ambience bubble anchors');
+  assertIncludes(html, 'animation-duration:var(--bubble-cycle)', 'jumbotron should use adaptive bubble cycle duration');
+  const matches = [...html.matchAll(/<g class="message-bubble-anchor ([^"]+)" style="[^"]*" data-start-second="([\d.-]+)" data-duration-second="([\d.-]+)" data-cycle-second="([\d.-]+)" data-average-visible="([\d.-]+)" data-placement="([^"]+)" data-slot-index="([\d.-]+)" data-priority="([\d.-]+)"><line class="message-bubble-line" x1="([\d.-]+)" y1="([\d.-]+)" x2="([\d.-]+)" y2="([\d.-]+)"\/><g class="message-bubble" transform="translate\(([\d.-]+) ([\d.-]+)\)"><rect width="([\d.-]+)" height="([\d.-]+)"/g)];
+  if (!matches.length) {
+    assertIncludes(html, '底部消息条', 'jumbotron should fall back to ticker when no bubbles are safe');
+    return;
+  }
+  const timing = [];
+  const rects = [];
+  const cycles = new Set();
+  const averages = new Set();
+  for (const match of matches) {
+    const [, liveClass, startValue, durationValue, cycleValue, averageValue, placement, , priorityValue, x1Value, y1Value, x2Value, y2Value, xValue, yValue, widthValue, heightValue] = match;
+    const start = Number(startValue);
+    const duration = Number(durationValue);
+    const cycle = Number(cycleValue);
+    const average = Number(averageValue);
+    const priority = Number(priorityValue);
+    const x1 = Number(x1Value);
+    const y1 = Number(y1Value);
+    const x2 = Number(x2Value);
+    const y2 = Number(y2Value);
+    const x = Number(xValue);
+    const y = Number(yValue);
+    const width = Number(widthValue);
+    const height = Number(heightValue);
+    assert(['right', 'left', 'bottom', 'top'].includes(placement), 'message bubble should expose adaptive placement');
+    assert([6, 8, 10, 12].includes(duration), 'message bubble should use importance-based duration');
+    assert([34, 42, 48, 60, 72, 84, 96, 108, 120].includes(cycle), 'message bubble cycle should use an adaptive cycle bucket');
+    assertIncludes(html, `@keyframes jumbotronBubbleCycle${duration}In${cycle}`, 'jumbotron should include adaptive duration/cycle keyframes');
+    assert(liveClass.includes(`bubble-live-${duration}-cycle-${cycle}`), 'message bubble animation class should match duration and cycle');
+    assert(start >= 0 && start < cycle, 'message bubble start should be inside adaptive cycle');
+    assert(priority >= 0 && priority <= 4, 'message bubble priority should be encoded');
+    assert(x >= 0 && x + width <= 1200, 'message bubble should stay inside horizontal track viewBox');
+    assert(y >= 0 && y + height <= 620, 'message bubble should stay inside vertical track viewBox');
+    assert(Math.hypot(x2 - x1, y2 - y1) <= 360, 'message bubble anchor should stay near its related team marker');
+    assert(x2 >= x - 1 && x2 <= x + width + 1 && y2 >= y - 1 && y2 <= y + height + 1, 'message bubble anchor should land on the bubble edge');
+    timing.push({ start, duration });
+    rects.push({ x, y, width, height });
+    cycles.add(cycle);
+    averages.add(average);
+  }
+  assert(cycles.size === 1, 'message bubbles should share one adaptive cycle');
+  assert(averages.size === 1, 'message bubbles should share one average visibility value');
+  const cycle = [...cycles][0];
+  const average = [...averages][0];
+  assert(timing.length < 3 ? average <= 1.8 : average >= 1.2 && average <= 1.8, 'message bubbles should average around 1.5 visible bubbles');
+  const events = timing.flatMap((item) => [item.start, bubbleEndSecond(item, cycle)]);
+  assert(events.every((event, index) => events.slice(index + 1).every((other) => circularSecondDistance(event, other, cycle) >= 1)), 'message bubble start and end events should be staggered');
+  for (let second = 0; second < cycle; second += 1) {
+    const visible = timing.map((item, index) => ({ item, rect: rects[index] })).filter(({ item }) => bubbleVisibleAtSecond(item, second, cycle));
+    assert(visible.length <= 3, 'message bubbles should not exceed three visible bubbles per second');
+    assert(visible.every((current, index) => visible.slice(index + 1).every((other) => !intersects(current.rect, other.rect) && rectCenterDistance(current.rect, other.rect) >= 220)), 'simultaneous message bubbles should stay spatially separated');
+  }
+}
+
+function assertSvgHorseLabelsAvoidBboxes(html) {
+  assertIncludes(html, 'horse-label-group', 'jumbotron should render adaptive horse label groups');
+  assertIncludes(html, 'data-label-placement=', 'horse labels should expose adaptive placement');
+  assertIncludes(html, 'data-label-ring=', 'horse labels should expose candidate ring');
+  assert(!html.includes('<rect class="horse-label-bg"'), 'horse label bbox should stay logical and not render visible background boxes');
+  assertIncludes(html, 'horse-label-line', 'horse labels should render leader lines');
+  assertIncludes(html, 'GreenRoute · 47%', 'horse label should keep full display name and progress');
+  const matches = [...html.matchAll(/<g class="horse-label-group" data-entry-id="([^"]+)" data-label-placement="([^"]+)" data-label-ring="([^"]+)" data-label-x="([\d.-]+)" data-label-y="([\d.-]+)" data-label-width="([\d.-]+)" data-label-height="([\d.-]+)" data-horse-x="([\d.-]+)" data-horse-y="([\d.-]+)" data-label-penalty="([\d.-]+)"><line class="horse-label-line" x1="([\d.-]+)" y1="([\d.-]+)" x2="([\d.-]+)" y2="([\d.-]+)"\/><text class="horse-label" x="([\d.-]+)" y="([\d.-]+)">([^<]+)<\/text><\/g>/g)];
+  assert(matches.length >= 8, 'jumbotron should expose adaptive bboxes for multi-horse labels');
+  const labels = matches.map((match) => {
+    const [, entryId, placement, ring, xValue, yValue, widthValue, heightValue, horseXValue, horseYValue, penaltyValue, x1Value, y1Value, x2Value, y2Value, textXValue, textYValue, text] = match;
+    const rect = { x: Number(xValue), y: Number(yValue), width: Number(widthValue), height: Number(heightValue) };
+    assert(['NE', 'E', 'SE', 'N', 'S', 'NW', 'W', 'SW'].includes(placement), 'horse label should use deterministic compass placement');
+    assert(['inner', 'outer'].includes(ring), 'horse label should use inner or outer candidate ring');
+    assert(Number.isFinite(Number(penaltyValue)), 'horse label should expose candidate penalty');
+    assert(Number.isFinite(Number(textXValue)) && Number.isFinite(Number(textYValue)), 'horse label should expose finite text position');
+    assert(x1Value === horseXValue && y1Value === horseYValue, 'horse label leader line should start at related horse marker');
+    assert(Number(x2Value) >= rect.x - 1 && Number(x2Value) <= rect.x + rect.width + 1 && Number(y2Value) >= rect.y - 1 && Number(y2Value) <= rect.y + rect.height + 1, 'horse label leader line should land on label edge');
+    assert(Math.hypot(Number(x2Value) - Number(horseXValue), Number(y2Value) - Number(horseYValue)) <= 220, 'horse label should stay near its related marker');
+    assert(rect.x >= 0 && rect.x + rect.width <= 1200, 'horse label should stay inside horizontal track viewBox');
+    assert(rect.y >= 0 && rect.y + rect.height <= 620, 'horse label should stay inside vertical track viewBox');
+    assert(text.includes(' · ') && text.includes('%'), 'horse label should keep full name and progress format');
+    return { entryId, rect, marker: { x: Number(horseXValue) - 22, y: Number(horseYValue) - 22, width: 44, height: 44 } };
+  });
+  const labelOverlaps = labels.reduce((count, current, index) => count + labels.slice(index + 1).filter((other) => intersects(current.rect, other.rect)).length, 0);
+  assert(labelOverlaps === 0, 'horse labels should avoid label-label bbox overlap');
+  const bubbleMatches = [...html.matchAll(/<g class="message-bubble" transform="translate\(([\d.-]+) ([\d.-]+)\)"><rect width="([\d.-]+)" height="([\d.-]+)"/g)];
+  const bubbleRects = bubbleMatches.map((match) => ({ x: Number(match[1]), y: Number(match[2]), width: Number(match[3]), height: Number(match[4]) }));
+  const bubbleOverlaps = labels.reduce((count, label) => count + bubbleRects.filter((rect) => intersects(label.rect, rect)).length, 0);
+  assert(bubbleOverlaps === 0, 'horse labels should avoid riding message bubble bboxes');
+}
+
+function assertBubblePlanTiming(plan, rules) {
+  const bubbles = plan.bubbles.map((item) => ({ start: item.startSecond, duration: item.durationSecond }));
+  const cycle = rules.cycleSeconds;
+  const average = rules.averageVisibleCount;
+  assert([34, 42, 48, 60, 72, 84, 96, 108, 120].includes(cycle), 'bubble API should expose adaptive cycle bucket');
+  assert(bubbles.length < 3 ? average <= 1.8 : average >= 1.2 && average <= 1.8, 'bubble API should keep average visibility around 1.5');
+  const events = bubbles.flatMap((item) => [item.start, bubbleEndSecond(item, cycle)]);
+  assert(events.every((event, index) => events.slice(index + 1).every((other) => circularSecondDistance(event, other, cycle) >= 1)), 'bubble API should stagger start and end events');
+  for (let second = 0; second < cycle; second += 1) {
+    assert(bubbles.filter((item) => bubbleVisibleAtSecond(item, second, cycle)).length <= 3, 'bubble API should cap visible bubbles');
+  }
+}
+
+function assertJumbotronBubbleApi(data) {
+  assert(data.version, 'bubble API should expose version');
+  assert(Array.isArray(data.queue), 'bubble API should expose queue');
+  assert(data.plan && Array.isArray(data.plan.bubbles), 'bubble API should expose plan bubbles');
+  assert(data.rules && Number.isFinite(data.rules.cycleSeconds), 'bubble API should expose rules');
+  assertIncludes(data.bubbleLayerHtml, 'id="jumbotron-bubble-layer"', 'bubble API should return replaceable bubble layer');
+  assertIncludes(data.bubbleLayerHtml, 'message-bubble-anchor', 'bubble API should return bubble anchors');
+  assert(data.queue.every((item) => !Object.hasOwn(item, 'summary') && !Object.hasOwn(item, 'message')), 'bubble queue should not expose content payload fields');
+  assert(data.queue.every((item) => Object.hasOwn(item, 'queueId') && Object.hasOwn(item, 'entryId') && Object.hasOwn(item, 'priority') && Object.hasOwn(item, 'durationSecond') && Object.hasOwn(item, 'sizeHint')), 'bubble queue should expose algorithm fields');
+  assertBubblePlanTiming(data.plan, data.rules);
+}
+
+function assertJumbotronDataEvidence(data, expected) {
+  assert(data.profileAlias === expected.alias, `${expected.alias} evidence should echo profile alias`);
+  assert(data.dataProfileId === expected.dataProfileId, `${expected.alias} evidence should echo canonical profile id`);
+  assert(data.entryCount === expected.entryCount, `${expected.alias} evidence should expose entry count`);
+  assert(data.messageCount === expected.messageCount, `${expected.alias} evidence should expose message count`);
+  assert(data.attentionItemCount === expected.attentionItemCount, `${expected.alias} evidence should expose attention item count`);
+  assert(data.validatorStatus === expected.validatorStatus, `${expected.alias} evidence should expose validator status`);
+  assert(data.motionStateCoverage.complete === expected.motionComplete, `${expected.alias} evidence should expose motion coverage completeness`);
+  assert(data.messageTypeCoverage.complete === expected.messageComplete, `${expected.alias} evidence should expose message coverage completeness`);
+  assert(data.publicHiddenFields.rawValuesExcludedFromEvidence === true, `${expected.alias} evidence should hide raw URL values`);
+  assert(data.publicHiddenFields.fields.some((item) => item.field === 'remoteCockpitUrl' && item.count === expected.entryCount), `${expected.alias} evidence should count hidden remoteCockpitUrl fields`);
+  assert(data.publicHiddenFields.fields.some((item) => item.field === 'targetUrl' && item.count >= expected.messageCount), `${expected.alias} evidence should count hidden targetUrl fields`);
+  assert(data.profileUsageGuard.smoke8VisualLowLoadOnly === (expected.alias === 'smoke-8'), `${expected.alias} evidence should guard smoke-8 usage`);
+  assert(data.profileUsageGuard.coverage9EnumCoverageOnly === (expected.alias === 'coverage-9'), `${expected.alias} evidence should guard coverage-9 usage`);
+  assert(data.lastMessageMapping.aggregate.entryCount === expected.entryCount, `${expected.alias} mapping should count entries`);
+  assert(data.lastMessageMapping.aggregate.resolvedCount === expected.entryCount, `${expected.alias} mapping should resolve existing latestMessageId values`);
+  assert(data.lastMessageMapping.aggregate.fallbackCount === 0, `${expected.alias} mapping should not need fallback for current entries`);
+  assert(data.lastMessageMapping.aggregate.unresolvedCount === 0, `${expected.alias} mapping should not leave unresolved entries`);
+  assert(data.lastMessageMapping.aggregate.syntheticMissingIdFallsBack === true, `${expected.alias} mapping should prove synthetic fallback`);
+  assert(data.lastMessageMapping.entryMappings.every((entry) => entry.latestMessageId && entry.lastMessageResolved && entry.fallbackUsed === false && entry.lastMessage?.summaryPresent === true && entry.targetUrlHidden === true), `${expected.alias} mapping should expose per-entry resolved evidence`);
+}
+
 async function closeServer(server) {
   await new Promise((resolve) => server.close(resolve));
 }
@@ -52,6 +211,15 @@ async function login(username, password) {
 
 async function text(path, cookie) {
   const response = await request(path, { headers: cookie ? { cookie } : {} });
+  return { response, body: await response.text() };
+}
+
+async function postText(path, fields, cookie) {
+  const response = await request(path, {
+    method: 'POST',
+    headers: { 'content-type': 'application/x-www-form-urlencoded', ...(cookie ? { cookie } : {}) },
+    body: new URLSearchParams(fields)
+  });
   return { response, body: await response.text() };
 }
 
@@ -112,6 +280,7 @@ function assertNoLeaks(body, pageName) {
     '评审记录',
     'organizer-private',
     'ary-protected-store',
+    'dcr.devcompass.dev/cockpit',
     'PoC',
     'mock',
     'Demo',
@@ -157,42 +326,247 @@ try {
 
   const jumbotron = await text('/jumbotron');
   assert(jumbotron.response.status === 200, 'jumbotron should load');
-  assertIncludes(jumbotron.body, 'Jumbotron 赛事直播视图', 'jumbotron should show live view');
-  assertIncludes(jumbotron.body, 'ARY GRS 001：Product Definition Race', 'jumbotron should show disclosed race');
-  assertIncludes(jumbotron.body, 'Team 001', 'jumbotron should show first team');
-  assertIncludes(jumbotron.body, 'Team 002', 'jumbotron should show second team');
-  assertIncludes(jumbotron.body, '赛道进度', 'jumbotron should show entry progress mapping');
+  assertIncludes(jumbotron.body, '赛事大屏', 'jumbotron should show public race live view');
+  assertIncludes(jumbotron.body, '实时赛道', 'jumbotron should show main track');
+  assertIncludes(jumbotron.body, 'AI Sudoku', 'jumbotron should show curated mock-data leader');
+  assertIncludes(jumbotron.body, 'DevCompass Racing', 'jumbotron should show curated mock-data entry');
+  assertIncludes(jumbotron.body, 'GreenRoute', 'jumbotron should show curated mock-data tail entry');
+  assertIncludes(jumbotron.body, '冲线完成', 'jumbotron should show enriched finished state');
+  assertIncludes(jumbotron.body, '违规提示', 'jumbotron should show enriched violation message');
+  assertIncludes(jumbotron.body, 'GreenRoute · 47%', 'jumbotron should show entry progress percentage');
   assertIncludes(jumbotron.body, '小地图', 'jumbotron should show mini map');
-  assertIncludes(jumbotron.body, 'Entry 图例', 'jumbotron should show entry legend');
-  assertIncludes(jumbotron.body, '查看更多', 'jumbotron should show ticker view more');
+  assertIncludes(jumbotron.body, '远端弯道', 'jumbotron should show Chinese checkpoint labels');
+  assertNotIncludes(jumbotron.body, 'Far Turn', 'public jumbotron should not expose unclear English checkpoints');
+  assertNotIncludes(jumbotron.body, 'Back Straight', 'public jumbotron should not expose unclear English checkpoints');
+  assertNotIncludes(jumbotron.body, 'Home Straight', 'public jumbotron should not expose unclear English checkpoints');
+  assertNotIncludes(jumbotron.body, 'Remote Racing Cockpit', 'public jumbotron should not foreground internal cockpit wording');
+  assertIncludes(jumbotron.body, 'horse-state-sprinting', 'jumbotron should derive motion-state visual classes');
+  assertIncludes(jumbotron.body, 'horse-rank-leader', 'jumbotron should highlight the leading entry');
+  assertIncludes(jumbotron.body, 'horse-status-pill', 'jumbotron should show short motion status pills on track');
+  assertIncludes(jumbotron.body, 'track-alert-ring', 'jumbotron should highlight high risk entries on track');
+  assertIncludes(jumbotron.body, 'gap-pill', 'jumbotron should show TOP3 progress gap labels');
+  assertIncludes(jumbotron.body, '最近消息：', 'focus detail should prioritize latest message');
+  assertIncludes(jumbotron.body, 'jumbotronLowPulse', 'jumbotron should include low-frequency live atmosphere animation');
+  assertIncludes(jumbotron.body, '队伍图例', 'jumbotron should show team legend');
+  assertIncludes(jumbotron.body, '协作入口', 'jumbotron should show ticker action');
   assertIncludes(jumbotron.body, '系统时间', 'jumbotron should show system time');
   assertNotIncludes(jumbotron.body, 'HorsePose', 'public jumbotron should hide runtime debug output');
   assertNotIncludes(jumbotron.body, 'Track Profile 校准器 Preview', 'public jumbotron should hide calibrator by default');
   assertNotIncludes(jumbotron.body, '调试模式', 'public jumbotron should hide debug mode by default');
   assertNotIncludes(jumbotron.body, 'Track Profile 校验', 'public jumbotron should hide validation by default');
-  assertIncludes(jumbotron.body, '底部消息条', 'jumbotron should show ticker');
+  assertIncludes(jumbotron.body, 'Data Profile', 'jumbotron should expose data profile selector');
+  assertIncludes(jumbotron.body, 'dataProfileId=curated-full-12', 'jumbotron should show full canonical profile id');
+  assertIncludes(jumbotron.body, '/jumbotron?profile=smoke-8', 'jumbotron should link smoke-8 profile');
+  assertIncludes(jumbotron.body, '/jumbotron?profile=coverage-9', 'jumbotron should link coverage-9 profile');
+  assertIncludes(jumbotron.body, '/api/jumbotron-bubbles?profile=full', 'jumbotron should poll bubble queue API for selected profile');
+  assertIncludes(jumbotron.body, '现场播报', 'jumbotron should show ticker');
   assertIncludes(jumbotron.body, '风险 / 阻塞 / 违规', 'jumbotron should show attention categories');
   assertIncludes(jumbotron.body, '悬停提示', 'jumbotron should expose hover tooltip structure');
-  assertIncludes(jumbotron.body, '焦点详情栏', 'jumbotron should expose focus details panel');
-  assertIncludes(jumbotron.body, '当前焦点对象详情', 'jumbotron should expose pinned focus detail content');
+  assertIncludes(jumbotron.body, '焦点详情', 'jumbotron should expose focus details panel');
+  assertIncludes(jumbotron.body, '悬停预览，点击固定', 'jumbotron should explain focus interaction');
+  assertIncludes(jumbotron.body, '队伍 · #', 'jumbotron should expose pinned entry focus detail content');
   assertIncludes(jumbotron.body, 'data-focus-kind="entry"', 'jumbotron should support entry focus details');
   assertIncludes(jumbotron.body, 'data-focus-kind="message"', 'jumbotron should support message focus details');
+  assertIncludes(jumbotron.body, 'id="jumbotron-bubble-layer"', 'jumbotron should expose replaceable bubble layer');
+  assertIncludes(jumbotron.body, '/api/jumbotron-bubbles', 'jumbotron should poll bubble queue API');
+  assertIncludes(jumbotron.body, 'setInterval(syncBubbleLayer, 2500)', 'jumbotron should sync bubble layer without page refresh');
+  assertSvgMessageBubblesInViewBox(jumbotron.body);
+  assertSvgHorseLabelsAvoidBboxes(jumbotron.body);
+  const bubbleApi = await json('/api/jumbotron-bubbles');
+  assert(bubbleApi.response.status === 200, 'bubble API should load');
+  assert(bubbleApi.body.dataProfileId === 'curated-full-12', 'bubble API should default to full profile');
+  assertJumbotronBubbleApi(bubbleApi.body);
+  assertNoLeaks(JSON.stringify(bubbleApi.body), 'jumbotron bubble API');
+  const smokeBubbleApi = await json('/api/jumbotron-bubbles?profile=smoke-8');
+  assert(smokeBubbleApi.response.status === 200, 'smoke-8 bubble API should load');
+  assert(smokeBubbleApi.body.dataProfileId === 'smoke-8-visual-low-load', 'smoke-8 bubble API should use selected profile');
+  const evidenceExpectations = [
+    { alias: 'full', dataProfileId: 'curated-full-12', entryCount: 12, messageCount: 13, attentionItemCount: 13, validatorStatus: 'pass', motionComplete: true, messageComplete: true },
+    { alias: 'smoke-8', dataProfileId: 'smoke-8-visual-low-load', entryCount: 8, messageCount: 9, attentionItemCount: 9, validatorStatus: 'pass_with_expected_warnings', motionComplete: false, messageComplete: false },
+    { alias: 'coverage-9', dataProfileId: 'coverage-9-enum-complete', entryCount: 9, messageCount: 10, attentionItemCount: 11, validatorStatus: 'pass', motionComplete: true, messageComplete: true }
+  ];
+  for (const expectation of evidenceExpectations) {
+    const evidence = await json(`/api/jumbotron-data-evidence?profile=${expectation.alias}`);
+    assert(evidence.response.status === 200, `${expectation.alias} data evidence endpoint should load`);
+    assertJumbotronDataEvidence(evidence.body, expectation);
+    assertNoLeaks(JSON.stringify(evidence.body), `${expectation.alias} jumbotron data evidence API`);
+  }
+  const invalidProfilePage = await text('/jumbotron?profile=missing-profile');
+  assert(invalidProfilePage.response.status === 200, 'invalid profile page should return explicit HTML error');
+  assertIncludes(invalidProfilePage.body, 'Jumbotron data profile 不存在', 'invalid profile page should not silently fall back');
+  assertIncludes(invalidProfilePage.body, 'full (curated-full-12)', 'invalid profile page should list allowed profiles');
+  const invalidEvidence = await json('/api/jumbotron-data-evidence?profile=missing-profile');
+  assert(invalidEvidence.response.status === 400, 'invalid profile evidence API should reject request');
+  assert(invalidEvidence.body.error === 'invalid_jumbotron_data_profile', 'invalid profile evidence API should return explicit error');
+  assert(invalidEvidence.body.allowedProfiles.some((profile) => profile.alias === 'coverage-9'), 'invalid profile evidence API should list allowed profiles');
+  assertIncludes(jumbotron.body, '/jumbotron/calibrator', 'jumbotron should link calibrator without showing tools by default');
   assertNoLeaks(jumbotron.body, 'jumbotron');
 
   const jumbotronDebug = await text('/jumbotron?debug=1');
   assert(jumbotronDebug.response.status === 200, 'jumbotron debug should load');
+  assertIncludes(jumbotronDebug.body, 'data evidence debug panel', 'debug jumbotron should show data evidence panel');
+  assertIncludes(jumbotronDebug.body, 'dataProfileId', 'debug jumbotron should show data profile id field');
+  assertIncludes(jumbotronDebug.body, 'curated-full-12', 'debug jumbotron should show canonical full profile id');
+  assertIncludes(jumbotronDebug.body, 'entryCount / messageCount / attentionItemCount', 'debug jumbotron should show counts');
+  assertIncludes(jumbotronDebug.body, 'motionStateCoverage', 'debug jumbotron should show motion coverage');
+  assertIncludes(jumbotronDebug.body, 'messageTypeCoverage', 'debug jumbotron should show message coverage');
+  assertIncludes(jumbotronDebug.body, 'publicHiddenFields', 'debug jumbotron should show public-hidden fields');
+  assertIncludes(jumbotronDebug.body, 'validatorStatus', 'debug jumbotron should show validator status');
+  assertIncludes(jumbotronDebug.body, 'lastMessage mapping evidence', 'debug jumbotron should show lastMessage mapping table');
+  assertIncludes(jumbotronDebug.body, 'lastMessageResolved', 'debug jumbotron should show lastMessage resolved status');
+  assertIncludes(jumbotronDebug.body, 'fallbackUsed', 'debug jumbotron should show lastMessage fallback status');
+  assertIncludes(jumbotronDebug.body, 'lastMessage.type', 'debug jumbotron should show lastMessage type');
+  assertIncludes(jumbotronDebug.body, 'lastMessage.displayMode', 'debug jumbotron should show lastMessage display mode');
+  assertIncludes(jumbotronDebug.body, 'targetUrlHidden', 'debug jumbotron should hide targetUrl as boolean evidence');
   assertIncludes(jumbotronDebug.body, 'HorsePose', 'debug jumbotron should show runtime output');
   assertIncludes(jumbotronDebug.body, 'Track Profile 校准器 Preview', 'debug jumbotron should show calibrator preview');
   assertIncludes(jumbotronDebug.body, '调试模式', 'debug jumbotron should show debug mode');
   assertIncludes(jumbotronDebug.body, 'Track Profile 校验', 'debug jumbotron should show profile validation');
   assertIncludes(jumbotronDebug.body, '运行时校验', 'debug jumbotron should show runtime validation');
+  assertIncludes(jumbotronDebug.body, '数据契约校验', 'debug jumbotron should validate adapter contract');
   assertIncludes(jumbotronDebug.body, 'Profile 版本匹配', 'debug jumbotron should validate profile version');
   assertIncludes(jumbotronDebug.body, '泳道偏移不重复', 'debug jumbotron should validate unique lane offsets');
-  assertIncludes(jumbotronDebug.body, '背景资产可加载', 'debug jumbotron should validate background asset');
+  assertIncludes(jumbotronDebug.body, '泳道偏移重复检测', 'debug jumbotron should validate duplicate lane offsets');
+  assertIncludes(jumbotronDebug.body, '背景文件真实存在', 'debug jumbotron should validate background file existence');
   assertIncludes(jumbotronDebug.body, '弯道转角自然', 'debug jumbotron should validate turn angle');
+  assertIncludes(jumbotronDebug.body, '曲率 warning', 'debug jumbotron should validate curvature warning');
   assertIncludes(jumbotronDebug.body, 'obstacleCount', 'debug jumbotron should validate obstacle count contract');
   assertIncludes(jumbotronDebug.body, 'violationCount', 'debug jumbotron should validate violation count contract');
+  assertIncludes(jumbotronDebug.body, 'caProvider', 'debug jumbotron should validate caProvider contract');
+  assertIncludes(jumbotronDebug.body, 'updatedAt', 'debug jumbotron should validate updatedAt contract');
+  assertIncludes(jumbotronDebug.body, '状态机覆盖', 'debug jumbotron should show all runtime motion states');
+  assertIncludes(jumbotronDebug.body, 'blocked / pit_stop / takeover / finished / stale', 'debug jumbotron should show blocked pit_stop takeover finished stale states');
+  assertIncludes(jumbotronDebug.body, 'sampleInterpolatedPose', 'debug jumbotron should show s-axis interpolation evidence');
+  assertIncludes(jumbotronDebug.body, '自适应循环平均约 1.5 条可见气泡', 'debug jumbotron should show adaptive average bubble rule');
+  assertIncludes(jumbotronDebug.body, '气泡冒出 / 消失事件错峰', 'debug jumbotron should show staggered bubble events');
+  assertIncludes(jumbotronDebug.body, '无合适位置 fallback ticker', 'debug jumbotron should show ticker fallback rule');
+  assertIncludes(jumbotronDebug.body, '至少 8 匹马多马预览', 'debug jumbotron should validate multi-horse preview');
+  assertIncludes(jumbotronDebug.body, '多马预览相互距离', 'debug jumbotron should validate multi-horse distance');
+  assertIncludes(jumbotronDebug.body, '多马预览严重重叠检测', 'debug jumbotron should validate severe overlap');
+  assertIncludes(jumbotronDebug.body, '气泡顶部遮挡检测', 'debug jumbotron should validate bubble top-overlap');
+  assertIncludes(jumbotronDebug.body, '气泡矩形顶部遮挡检测', 'debug jumbotron should validate bubble rectangle overlap');
+  assertIncludes(jumbotronDebug.body, '马匹标签 bbox 自适应避让', 'debug jumbotron should validate horse label adaptive layout');
+  assertIncludes(jumbotronDebug.body, '马匹标签 viewBox 边界', 'debug jumbotron should validate horse label viewBox bounds');
+  assertIncludes(jumbotronDebug.body, '马匹标签互不重叠', 'debug jumbotron should validate horse label separation');
+  assertIncludes(jumbotronDebug.body, '背景文件真实存在', 'debug jumbotron should validate real background file existence');
+  assertIncludes(jumbotronDebug.body, '背景资产 allowlist', 'debug jumbotron should validate background allowlist');
+  assertIncludes(jumbotronDebug.body, '待人工复核', 'debug jumbotron should keep pending manual checks pending');
+  assertIncludes(jumbotronDebug.body, '! 弯道自然人工确认', 'pending manual curve confirmation should not pass');
   assertNoLeaks(jumbotronDebug.body, 'jumbotron debug');
+
+  const jumbotronSmoke = await text('/jumbotron?profile=smoke-8');
+  assert(jumbotronSmoke.response.status === 200, 'smoke-8 jumbotron should load');
+  assertIncludes(jumbotronSmoke.body, 'dataProfileId=smoke-8-visual-low-load', 'smoke-8 jumbotron should show canonical profile id');
+  assertIncludes(jumbotronSmoke.body, '/api/jumbotron-bubbles?profile=smoke-8', 'smoke-8 jumbotron should poll matching bubble profile');
+  assertNotIncludes(jumbotronSmoke.body, 'HorsePose', 'smoke-8 public jumbotron should hide runtime debug output');
+  assertNoLeaks(jumbotronSmoke.body, 'smoke-8 jumbotron');
+
+  const jumbotronCoverageDebug = await text('/jumbotron?debug=1&profile=coverage-9');
+  assert(jumbotronCoverageDebug.response.status === 200, 'coverage-9 debug jumbotron should load');
+  assertIncludes(jumbotronCoverageDebug.body, 'coverage-9-enum-complete', 'coverage-9 debug jumbotron should show canonical profile id');
+  assertIncludes(jumbotronCoverageDebug.body, 'motionStateCoverage', 'coverage-9 debug jumbotron should show motion coverage');
+  assertIncludes(jumbotronCoverageDebug.body, 'complete=true', 'coverage-9 debug jumbotron should show complete coverage evidence');
+  assertIncludes(jumbotronCoverageDebug.body, 'resolvedCount=9/9', 'coverage-9 debug jumbotron should show lastMessage resolved aggregate');
+  assertNoLeaks(jumbotronCoverageDebug.body, 'coverage-9 jumbotron debug');
+
+  const calibrator = await text('/jumbotron/calibrator');
+  assert(calibrator.response.status === 200, 'calibrator should load');
+  assertIncludes(calibrator.body, 'Track Profile Calibrator MVP', 'calibrator should expose MVP entry');
+  assertIncludes(calibrator.body, '设计 / 资产生产工具', 'calibrator should present itself as design asset tool');
+  assertIncludes(calibrator.body, 'Top Toolbar', 'calibrator should expose top toolbar');
+  assertIncludes(calibrator.body, 'Main Canvas', 'calibrator should expose main canvas');
+  assertIncludes(calibrator.body, 'Right Inspector', 'calibrator should expose right inspector');
+  assertIncludes(calibrator.body, 'Bottom Preview Bar', 'calibrator should expose bottom preview bar');
+  assertIncludes(calibrator.body, 'Import Background', 'calibrator should expose background import');
+  assertIncludes(calibrator.body, 'Import Candidate Profile', 'calibrator should expose candidate profile import');
+  assertIncludes(calibrator.body, 'Validate', 'calibrator should expose validate action');
+  assertIncludes(calibrator.body, 'Preview', 'calibrator should expose preview action');
+  assertIncludes(calibrator.body, 'Export', 'calibrator should expose export action');
+  assertIncludes(calibrator.body, 'Export frozen track.profile.json candidate', 'calibrator should export frozen candidate');
+  assertIncludes(calibrator.body, '正式资产 confirmed', 'calibrator should not claim formal asset confirmation');
+  assertIncludes(calibrator.body, 'Background Layer', 'calibrator should expose background layer');
+  assertIncludes(calibrator.body, 'Centerline Layer', 'calibrator should expose centerline layer');
+  assertIncludes(calibrator.body, 'Control Points Layer', 'calibrator should expose control points layer');
+  assertIncludes(calibrator.body, 'Lane Preview Layer', 'calibrator should expose lane preview layer');
+  assertIncludes(calibrator.body, 'Checkpoint Layer', 'calibrator should expose checkpoint layer');
+  assertIncludes(calibrator.body, 'Horse Preview Layer', 'calibrator should expose horse preview layer');
+  assertIncludes(calibrator.body, 'Message Bubble Preview Layer', 'calibrator should expose message bubble preview layer');
+  assertIncludes(calibrator.body, 'Track Info', 'calibrator should expose track info inspector');
+  assertIncludes(calibrator.body, 'Geometry', 'calibrator should expose geometry inspector');
+  assertIncludes(calibrator.body, '终点线', 'calibrator should expose finish line inspector');
+  assertIncludes(calibrator.body, 'Direction', 'calibrator should expose direction inspector');
+  assertIncludes(calibrator.body, 'Lanes', 'calibrator should expose lanes inspector');
+  assertIncludes(calibrator.body, 'Checkpoints', 'calibrator should expose checkpoints inspector');
+  assertIncludes(calibrator.body, 'Message Bubble', 'calibrator should expose message bubble inspector');
+  assertIncludes(calibrator.body, 'Validation Results', 'calibrator should expose validation results inspector');
+  assertIncludes(calibrator.body, 'Progress Scrubber', 'calibrator should expose scrubber');
+  assertIncludes(calibrator.body, 'Horse Count', 'calibrator should expose horse count');
+  assertIncludes(calibrator.body, 'Speed', 'calibrator should expose preview speed');
+  assertIncludes(calibrator.body, 'Play / Pause', 'calibrator should expose play pause control');
+  assertIncludes(calibrator.body, 'Scenario Presets', 'calibrator should expose scenario presets');
+  assertIncludes(calibrator.body, '添加 centerline point', 'calibrator should expose add point action');
+  assertIncludes(calibrator.body, '删除点位', 'calibrator should expose delete point action');
+  assertIncludes(calibrator.body, 'Reverse Direction / 反转路径方向', 'calibrator should expose reverse direction action');
+  assertIncludes(calibrator.body, '平滑路径预览', 'calibrator should expose smoothing preview');
+  assertIncludes(calibrator.body, 'createJumbotronRuntime / sampleHorsePose', 'calibrator should state runtime reuse');
+  assertIncludes(calibrator.body, 'schemaVersion', 'calibrator export should include schemaVersion');
+  assertIncludes(calibrator.body, 'trackId', 'calibrator export should include trackId');
+  assertIncludes(calibrator.body, 'viewBox', 'calibrator export should include viewBox');
+  assertIncludes(calibrator.body, 'centerline', 'calibrator export should include centerline');
+  assertIncludes(calibrator.body, 'messageZones', 'calibrator export should include messageZones');
+  assertIncludes(calibrator.body, 'noBubbleZones', 'calibrator export should include noBubbleZones');
+  assertIncludes(calibrator.body, 'riskZones', 'calibrator export should include riskZones');
+  assertIncludes(calibrator.body, 'scrubber 单马', 'calibrator should preview scrubber horse');
+  assertIncludes(calibrator.body, '多马预览', 'calibrator should preview multiple horses');
+  assertIncludes(calibrator.body, '气泡区域编辑 · pending', 'calibrator should list bubble zone P1 pending');
+  assertIncludes(calibrator.body, 'no bubble zone 编辑 · pending', 'calibrator should list no bubble zone P1 pending');
+  assertIncludes(calibrator.body, '风险区域编辑 · pending', 'calibrator should list risk zone P1 pending');
+  assertIncludes(calibrator.body, 'AI 候选点导入 · pending', 'calibrator should list AI candidate P1 pending');
+  assertIncludes(calibrator.body, '自动检测尖角 · pending', 'calibrator should list corner detection P1 pending');
+  assertIncludes(calibrator.body, '自动分配 lanes · pending', 'calibrator should list lane assignment P1 pending');
+  assertIncludes(calibrator.body, '导出 debug-preview.png · pending', 'calibrator should list debug preview export P1 pending');
+  assertIncludes(calibrator.body, 'JSON diff preview · implemented', 'calibrator should implement JSON diff preview');
+  assertIncludes(calibrator.body, 'Imported profile → Exported frozen candidate', 'calibrator should show JSON diff preview table');
+  assertIncludes(calibrator.body, '暂无字段差异', 'calibrator should show empty diff state');
+  assertNoLeaks(calibrator.body, 'track calibrator');
+
+  const addPoint = await postText('/jumbotron/calibrator', { centerlineAction: 'add', addPointX: '610', addPointY: '315', previewProgress: '37', horseCount: '5', scenarioPreset: 'spread' });
+  assertIncludes(addPoint.body, 'P9', 'add point should add a visible control point before closing duplicate');
+  assertIncludes(addPoint.body, 'Scrubber 37%', 'scrubber should move the preview horse');
+  assertIncludes(addPoint.body, 'scrubber 单马 + 5 匹多马预览', 'horse count should control multi-horse preview');
+  assertIncludes(addPoint.body, 'spread', 'scenario preset should stay selected after POST');
+  assertIncludes(addPoint.body, '<td>centerline.points</td>', 'add point should produce JSON diff for centerline points');
+  assertNoLeaks(addPoint.body, 'track calibrator add point');
+  const deletePoint = await postText('/jumbotron/calibrator', { deletePointIndex: '1' });
+  assertNotIncludes(deletePoint.body, '>P8<', 'delete point should reduce visible control point count');
+  assertNoLeaks(deletePoint.body, 'track calibrator delete point');
+  const reverseDirection = await postText('/jumbotron/calibrator', { reverseDirection: '1', direction: 'clockwise' });
+  assertIncludes(reverseDirection.body, '<option value="counterclockwise" selected>counterclockwise</option>', 'reverse direction should toggle direction semantics');
+  assertNoLeaks(reverseDirection.body, 'track calibrator reverse direction');
+
+  const invalidDirection = await postText('/jumbotron/calibrator', { direction: 'sideways' });
+  assertIncludes(invalidDirection.body, '! 赛道方向', 'invalid direction should fail validation');
+  assertNoLeaks(invalidDirection.body, 'track calibrator invalid direction');
+  const duplicateLane = await postText('/jumbotron/calibrator', { lanes: JSON.stringify([{ laneId: 'lane-a', offset: 0 }, { laneId: 'lane-b', offset: 0 }]) });
+  assertIncludes(duplicateLane.body, '! 泳道偏移重复检测', 'duplicate lane offset should fail validation');
+  assertIncludes(duplicateLane.body, '! 多马预览数量', 'too few lanes should fail multi-horse validation');
+  assertNoLeaks(duplicateLane.body, 'track calibrator duplicate lane');
+  const badCheckpoint = await postText('/jumbotron/calibrator', { checkpoints: JSON.stringify([{ checkpointId: 'bad-cp', label: 'Bad', s: 1.4 }]) });
+  assertIncludes(badCheckpoint.body, '! checkpoints.s 范围', 'out-of-range checkpoint should fail validation');
+  assertNoLeaks(badCheckpoint.body, 'track calibrator bad checkpoint');
+  const badJson = await postText('/jumbotron/calibrator', { profileJson: '{bad json' });
+  assertIncludes(badJson.body, '导入解析失败', 'bad JSON should show parse failure');
+  assertNoLeaks(badJson.body, 'track calibrator bad JSON');
+  const badBackground = await postText('/jumbotron/calibrator', { profileJson: JSON.stringify({ background: { src: '/assets/missing-track.webp' } }) });
+  assertIncludes(badBackground.body, '! 背景文件真实存在', 'missing background file should fail validation');
+  assertNoLeaks(badBackground.body, 'track calibrator bad background');
+  const sharpTurn = await postText('/jumbotron/calibrator', { centerlinePoints: JSON.stringify([{ x: 100, y: 100 }, { x: 500, y: 100 }, { x: 120, y: 110 }, { x: 100, y: 100 }]) });
+  assertIncludes(sharpTurn.body, '! 弯道转角自然', 'sharp turn should fail warning validation');
+  assertNoLeaks(sharpTurn.body, 'track calibrator sharp turn');
+  const shortPath = await postText('/jumbotron/calibrator', { centerlinePoints: JSON.stringify([{ x: 100, y: 100 }, { x: 101, y: 100 }, { x: 102, y: 100 }, { x: 100, y: 100 }]) });
+  assertIncludes(shortPath.body, '! 路径长度', 'short path should fail minimum path length validation');
+  assertIncludes(shortPath.body, '! 路径长度最小阈值', 'short path should fail explicit minimum threshold validation');
+  assertNoLeaks(shortPath.body, 'track calibrator short path');
 
   const race = await text('/race/grs-001');
   assert(race.response.status === 200, 'race detail should load');
