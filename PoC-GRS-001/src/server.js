@@ -174,7 +174,7 @@ function page(title, active, session, content) {
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${escapeHtml(title)}</title>
 <style>
-:root{--ink:#172033;--muted:#667085;--line:#d9dee8;--bg:#f4f6fb;--panel:#fff;--accent:#1f49d8;--dark:#121826;--green:#15734f;--green-bg:#e7f5ee;--amber:#9a6500;--amber-bg:#fff5d8;--red:#b42318;--red-bg:#fff1f0;--purple:#5b3fb5;--purple-bg:#f0ecff;--blue-bg:#edf4ff}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top left,#e9efff 0,#f4f6fb 36%,#eef2f7 100%);color:var(--ink);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.jumbotron-page{width:calc(100vw - 44px);margin-left:calc(50% - 50vw + 22px);min-height:calc(100vh - 92px);background:linear-gradient(135deg,#f8fbff 0,#eef4ff 48%,#fff7ed 100%);color:#172033;border-radius:22px;padding:10px}.jumbotron-page .muted{color:#667085}.jumbotron-page a{text-decoration:none;color:inherit}.jumbotron-header,.jumbotron-kpis,.jumbotron-layout,.jumbotron-ticker,.jumbotron-debug,.jumbotron-calibrator,.jumbotron-validation,.jumbotron-footer{border:1px solid rgba(148,163,184,.32);background:rgba(255,255,255,.92);border-radius:18px;padding:12px;margin-bottom:8px;box-shadow:0 12px 28px rgba(31,73,216,.06)}.jumbotron-header{display:flex;justify-content:space-between;gap:14px;align-items:center;padding:8px 12px}.jumbotron-brandline{display:flex;align-items:center;gap:10px;min-width:0}.jumbotron-brandline strong{font-size:18px;white-space:nowrap}.jumbotron-brandline span:last-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.jumbotron-statusbar{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.jumbotron-statusbar span,.jumbotron-chip{border:1px solid rgba(148,163,184,.34);background:#fff;border-radius:999px;padding:6px 10px;font-weight:850;color:#344054}.jumbotron-live{display:inline-flex;border-radius:999px;background:#dc2626;color:#fff;padding:5px 10px;font-weight:900;letter-spacing:.08em}.jumbotron-kpis{display:flex;gap:8px;overflow:hidden;align-items:center;padding:8px 10px}.jumbotron-chip{display:flex;gap:6px;align-items:center;flex:0 0 auto}.jumbotron-chip strong{font-size:16px;color:#172033}.jumbotron-chip span{font-size:12px;color:#667085}.jumbotron-layout{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:10px;align-items:stretch}.jumbotron-live-layout{grid-template-columns:280px minmax(0,1fr);height:clamp(620px,calc(100vh - 300px),780px)}.jumbotron-live-layout>aside{grid-column:1;grid-row:1}.jumbotron-live-layout>.track-stage-card{grid-column:2;grid-row:1}.track-stage-card{background:rgba(255,255,255,.78);border:1px solid rgba(148,163,184,.26);border-radius:18px;padding:10px}.track-stage-card h2{font-size:24px;margin:2px 0 6px}.track-svg{display:block;width:100%;height:auto;aspect-ratio:1200/620}.mini-map-svg{width:100%;height:128px;border-radius:12px;background:#f8fafc}.mini-map-svg .track-band{stroke-width:110}.mini-map-svg .track-centerline{stroke-width:12}.track-bg{fill:#f8fafc;stroke:rgba(31,73,216,.25);stroke-width:2}.track-band{fill:none;stroke:#d7e3f8;stroke-width:72;stroke-linecap:round;stroke-linejoin:round}.track-centerline{fill:none;stroke:#1f49d8;stroke-width:4;stroke-dasharray:10 10}.track-samples{fill:none;stroke:#f59e0b;stroke-width:2;stroke-dasharray:3 14}.horse-body{fill:#fff;stroke:#172033;stroke-width:3}.horse-arrow{fill:#2563eb}.horse-low .horse-arrow{fill:#22c55e}.horse-medium .horse-arrow{fill:#f59e0b}.horse-high .horse-arrow,.horse-critical .horse-arrow{fill:#ef4444}.horse-state-sprinting .horse-body,.horse-rank-leader .horse-body{filter:drop-shadow(0 0 10px rgba(37,99,235,.45));animation:jumbotronLowPulse 2.8s ease-in-out infinite}.horse-state-blocked .horse-body,.horse-state-takeover .horse-body,.horse-risk-critical .horse-body,.horse-risk-high .horse-body{stroke:#dc2626;stroke-width:4;filter:drop-shadow(0 0 10px rgba(220,38,38,.36))}.horse-state-finished .horse-body{stroke:#16a34a;stroke-width:4}.horse-state-stale .horse-body{stroke:#64748b;stroke-dasharray:5 4}.horse-status-pill text{font-size:11px;font-weight:950;fill:#172033;stroke:#fff;stroke-width:3px;paint-order:stroke}.horse-status-pill rect{fill:rgba(255,255,255,.92);stroke:rgba(23,32,51,.24);stroke-width:1.2}.track-alert-ring{fill:none;stroke:#ef4444;stroke-width:3;stroke-dasharray:8 6;opacity:.62;animation:jumbotronLowPulse 3.2s ease-in-out infinite}@keyframes jumbotronLowPulse{0%,100%{opacity:.82}50%{opacity:1}}.horse-label-group{pointer-events:visiblePainted}.horse-label-line{stroke:#172033;stroke-width:1.8;stroke-linecap:round;opacity:.34}.horse-label-bg{fill:none;stroke:none}.horse-label,.checkpoint text,.debug-label{fill:#172033;font-size:16px;font-weight:900;paint-order:stroke;stroke:#fff;stroke-width:4px}.message-bubble-anchor{opacity:0;transform-box:fill-box;transform-origin:center;animation-duration:var(--bubble-cycle);animation-delay:var(--bubble-start);animation-iteration-count:infinite;animation-timing-function:ease-in-out}.message-bubble-line{stroke:#1f49d8;stroke-width:2.5;stroke-linecap:round;opacity:.72}.message-bubble rect{fill:rgba(255,255,255,.96);stroke:#1f49d8;stroke-width:2}.message-bubble text{fill:#1d2939;font-size:13px;font-weight:800}${jumbotronBubbleAnimationCss()}.entry-tooltip{opacity:0;pointer-events:none;transition:opacity .12s ease}.jumbotron-focus-source:hover .entry-tooltip,.jumbotron-focus-source:focus .entry-tooltip,.jumbotron-focus-source:focus-within .entry-tooltip{opacity:1}.entry-tooltip rect{fill:rgba(15,23,42,.94);stroke:rgba(255,255,255,.72);stroke-width:1.5}.entry-tooltip text{fill:#fff;font-size:14px;font-weight:850;stroke:none}.jumbotron-focus-source{position:relative;outline:none}.html-tooltip{position:absolute;left:0;bottom:calc(100% + 8px);z-index:5;width:268px;background:#172033;color:#fff;border-radius:12px;padding:10px;box-shadow:0 16px 28px rgba(16,24,40,.22);opacity:0;pointer-events:none;transform:translateY(4px);transition:opacity .12s ease,transform .12s ease}.jumbotron-focus-source:hover .html-tooltip,.jumbotron-focus-source:focus .html-tooltip,.jumbotron-focus-source:focus-within .html-tooltip{opacity:1;transform:translateY(0)}.html-tooltip strong{display:block;color:#fff}.html-tooltip span{display:block;color:#dbeafe;font-size:12px;line-height:1.45}.ticker-item{position:relative;display:inline-flex}.ticker-item .html-tooltip{left:auto;right:0;bottom:calc(100% + 10px)}.focus-details-card{position:sticky;top:74px}.jumbotron-live-layout>aside{display:flex;flex-direction:column;height:100%;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding-right:2px}.jumbotron-live-layout .side-card:last-child{margin-bottom:0}.jumbotron-live-layout .focus-details-card{position:static}.jumbotron-live-layout>.track-stage-card{height:100%;display:flex;flex-direction:column;min-height:0}.jumbotron-live-layout .track-svg{flex:1;min-height:0;height:100%;aspect-ratio:auto}.focus-detail-list{display:grid;gap:8px}.focus-detail-card{display:none;border:1px solid rgba(31,73,216,.22);background:#f8fbff;border-radius:12px;padding:10px}.focus-detail-card:first-child{display:block}.focus-detail-list:has(.focus-detail-card:target) .focus-detail-card{display:none}.focus-detail-list:has(.focus-detail-card:target) .focus-detail-card:target{display:block}.focus-detail-card:target{outline:3px solid rgba(31,73,216,.24)}.focus-detail-card p{margin:6px 0}.focus-trigger{cursor:pointer}.side-card{background:rgba(255,255,255,.86);border:1px solid rgba(148,163,184,.28);border-radius:16px;padding:9px;margin-bottom:7px}.side-card h2,.jumbotron-debug h2,.jumbotron-calibrator h2,.jumbotron-validation h2{margin:3px 0 7px;color:#172033;font-size:18px}.side-card h3{margin:8px 0 5px;font-size:14px}.side-card p{margin:5px 0}.ranking-list{margin:0;padding-left:19px}.ranking-list li{margin:6px 0}.attention-item{border-radius:12px;background:rgba(127,29,29,.18);padding:7px;margin-top:6px}.attention-item-high,.attention-item-critical{box-shadow:inset 3px 0 0 #dc2626,0 0 0 1px rgba(220,38,38,.18);animation:jumbotronLowPulse 3.4s ease-in-out infinite}.gap-pill,.state-pill{display:inline-flex;border-radius:999px;background:#eef4ff;border:1px solid rgba(31,73,216,.18);padding:2px 7px;margin-left:4px;font-size:11px;font-weight:900;color:#1d2939}.state-pill-risk{background:#fff1f0;border-color:rgba(220,38,38,.28);color:#b42318}.focus-trigger strong{text-decoration-thickness:2px;text-underline-offset:3px}.focus-trigger:hover strong,.focus-trigger:focus strong{text-decoration:underline}.jumbotron-ticker{display:flex;gap:10px;align-items:center;overflow:hidden;padding:9px 12px}.jumbotron-ticker div{display:flex;gap:8px;overflow:hidden}.jumbotron-ticker span{flex:0 0 auto;background:#eef4ff;border-radius:999px;padding:7px 10px;color:#344054}.debug-grid,.validation-grid,.calibrator-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}.debug-grid article,.validation-grid article,.calibrator-grid article{background:#fff;border:1px solid rgba(148,163,184,.26);border-radius:12px;padding:12px}.calibrator-preview-svg{width:100%;height:220px}.jumbotron-footer{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}.boundary-pill{display:inline-flex;border:1px solid rgba(56,189,248,.35);border-radius:999px;padding:6px 9px;color:#bae6fd;margin:3px}.topbar{position:sticky;top:0;z-index:2;background:rgba(255,255,255,.96);color:#172033;border-bottom:1px solid rgba(148,163,184,.32);box-shadow:0 12px 28px rgba(31,73,216,.06)}.topbar-inner{max-width:1180px;margin:0 auto;padding:14px 22px;display:flex;align-items:center;justify-content:space-between;gap:18px}.brand{display:flex;align-items:center;gap:10px}.mark{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,#e11d48,#f97316);box-shadow:inset 0 -10px 0 rgba(0,0,0,.18)}.brand strong{display:block;font-size:15px}.brand span{display:block;color:#667085;font-size:12px}.nav{display:flex;gap:4px;flex-wrap:wrap}.nav a,.identity a,.identity span{border-radius:8px;padding:8px 10px;text-decoration:none;font-weight:800}.nav a{color:#475467}.nav a.active,.nav a:hover{background:#eef4ff;color:#1f49d8}.identity{display:flex;align-items:center;gap:8px}.identity span,.identity a{background:#f8fafc;color:#172033;border:1px solid rgba(148,163,184,.32)}.workspace{max-width:1180px;margin:0 auto;padding:26px 22px}.hero{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(260px,.55fr);gap:14px;margin-bottom:14px}.panel,.card,.notice{background:rgba(255,255,255,.94);border:1px solid var(--line);border-radius:14px;padding:18px}.panel{box-shadow:0 18px 40px rgba(16,24,40,.07);position:relative;overflow:hidden}.hero-art:after{content:"";position:absolute;right:-70px;top:-70px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,#bfd2ff 0,#e8efff 42%,transparent 70%);opacity:.9}.public-hero{background:linear-gradient(90deg,rgba(255,255,255,.86) 0%,rgba(255,255,255,.62) 52%,rgba(255,255,255,.34) 100%),url('/assets/public-yard-hero.webp') center/cover}.public-hero:after{right:-30px;top:-40px;background:radial-gradient(circle,rgba(249,115,22,.24) 0,rgba(191,210,255,.18) 48%,transparent 72%)}.organizer-hero{background:linear-gradient(90deg,rgba(255,255,255,.96),rgba(255,255,255,.88)),url('/assets/organizer-source-visual.webp') center/cover}.organizer-hero:after{right:-40px;top:-50px;background:radial-gradient(circle,rgba(20,184,166,.22) 0,rgba(91,63,181,.18) 50%,transparent 74%)}.hero-art>*{position:relative;z-index:1}.visual-card{position:relative;overflow:hidden;min-height:190px}.organizer-card{background:linear-gradient(135deg,rgba(255,255,255,.92),rgba(255,255,255,.8)),url('/assets/organizer-source-visual.webp') center/cover}.visual-card:before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(31,73,216,.12),rgba(225,29,72,.08)),repeating-linear-gradient(135deg,transparent 0 18px,rgba(31,73,216,.06) 18px 19px);pointer-events:none}.organizer-card:before{background:linear-gradient(135deg,rgba(16,24,40,.1),rgba(20,184,166,.12)),radial-gradient(circle at 80% 20%,rgba(249,115,22,.16),transparent 42%)}.visual-card>*{position:relative;z-index:1}.service-hero{grid-template-columns:minmax(0,1fr) minmax(420px,.82fr)}.service-card{min-height:300px;padding:30px}.service-card h2{font-size:34px;line-height:1.08;margin:22px 0 18px}.service-card>p{font-size:19px;line-height:1.7}.service-card .signal{margin:22px 0}.service-card .signal-row{padding:22px;border-radius:18px;gap:16px}.service-card .signal-row strong{font-size:21px}.service-card .signal-row p{font-size:18px;line-height:1.65;margin:12px 0 0}.service-card .signal-dot{width:13px;height:20px;border-radius:999px;margin-top:4px}.service-card .button{width:100%;padding:17px 18px;border-radius:14px;font-size:18px}.panel h1{font-size:34px;line-height:1.08;margin:8px 0}.panel p,.card p,.notice p{color:var(--muted);line-height:1.6}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}.stack{display:grid;gap:12px}.split{display:grid;grid-template-columns:1fr 1fr;gap:12px}.eyebrow{letter-spacing:.08em;text-transform:uppercase;font-size:11px;font-weight:900;color:#667085}.pill{display:inline-flex;border-radius:7px;padding:4px 8px;font-size:12px;font-weight:900;background:#eef2ff;color:#243b83}.pill.green{background:var(--green-bg);color:var(--green)}.pill.amber{background:var(--amber-bg);color:var(--amber)}.pill.red{background:var(--red-bg);color:var(--red)}.pill.purple{background:var(--purple-bg);color:var(--purple)}.button{display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--accent);border-radius:9px;padding:10px 13px;background:var(--accent);color:#fff;font-weight:900;text-decoration:none;cursor:pointer}.button.secondary{background:#fff;color:#1d2939;border-color:var(--line)}.button.danger{background:#b42318;border-color:#b42318}.button.disabled{background:#eef2f7;color:#667085;border-color:#d0d5dd;cursor:not-allowed}.cta-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.metric-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin:12px 0}.metric{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px}.metric strong{display:block;font-size:24px;margin:6px 0 2px}.flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-top:12px}.flow-step{border:1px solid var(--line);border-radius:12px;background:#fff;padding:12px}.flow-step strong{display:block;margin-top:4px}.signal{display:grid;gap:10px}.signal-row{display:flex;align-items:flex-start;gap:10px;padding:12px;border:1px solid var(--line);border-radius:12px;background:#fff}.signal-dot{width:11px;height:11px;border-radius:50%;background:#98a2b3;margin-top:7px}.signal-dot.green{background:#17b26a}.signal-dot.amber{background:#f79009}.signal-dot.red{background:#f04438}.action-list{display:grid;gap:10px}.action-item{display:flex;justify-content:space-between;gap:16px;border:1px solid var(--line);border-radius:12px;background:#fff;padding:14px;text-decoration:none;color:var(--ink)}.action-item:hover{box-shadow:0 10px 24px rgba(16,24,40,.06)}.action-item strong{display:block;margin-bottom:4px}.action-item em{display:block;color:var(--muted);font-style:normal;line-height:1.45}.arrow{font-size:22px;font-weight:900;color:#98a2b3}.notice.ok{background:var(--green-bg);border-color:#b7ebd0}.notice.warn{background:var(--amber-bg);border-color:#f6dfa0}.notice.danger{background:var(--red-bg);border-color:#ffd0d0}form{display:grid;gap:12px}label{display:grid;gap:6px;font-weight:800;color:#344054}input,textarea{width:100%;border:1px solid var(--line);border-radius:9px;padding:11px;font:inherit;background:#fff}table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden}th,td{padding:11px 12px;border-bottom:1px solid #edf0f5;text-align:left;vertical-align:top}th{background:#f8fafc;color:#344054;font-size:12px;text-transform:uppercase;letter-spacing:.04em}tr:last-child td{border-bottom:0}.radar-panel{display:grid;grid-template-columns:minmax(260px,330px) minmax(0,1fr);gap:16px;align-items:center;margin-top:14px}.radar-svg{width:100%;max-width:330px}.radar-legend{display:grid;gap:8px;list-style:none;margin:0;padding:0}.radar-legend li{display:flex;justify-content:space-between;gap:12px;border:1px solid var(--line);border-radius:10px;background:#fff;padding:9px 11px}.radar-score{font-weight:900;color:var(--accent)}.result-radar{margin-top:14px}.timeline{display:grid;gap:10px}.event{display:grid;grid-template-columns:44px minmax(0,1fr);gap:12px}.event-no{width:34px;height:34px;border-radius:50%;background:#101828;color:white;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:13px}details{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden}summary{cursor:pointer;list-style:none;padding:14px 16px;font-weight:900}summary::-webkit-details-marker{display:none}.details-body{border-top:1px solid var(--line);padding:14px 16px;background:#fbfcff}.muted{color:var(--muted)}@media(max-width:820px){.jumbotron-page{width:auto;margin-left:0}.jumbotron-header{align-items:flex-start;flex-direction:column}.jumbotron-layout{grid-template-columns:1fr}.jumbotron-live-layout>aside,.jumbotron-live-layout>.track-stage-card{grid-column:auto;grid-row:auto}.track-svg{height:520px}.topbar-inner{align-items:flex-start;flex-direction:column}.hero,.split,.radar-panel,.service-hero{grid-template-columns:1fr}.event{grid-template-columns:1fr}}
+:root{--ink:#172033;--muted:#667085;--line:#d9dee8;--bg:#f4f6fb;--panel:#fff;--accent:#1f49d8;--dark:#121826;--green:#15734f;--green-bg:#e7f5ee;--amber:#9a6500;--amber-bg:#fff5d8;--red:#b42318;--red-bg:#fff1f0;--purple:#5b3fb5;--purple-bg:#f0ecff;--blue-bg:#edf4ff}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top left,#e9efff 0,#f4f6fb 36%,#eef2f7 100%);color:var(--ink);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.jumbotron-page{width:calc(100vw - 44px);margin-left:calc(50% - 50vw + 22px);min-height:calc(100vh - 92px);background:linear-gradient(135deg,#f8fbff 0,#eef4ff 48%,#fff7ed 100%);color:#172033;border-radius:22px;padding:10px}.jumbotron-page .muted{color:#667085}.jumbotron-page a{text-decoration:none;color:inherit}.jumbotron-header,.jumbotron-kpis,.jumbotron-layout,.jumbotron-ticker,.jumbotron-debug,.jumbotron-calibrator,.jumbotron-validation,.jumbotron-footer{border:1px solid rgba(148,163,184,.32);background:rgba(255,255,255,.92);border-radius:18px;padding:12px;margin-bottom:8px;box-shadow:0 12px 28px rgba(31,73,216,.06)}.jumbotron-drawer{border:1px solid rgba(148,163,184,.32);background:rgba(255,255,255,.92);border-radius:18px;margin-bottom:8px;box-shadow:0 12px 28px rgba(31,73,216,.06);overflow:hidden;overflow-anchor:none}.jumbotron-drawer-card{background:rgba(255,255,255,.9);border-color:rgba(148,163,184,.38)}.jumbotron-drawer-head{min-height:54px;padding:7px 14px;display:flex;align-items:center;justify-content:space-between;gap:12px;position:relative;z-index:1}.jumbotron-drawer-head>div{min-width:0}.jumbotron-drawer-head h2{display:block;margin:0;font-size:18px;line-height:1.12;color:#172033;white-space:normal}.jumbotron-drawer-icon{flex:0 0 auto;opacity:.58;font-size:34px;font-weight:950;line-height:1;color:#172033;transition:transform .18s ease,opacity .18s ease}.jumbotron-drawer-body{max-height:0;opacity:0;overflow:hidden;padding:0 12px 0;pointer-events:none;transition:max-height .26s ease,opacity .14s ease,padding-bottom .26s ease}.jumbotron-drawer:hover .jumbotron-drawer-body,.jumbotron-drawer:focus-within .jumbotron-drawer-body{max-height:420px;opacity:1;padding:0 12px 12px;pointer-events:auto;transition-delay:.45s}.jumbotron-drawer:hover .jumbotron-drawer-icon,.jumbotron-drawer:focus-within .jumbotron-drawer-icon{opacity:.76;transform:rotate(180deg)}.jumbotron-profile-grid article.is-active{background:#f8fbff;box-shadow:inset 3px 0 0 #1f49d8}.jumbotron-header{display:flex;justify-content:space-between;gap:14px;align-items:center;padding:8px 12px}.jumbotron-brandline{display:flex;align-items:center;gap:10px;min-width:0}.jumbotron-brandline strong{font-size:18px;white-space:nowrap}.jumbotron-brandline span:last-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.jumbotron-statusbar{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.jumbotron-statusbar span,.jumbotron-chip{border:1px solid rgba(148,163,184,.34);background:#fff;border-radius:999px;padding:6px 10px;font-weight:850;color:#344054}.jumbotron-live{display:inline-flex;border-radius:999px;background:#dc2626;color:#fff;padding:5px 10px;font-weight:900;letter-spacing:.08em}.jumbotron-kpis{display:flex;gap:8px;overflow:hidden;align-items:center;padding:8px 10px}.jumbotron-chip{display:flex;gap:6px;align-items:center;flex:0 0 auto}.jumbotron-chip strong{font-size:16px;color:#172033}.jumbotron-chip span{font-size:12px;color:#667085}.jumbotron-layout{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:10px;align-items:stretch}.calibrator-layout{align-items:start}.calibrator-layout>aside{overflow-y:auto;overscroll-behavior:contain;padding-right:2px}.calibrator-layout .side-card:last-child{margin-bottom:0}.jumbotron-live-layout{grid-template-columns:280px minmax(0,1fr);height:clamp(620px,calc(100vh - 300px),780px)}.jumbotron-live-layout>aside{grid-column:1;grid-row:1}.jumbotron-live-layout>.track-stage-card{grid-column:2;grid-row:1}.track-stage-card{background:rgba(255,255,255,.78);border:1px solid rgba(148,163,184,.26);border-radius:18px;padding:10px}.track-stage-card h2{font-size:24px;margin:2px 0 6px}.track-svg{display:block;width:100%;height:auto;aspect-ratio:1200/620}.calibrator-layout .track-svg{touch-action:none}.calibrator-point{cursor:grab}.calibrator-point.is-selected circle,.calibrator-point.is-dragging circle{fill:#dbeafe;stroke:#0f2f9e;stroke-width:4}.calibrator-point.is-dragging{cursor:grabbing}.calibrator-canvas-help{margin:0 0 8px;color:#475467}.mini-map-svg{width:100%;height:128px;border-radius:12px;background:#f8fafc}.mini-map-svg .track-band{stroke-width:110}.mini-map-svg .track-centerline{stroke-width:12}.track-bg{fill:#f8fafc;stroke:rgba(31,73,216,.25);stroke-width:2}.track-background-image{opacity:.88;filter:saturate(1.06) contrast(1.04)}.track-band{fill:none;stroke:rgba(215,227,248,.72);stroke-width:72;stroke-linecap:round;stroke-linejoin:round}.track-centerline{fill:none;stroke:#1f49d8;stroke-width:4;stroke-dasharray:10 10}.track-samples{fill:none;stroke:#f59e0b;stroke-width:2;stroke-dasharray:3 14}.horse-body{fill:rgba(255,255,255,.7);stroke:#172033;stroke-width:3}.horse-rider-sprite{pointer-events:none;filter:drop-shadow(0 5px 8px rgba(15,23,42,.28))}.horse-arrow{fill:#2563eb}.horse-low .horse-arrow{fill:#22c55e}.horse-medium .horse-arrow{fill:#f59e0b}.horse-high .horse-arrow,.horse-critical .horse-arrow{fill:#ef4444}.horse-state-sprinting .horse-body,.horse-rank-leader .horse-body{filter:drop-shadow(0 0 10px rgba(37,99,235,.45));animation:jumbotronLowPulse 2.8s ease-in-out infinite}.horse-state-blocked .horse-body,.horse-state-takeover .horse-body,.horse-risk-critical .horse-body,.horse-risk-high .horse-body{stroke:#dc2626;stroke-width:4;filter:drop-shadow(0 0 10px rgba(220,38,38,.36))}.horse-state-finished .horse-body{stroke:#16a34a;stroke-width:4}.horse-state-stale .horse-body{stroke:#64748b;stroke-dasharray:5 4}.horse-status-pill text{font-size:11px;font-weight:950;fill:#172033;stroke:#fff;stroke-width:3px;paint-order:stroke}.horse-status-pill rect{fill:rgba(255,255,255,.92);stroke:rgba(23,32,51,.24);stroke-width:1.2}.track-alert-ring{fill:none;stroke:#ef4444;stroke-width:3;stroke-dasharray:8 6;opacity:.62;animation:jumbotronLowPulse 3.2s ease-in-out infinite}@keyframes jumbotronLowPulse{0%,100%{opacity:.82}50%{opacity:1}}.horse-label-group{pointer-events:visiblePainted}.horse-label-line{stroke:#172033;stroke-width:1.8;stroke-linecap:round;opacity:.34}.horse-label-bg{fill:none;stroke:none}.horse-label,.checkpoint text,.debug-label{fill:#172033;font-size:16px;font-weight:900;paint-order:stroke;stroke:#fff;stroke-width:4px}.message-bubble-anchor{opacity:0;transform-box:fill-box;transform-origin:center;animation-duration:var(--bubble-cycle);animation-delay:var(--bubble-start);animation-iteration-count:infinite;animation-timing-function:ease-in-out}.message-bubble-line{stroke:#1f49d8;stroke-width:2.5;stroke-linecap:round;opacity:.72}.message-bubble rect{fill:rgba(255,255,255,.96);stroke:#1f49d8;stroke-width:2}.message-bubble text{fill:#1d2939;font-size:13px;font-weight:800}${jumbotronBubbleAnimationCss()}.entry-tooltip{opacity:0;pointer-events:none;transition:opacity .12s ease}.jumbotron-focus-source:hover .entry-tooltip,.jumbotron-focus-source:focus .entry-tooltip,.jumbotron-focus-source:focus-within .entry-tooltip{opacity:1}.entry-tooltip rect{fill:rgba(15,23,42,.94);stroke:rgba(255,255,255,.72);stroke-width:1.5}.entry-tooltip text{fill:#fff;font-size:14px;font-weight:850;stroke:none}.jumbotron-focus-source{position:relative;outline:none}.html-tooltip{position:absolute;left:0;bottom:calc(100% + 8px);z-index:5;width:268px;background:#172033;color:#fff;border-radius:12px;padding:10px;box-shadow:0 16px 28px rgba(16,24,40,.22);opacity:0;pointer-events:none;transform:translateY(4px);transition:opacity .12s ease,transform .12s ease}.jumbotron-focus-source:hover .html-tooltip,.jumbotron-focus-source:focus .html-tooltip,.jumbotron-focus-source:focus-within .html-tooltip{opacity:1;transform:translateY(0)}.html-tooltip strong{display:block;color:#fff}.html-tooltip span{display:block;color:#dbeafe;font-size:12px;line-height:1.45}.ticker-item{position:relative;display:inline-flex}.ticker-item .html-tooltip{left:auto;right:0;bottom:calc(100% + 10px)}.focus-details-card{position:sticky;top:74px}.jumbotron-live-layout>aside{display:flex;flex-direction:column;height:100%;min-height:0;overflow-y:auto;overscroll-behavior:contain;overflow-anchor:none;padding-right:2px}.jumbotron-live-layout>aside>.side-card,.jumbotron-live-layout>aside>.jumbotron-drawer{flex:0 0 auto}.jumbotron-live-layout .side-card:last-child,.jumbotron-live-layout .jumbotron-drawer:last-child{margin-bottom:0}.jumbotron-live-layout .focus-details-card{position:static}.jumbotron-live-layout>.track-stage-card{height:100%;display:flex;flex-direction:column;min-height:0}.jumbotron-live-layout .track-svg{flex:1;min-height:0;height:100%;aspect-ratio:auto}.focus-detail-list{display:grid;gap:8px}.focus-detail-card{display:none;border:1px solid rgba(31,73,216,.22);background:#f8fbff;border-radius:12px;padding:10px}.focus-detail-card:first-child{display:block}.focus-detail-list:has(.focus-detail-card:target) .focus-detail-card{display:none}.focus-detail-list:has(.focus-detail-card:target) .focus-detail-card:target{display:block}.focus-detail-card:target{outline:3px solid rgba(31,73,216,.24)}.focus-detail-card p{margin:6px 0}.focus-trigger{cursor:pointer}.side-card{background:rgba(255,255,255,.86);border:1px solid rgba(148,163,184,.28);border-radius:16px;padding:9px;margin-bottom:7px}.side-card h2,.jumbotron-debug h2,.jumbotron-calibrator h2,.jumbotron-validation h2{margin:3px 0 7px;color:#172033;font-size:18px}.side-card h3{margin:8px 0 5px;font-size:14px}.side-card p{margin:5px 0}.ranking-list{margin:0;padding-left:19px}.ranking-list li{margin:6px 0}.attention-item{border-radius:12px;background:rgba(127,29,29,.18);padding:7px;margin-top:6px}.attention-item-high,.attention-item-critical{box-shadow:inset 3px 0 0 #dc2626,0 0 0 1px rgba(220,38,38,.18);animation:jumbotronLowPulse 3.4s ease-in-out infinite}.gap-pill,.state-pill{display:inline-flex;border-radius:999px;background:#eef4ff;border:1px solid rgba(31,73,216,.18);padding:2px 7px;margin-left:4px;font-size:11px;font-weight:900;color:#1d2939}.state-pill-risk{background:#fff1f0;border-color:rgba(220,38,38,.28);color:#b42318}.focus-trigger strong{text-decoration-thickness:2px;text-underline-offset:3px}.focus-trigger:hover strong,.focus-trigger:focus strong{text-decoration:underline}.jumbotron-ticker{display:flex;gap:10px;align-items:center;overflow:hidden;padding:9px 12px}.jumbotron-ticker div{display:flex;gap:8px;overflow:hidden}.jumbotron-ticker span{flex:0 0 auto;background:#eef4ff;border-radius:999px;padding:7px 10px;color:#344054}.debug-grid,.validation-grid,.calibrator-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}.debug-grid article,.validation-grid article,.calibrator-grid article{background:#fff;border:1px solid rgba(148,163,184,.26);border-radius:12px;padding:12px}.calibrator-preview-svg{width:100%;height:220px}.jumbotron-footer{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}.jumbotron-footer .jumbotron-drawer{margin-bottom:0}.boundary-pill{display:inline-flex;border:1px solid rgba(56,189,248,.35);border-radius:999px;padding:6px 9px;color:#bae6fd;margin:3px}.topbar{position:sticky;top:0;z-index:2;background:rgba(255,255,255,.96);color:#172033;border-bottom:1px solid rgba(148,163,184,.32);box-shadow:0 12px 28px rgba(31,73,216,.06)}.topbar-inner{max-width:1180px;margin:0 auto;padding:14px 22px;display:flex;align-items:center;justify-content:space-between;gap:18px}.brand{display:flex;align-items:center;gap:10px}.mark{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,#e11d48,#f97316);box-shadow:inset 0 -10px 0 rgba(0,0,0,.18)}.brand strong{display:block;font-size:15px}.brand span{display:block;color:#667085;font-size:12px}.nav{display:flex;gap:4px;flex-wrap:wrap}.nav a,.identity a,.identity span{border-radius:8px;padding:8px 10px;text-decoration:none;font-weight:800}.nav a{color:#475467}.nav a.active,.nav a:hover{background:#eef4ff;color:#1f49d8}.identity{display:flex;align-items:center;gap:8px}.identity span,.identity a{background:#f8fafc;color:#172033;border:1px solid rgba(148,163,184,.32)}.workspace{max-width:1180px;margin:0 auto;padding:26px 22px}.hero{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(260px,.55fr);gap:14px;margin-bottom:14px}.panel,.card,.notice{background:rgba(255,255,255,.94);border:1px solid var(--line);border-radius:14px;padding:18px}.panel{box-shadow:0 18px 40px rgba(16,24,40,.07);position:relative;overflow:hidden}.hero-art:after{content:"";position:absolute;right:-70px;top:-70px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,#bfd2ff 0,#e8efff 42%,transparent 70%);opacity:.9}.public-hero{background:linear-gradient(90deg,rgba(255,255,255,.86) 0%,rgba(255,255,255,.62) 52%,rgba(255,255,255,.34) 100%),url('/assets/public-yard-hero.webp') center/cover}.public-hero:after{right:-30px;top:-40px;background:radial-gradient(circle,rgba(249,115,22,.24) 0,rgba(191,210,255,.18) 48%,transparent 72%)}.organizer-hero{background:linear-gradient(90deg,rgba(255,255,255,.96),rgba(255,255,255,.88)),url('/assets/organizer-source-visual.webp') center/cover}.organizer-hero:after{right:-40px;top:-50px;background:radial-gradient(circle,rgba(20,184,166,.22) 0,rgba(91,63,181,.18) 50%,transparent 74%)}.hero-art>*{position:relative;z-index:1}.visual-card{position:relative;overflow:hidden;min-height:190px}.organizer-card{background:linear-gradient(135deg,rgba(255,255,255,.92),rgba(255,255,255,.8)),url('/assets/organizer-source-visual.webp') center/cover}.visual-card:before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(31,73,216,.12),rgba(225,29,72,.08)),repeating-linear-gradient(135deg,transparent 0 18px,rgba(31,73,216,.06) 18px 19px);pointer-events:none}.organizer-card:before{background:linear-gradient(135deg,rgba(16,24,40,.1),rgba(20,184,166,.12)),radial-gradient(circle at 80% 20%,rgba(249,115,22,.16),transparent 42%)}.visual-card>*{position:relative;z-index:1}.service-hero{grid-template-columns:minmax(0,1fr) minmax(420px,.82fr)}.service-card{min-height:300px;padding:30px}.service-card h2{font-size:34px;line-height:1.08;margin:22px 0 18px}.service-card>p{font-size:19px;line-height:1.7}.service-card .signal{margin:22px 0}.service-card .signal-row{padding:22px;border-radius:18px;gap:16px}.service-card .signal-row strong{font-size:21px}.service-card .signal-row p{font-size:18px;line-height:1.65;margin:12px 0 0}.service-card .signal-dot{width:13px;height:20px;border-radius:999px;margin-top:4px}.service-card .button{width:100%;padding:17px 18px;border-radius:14px;font-size:18px}.panel h1{font-size:34px;line-height:1.08;margin:8px 0}.panel p,.card p,.notice p{color:var(--muted);line-height:1.6}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}.stack{display:grid;gap:12px}.split{display:grid;grid-template-columns:1fr 1fr;gap:12px}.eyebrow{letter-spacing:.08em;text-transform:uppercase;font-size:11px;font-weight:900;color:#667085}.pill{display:inline-flex;border-radius:7px;padding:4px 8px;font-size:12px;font-weight:900;background:#eef2ff;color:#243b83}.pill.green{background:var(--green-bg);color:var(--green)}.pill.amber{background:var(--amber-bg);color:var(--amber)}.pill.red{background:var(--red-bg);color:var(--red)}.pill.purple{background:var(--purple-bg);color:var(--purple)}.button{display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--accent);border-radius:9px;padding:10px 13px;background:var(--accent);color:#fff;font-weight:900;text-decoration:none;cursor:pointer}.button.secondary{background:#fff;color:#1d2939;border-color:var(--line)}.button.danger{background:#b42318;border-color:#b42318}.button.disabled{background:#eef2f7;color:#667085;border-color:#d0d5dd;cursor:not-allowed}.cta-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.metric-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin:12px 0}.metric{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px}.metric strong{display:block;font-size:24px;margin:6px 0 2px}.flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-top:12px}.flow-step{border:1px solid var(--line);border-radius:12px;background:#fff;padding:12px}.flow-step strong{display:block;margin-top:4px}.signal{display:grid;gap:10px}.signal-row{display:flex;align-items:flex-start;gap:10px;padding:12px;border:1px solid var(--line);border-radius:12px;background:#fff}.signal-dot{width:11px;height:11px;border-radius:50%;background:#98a2b3;margin-top:7px}.signal-dot.green{background:#17b26a}.signal-dot.amber{background:#f79009}.signal-dot.red{background:#f04438}.action-list{display:grid;gap:10px}.action-item{display:flex;justify-content:space-between;gap:16px;border:1px solid var(--line);border-radius:12px;background:#fff;padding:14px;text-decoration:none;color:var(--ink)}.action-item:hover{box-shadow:0 10px 24px rgba(16,24,40,.06)}.action-item strong{display:block;margin-bottom:4px}.action-item em{display:block;color:var(--muted);font-style:normal;line-height:1.45}.arrow{font-size:22px;font-weight:900;color:#98a2b3}.notice.ok{background:var(--green-bg);border-color:#b7ebd0}.notice.warn{background:var(--amber-bg);border-color:#f6dfa0}.notice.danger{background:var(--red-bg);border-color:#ffd0d0}form{display:grid;gap:12px}label{display:grid;gap:6px;font-weight:800;color:#344054}input,textarea{width:100%;border:1px solid var(--line);border-radius:9px;padding:11px;font:inherit;background:#fff}table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden}th,td{padding:11px 12px;border-bottom:1px solid #edf0f5;text-align:left;vertical-align:top}th{background:#f8fafc;color:#344054;font-size:12px;text-transform:uppercase;letter-spacing:.04em}tr:last-child td{border-bottom:0}.radar-panel{display:grid;grid-template-columns:minmax(260px,330px) minmax(0,1fr);gap:16px;align-items:center;margin-top:14px}.radar-svg{width:100%;max-width:330px}.radar-legend{display:grid;gap:8px;list-style:none;margin:0;padding:0}.radar-legend li{display:flex;justify-content:space-between;gap:12px;border:1px solid var(--line);border-radius:10px;background:#fff;padding:9px 11px}.radar-score{font-weight:900;color:var(--accent)}.result-radar{margin-top:14px}.timeline{display:grid;gap:10px}.event{display:grid;grid-template-columns:44px minmax(0,1fr);gap:12px}.event-no{width:34px;height:34px;border-radius:50%;background:#101828;color:white;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:13px}details{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden}summary{cursor:pointer;list-style:none;padding:14px 16px;font-weight:900}summary::-webkit-details-marker{display:none}.details-body{border-top:1px solid var(--line);padding:14px 16px;background:#fbfcff}.muted{color:var(--muted)}@media(max-width:820px){.jumbotron-page{width:auto;margin-left:0}.jumbotron-header{align-items:flex-start;flex-direction:column}.jumbotron-layout{grid-template-columns:1fr}.jumbotron-live-layout>aside,.jumbotron-live-layout>.track-stage-card{grid-column:auto;grid-row:auto}.track-svg{height:520px}.topbar-inner{align-items:flex-start;flex-direction:column}.hero,.split,.radar-panel,.service-hero{grid-template-columns:1fr}.event{grid-template-columns:1fr}}
 </style>
 </head>
 <body><main class="shell"><header class="topbar"><div class="topbar-inner"><div class="brand"><div class="mark"></div><div><strong>GRS 001</strong><span>赛事公开展示</span></div></div>${nav}${identity}</div></header><section class="workspace">${content}</section></main></body></html>`;
@@ -390,7 +390,30 @@ async function requestOrganizerEvaluation(organizerPort, session, answer, riding
 
 const JUMBOTRON_STALE_THRESHOLD_MS = 1000 * 60 * 5;
 const JUMBOTRON_TRACK_PROFILE_SCHEMA_VERSION = '0.1.0';
-const JUMBOTRON_BACKGROUND_ASSETS = new Set(['/assets/public-yard-hero.webp', '/assets/organizer-source-visual.webp']);
+const JUMBOTRON_RUNTIME_ASSETS = new Map([
+  ['/assets/jumbotron/background1.png', { file: 'background1.png', contentType: 'image/png' }],
+  ['/assets/jumbotron/example.png', { file: 'example.png', contentType: 'image/png' }],
+  ['/assets/jumbotron/rider3_run.png', { file: 'rider3_run.png', contentType: 'image/png' }],
+  ['/assets/jumbotron/rider3_walk.png', { file: 'rider3_walk.png', contentType: 'image/png' }],
+  ['/assets/jumbotron/rider3_stay.png', { file: 'rider3_stay.png', contentType: 'image/png' }],
+  ['/assets/jumbotron/rider3_run.gif', { file: 'rider3_run.gif', contentType: 'image/gif' }],
+  ['/assets/jumbotron/rider3_walk.gif', { file: 'rider3_walk.gif', contentType: 'image/gif' }],
+  ['/assets/jumbotron/rider3_stay.gif', { file: 'rider3_stay.gif', contentType: 'image/gif' }],
+  ['/assets/jumbotron/rider3_run.webp', { file: 'rider3_run.webp', contentType: 'image/webp' }],
+  ['/assets/jumbotron/rider3_walk.webp', { file: 'rider3_walk.webp', contentType: 'image/webp' }],
+  ['/assets/jumbotron/rider3_stay.webp', { file: 'rider3_stay.webp', contentType: 'image/webp' }],
+  ['/assets/jumbotron/jumbotron-state-badges.png', { file: 'jumbotron-state-badges.png', contentType: 'image/png' }],
+  ['/assets/jumbotron/state-badge-idle.png', { file: 'state-badge-idle.png', contentType: 'image/png' }],
+  ['/assets/jumbotron/state-badge-running.png', { file: 'state-badge-running.png', contentType: 'image/png' }],
+  ['/assets/jumbotron/state-badge-sprinting.png', { file: 'state-badge-sprinting.png', contentType: 'image/png' }],
+  ['/assets/jumbotron/state-badge-slowed.png', { file: 'state-badge-slowed.png', contentType: 'image/png' }],
+  ['/assets/jumbotron/state-badge-blocked.png', { file: 'state-badge-blocked.png', contentType: 'image/png' }],
+  ['/assets/jumbotron/state-badge-pit_stop.png', { file: 'state-badge-pit_stop.png', contentType: 'image/png' }],
+  ['/assets/jumbotron/state-badge-takeover.png', { file: 'state-badge-takeover.png', contentType: 'image/png' }],
+  ['/assets/jumbotron/state-badge-finished.png', { file: 'state-badge-finished.png', contentType: 'image/png' }],
+  ['/assets/jumbotron/state-badge-stale.png', { file: 'state-badge-stale.png', contentType: 'image/png' }]
+]);
+const JUMBOTRON_BACKGROUND_ASSETS = new Set(['/assets/public-yard-hero.webp', '/assets/organizer-source-visual.webp', '/assets/jumbotron/background1.png', '/assets/jumbotron/example.png']);
 const JUMBOTRON_MIN_PATH_LENGTH_RATIO = 0.35;
 const JUMBOTRON_MANUAL_CHECK_PENDING = { status: 'pending', label: '待人工复核' };
 const JUMBOTRON_MANUAL_CHECK_CONFIRMED = { status: 'confirmed', label: '已人工确认' };
@@ -398,6 +421,9 @@ const JUMBOTRON_CURATED_MOCK_DIR = join(rootDir, 'jumbotron-mock-data', 'curated
 const JUMBOTRON_CURATED_RACE_SNAPSHOT_PATH = join(JUMBOTRON_CURATED_MOCK_DIR, 'race-snapshot.json');
 const JUMBOTRON_CURATED_TRACK_PROFILE_PATH = join(JUMBOTRON_CURATED_MOCK_DIR, 'track.profile.json');
 const JUMBOTRON_REVIEW_PACKAGE_DIR = join(rootDir, '..', 'Week2-Jumbotron', 'mock-data', 'review-package');
+const JUMBOTRON_DEBUG_PREVIEW_PNG_ROUTE = '/jumbotron/debug-preview.png';
+const JUMBOTRON_DEBUG_PREVIEW_PNG_RELATIVE_PATH = 'Week2-Jumbotron/review-ledger/screenshots/2026-06-13-jumbotron-debug-preview-export/debug-preview.png';
+const JUMBOTRON_DEBUG_PREVIEW_PNG_PATH = join(rootDir, '..', JUMBOTRON_DEBUG_PREVIEW_PNG_RELATIVE_PATH);
 const JUMBOTRON_SMOKE_8_RACE_SNAPSHOT_PATH = join(JUMBOTRON_REVIEW_PACKAGE_DIR, 'smoke-race-snapshot-8.json');
 const JUMBOTRON_COVERAGE_9_RACE_SNAPSHOT_PATH = join(JUMBOTRON_REVIEW_PACKAGE_DIR, 'smoke-race-snapshot-9-coverage.json');
 const JUMBOTRON_EXPECTED_MOTION_STATES = ['idle', 'running', 'sprinting', 'slowed', 'blocked', 'pit_stop', 'takeover', 'finished', 'stale'];
@@ -410,8 +436,11 @@ const JUMBOTRON_DATA_PROFILES = [
     raceSnapshotPath: JUMBOTRON_CURATED_RACE_SNAPSHOT_PATH,
     trackProfilePath: JUMBOTRON_CURATED_TRACK_PROFILE_PATH,
     defaultUse: 'complete Jumbotron data evidence and pressure profile',
-    recommendedSurface: ['/jumbotron default', '/jumbotron?debug=1', 'final completeness evidence'],
+    publicName: '完整数据档位',
+    publicUse: '完整赛事数据证据与压力展示',
+    publicSurface: '默认公开页、调试核对、最终完整性证据',
     notFor: ['the only video main-shot profile if labels and bubbles overload the screen'],
+    recommendedSurface: ['/jumbotron default', '/jumbotron?debug=1', 'final completeness evidence'],
     validatorStatus: 'pass',
     expectedWarnings: []
   },
@@ -421,6 +450,9 @@ const JUMBOTRON_DATA_PROFILES = [
     raceSnapshotPath: JUMBOTRON_SMOKE_8_RACE_SNAPSHOT_PATH,
     trackProfilePath: JUMBOTRON_CURATED_TRACK_PROFILE_PATH,
     defaultUse: 'low-load visual smoke and classroom screen candidate',
+    publicName: '轻量演示档位',
+    publicUse: '低负载视觉冒烟检查与课堂大屏候选',
+    publicSurface: '视频主镜头、视觉冒烟复核、标签与气泡避让复核',
     recommendedSurface: ['video main shot', 'visual smoke review', 'label-bubble overlap review'],
     notFor: ['proving all 9 motion states', 'proving all 9 message types'],
     validatorStatus: 'pass_with_expected_warnings',
@@ -438,6 +470,9 @@ const JUMBOTRON_DATA_PROFILES = [
     raceSnapshotPath: JUMBOTRON_COVERAGE_9_RACE_SNAPSHOT_PATH,
     trackProfilePath: JUMBOTRON_CURATED_TRACK_PROFILE_PATH,
     defaultUse: 'coverage and validator evidence for all motion states and message types',
+    publicName: '覆盖验证档位',
+    publicUse: '覆盖全部运动状态与消息类型的验证证据',
+    publicSurface: '调试覆盖页面、验证器证据、技术说明片段',
     recommendedSurface: ['debug coverage page', 'validator evidence', 'technical explanation segment'],
     notFor: ['lowest-load main visual screenshot'],
     validatorStatus: 'pass',
@@ -575,10 +610,10 @@ function dataProfileUrl(alias, showReviewTools = false) {
 }
 
 function renderJumbotronProfileSelector({ dataProfile, showReviewTools }) {
-  return `<section class="jumbotron-debug"><div class="eyebrow">Data Profile</div><h2>数据档位</h2><div class="debug-grid">${JUMBOTRON_DATA_PROFILES.map((profile) => {
+  return `<section class="jumbotron-drawer jumbotron-profile-drawer" aria-label="数据档位选择"><div class="jumbotron-drawer-head"><div><div class="eyebrow">数据档位</div><h2>数据档位</h2></div><span class="jumbotron-drawer-icon" aria-hidden="true">⌄</span></div><div class="jumbotron-drawer-body jumbotron-profile-drawer-body"><div class="debug-grid jumbotron-profile-grid">${JUMBOTRON_DATA_PROFILES.map((profile) => {
     const active = profile.alias === dataProfile.profileAlias;
-    return `<article><strong>${active ? '✓ ' : ''}${escapeHtml(profile.alias)}</strong><p class="muted">dataProfileId=${escapeHtml(profile.canonicalId)}</p><p class="muted">${escapeHtml(profile.defaultUse)}</p><a class="button secondary" href="${escapeHtml(dataProfileUrl(profile.alias, showReviewTools))}">${active ? '当前档位' : '切换档位'}</a></article>`;
-  }).join('')}</div></section>`;
+    return `<article class="${active ? 'is-active' : ''}"><strong>${active ? '✓ ' : ''}${escapeHtml(profile.publicName || profile.alias)}</strong><p class="muted">档位编号：${escapeHtml(profile.canonicalId)}</p><p class="muted">用途：${escapeHtml(profile.publicUse || profile.defaultUse)}</p><p class="muted">适合场景：${escapeHtml(profile.publicSurface || profile.recommendedSurface.join('、'))}</p><a class="button secondary" href="${escapeHtml(dataProfileUrl(profile.alias, showReviewTools))}">${active ? '当前档位' : '切换档位'}</a></article>`;
+  }).join('')}</div></div></section>`;
 }
 
 function profileUsageGuard(profileResolution) {
@@ -743,6 +778,44 @@ function renderJumbotronBubbleSyncScript(profileAlias = 'full') {
 </script>`;
 }
 
+function renderJumbotronDrawerStabilizerScript() {
+  return `<script>
+(() => {
+  const liveAside = document.querySelector('.jumbotron-live-layout > aside');
+  if (!liveAside) return;
+  let active = null;
+  let frame = 0;
+  function stabilize() {
+    if (!active) return;
+    const currentTop = active.head.getBoundingClientRect().top;
+    liveAside.scrollTop += currentTop - active.top;
+    frame = window.requestAnimationFrame(stabilize);
+  }
+  function start(drawer) {
+    const head = drawer.querySelector('.jumbotron-drawer-head');
+    if (!head) return;
+    if (frame) window.cancelAnimationFrame(frame);
+    active = { head, top: head.getBoundingClientRect().top };
+    frame = window.requestAnimationFrame(stabilize);
+  }
+  function stop() {
+    if (frame) window.cancelAnimationFrame(frame);
+    frame = 0;
+    active = null;
+  }
+  liveAside.querySelectorAll('.jumbotron-drawer').forEach((drawer) => {
+    drawer.addEventListener('mouseenter', () => start(drawer));
+    drawer.addEventListener('focusin', () => start(drawer));
+    drawer.addEventListener('mouseleave', stop);
+    drawer.addEventListener('focusout', stop);
+    drawer.addEventListener('transitionend', (event) => {
+      if (event.target.classList.contains('jumbotron-drawer-body') && event.propertyName === 'max-height') stop();
+    });
+  });
+})();
+</script>`;
+}
+
 async function renderJumbotron(session, options = {}) {
   const profileResolution = resolveJumbotronDataProfile(options.profile);
   if (!profileResolution.ok) return renderJumbotronProfileError(session, profileResolution);
@@ -767,6 +840,7 @@ async function renderJumbotron(session, options = {}) {
     ${renderJumbotronTicker(viewModel)}
     ${showReviewTools ? `${renderJumbotronDataEvidenceDebug(viewModel)}${renderJumbotronCalibrator(viewModel)}${renderJumbotronValidation(viewModel)}` : ''}
     ${renderJumbotronFooter(viewModel)}
+    ${renderJumbotronDrawerStabilizerScript()}
     ${renderJumbotronBubbleSyncScript(model.dataProfile.profileAlias)}
   </section>`;
   return page('Jumbotron', '/jumbotron', session, content);
@@ -1894,6 +1968,23 @@ function jumbotronPath(points) {
   return points.map((point, index) => `${index === 0 ? 'M' : 'L'} ${point.x} ${point.y}`).join(' ');
 }
 
+function jumbotronCurvePath(points) {
+  const closedPoints = points.length > 1 && samePoint(points[0], points.at(-1)) ? points.slice(0, -1) : points;
+  if (closedPoints.length < 3) return jumbotronPath(points);
+  const commands = [`M ${closedPoints[0].x} ${closedPoints[0].y}`];
+  for (let index = 0; index < closedPoints.length; index += 1) {
+    const p0 = closedPoints[(index - 1 + closedPoints.length) % closedPoints.length];
+    const p1 = closedPoints[index];
+    const p2 = closedPoints[(index + 1) % closedPoints.length];
+    const p3 = closedPoints[(index + 2) % closedPoints.length];
+    const c1 = { x: p1.x + (p2.x - p0.x) / 6, y: p1.y + (p2.y - p0.y) / 6 };
+    const c2 = { x: p2.x - (p3.x - p1.x) / 6, y: p2.y - (p3.y - p1.y) / 6 };
+    commands.push(`C ${Number(c1.x.toFixed(2))} ${Number(c1.y.toFixed(2))} ${Number(c2.x.toFixed(2))} ${Number(c2.y.toFixed(2))} ${p2.x} ${p2.y}`);
+  }
+  commands.push('Z');
+  return commands.join(' ');
+}
+
 function jumbotronSafeId(value) {
   return String(value || 'item').toLowerCase().replace(/[^a-z0-9_-]+/g, '-');
 }
@@ -2033,6 +2124,60 @@ function publicCheckpointLabel(label) {
   return labels[label] || label;
 }
 
+function jumbotronRuntimeAssetExists(href) {
+  const assetInfo = JUMBOTRON_RUNTIME_ASSETS.get(href);
+  return Boolean(assetInfo && existsSync(join(rootDir, 'assets', 'jumbotron', assetInfo.file)));
+}
+
+function jumbotronRiderAssetForMotionState(state) {
+  const href = ['running', 'sprinting'].includes(state)
+    ? '/assets/jumbotron/rider3_run.gif'
+    : ['blocked', 'takeover', 'pit_stop'].includes(state)
+      ? '/assets/jumbotron/rider3_walk.gif'
+      : '/assets/jumbotron/rider3_stay.gif';
+  return jumbotronRuntimeAssetExists(href) ? href : '';
+}
+
+function jumbotronMotionStateBadgeAsset(state) {
+  const href = `/assets/jumbotron/state-badge-${state}.png`;
+  return jumbotronRuntimeAssetExists(href) ? href : '';
+}
+
+function renderHorseStatusBadge(entry) {
+  const href = jumbotronMotionStateBadgeAsset(entry.motionState);
+  const label = motionStateLabel(entry.motionState);
+  if (href) {
+    return `<g class="horse-status-pill horse-status-badge-wrap" transform="translate(18 -30)"><title>${escapeHtml(label)}</title><image class="horse-status-badge" href="${escapeHtml(href)}" x="-14" y="-14" width="28" height="28" preserveAspectRatio="xMidYMid meet"/></g>`;
+  }
+  const shortLabel = jumbotronMotionStateShortLabel(entry.motionState);
+  return `<g class="horse-status-pill" transform="translate(18 -30)"><rect x="-2" y="-13" width="24" height="18" rx="9"/><text x="10" y="0" text-anchor="middle">${escapeHtml(shortLabel)}</text></g>`;
+}
+
+function renderTrackBackgroundImage(trackProfile) {
+  const src = trackProfile.background?.src;
+  if (!src) return '';
+  return `<image class="track-background-image" href="${escapeHtml(src)}" x="22" y="22" width="1156" height="576" preserveAspectRatio="xMidYMid slice"/>`;
+}
+
+function jumbotronSpriteFacing(rotation) {
+  const radians = Number(rotation || 0) * Math.PI / 180;
+  return Math.cos(radians) >= 0 ? 'right' : 'left';
+}
+
+function jumbotronSpriteFacingTransform(facing) {
+  return facing === 'left' ? 'scale(-1 1)' : 'scale(1 1)';
+}
+
+function renderHorseRiderSprite(entry, pose) {
+  const href = jumbotronRiderAssetForMotionState(entry.motionState);
+  const facing = jumbotronSpriteFacing(pose.rotation);
+  const transform = jumbotronSpriteFacingTransform(facing);
+  const sprite = href
+    ? `<image class="horse-rider-sprite" href="${escapeHtml(href)}" x="-75.6" y="-78.4" width="151.2" height="156.8" preserveAspectRatio="xMidYMid meet"/>`
+    : `<circle class="horse-body" r="18"/><path class="horse-arrow" d="M-7,-9 L19,0 L-7,9 Z"/>`;
+  return `<g class="horse-rider-facing" data-facing="${facing}" transform="${transform}">${sprite}</g>`;
+}
+
 function renderJumbotronTrack({ trackProfile, horsePoses, debug, messagePlan, adapted, showReviewTools }) {
   const messageBubbleRects = mapBubbleQueueToGeometry(trackProfile, messagePlan.bubbles);
   const labelLayout = buildHorseLabelLayout({ horsePoses, trackProfile, messageBubbleRects, viewBox: trackProfile.viewBox });
@@ -2041,12 +2186,15 @@ function renderJumbotronTrack({ trackProfile, horsePoses, debug, messagePlan, ad
     const placement = jumbotronTooltipPlacement(pose, 310, 112);
     const label = labelLayout.byEntryId[entry.entryId];
     const visualClass = jumbotronHorseVisualClass(entry);
-    const statusLabel = jumbotronMotionStateShortLabel(entry.motionState);
     const riskRing = ['high', 'critical'].includes(entry.riskLevel) ? `<circle class="track-alert-ring" r="27"/>` : '';
-    return `<a class="jumbotron-focus-source focus-trigger" href="#${entryFocusId(entry)}" aria-label="查看 ${escapeHtml(entry.displayName)} 焦点详情"><g class="horse ${escapeHtml(visualClass)}" data-motion-state="${escapeHtml(entry.motionState)}" data-risk-level="${escapeHtml(entry.riskLevel)}" transform="translate(${pose.x} ${pose.y}) rotate(${pose.rotation})">${riskRing}<circle class="horse-body" r="18"/><path class="horse-arrow" d="M-7,-9 L19,0 L-7,9 Z"/><text class="debug-label" transform="rotate(${-pose.rotation})" text-anchor="middle" y="6">${escapeHtml(entry.rank)}</text><g class="horse-status-pill" transform="rotate(${-pose.rotation}) translate(18 -30)"><rect x="-2" y="-13" width="24" height="18" rx="9"/><text x="10" y="0" text-anchor="middle">${escapeHtml(statusLabel)}</text></g></g>${label ? renderHorseLabelGroup(label) : ''}${renderSvgTooltip(entryTooltipLines(entry), placement)}</a>`;
+    return `<a class="jumbotron-focus-source focus-trigger" href="#${entryFocusId(entry)}" aria-label="查看 ${escapeHtml(entry.displayName)} 焦点详情"><g class="horse ${escapeHtml(visualClass)}" data-motion-state="${escapeHtml(entry.motionState)}" data-risk-level="${escapeHtml(entry.riskLevel)}" transform="translate(${pose.x} ${pose.y})">${riskRing}${renderHorseRiderSprite(entry, pose)}<text class="debug-label" text-anchor="middle" y="6">${escapeHtml(entry.rank)}</text>${renderHorseStatusBadge(entry)}</g>${label ? renderHorseLabelGroup(label) : ''}${renderSvgTooltip(entryTooltipLines(entry), placement)}</a>`;
   }).join('');
   const bubbleLayer = renderJumbotronBubbleLayer({ trackProfile, messagePlan, adapted });
-  return `<section class="track-stage-card"><div class="eyebrow">赛事大屏</div><h2>实时赛道</h2><svg class="track-svg" viewBox="0 0 1200 620" role="img" aria-label="赛事实时赛道" data-label-count="${labelLayout.summary.total}" data-label-overlaps="${labelLayout.summary.labelLabelOverlaps}" data-label-marker-overlaps="${labelLayout.summary.labelMarkerOverlaps}" data-label-bubble-overlaps="${labelLayout.summary.labelBubbleOverlaps}" data-label-out-of-viewbox="${labelLayout.summary.outOfViewBox}"><rect class="track-bg" x="22" y="22" width="1156" height="576" rx="42"/><path class="track-band" d="${jumbotronPath(trackProfile.centerlinePath)}"/><polyline class="track-centerline" points="${jumbotronPolyline(trackProfile.centerlinePath)}"/>${debugLayer}${debug.checkpoints.map((checkpoint) => `<g class="checkpoint" transform="translate(${checkpoint.pose.point.x} ${checkpoint.pose.point.y})"><circle r="9" fill="#facc15" stroke="#713f12" stroke-width="3"/><text x="13" y="5">${escapeHtml(publicCheckpointLabel(checkpoint.label))}</text></g>`).join('')}${entryLayer}${bubbleLayer}</svg></section>`;
+  return `<section class="track-stage-card"><div class="eyebrow">赛事大屏</div><h2>实时赛道</h2><svg class="track-svg" viewBox="0 0 1200 620" role="img" aria-label="赛事实时赛道" data-label-count="${labelLayout.summary.total}" data-label-overlaps="${labelLayout.summary.labelLabelOverlaps}" data-label-marker-overlaps="${labelLayout.summary.labelMarkerOverlaps}" data-label-bubble-overlaps="${labelLayout.summary.labelBubbleOverlaps}" data-label-out-of-viewbox="${labelLayout.summary.outOfViewBox}"><rect class="track-bg" x="22" y="22" width="1156" height="576" rx="42"/>${renderTrackBackgroundImage(trackProfile)}<path class="track-band" d="${jumbotronCurvePath(trackProfile.centerlinePath)}"/><path class="track-centerline" d="${jumbotronCurvePath(trackProfile.centerlinePath)}"/>${debugLayer}${debug.checkpoints.map((checkpoint) => `<g class="checkpoint" transform="translate(${checkpoint.pose.point.x} ${checkpoint.pose.point.y})"><circle r="9" fill="#facc15" stroke="#713f12" stroke-width="3"/><text x="13" y="5">${escapeHtml(publicCheckpointLabel(checkpoint.label))}</text></g>`).join('')}${entryLayer}${bubbleLayer}</svg></section>`;
+}
+
+function renderJumbotronSideDrawer({ eyebrow, title, body, className = '', id = '' }) {
+  return `<section${id ? ` id="${escapeHtml(id)}"` : ''} class="jumbotron-drawer jumbotron-drawer-card ${escapeHtml(className)}"><div class="jumbotron-drawer-head"><div><div class="eyebrow">${escapeHtml(eyebrow)}</div><h2>${escapeHtml(title)}</h2></div><span class="jumbotron-drawer-icon" aria-hidden="true">⌄</span></div><div class="jumbotron-drawer-body">${body}</div></section>`;
 }
 
 function renderJumbotronSide({ adapted, horsePoses, debug, trackProfile, showReviewTools }) {
@@ -2057,7 +2205,9 @@ function renderJumbotronSide({ adapted, horsePoses, debug, trackProfile, showRev
     .filter((item) => ['critical', 'high'].includes(item.severity) || ['risk', 'obstacle', 'violation'].includes(item.category))
     .slice(0, 4);
   const attention = attentionItems.length ? attentionItems.map((item) => `<a class="jumbotron-focus-source focus-trigger" href="#${attentionFocusId(item)}"><article class="attention-item attention-item-${escapeHtml(item.severity)}"><strong>${escapeHtml(attentionCategoryLabel(item.category))} · ${escapeHtml(severityLabel(item.severity))}</strong><p>${escapeHtml(item.summary)}</p>${renderHtmlTooltip(attentionTooltipLines(item, adapted.racingEntries))}</article></a>`).join('') : '<p class="muted">当前没有高优先级风险。</p>';
-  return `<aside><section class="side-card"><div class="eyebrow">TOP3</div><h2>领先队伍</h2><ol class="ranking-list">${top3.map((entry) => `<li><a class="jumbotron-focus-source focus-trigger" href="#${entryFocusId(entry)}"><strong>#${entry.rank} ${escapeHtml(entry.displayName)}</strong><span class="gap-pill">${escapeHtml(top3GapLabel(entry, adapted.racingEntries))}</span>${renderHtmlTooltip(entryTooltipLines(entry))}</a><div class="muted">${entry.roundProgress}% · ${escapeHtml(motionStateLabel(entry.motionState))}</div></li>`).join('')}</ol></section>${renderFocusDetailPanel(adapted)}<section class="side-card"><div class="eyebrow">赛道概览</div><h2>小地图</h2><svg class="mini-map-svg" viewBox="0 0 ${trackProfile.viewBox.width} ${trackProfile.viewBox.height}" role="img" aria-label="赛道小地图"><path class="track-band" d="${jumbotronPath(trackProfile.centerlinePath)}"/><polyline class="track-centerline" points="${jumbotronPolyline(trackProfile.centerlinePath)}"/>${horsePoses.map(({ entry, pose }) => `<a class="jumbotron-focus-source" href="#${entryFocusId(entry)}"><circle cx="${pose.x}" cy="${pose.y}" r="18" fill="#1f49d8"><title>${escapeHtml(entry.displayName)}</title></circle></a>`).join('')}</svg><h3>队伍图例</h3>${legend}</section><section class="side-card"><div class="eyebrow">阶段</div><h2>进度快照</h2>${phaseSummary}</section><section class="side-card"><div class="eyebrow">提醒</div><h2>风险 / 阻塞 / 违规</h2>${attention}</section>${showReviewTools ? `<section class="side-card"><div class="eyebrow">HorsePose</div><h2>运行时输出</h2><p class="muted">${horsePoses.length} 个 Entry · ${debug.horseSValues.map(escapeHtml).join(' / ')}</p></section>` : ''}</aside>`;
+  const miniMap = `<svg class="mini-map-svg" viewBox="0 0 ${trackProfile.viewBox.width} ${trackProfile.viewBox.height}" role="img" aria-label="赛道小地图"><path class="track-band" d="${jumbotronCurvePath(trackProfile.centerlinePath)}"/><path class="track-centerline" d="${jumbotronCurvePath(trackProfile.centerlinePath)}"/>${horsePoses.map(({ entry, pose }) => `<a class="jumbotron-focus-source" href="#${entryFocusId(entry)}"><circle cx="${pose.x}" cy="${pose.y}" r="18" fill="#1f49d8"><title>${escapeHtml(entry.displayName)}</title></circle></a>`).join('')}</svg><h3>队伍图例</h3>${legend}`;
+  const reviewTools = showReviewTools ? renderJumbotronSideDrawer({ eyebrow: 'HorsePose', title: '运行时输出', body: `<p class="muted">${horsePoses.length} 个 Entry · ${debug.horseSValues.map(escapeHtml).join(' / ')}</p>` }) : '';
+  return `<aside><section class="side-card"><div class="eyebrow">TOP3</div><h2>领先队伍</h2><ol class="ranking-list">${top3.map((entry) => `<li><a class="jumbotron-focus-source focus-trigger" href="#${entryFocusId(entry)}"><strong>#${entry.rank} ${escapeHtml(entry.displayName)}</strong><span class="gap-pill">${escapeHtml(top3GapLabel(entry, adapted.racingEntries))}</span>${renderHtmlTooltip(entryTooltipLines(entry))}</a><div class="muted">${entry.roundProgress}% · ${escapeHtml(motionStateLabel(entry.motionState))}</div></li>`).join('')}</ol></section>${renderFocusDetailPanel(adapted)}${renderJumbotronSideDrawer({ eyebrow: '赛道概览', title: '小地图 / 队伍图例', body: miniMap })}${renderJumbotronSideDrawer({ eyebrow: '阶段', title: '进度快照', body: phaseSummary })}<section class="side-card"><div class="eyebrow">提醒</div><h2>风险 / 阻塞 / 违规</h2>${attention}</section>${reviewTools}</aside>`;
 }
 
 function renderJumbotronTicker({ messagePlan, adapted }) {
@@ -2105,7 +2255,7 @@ function renderFocusDetailPanel(adapted) {
     const entry = adapted.racingEntries.find((candidate) => candidate.entryId === item.entryId);
     return `<article id="${attentionFocusId(item)}" class="focus-detail-card" data-focus-kind="attention"><strong>提醒 · ${escapeHtml(attentionCategoryLabel(item.category))}</strong><p>${escapeHtml(severityLabel(item.severity))} · ${escapeHtml(attentionStatusLabel(item.status))} · ${escapeHtml(entry?.displayName || item.entryId)}</p><p class="muted">${escapeHtml(item.summary.slice(0, 84))}</p><p>下一步：${escapeHtml(attentionNextStep(item.category))}</p></article>`;
   }).join('');
-  return `<section class="side-card focus-details-card" aria-label="焦点详情"><div class="eyebrow">焦点</div><h2>焦点详情</h2><p class="muted">悬停预览，点击固定。</p><div class="focus-detail-list">${entryCards}${messageCards}${attentionCards}</div></section>`;
+  return renderJumbotronSideDrawer({ eyebrow: '焦点', title: '焦点详情', className: 'focus-details-card', body: `<p class="muted">悬停预览，点击固定。</p><div class="focus-detail-list">${entryCards}${messageCards}${attentionCards}</div>` });
 }
 
 function severityLabel(severity) {
@@ -2205,7 +2355,7 @@ function renderJumbotronDataEvidenceDebug({ dataEvidence }) {
 function renderJumbotronCalibrator({ trackProfile, runtime }) {
   const previewEntries = [0, 25, 50, 75, 100].map((progress, index) => ({ entryId: `preview-${progress}`, displayName: `${progress}%`, roundProgress: progress, laneOffsetIndex: index % trackProfile.laneOffsets.length, laneId: `lane-${index}`, motionState: progress === 100 ? 'finished' : 'running' }));
   const poses = previewEntries.map((entry) => ({ entry, pose: runtime.sampleHorsePose(entry) }));
-  return `<section class="jumbotron-calibrator"><div class="eyebrow">Track Profile 校准器 Preview</div><h2>设计侧预览</h2><div class="calibrator-grid"><article><strong>独立设计入口</strong><p class="muted">Calibrator MVP 已拆到 /jumbotron/calibrator，提供 Import / Validate / Preview / Export。</p></article><article><strong>预览画布</strong><p class="muted">背景 · 中心线 · 控制点 · 赛道预览 · 检查点 · 马匹预览 · 消息气泡预览</p></article><article><strong>共用 runtime</strong><p class="muted">Preview 复用 createJumbotronRuntime / sampleHorsePose，不另写坐标计算。</p></article><article><strong>仍待增强</strong><p class="muted">拖拽点位、AI 候选导入、JSON diff 和 debug-preview.png 仍是后续项。</p></article></div><svg class="calibrator-preview-svg" viewBox="0 0 1200 620" role="img" aria-label="校准器预览"><rect class="track-bg" x="40" y="60" width="1120" height="500" rx="34"/><polyline class="track-centerline" points="${jumbotronPolyline(trackProfile.centerlinePath)}"/>${poses.map(({ entry, pose }) => `<g transform="translate(${pose.x} ${pose.y})"><circle r="15" fill="#a855f7" stroke="#f5d0fe" stroke-width="3"/><text class="debug-label" x="22" y="6">${escapeHtml(entry.displayName)}</text></g>`).join('')}</svg><p class="muted">打开 <a class="button secondary" href="/jumbotron/calibrator">Track Profile Calibrator MVP</a> 可粘贴候选 profile、编辑 centerline / lanes / checkpoints、Validate 并 Export JSON。</p></section>`;
+  return `<section class="jumbotron-calibrator"><div class="eyebrow">Track Profile 校准器 Preview</div><h2>设计侧预览</h2><div class="calibrator-grid"><article><strong>独立设计入口</strong><p class="muted">Calibrator MVP 已拆到 /jumbotron/calibrator，提供 Import / Validate / Preview / Export。</p></article><article><strong>预览画布</strong><p class="muted">背景 · 中心线 · 控制点 · 赛道预览 · 检查点 · 马匹预览 · 消息气泡预览</p></article><article><strong>共用 runtime</strong><p class="muted">Preview 复用 createJumbotronRuntime / sampleHorsePose，不另写坐标计算。</p></article><article><strong>仍待增强</strong><p class="muted">AI 候选导入和第二赛道仍是后续项；JSON diff 与 debug-preview.png 证据已可引用。</p></article></div><svg class="calibrator-preview-svg" viewBox="0 0 1200 620" role="img" aria-label="校准器预览"><rect class="track-bg" x="40" y="60" width="1120" height="500" rx="34"/><polyline class="track-centerline" points="${jumbotronPolyline(trackProfile.centerlinePath)}"/>${poses.map(({ entry, pose }) => `<g transform="translate(${pose.x} ${pose.y})"><circle r="15" fill="#a855f7" stroke="#f5d0fe" stroke-width="3"/><text class="debug-label" x="22" y="6">${escapeHtml(entry.displayName)}</text></g>`).join('')}</svg><p class="muted">打开 <a class="button secondary" href="/jumbotron/calibrator">Track Profile Calibrator MVP</a> 可粘贴候选 profile、编辑 centerline / lanes / checkpoints、Validate 并 Export JSON。</p></section>`;
 }
 
 function renderJumbotronValidation({ debug, validation }) {
@@ -2300,6 +2450,17 @@ function buildCalibratorProfile(body = {}) {
     const deleteIndex = Number(body.deletePointIndex);
     if (Number.isInteger(deleteIndex)) centerlinePoints = centerlinePoints.filter((_, index) => index !== deleteIndex);
   }
+  if (body.centerlineAction === 'insert' || body.insertPointIndex !== undefined) {
+    const point = { x: Number(body.insertPointX), y: Number(body.insertPointY) };
+    const insertAfter = Number(body.insertPointIndex);
+    if (Number.isInteger(insertAfter) && finitePoint(point)) {
+      const closed = Boolean(profile.centerline.closed);
+      const closingDuplicate = closed && samePoint(centerlinePoints[0], centerlinePoints.at(-1));
+      const maxInsert = closingDuplicate ? centerlinePoints.length - 1 : centerlinePoints.length;
+      const insertIndex = Math.max(0, Math.min(maxInsert, insertAfter + 1));
+      centerlinePoints = [...centerlinePoints.slice(0, insertIndex), point, ...centerlinePoints.slice(insertIndex)];
+    }
+  }
   if (body.centerlineAction === 'add') {
     const point = { x: Number(body.addPointX), y: Number(body.addPointY) };
     if (finitePoint(point)) {
@@ -2340,13 +2501,14 @@ function buildCalibratorMultiHorseEntries(trackProfile, settings) {
 
 function buildCalibratorP1Backlog() {
   return [
-    ['气泡区域编辑', 'pending', '后续把 messageZones 从 JSON textarea 升级为画布拖拽编辑。'],
-    ['no bubble zone 编辑', 'pending', '后续把 noBubbleZones 从 JSON textarea 升级为画布区域编辑。'],
-    ['风险区域编辑', 'pending', '后续把 riskZones 从 JSON textarea 升级为画布区域编辑。'],
+    ['message zone 画布编辑', 'implemented', '可在画布中创建、移动和缩放 messageZones，JSON 仍保留为高级模式。'],
+    ['no bubble zone 编辑', 'implemented', '可在画布中创建、移动和缩放 noBubbleZones，用于检查气泡避让。'],
+    ['risk zone 画布编辑', 'implemented', '可在画布中创建、移动和缩放 riskZones，风险区域在主画布可见。'],
+    ['拖拽状态变化证据', 'implemented', 'centerline point / checkpoint / zone 拖拽时显示 before/current/delta，并在画布保留本次编辑连线。'],
     ['AI 候选点导入', 'pending', '当前只支持候选 profile JSON 粘贴，不接入 AI 识别链路。'],
     ['自动检测尖角', 'pending', '当前 Validate 提供弯道转角 warning，不自动修复。'],
-    ['自动分配 lanes', 'pending', '当前手动编辑 lane offsets，不自动分配。'],
-    ['导出 debug-preview.png', 'pending', '当前只导出 frozen track.profile.json 候选。'],
+    ['lane 快捷调整', 'implemented', '可通过 lane count / spacing 生成 offsets，并逐条微调。'],
+    ['导出 debug-preview.png', 'implemented', '已产出可引用 PNG 证据，路径为 Week2-Jumbotron/review-ledger/screenshots/2026-06-13-jumbotron-debug-preview-export/debug-preview.png。'],
     ['JSON diff preview', 'implemented', '当前展示 imported profile 与 exported frozen candidate 的字段差异。']
   ];
 }
@@ -2399,11 +2561,84 @@ function buildTrackProfileDiffRows(importedProfile, exportProfile) {
   return rows.filter((row) => row.changed);
 }
 
+function safeAssetLabel(src = '') {
+  const value = String(src || '未选择');
+  return value.startsWith('/assets/') ? value : 'custom-asset-candidate';
+}
+
+function buildCalibratorAssetReview(body = {}) {
+  const status = ['pending', 'confirmed', 'rejected'].includes(body.assetReviewStatus) ? body.assetReviewStatus : 'pending';
+  const labels = {
+    pending: 'pending human review',
+    confirmed: 'confirmed by human review',
+    rejected: 'rejected by human review'
+  };
+  const gate = {
+    pending: '候选预览：等待人工复核，不是正式资产，不会自动进入 Jumbotron confirmed asset。',
+    confirmed: '人工确认：已由人工复核通过，可作为 confirmed asset 供 Jumbotron 正式使用。',
+    rejected: '人工驳回：不得作为正式资产，只能保留为候选记录或继续修改。'
+  };
+  const useInJumbotron = {
+    pending: 'Use in Jumbotron：当前只允许 candidate preview；等待人工复核前，不会自动成为 confirmed asset。',
+    confirmed: 'Use in Jumbotron：人工确认通过后，可作为 confirmed asset 进入正式大屏资产流程。',
+    rejected: 'Use in Jumbotron：rejected candidate 不得进入正式大屏资产流程，只能继续修改后再复核。'
+  };
+  return { status, label: labels[status], gate: gate[status], useInJumbotron: useInJumbotron[status], confirmed: status === 'confirmed' };
+}
+
+function renderCalibratorAssetReviewStatus(assetReview) {
+  return `<section class="calibrator-asset-review" data-asset-review-status="${escapeHtml(assetReview.status)}"><strong>Asset review status：${escapeHtml(assetReview.label)}</strong><p class="muted">${escapeHtml(assetReview.gate)}</p><p class="muted">${escapeHtml(assetReview.useInJumbotron)}</p></section>`;
+}
+
+function renderCalibratorAssetReviewOptions(assetReview) {
+  return ['pending', 'confirmed', 'rejected'].map((status) => {
+    const labels = { pending: 'pending human review', confirmed: 'confirmed by human review', rejected: 'rejected by human review' };
+    return `<label><input type="radio" name="assetReviewStatus" value="${status}"${assetReview.status === status ? ' checked' : ''}> ${labels[status]}</label>`;
+  }).join('');
+}
+
+function renderCalibratorProofPanel(workbench, demoMode = false) {
+  const profile = workbench.trackProfile;
+  const background = safeAssetLabel(profile.background?.src);
+  const viewBox = profile.viewBox || { width: 1200, height: 620 };
+  const checksPassed = workbench.checks.filter(([, ok]) => ok).length;
+  const checksTotal = workbench.checks.length;
+  const assetReview = workbench.assetReview || buildCalibratorAssetReview();
+  return `<section class="jumbotron-calibrator" id="calibrator-proof-mode"><div class="eyebrow">校准证明${demoMode ? ' / 演示路径' : ''}</div><h1>校准证明</h1><p class="muted">证明链：底图只作为视觉层；centerline / startFinish / direction / lane offsets / checkpoints 是 track.profile.json 语义资产；Jumbotron runtime 按 progress → centerline distance → point/rotation → laneOffset → displayAdjustment 计算 HorsePose。</p><div class="calibrator-grid"><article><strong>1. 当前赛道底图与 profile 来源</strong><p class="muted">background asset path：${escapeHtml(background)}</p><p class="muted">allowlist key：${escapeHtml(profile.background?.assetId || profile.backgroundAsset || 'candidate-background')}</p><p class="muted">profile source file：jumbotron curated track profile 或本页 imported candidate。</p></article><article><strong>2. 语义几何证据</strong><p class="muted">centerline point count=${profile.centerlinePath.length}；closed=${Boolean(profile.centerline?.closed)}；direction=${escapeHtml(profile.direction)}；startFinish=${escapeHtml(profile.startFinish?.label || '终点线')}；viewBox=${viewBox.width}×${viewBox.height}</p><p class="muted">lane offset count=${profile.lanes.length}；checkpoint count=${profile.checkpoints.length}；messageZones=${profile.messageZones.length}；noBubbleZones=${profile.noBubbleZones.length}；riskZones=${profile.riskZones.length}</p></article><article><strong>3. Preview 复用 runtime</strong><p class="muted">单马 scrubber：${workbench.settings.previewProgress}%；多马 preview：${workbench.multiHorsePoses.length} 匹；最小距离 ${Math.round(workbench.multiHorsePreview.minDistance)}。</p><p class="muted">预览调用 createJumbotronRuntime / sampleHorsePose，不把马匹位置写死到底图。</p></article><article><strong>4. Validate / Export / Use in Jumbotron</strong><p class="muted">Validate：${checksPassed}/${checksTotal} 项通过；Export 区域输出 frozen track.profile.json candidate。</p><p class="muted">${escapeHtml(assetReview.useInJumbotron)}</p>${renderCalibratorAssetReviewStatus(assetReview)}<div class="cta-row"><a class="button secondary" href="/jumbotron">在 Jumbotron 中使用</a><a class="button secondary" href="/jumbotron/calibrator?demo=1">打开演示模式</a></div></article></div><section class="notice warn"><strong>当前边界</strong><p>本页展示 candidate / preview / frozen export 证据；正式资产 confirmed 与第二条完整赛道资产仍按页面状态标注；debug-preview.png 已作为截图证据导出；zone 与 centerline 拖拽只声明当前画布证据，不伪装为正式资产确认。</p></section></section>`;
+}
+
+function renderCalibratorDemoGuide() {
+  const steps = [
+    '打开 /jumbotron，展示 Race Live View。',
+    '指出多个 Racing Entry、TOP3、KPI、message bubble/ticker、risk/violation。',
+    '切到 /jumbotron/calibrator?demo=1，展示底图、centerline、lane offsets、checkpoints。',
+    '操作 scrubber 和 Horse Count，展示单马 / 多马 preview。',
+    '点击 Validate / Preview / Export，展示 Validation Results。',
+    '展示 Export frozen track.profile.json candidate 和 JSON diff preview。',
+    '回到 /jumbotron，说明 Jumbotron 使用同一 track-runtime / track.profile 生成 horse pose。',
+    '明确数据来源和可运行范围：race snapshot 是演示数据；Calibrator、Jumbotron、runtime 是可运行实现；正式资产冻结和第二条完整赛道资产仍 pending；debug-preview.png 已导出为可引用证据。'
+  ];
+  return `<section class="jumbotron-validation" id="demo-recording-guide"><div class="eyebrow">3–5 分钟短视频路径</div><h2>推荐录制路径</h2><ol>${steps.map((step) => `<li>${escapeHtml(step)}</li>`).join('')}</ol><div class="cta-row"><a class="button" href="/jumbotron">1. Race Live View</a><a class="button secondary" href="/jumbotron/calibrator?demo=1">2. Calibrator Proof</a></div></section>`;
+}
+
+function renderCalibratorDebugPreview(workbench) {
+  const profile = workbench.trackProfile;
+  const sampled = workbench.runtime.samplePoints(18);
+  const collision = profile.debug?.collisionBox || { width: 44, height: 44 };
+  const sampleMarkers = sampled.map((point, index) => `<circle cx="${point.x}" cy="${point.y}" r="3.5" fill="#0f2f9e"><title>sample-${index}</title></circle>`).join('');
+  const horseBoxes = workbench.multiHorsePoses.map(({ pose }) => `<rect x="${pose.x - collision.width / 2}" y="${pose.y - collision.height / 2}" width="${collision.width}" height="${collision.height}" fill="none" stroke="rgba(31,73,216,.55)" stroke-dasharray="5 4"/>`).join('');
+  const messageZoneRects = profile.messageZones.map((zone) => zone.rect ? `<rect x="${zone.rect.x}" y="${zone.rect.y}" width="${zone.rect.width}" height="${zone.rect.height}" fill="rgba(34,197,94,.1)" stroke="#22c55e" stroke-width="2"><title>${escapeHtml(zone.zoneId)}</title></rect>` : '').join('');
+  const noBubbleRects = profile.noBubbleZones.map((zone) => `<rect x="${zone.x}" y="${zone.y}" width="${zone.width}" height="${zone.height}" fill="rgba(100,116,139,.08)" stroke="#64748b" stroke-dasharray="6 5"><title>${escapeHtml(zone.zoneId)}</title></rect>`).join('');
+  const riskRects = profile.riskZones.map((zone) => `<rect x="${zone.x}" y="${zone.y}" width="${zone.width}" height="${zone.height}" fill="rgba(239,68,68,.12)" stroke="#ef4444" stroke-width="2"><title>${escapeHtml(zone.zoneId)}</title></rect>`).join('');
+  return `<section class="jumbotron-validation" id="calibrator-debug-preview"><div class="eyebrow">P1 Debug Preview HTML/SVG</div><h2>debug preview / zones / collision boxes</h2><p class="muted">当前完成 HTML/SVG debug preview 与 debug-preview.png 导出证据；PNG 用于提交引用，不代表第二赛道或完整视频。</p><div class="cta-row"><a class="button secondary" href="${JUMBOTRON_DEBUG_PREVIEW_PNG_ROUTE}">Capture debug preview PNG</a><span class="jumbotron-chip"><span>debug-preview.png</span><strong>implemented</strong></span></div><p class="muted">PNG evidence path：${escapeHtml(JUMBOTRON_DEBUG_PREVIEW_PNG_RELATIVE_PATH)}</p><svg class="calibrator-preview-svg" viewBox="0 0 1200 620" role="img" aria-label="Calibrator debug preview HTML SVG"><rect class="track-bg" x="22" y="22" width="1156" height="576" rx="42"/><path class="track-band" d="${jumbotronPath(profile.centerlinePath)}"/><polyline class="track-centerline" points="${jumbotronPolyline(profile.centerlinePath)}"/>${messageZoneRects}${noBubbleRects}${riskRects}${sampleMarkers}${horseBoxes}${profile.checkpoints.map((checkpoint) => { const sample = workbench.runtime.samplePoint(checkpoint.s); return `<g transform="translate(${sample.point.x} ${sample.point.y})"><circle r="7" fill="#facc15" stroke="#713f12" stroke-width="2"/><text class="debug-label" x="11" y="5">${escapeHtml(publicCheckpointLabel(checkpoint.label))}</text></g>`; }).join('')}</svg><div class="calibrator-grid"><article><strong>messageZones overlay</strong><p class="muted">${profile.messageZones.length} 个，约束气泡默认偏移和可显示区域。</p></article><article><strong>noBubbleZones overlay</strong><p class="muted">${profile.noBubbleZones.length} 个，用于避免页头、摘要、小地图、ticker、footer。</p></article><article><strong>riskZones overlay</strong><p class="muted">${profile.riskZones.length} 个，用于风险态势可视化证据。</p></article><article><strong>collision boxes</strong><p class="muted">${workbench.multiHorsePoses.length} 个 preview horse bbox；stale entries 在 Race Live View debug 中单独验证。</p></article></div></section>`;
+}
+
 function buildCalibratorWorkbench(body = {}) {
   const defaultSettings = { previewProgress: 50, horseCount: 8, previewSpeed: 1, scenarioPreset: 'clustered', playMode: 'paused' };
   try {
     const trackProfile = buildCalibratorProfile(body);
     const importedProfile = buildImportedCalibratorProfile(body);
+    const assetReview = buildCalibratorAssetReview(body);
     const runtime = createJumbotronRuntime(trackProfile);
     const exportProfile = exportTrackProfileShape(trackProfile);
     const diffRows = buildTrackProfileDiffRows(importedProfile, exportProfile);
@@ -2432,7 +2667,7 @@ function buildCalibratorWorkbench(body = {}) {
       ['multi-horse preview severe overlap', !multiHorsePreview.severeOverlap],
       ['multi-horse preview turn direction', multiHorsePreview.turnDirectionsValid]
     ];
-    return { trackProfile, runtime, exportProfile, exportJson: JSON.stringify(exportProfile, null, 2), diffRows, poses, singlePose, multiHorsePoses, multiHorsePreview, messageBubblePreview: { message: previewMessage, rect: bubbleRect, blockedByNoZone: bubbleBlockedByNoZone }, settings, checks, p1Backlog: buildCalibratorP1Backlog(), error: '' };
+    return { trackProfile, runtime, exportProfile, exportJson: JSON.stringify(exportProfile, null, 2), diffRows, poses, singlePose, multiHorsePoses, multiHorsePreview, messageBubblePreview: { message: previewMessage, rect: bubbleRect, blockedByNoZone: bubbleBlockedByNoZone }, settings, checks, assetReview, p1Backlog: buildCalibratorP1Backlog(), error: '' };
   } catch (error) {
     const trackProfile = normalizeTrackProfile(jumbotronTrackProfiles[0]);
     const runtime = createJumbotronRuntime(trackProfile);
@@ -2441,13 +2676,701 @@ function buildCalibratorWorkbench(body = {}) {
     const singleEntry = { entryId: 'calibrator-scrubber', displayName: 'Scrubber 50%', roundProgress: 50, laneOffsetIndex: 0, laneId: trackProfile.lanes[0]?.laneId, motionState: 'running' };
     const singlePose = { entry: singleEntry, pose: runtime.sampleHorsePose(singleEntry) };
     const previewMessage = { summary: '示例消息气泡：风险 / 里程碑优先' };
-    return { trackProfile, runtime, exportProfile, exportJson: JSON.stringify(exportProfile, null, 2), diffRows: [], poses: [], singlePose, multiHorsePoses: [], multiHorsePreview: buildMultiHorsePreview(trackProfile, runtime), messageBubblePreview: { message: previewMessage, rect: estimateBubbleRects(trackProfile, [{ message: previewMessage, pose: singlePose.pose }])[0], blockedByNoZone: false }, settings, checks: validateTrackProfile(trackProfile, runtime), p1Backlog: buildCalibratorP1Backlog(), error: error.message };
+    return { trackProfile, runtime, exportProfile, exportJson: JSON.stringify(exportProfile, null, 2), diffRows: [], poses: [], singlePose, multiHorsePoses: [], multiHorsePreview: buildMultiHorsePreview(trackProfile, runtime), messageBubblePreview: { message: previewMessage, rect: estimateBubbleRects(trackProfile, [{ message: previewMessage, pose: singlePose.pose }])[0], blockedByNoZone: false }, settings, checks: validateTrackProfile(trackProfile, runtime), assetReview: buildCalibratorAssetReview(body), p1Backlog: buildCalibratorP1Backlog(), error: error.message };
   }
 }
 
-function renderTrackCalibrator(session, body = {}) {
+function renderTrackCalibrator(session, body = {}, options = {}) {
   const workbench = buildCalibratorWorkbench(body);
   const profile = workbench.trackProfile;
+  const demoMode = Boolean(options.demoMode || body.demoMode === '1' || body.demoMode === true);
+  const profilePoints = profile.centerlinePath || [];
+  const backgroundSrc = profile.background?.src || '';
+  const backgroundOptions = Array.from(JUMBOTRON_BACKGROUND_ASSETS).map((src) => `<option value="${escapeHtml(src)}"${profile.background?.src === src ? ' selected' : ''}>${escapeHtml(src)}</option>`).join('');
+  const renderChecks = (checks) => checks.map(([label, ok]) => `<article><strong>${ok ? '✓' : '!' } ${escapeHtml(validationLabel(label))}</strong><p class="muted">${ok ? '通过' : '需要补齐'}</p></article>`).join('');
+  const numberValue = (value, fallback = 0) => Number.isFinite(Number(value)) ? Number(value) : fallback;
+  const rectForZone = (zone = {}, type = 'messageZones') => {
+    const fallback = type === 'messageZones' ? { x: 830 + numberValue(zone.offsetX, 0), y: 122 + numberValue(zone.offsetY, 0), width: 180, height: 76 } : type === 'noBubbleZones' ? { x: 90, y: 72, width: 210, height: 110 } : { x: 820, y: 410, width: 190, height: 120 };
+    return {
+      x: numberValue(zone.x, fallback.x),
+      y: numberValue(zone.y, fallback.y),
+      width: Math.max(24, numberValue(zone.width, fallback.width)),
+      height: Math.max(24, numberValue(zone.height, fallback.height))
+    };
+  };
+  const renderZoneGroup = (zones, type, labelPrefix) => `<g data-zone-group data-zone-type="${type}">${(zones || []).map((zone, index) => {
+    const rect = rectForZone(zone, type);
+    const tone = type === 'riskZones' ? { fill: 'rgba(239,68,68,.14)', stroke: '#ef4444' } : type === 'noBubbleZones' ? { fill: 'rgba(15,23,42,.09)', stroke: '#64748b' } : { fill: 'rgba(31,73,216,.10)', stroke: '#1f49d8' };
+    const label = zone.label || zone.zoneId || `${labelPrefix} ${index + 1}`;
+    return `<g class="calibrator-zone" data-zone data-zone-type="${type}" data-zone-index="${index}"><rect x="${rect.x}" y="${rect.y}" width="${rect.width}" height="${rect.height}" rx="10" fill="${tone.fill}" stroke="${tone.stroke}" stroke-width="2" stroke-dasharray="7 5"/><text class="debug-label" x="${rect.x + 10}" y="${rect.y + 24}">${escapeHtml(label)}</text></g>`;
+  }).join('')}</g>`;
+  const renderControlPoints = profilePoints.map((point, index) => `<tr><td>${index}</td><td>${Math.round(point.x)}</td><td>${Math.round(point.y)}</td><td><button class="button secondary" name="deletePointIndex" value="${index}" type="submit">删除点位</button></td></tr>`).join('');
+  const lanePreview = profile.lanes.map((lane) => {
+    const offsetPoints = workbench.runtime.samplePoints(34).map((point, index) => {
+      const sample = workbench.runtime.samplePoint(index / 33);
+      return `${sample.point.x + sample.normal.x * lane.offset},${sample.point.y + sample.normal.y * lane.offset}`;
+    }).join(' ');
+    return `<polyline points="${offsetPoints}" fill="none" stroke="#93c5fd" stroke-width="1.5" stroke-dasharray="4 7"/>`;
+  }).join('');
+  const checkpointMarkers = profile.checkpoints.map((checkpoint, index) => {
+    const sample = workbench.runtime.samplePoint(checkpoint.s);
+    return `<g class="checkpoint calibrator-checkpoint" data-checkpoint data-checkpoint-index="${index}" transform="translate(${sample.point.x} ${sample.point.y})"><circle r="9" fill="#facc15" stroke="#713f12" stroke-width="3"/><text x="13" y="5">${escapeHtml(checkpoint.label || checkpoint.checkpointId || `CP ${index + 1}`)}</text></g>`;
+  }).join('');
+  const startSample = workbench.runtime.samplePoint(profile.startFinish?.startS ?? 0);
+  const finishSample = workbench.runtime.samplePoint(profile.startFinish?.finishS ?? 1);
+  const bubble = workbench.messageBubblePreview.rect || { x: 0, y: 0, width: 0, height: 0 };
+  const renderJsonDiffRows = workbench.diffRows.length
+    ? workbench.diffRows.map((row) => `<tr><td>${escapeHtml(row.label)}</td><td>${escapeHtml(row.before)}</td><td>${escapeHtml(row.after)}</td><td>changed</td></tr>`).join('')
+    : '<tr><td colspan="4">暂无字段差异；imported profile 与 exported frozen candidate 一致。</td></tr>';
+  const laneSpacing = profile.lanes.length > 1 ? Math.abs(numberValue(profile.lanes[1].offset) - numberValue(profile.lanes[0].offset)) || 14 : 14;
+  const assetReview = workbench.assetReview || buildCalibratorAssetReview(body);
+  const content = `<style>
+.calibrator-toolbar-button{min-width:92px}.calibrator-context-menu{position:fixed;z-index:30;min-width:238px;background:#fff;border:1px solid rgba(15,23,42,.2);border-radius:14px;box-shadow:0 18px 44px rgba(15,23,42,.22);padding:8px;display:grid;gap:5px}.calibrator-context-menu[hidden]{display:none}.calibrator-context-menu button{justify-content:flex-start;width:100%;font-size:13px;padding:8px 9px}.calibrator-asset-review{border:1px solid rgba(31,73,216,.18);background:#f8fbff;border-radius:12px;padding:10px;margin-top:8px}.calibrator-mode-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}.calibrator-mode-grid label{background:#fff;border:1px solid rgba(148,163,184,.32);border-radius:12px;padding:8px}.calibrator-selected-panel{border:1px solid rgba(31,73,216,.18);border-radius:12px;background:#f8fbff;padding:10px;margin-top:8px}.calibrator-mini-list{display:grid;gap:6px}.calibrator-mini-row{display:grid;grid-template-columns:minmax(0,1fr) 86px;gap:6px;align-items:center;border:1px solid rgba(148,163,184,.22);border-radius:10px;background:#fff;padding:7px}.calibrator-mini-row button{padding:6px 8px}.calibrator-zone{cursor:move}.calibrator-zone.is-selected rect{stroke-width:4;filter:drop-shadow(0 4px 8px rgba(31,73,216,.22))}.zone-resize-handle{cursor:nwse-resize}.calibrator-marker{cursor:grab}.calibrator-marker.is-selected circle,.calibrator-checkpoint.is-selected circle{stroke-width:5;filter:drop-shadow(0 4px 8px rgba(15,23,42,.18))}.calibrator-marker.is-dragging,.calibrator-checkpoint.is-dragging,.calibrator-zone.is-dragging{cursor:grabbing}.calibrator-start circle{fill:#dcfce7;stroke:#15803d}.calibrator-finish circle{fill:#fee2e2;stroke:#dc2626}.calibrator-checkpoint{cursor:grab}.calibrator-guide-lane{fill:none;stroke:#60a5fa;stroke-width:1.4;stroke-dasharray:3 8;opacity:.7}.advanced-json summary{display:flex;justify-content:space-between;gap:8px}.advanced-json textarea{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12px}.calibrator-export textarea{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12px}.calibrator-drag-proof{border:1px solid rgba(31,73,216,.2);background:#f8fbff;border-radius:14px;padding:10px;margin-top:8px}.calibrator-drag-proof.is-active{box-shadow:0 0 0 3px rgba(31,73,216,.12)}.calibrator-drag-proof dl{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin:8px 0 0}.calibrator-drag-proof div{background:#fff;border:1px solid rgba(148,163,184,.28);border-radius:10px;padding:8px}.calibrator-drag-proof dt{font-size:12px;color:#667085;font-weight:900}.calibrator-drag-proof dd{margin:4px 0 0;font-weight:900;color:#172033}.calibrator-drag-proof-line{stroke:#ef4444;stroke-width:3;stroke-dasharray:8 5;vector-effect:non-scaling-stroke}.calibrator-drag-proof-ghost{fill:rgba(239,68,68,.08);stroke:#ef4444;stroke-width:3;stroke-dasharray:8 5;vector-effect:non-scaling-stroke}.calibrator-local-note{border:1px solid rgba(245,158,11,.28);background:#fff7ed;border-radius:12px;padding:9px;margin-top:8px;color:#92400e}.calibrator-layout .track-stage-card{position:relative}.calibrator-layout .track-svg{background:#f8fafc;border-radius:16px}.calibrator-zone rect,.calibrator-checkpoint circle,.calibrator-marker circle,.calibrator-point circle{vector-effect:non-scaling-stroke}.calibrator-form-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px}.calibrator-form-row input[type=range]{padding:0}.calibrator-list-head{display:flex;justify-content:space-between;gap:8px;align-items:center;margin:8px 0 6px}.calibrator-table-wrap{max-height:260px;overflow:auto;border-radius:12px}.calibrator-menu-hint{font-size:12px;color:#667085;padding:4px 8px}.calibrator-bg-label{fill:#172033;font-size:14px;font-weight:900;paint-order:stroke;stroke:#fff;stroke-width:4px}
+</style><section class="jumbotron-page calibrator-page"><section class="jumbotron-header" aria-label="Top Toolbar"><div class="jumbotron-brandline"><span class="jumbotron-live">MVP</span><strong>Track Profile Calibrator</strong><span>设计 / 资产生产工具</span></div><div class="jumbotron-statusbar"><button class="button secondary calibrator-toolbar-button" id="calibrator-undo" type="button">Undo / 回退</button><button class="button secondary calibrator-toolbar-button" id="calibrator-redo" type="button">Redo / 重做</button><button class="button secondary" form="calibrator-form" type="submit">Import Background</button><button class="button secondary" form="calibrator-form" type="submit">Import Candidate Profile</button><button class="button secondary" form="calibrator-form" type="submit">Validate</button><button class="button secondary" form="calibrator-form" type="submit">Preview</button><button class="button" form="calibrator-form" type="submit">Export</button></div></section>${workbench.error ? `<section class="notice warn"><strong>导入解析失败</strong><p>${escapeHtml(workbench.error)}</p></section>` : ''}${renderCalibratorProofPanel(workbench, demoMode)}${demoMode ? renderCalibratorDemoGuide() : ''}<form id="calibrator-form" method="post" action="/jumbotron/calibrator${demoMode ? '?demo=1' : ''}"><input type="hidden" name="demoMode" value="${demoMode ? '1' : '0'}"><section class="jumbotron-calibrator"><div class="eyebrow">Import Candidate Profile → 画布校准 → Validate → Export</div><h1>Track Profile Calibrator MVP</h1><p class="muted">这是设计时赛道校准工具，不是运行时大屏。画布交互负责编辑候选几何，点击 Validate / Preview / Export 后用 server runtime 重算预览；预览复用 createJumbotronRuntime / sampleHorsePose，正式资产 confirmed 仍需要人工复核。</p><div class="calibrator-grid"><article><strong>Import Background</strong><p class="muted">选择允许的背景资产，Validate 会同时检查 allowlist 与真实文件存在。</p><label>允许背景资产<select name="backgroundSrc">${backgroundOptions}</select></label><label>自定义 /assets/ 输入<input name="backgroundSrcCustom" value="${escapeHtml(body.backgroundSrcCustom || '')}" placeholder="/assets/public-yard-hero.webp"></label></article><article><strong>Import Candidate Profile</strong><textarea name="profileJson" rows="8">${escapeHtml(body.profileJson || workbench.exportJson)}</textarea></article><article class="calibrator-export"><strong>Export frozen track.profile.json candidate</strong><textarea readonly rows="8">${escapeHtml(workbench.exportJson)}</textarea>${renderCalibratorAssetReviewStatus(assetReview)}<fieldset class="calibrator-mode-grid" aria-label="Asset review status"><legend>Asset review status</legend>${renderCalibratorAssetReviewOptions(assetReview)}</fieldset><p class="muted">冻结候选不等于正式资产 confirmed；pending / rejected 只能作为 candidate preview。</p></article></div></section><section class="jumbotron-layout calibrator-layout" aria-label="Calibrator IA"><section class="track-stage-card" aria-label="Main Canvas"><div class="eyebrow">Main Canvas</div><h2>Background Layer / Centerline Layer / Control Points Layer</h2><p id="calibrator-canvas-status" class="calibrator-canvas-help">画布操作已开启：左键添加或拖拽对象；右键打开快捷菜单，可在最近两个点之间插入新点；Undo / Redo 可回退主要编辑。</p><svg id="calibrator-canvas" class="track-svg" viewBox="0 0 1200 620" role="img" aria-label="Track Profile Calibrator Main Canvas"><rect class="track-bg" x="22" y="22" width="1156" height="576" rx="42"/>${backgroundSrc ? `<image data-background-image class="track-background-image" href="${escapeHtml(backgroundSrc)}" x="0" y="0" width="1200" height="620" preserveAspectRatio="xMidYMid slice"/>` : `<image data-background-image class="track-background-image" href="" x="0" y="0" width="1200" height="620" preserveAspectRatio="xMidYMid slice" opacity="0"/>`}<text class="calibrator-bg-label" x="44" y="58">Background Layer：${escapeHtml(backgroundSrc || '未选择')}</text><g data-zone-layer>${renderZoneGroup(profile.messageZones, 'messageZones', 'Message Zone')}${renderZoneGroup(profile.noBubbleZones, 'noBubbleZones', 'No Bubble')}${renderZoneGroup(profile.riskZones, 'riskZones', 'Risk Zone')}</g><path class="track-band" data-centerline-band d="${jumbotronPath(profilePoints)}"/>${lanePreview}<g data-local-lanes-layer></g><polyline class="track-centerline" data-centerline-polyline points="${jumbotronPolyline(profilePoints)}"/><g data-control-points-layer>${profilePoints.map((point, index) => `<g class="calibrator-point" data-control-point data-index="${index}" transform="translate(${point.x} ${point.y})"><circle r="8" fill="#fff" stroke="#1f49d8" stroke-width="3"/><text class="debug-label" x="12" y="5">P${index}</text></g>`).join('')}</g><g data-start-finish-layer><g class="calibrator-marker calibrator-start" data-start-handle transform="translate(${startSample.point.x} ${startSample.point.y})"><circle r="13"/><text class="debug-label" x="17" y="5">Start ${Number(profile.startFinish?.startS ?? 0).toFixed(2)}</text></g><g class="calibrator-marker calibrator-finish" data-finish-handle transform="translate(${finishSample.point.x} ${finishSample.point.y})"><circle r="13"/><text class="debug-label" x="17" y="5">Finish ${Number(profile.startFinish?.finishS ?? 1).toFixed(2)}</text></g></g><g data-checkpoints-layer>${checkpointMarkers}</g><g data-server-preview-layer><g transform="translate(${workbench.singlePose.pose.x} ${workbench.singlePose.pose.y})"><circle r="18" fill="#a855f7" stroke="#f5d0fe" stroke-width="4"/><text class="debug-label" x="24" y="6">Scrubber ${workbench.settings.previewProgress}%</text></g>${workbench.multiHorsePoses.map(({ entry, pose }) => `<g transform="translate(${pose.x} ${pose.y})"><circle r="9" fill="#1f49d8" stroke="#dbeafe" stroke-width="2"/><text class="debug-label" x="14" y="5">${escapeHtml(entry.displayName.replace('Horse ', '#'))}</text></g>`).join('')}<rect x="${bubble.x}" y="${bubble.y}" width="${bubble.width}" height="${bubble.height}" rx="12" fill="rgba(255,255,255,.96)" stroke="${workbench.messageBubblePreview.blockedByNoZone ? '#ef4444' : '#1f49d8'}" stroke-width="2"/><text class="debug-label" x="${bubble.x + 12}" y="${bubble.y + 32}">Message Bubble Preview</text></g><g data-drag-proof-layer></g></svg><div class="calibrator-local-note">画布上的 centerline、start / finish、checkpoint、lanes、zones 会立即同步到表单；server preview layer 只在点击 Validate / Preview / Export 后重算。</div><div class="calibrator-drag-proof" data-drag-proof data-drag-state="idle"><strong>拖拽状态变化证据</strong><p class="muted">centerline point 坐标变化证据、checkpoint s 变化证据、zone 坐标变化证据会在拖拽时同步更新；画布保留本次 before → current 连线。</p><dl><div><dt>对象</dt><dd data-drag-proof-target>尚未拖拽</dd></div><div><dt>before</dt><dd data-drag-proof-before>—</dd></div><div><dt>current</dt><dd data-drag-proof-current>—</dd></div><div><dt>delta</dt><dd data-drag-proof-delta>—</dd></div><div><dt>阶段</dt><dd data-drag-proof-phase>idle</dd></div></dl></div><div class="calibrator-grid"><article><strong>Background Layer</strong><p class="muted">${escapeHtml(backgroundSrc || '未选择背景')}</p></article><article><strong>Centerline Layer</strong><p class="muted"><span data-centerline-summary>${profilePoints.length} 个点；${profile.centerline?.closed ? '闭合路径' : '开放路径'}</span></p></article><article><strong>Control Points Layer</strong><p class="muted">支持画布点击添加、拖拽移动、右键插点、删除和 Advanced JSON。</p></article><article><strong>Lane Preview Layer</strong><p class="muted"><span data-lane-summary>${profile.lanes.length} 条泳道偏移预览。</span></p></article><article><strong>Checkpoint Layer</strong><p class="muted"><span data-checkpoint-summary>${profile.checkpoints.length} 个 checkpoint。</span></p></article><article><strong>Horse Preview Layer</strong><p class="muted">scrubber 单马 + ${workbench.multiHorsePoses.length} 匹多马预览。</p></article><article><strong>Message Bubble Preview Layer</strong><p class="muted">基于 messageZones / noBubbleZones；${workbench.messageBubblePreview.blockedByNoZone ? '当前落在 no bubble zone' : '当前可显示示例气泡'}。</p></article></div></section><aside aria-label="Right Inspector"><section class="side-card"><div class="eyebrow">Right Inspector</div><h2>Track Info</h2><label>trackId<input name="trackId" value="${escapeHtml(profile.trackId)}"></label><label>name<input name="name" value="${escapeHtml(profile.name)}"></label></section><section class="side-card"><h2>Edit Mode</h2><div class="calibrator-mode-grid"><label><input type="radio" name="calibratorMode" value="centerline" checked> Centerline</label><label><input type="radio" name="calibratorMode" value="checkpoint"> Checkpoint</label><label><input type="radio" name="calibratorMode" value="messageZones"> Message zone</label><label><input type="radio" name="calibratorMode" value="noBubbleZones"> No bubble zone</label><label><input type="radio" name="calibratorMode" value="riskZones"> Risk zone</label></div><div class="calibrator-selected-panel"><strong>Selected Object</strong><p id="calibrator-selected-summary" class="muted">尚未选择对象。</p><button class="button secondary" id="calibrator-delete-selected" type="button">删除选中对象</button></div></section><section class="side-card"><h2>Geometry</h2><div class="cta-row"><button class="button secondary" id="calibrator-add-point-button" type="button">添加 centerline point</button><button class="button secondary" id="calibrator-reverse-button" type="button">Reverse Direction / 反转路径方向</button></div><input type="hidden" name="addPointX" value="${escapeHtml(body.addPointX || '600')}"><input type="hidden" name="addPointY" value="${escapeHtml(body.addPointY || '310')}"><div class="calibrator-table-wrap"><table><thead><tr><th>#</th><th>x</th><th>y</th><th>操作</th></tr></thead><tbody data-control-points-table>${renderControlPoints}</tbody></table></div><p class="muted">拖拽 centerline points：已支持画布直接移动；右键可在最近两个点之间插入新点。</p><details class="advanced-json"><summary>Advanced JSON mode：centerline.points<span>保留调试入口</span></summary><label>centerline JSON<textarea id="calibrator-centerline-points" data-json-editor="centerline" name="centerlinePoints" rows="8">${escapeHtml(JSON.stringify(profilePoints, null, 2))}</textarea></label></details></section><section class="side-card"><h2>终点线</h2><div class="calibrator-form-row"><label>startS<input id="calibrator-start-s" name="startS" type="number" step="0.01" min="0" max="1" value="${escapeHtml(profile.startFinish?.startS ?? 0)}"></label><label>finishS<input id="calibrator-finish-s" name="finishS" type="number" step="0.01" min="0" max="1" value="${escapeHtml(profile.startFinish?.finishS ?? 1)}"></label></div><label>Start handle<input id="calibrator-start-range" type="range" min="0" max="1" step="0.01" value="${escapeHtml(profile.startFinish?.startS ?? 0)}"></label><label>Finish handle<input id="calibrator-finish-range" type="range" min="0" max="1" step="0.01" value="${escapeHtml(profile.startFinish?.finishS ?? 1)}"></label></section><section class="side-card"><h2>Direction</h2><label>direction<select name="direction"><option value="clockwise"${profile.direction === 'clockwise' ? ' selected' : ''}>clockwise</option><option value="counterclockwise"${profile.direction === 'counterclockwise' ? ' selected' : ''}>counterclockwise</option></select></label><label>closed<select name="closed"><option value="true"${profile.centerline?.closed ? ' selected' : ''}>true</option><option value="false"${!profile.centerline?.closed ? ' selected' : ''}>false</option></select></label><label>平滑路径预览<select name="smoothing"><option value="mvp-polyline"${profile.centerline?.smoothing === 'mvp-polyline' ? ' selected' : ''}>关闭：mvp-polyline</option><option value="preview-smoothing"${profile.centerline?.smoothing === 'preview-smoothing' ? ' selected' : ''}>开启：preview-smoothing</option></select></label><p class="muted">平滑路径预览是 MVP 视觉提示，不改写 runtime 事实来源。</p></section><section class="side-card"><h2>Lanes</h2><div class="calibrator-form-row"><label>Lane Count<input id="calibrator-lane-count" type="number" min="1" max="12" step="1" value="${escapeHtml(profile.lanes.length || 1)}"></label><label>Lane Spacing<input id="calibrator-lane-spacing" type="number" step="1" value="${escapeHtml(laneSpacing)}"></label><label>Base Offset<input id="calibrator-lane-base" type="number" step="1" value="0"></label></div><button class="button secondary" id="calibrator-generate-lanes" type="button">Generate symmetric lanes / 自动分配 lanes</button><div class="calibrator-mini-list" data-lane-list></div><details class="advanced-json"><summary>Advanced JSON mode：lanes<span>offsets 调试</span></summary><textarea id="calibrator-lanes" data-json-editor="lanes" name="lanes" rows="8">${escapeHtml(JSON.stringify(profile.lanes, null, 2))}</textarea></details></section><section class="side-card"><h2>Checkpoints</h2><div class="cta-row"><button class="button secondary" id="calibrator-add-checkpoint" type="button">添加 checkpoint</button></div><div class="calibrator-mini-list" data-checkpoint-list></div><div class="calibrator-selected-panel" data-checkpoint-editor hidden><strong>Selected checkpoint</strong><label>ID<input id="calibrator-checkpoint-id"></label><label>Label<input id="calibrator-checkpoint-label"></label><label>s<input id="calibrator-checkpoint-s" type="range" min="0" max="1" step="0.01"></label></div><details class="advanced-json"><summary>Advanced JSON mode：checkpoints<span>s 值调试</span></summary><textarea id="calibrator-checkpoints" data-json-editor="checkpoints" name="checkpoints" rows="7">${escapeHtml(JSON.stringify(profile.checkpoints, null, 2))}</textarea></details></section><section class="side-card"><h2>Message Bubble / Zones</h2><div class="cta-row"><button class="button secondary" data-add-zone="messageZones" type="button">添加 message zone</button><button class="button secondary" data-add-zone="noBubbleZones" type="button">添加 no bubble zone</button><button class="button secondary" data-add-zone="riskZones" type="button">添加 risk zone</button></div><div class="calibrator-selected-panel" data-zone-editor hidden><strong>Selected zone</strong><label>ID<input id="calibrator-zone-id"></label><label>Label<input id="calibrator-zone-label"></label><div class="calibrator-form-row"><label>x<input id="calibrator-zone-x" type="number" step="1"></label><label>y<input id="calibrator-zone-y" type="number" step="1"></label><label>w<input id="calibrator-zone-width" type="number" step="1"></label><label>h<input id="calibrator-zone-height" type="number" step="1"></label></div></div><details class="advanced-json"><summary>Advanced JSON mode：messageZones<span>气泡区域</span></summary><textarea id="calibrator-message-zones" data-json-editor="messageZones" name="messageZones" rows="5">${escapeHtml(JSON.stringify(profile.messageZones, null, 2))}</textarea></details><details class="advanced-json"><summary>Advanced JSON mode：noBubbleZones<span>避让区域</span></summary><textarea id="calibrator-no-bubble-zones" data-json-editor="noBubbleZones" name="noBubbleZones" rows="5">${escapeHtml(JSON.stringify(profile.noBubbleZones, null, 2))}</textarea></details><details class="advanced-json"><summary>Advanced JSON mode：riskZones<span>风险区域</span></summary><textarea id="calibrator-risk-zones" data-json-editor="riskZones" name="riskZones" rows="5">${escapeHtml(JSON.stringify(profile.riskZones, null, 2))}</textarea></details></section><section class="side-card"><h2>Validation Results</h2><div class="validation-grid">${renderChecks(workbench.checks)}</div></section></aside></section><section class="jumbotron-kpis" aria-label="Bottom Preview Bar"><span class="jumbotron-chip"><span>Progress Scrubber</span><strong>${workbench.settings.previewProgress}%</strong></span><label>Progress Scrubber<input type="range" name="previewProgress" min="0" max="100" value="${escapeHtml(workbench.settings.previewProgress)}"></label><label>Horse Count<input name="horseCount" value="${escapeHtml(workbench.settings.horseCount)}"></label><label>Speed<input name="previewSpeed" value="${escapeHtml(workbench.settings.previewSpeed)}"></label><label>Play / Pause<select name="playMode"><option value="paused"${workbench.settings.playMode === 'paused' ? ' selected' : ''}>Pause</option><option value="play"${workbench.settings.playMode === 'play' ? ' selected' : ''}>Play</option></select></label><label>Scenario Presets<select name="scenarioPreset"><option value="clustered"${workbench.settings.scenarioPreset === 'clustered' ? ' selected' : ''}>clustered</option><option value="spread"${workbench.settings.scenarioPreset === 'spread' ? ' selected' : ''}>spread</option><option value="finish"${workbench.settings.scenarioPreset === 'finish' ? ' selected' : ''}>finish</option></select></label><button class="button" type="submit">Validate / Preview / Export</button><a class="button secondary" href="/jumbotron">返回 Race Live View</a></section></form><div id="calibrator-context-menu" class="calibrator-context-menu" data-context-menu hidden role="menu"><div class="calibrator-menu-hint" data-context-summary>右键快捷操作</div><button class="button secondary" data-context-action="insert-nearest-segment" type="button">在最近 Pn 和 Pn+1 之间插入点</button><button class="button secondary" data-context-action="add-point" type="button">在这里添加 centerline point</button><button class="button secondary" data-context-action="add-checkpoint" type="button">在这里添加 checkpoint</button><button class="button secondary" data-context-action="add-message-zone" type="button">添加 message zone</button><button class="button secondary" data-context-action="add-no-bubble-zone" type="button">添加 no bubble zone</button><button class="button secondary" data-context-action="add-risk-zone" type="button">添加 risk zone</button><button class="button secondary" data-context-action="delete-selected" type="button">删除选中对象</button><button class="button secondary" data-context-action="reverse" type="button">Reverse centerline</button><button class="button secondary" data-context-action="undo" type="button">Undo</button><button class="button secondary" data-context-action="redo" type="button">Redo</button></div><script>
+(() => {
+  const syncCalibratorInspectorHeight = () => {
+    const layout = document.querySelector('.calibrator-layout');
+    const mainCanvas = layout?.querySelector('.track-stage-card');
+    const inspector = layout?.querySelector('aside[aria-label="Right Inspector"]');
+    if (!mainCanvas || !inspector) return;
+    inspector.style.maxHeight = Math.ceil(mainCanvas.getBoundingClientRect().height) + 'px';
+  };
+  window.syncCalibratorInspectorHeight = syncCalibratorInspectorHeight;
+  window.addEventListener('load', syncCalibratorInspectorHeight);
+  window.addEventListener('resize', syncCalibratorInspectorHeight);
+  if ('ResizeObserver' in window) window.addEventListener('load', () => {
+    const mainCanvas = document.querySelector('.calibrator-layout .track-stage-card');
+    if (mainCanvas) new ResizeObserver(syncCalibratorInspectorHeight).observe(mainCanvas);
+  });
+})();
+
+(() => {
+  const form = document.getElementById('calibrator-form');
+  const svg = document.getElementById('calibrator-canvas');
+  const status = document.getElementById('calibrator-canvas-status');
+  if (!form || !svg) return;
+  const viewBox = svg.viewBox.baseVal;
+  const fields = {
+    centerline: document.getElementById('calibrator-centerline-points'),
+    lanes: document.getElementById('calibrator-lanes'),
+    checkpoints: document.getElementById('calibrator-checkpoints'),
+    messageZones: document.getElementById('calibrator-message-zones'),
+    noBubbleZones: document.getElementById('calibrator-no-bubble-zones'),
+    riskZones: document.getElementById('calibrator-risk-zones'),
+    startS: document.getElementById('calibrator-start-s'),
+    finishS: document.getElementById('calibrator-finish-s'),
+    startRange: document.getElementById('calibrator-start-range'),
+    finishRange: document.getElementById('calibrator-finish-range'),
+    laneCount: document.getElementById('calibrator-lane-count'),
+    laneSpacing: document.getElementById('calibrator-lane-spacing'),
+    laneBase: document.getElementById('calibrator-lane-base'),
+    selectedSummary: document.getElementById('calibrator-selected-summary')
+  };
+  const layers = {
+    band: svg.querySelector('[data-centerline-band]'),
+    polyline: svg.querySelector('[data-centerline-polyline]'),
+    controls: svg.querySelector('[data-control-points-layer]'),
+    lanes: svg.querySelector('[data-local-lanes-layer]'),
+    checkpoints: svg.querySelector('[data-checkpoints-layer]'),
+    startFinish: svg.querySelector('[data-start-finish-layer]'),
+    zones: svg.querySelector('[data-zone-layer]'),
+    dragProof: svg.querySelector('[data-drag-proof-layer]')
+  };
+  const contextMenu = document.getElementById('calibrator-context-menu');
+  const contextSummary = contextMenu?.querySelector('[data-context-summary]');
+  const tableBody = document.querySelector('[data-control-points-table]');
+  const laneList = document.querySelector('[data-lane-list]');
+  const checkpointList = document.querySelector('[data-checkpoint-list]');
+  const checkpointEditor = document.querySelector('[data-checkpoint-editor]');
+  const zoneEditor = document.querySelector('[data-zone-editor]');
+  const dragProof = {
+    panel: document.querySelector('[data-drag-proof]'),
+    target: document.querySelector('[data-drag-proof-target]'),
+    before: document.querySelector('[data-drag-proof-before]'),
+    current: document.querySelector('[data-drag-proof-current]'),
+    delta: document.querySelector('[data-drag-proof-delta]'),
+    phase: document.querySelector('[data-drag-proof-phase]'),
+    layer: layers.dragProof
+  };
+  let mode = 'centerline';
+  let selected = { type: '', index: -1, zoneType: '' };
+  let drag = null;
+  let ignoreClick = false;
+  let context = { point: null, nearest: null };
+  let lastDragProof = null;
+  const history = { undo: [], redo: [], limit: 80 };
+  const zoneTypes = ['messageZones', 'noBubbleZones', 'riskZones'];
+  const clamp = (value, min, max) => Math.max(min, Math.min(max, Number(value)));
+  const finite = (value, fallback = 0) => Number.isFinite(Number(value)) ? Number(value) : fallback;
+  const round = (value) => Math.round(Number(value) * 10) / 10;
+  const clone = (value) => JSON.parse(JSON.stringify(value));
+  const escapeText = (value) => String(value ?? '').replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
+  const parseJson = (element, fallback) => {
+    try { const parsed = JSON.parse(element?.value || 'null'); return Array.isArray(parsed) ? parsed : clone(fallback); }
+    catch { return clone(fallback); }
+  };
+  const samePoint = (a, b) => Boolean(a && b && Math.abs(a.x - b.x) < 0.01 && Math.abs(a.y - b.y) < 0.01);
+  const readPoints = () => parseJson(fields.centerline, []).map((point) => ({ x: finite(point.x, NaN), y: finite(point.y, NaN) })).filter((point) => Number.isFinite(point.x) && Number.isFinite(point.y));
+  const state = {
+    points: readPoints(),
+    lanes: parseJson(fields.lanes, []),
+    checkpoints: parseJson(fields.checkpoints, []),
+    zones: {
+      messageZones: parseJson(fields.messageZones, []),
+      noBubbleZones: parseJson(fields.noBubbleZones, []),
+      riskZones: parseJson(fields.riskZones, [])
+    },
+    startFinish: { startS: clamp(fields.startS?.value || 0, 0, 1), finishS: clamp(fields.finishS?.value || 1, 0, 1) },
+    closed: String(form.elements.closed?.value || 'true') === 'true'
+  };
+  const snapshot = () => clone({ points: state.points, lanes: state.lanes, checkpoints: state.checkpoints, zones: state.zones, startFinish: state.startFinish, closed: state.closed, selected, mode });
+  const restore = (snapshotValue) => {
+    state.points = clone(snapshotValue.points);
+    state.lanes = clone(snapshotValue.lanes);
+    state.checkpoints = clone(snapshotValue.checkpoints);
+    state.zones = clone(snapshotValue.zones);
+    state.startFinish = clone(snapshotValue.startFinish);
+    state.closed = Boolean(snapshotValue.closed);
+    selected = clone(snapshotValue.selected || { type: '', index: -1, zoneType: '' });
+    mode = snapshotValue.mode || 'centerline';
+    if (form.elements.closed) form.elements.closed.value = String(state.closed);
+    const modeInput = form.querySelector('input[name="calibratorMode"][value="' + mode + '"]');
+    if (modeInput) modeInput.checked = true;
+    syncAndRender('已恢复编辑状态；点击 Preview / Validate 后重算 server preview。');
+  };
+  const pushSnapshot = (before) => {
+    const current = JSON.stringify(snapshot());
+    const previous = JSON.stringify(before);
+    if (current === previous) return;
+    history.undo.push(before);
+    if (history.undo.length > history.limit) history.undo.shift();
+    history.redo = [];
+    updateHistoryButtons();
+  };
+  const commit = (message, mutator) => {
+    const before = snapshot();
+    mutator();
+    normalizeState();
+    syncAndRender(message);
+    pushSnapshot(before);
+  };
+  const updateStatus = (message) => { if (status) status.textContent = message; };
+  const hasClosingDuplicate = () => state.points.length > 2 && samePoint(state.points[0], state.points[state.points.length - 1]);
+  const normalizeState = () => {
+    state.points = state.points.map((point) => ({ x: round(point.x), y: round(point.y) })).filter((point) => Number.isFinite(point.x) && Number.isFinite(point.y));
+    if (state.closed && state.points.length > 1) {
+      const unique = hasClosingDuplicate() ? state.points.slice(0, -1) : state.points;
+      state.points = [...unique, { ...unique[0] }];
+    }
+    if (!state.closed && hasClosingDuplicate()) state.points = state.points.slice(0, -1);
+    state.startFinish.startS = clamp(state.startFinish.startS, 0, 1);
+    state.startFinish.finishS = clamp(state.startFinish.finishS, 0, 1);
+    state.lanes = state.lanes.map((lane, index) => ({ laneId: String(lane.laneId || 'lane-' + index), offset: round(finite(lane.offset, 0)) }));
+    state.checkpoints = state.checkpoints.map((checkpoint, index) => ({ checkpointId: String(checkpoint.checkpointId || 'cp-' + (index + 1)), label: String(checkpoint.label || 'CP ' + (index + 1)), s: clamp(checkpoint.s, 0, 1) }));
+    zoneTypes.forEach((zoneType) => {
+      state.zones[zoneType] = (state.zones[zoneType] || []).map((zone, index) => ({ ...zone, zoneId: String(zone.zoneId || zoneType.replace('Zones', '-zone') + '-' + (index + 1)), label: zone.label ? String(zone.label) : String(zone.zoneId || zoneType.replace('Zones', ' Zone') + ' ' + (index + 1)) }));
+    });
+  };
+  const pathD = () => state.points.length ? 'M ' + state.points.map((point) => point.x + ' ' + point.y).join(' L ') : '';
+  const polylinePoints = () => state.points.map((point) => point.x + ',' + point.y).join(' ');
+  const uniquePathPoints = () => state.closed && hasClosingDuplicate() ? state.points.slice(0, -1) : state.points;
+  const buildSegments = () => {
+    const points = state.points;
+    return points.slice(0, -1).map((start, index) => {
+      const end = points[index + 1];
+      const dx = end.x - start.x;
+      const dy = end.y - start.y;
+      const length = Math.hypot(dx, dy);
+      return { index, start, end, dx, dy, length };
+    }).filter((segment) => segment.length > 0.001);
+  };
+  const totalLength = (segments) => segments.reduce((sum, segment) => sum + segment.length, 0);
+  const pointAtS = (s) => {
+    const segments = buildSegments();
+    const total = totalLength(segments);
+    if (!segments.length || total <= 0) return { point: state.points[0] || { x: 0, y: 0 }, normal: { x: 0, y: -1 }, s: 0 };
+    let distance = clamp(s, 0, 1) * total;
+    for (const segment of segments) {
+      if (distance <= segment.length) {
+        const t = segment.length ? distance / segment.length : 0;
+        return { point: { x: segment.start.x + segment.dx * t, y: segment.start.y + segment.dy * t }, normal: { x: -segment.dy / segment.length, y: segment.dx / segment.length }, s: clamp(s, 0, 1) };
+      }
+      distance -= segment.length;
+    }
+    const last = segments[segments.length - 1];
+    return { point: { ...last.end }, normal: { x: -last.dy / last.length, y: last.dx / last.length }, s: 1 };
+  };
+  const nearestOnPath = (point) => {
+    const segments = buildSegments();
+    const total = totalLength(segments);
+    let best = null;
+    let before = 0;
+    for (const segment of segments) {
+      const t = clamp(((point.x - segment.start.x) * segment.dx + (point.y - segment.start.y) * segment.dy) / (segment.length * segment.length || 1), 0, 1);
+      const projection = { x: segment.start.x + segment.dx * t, y: segment.start.y + segment.dy * t };
+      const dist2 = (point.x - projection.x) ** 2 + (point.y - projection.y) ** 2;
+      const candidate = { index: segment.index, projection, s: total ? (before + segment.length * t) / total : 0, dist2 };
+      if (!best || candidate.dist2 < best.dist2) best = candidate;
+      before += segment.length;
+    }
+    return best || { index: 0, projection: point, s: 0, dist2: 0 };
+  };
+  const eventPoint = (event) => {
+    const matrix = svg.getScreenCTM();
+    if (!matrix) return null;
+    const point = svg.createSVGPoint();
+    point.x = event.clientX;
+    point.y = event.clientY;
+    const svgPoint = point.matrixTransform(matrix.inverse());
+    return { x: clamp(svgPoint.x, viewBox.x, viewBox.x + viewBox.width), y: clamp(svgPoint.y, viewBox.y, viewBox.y + viewBox.height) };
+  };
+  const zoneRect = (zone, zoneType) => {
+    const fallback = zoneType === 'messageZones' ? { x: 830 + finite(zone.offsetX, 0), y: 122 + finite(zone.offsetY, 0), width: 180, height: 76 } : zoneType === 'noBubbleZones' ? { x: 90, y: 72, width: 210, height: 110 } : { x: 820, y: 410, width: 190, height: 120 };
+    return { x: finite(zone.x, fallback.x), y: finite(zone.y, fallback.y), width: Math.max(24, finite(zone.width, fallback.width)), height: Math.max(24, finite(zone.height, fallback.height)) };
+  };
+  const setZoneRect = (zone, rect) => {
+    zone.x = round(clamp(rect.x, viewBox.x, viewBox.x + viewBox.width - 24));
+    zone.y = round(clamp(rect.y, viewBox.y, viewBox.y + viewBox.height - 24));
+    zone.width = round(Math.max(24, Math.min(rect.width, viewBox.x + viewBox.width - zone.x)));
+    zone.height = round(Math.max(24, Math.min(rect.height, viewBox.y + viewBox.height - zone.y)));
+  };
+  const rectCenter = (rect) => ({ x: rect.x + rect.width / 2, y: rect.y + rect.height / 2 });
+  const formatPoint = (point) => '(' + round(point?.x || 0) + ', ' + round(point?.y || 0) + ')';
+  const formatRect = (rect) => 'x=' + round(rect?.x || 0) + ', y=' + round(rect?.y || 0) + ', w=' + round(rect?.width || 0) + ', h=' + round(rect?.height || 0);
+  const pointDeltaText = (before, current) => 'dx=' + round((current?.x || 0) - (before?.x || 0)) + ', dy=' + round((current?.y || 0) - (before?.y || 0));
+  const rectDeltaText = (before, current) => 'dx=' + round((current?.x || 0) - (before?.x || 0)) + ', dy=' + round((current?.y || 0) - (before?.y || 0)) + ', dw=' + round((current?.width || 0) - (before?.width || 0)) + ', dh=' + round((current?.height || 0) - (before?.height || 0));
+  const buildDragProof = (phase) => {
+    if (!drag) return lastDragProof;
+    if (drag.type === 'point') {
+      const before = drag.before.points[drag.index] || state.points[drag.index] || { x: 0, y: 0 };
+      const current = state.points[drag.index] || before;
+      return { phase, target: 'centerline point P' + drag.index, beforeText: formatPoint(before), currentText: formatPoint(current), deltaText: pointDeltaText(before, current), beforePoint: before, currentPoint: current };
+    }
+    if (drag.type === 'checkpoint') {
+      const beforeS = finite(drag.before.checkpoints[drag.index]?.s, 0);
+      const currentS = finite(state.checkpoints[drag.index]?.s, beforeS);
+      const beforePoint = pointAtS(beforeS).point;
+      const currentPoint = pointAtS(currentS).point;
+      return { phase, target: 'checkpoint #' + drag.index, beforeText: 's=' + beforeS.toFixed(2) + ' ' + formatPoint(beforePoint), currentText: 's=' + currentS.toFixed(2) + ' ' + formatPoint(currentPoint), deltaText: 'ds=' + round(currentS - beforeS) + ', ' + pointDeltaText(beforePoint, currentPoint), beforePoint, currentPoint };
+    }
+    if (drag.type === 'start' || drag.type === 'finish') {
+      const key = drag.type === 'start' ? 'startS' : 'finishS';
+      const beforeS = finite(drag.before.startFinish[key], 0);
+      const currentS = finite(state.startFinish[key], beforeS);
+      const beforePoint = pointAtS(beforeS).point;
+      const currentPoint = pointAtS(currentS).point;
+      return { phase, target: drag.type + ' handle', beforeText: 's=' + beforeS.toFixed(2) + ' ' + formatPoint(beforePoint), currentText: 's=' + currentS.toFixed(2) + ' ' + formatPoint(currentPoint), deltaText: 'ds=' + round(currentS - beforeS) + ', ' + pointDeltaText(beforePoint, currentPoint), beforePoint, currentPoint };
+    }
+    if (drag.type === 'zone' || drag.type === 'zone-create' || drag.type === 'zone-resize') {
+      const zone = state.zones[drag.zoneType][drag.index];
+      const beforeRect = drag.type === 'zone-create' ? { x: drag.start.x, y: drag.start.y, width: 0, height: 0 } : drag.rect;
+      const currentRect = zoneRect(zone, drag.zoneType);
+      return { phase, target: drag.zoneType + ' #' + drag.index, beforeText: formatRect(beforeRect), currentText: formatRect(currentRect), deltaText: rectDeltaText(beforeRect, currentRect), beforeRect, currentRect, beforePoint: rectCenter(beforeRect), currentPoint: rectCenter(currentRect) };
+    }
+    return { phase, target: drag.type, beforeText: '—', currentText: '—', deltaText: '—' };
+  };
+  const updateDragProofPanel = () => {
+    const proof = drag ? buildDragProof('dragging') : lastDragProof;
+    if (!dragProof.panel) return;
+    dragProof.panel.dataset.dragState = proof?.phase || 'idle';
+    dragProof.panel.classList.toggle('is-active', Boolean(drag));
+    if (dragProof.target) dragProof.target.textContent = proof?.target || '尚未拖拽';
+    if (dragProof.before) dragProof.before.textContent = proof?.beforeText || '—';
+    if (dragProof.current) dragProof.current.textContent = proof?.currentText || '—';
+    if (dragProof.delta) dragProof.delta.textContent = proof?.deltaText || '—';
+    if (dragProof.phase) dragProof.phase.textContent = proof?.phase || 'idle';
+  };
+  const renderDragProofLayer = () => {
+    if (!dragProof.layer) return;
+    const proof = drag ? buildDragProof('dragging') : lastDragProof;
+    if (!proof) { dragProof.layer.innerHTML = ''; return; }
+    const parts = [];
+    if (proof.beforeRect) parts.push('<rect class="calibrator-drag-proof-ghost" x="' + proof.beforeRect.x + '" y="' + proof.beforeRect.y + '" width="' + proof.beforeRect.width + '" height="' + proof.beforeRect.height + '" rx="10"/>');
+    if (proof.beforePoint && proof.currentPoint) {
+      parts.push('<line class="calibrator-drag-proof-line" x1="' + proof.beforePoint.x + '" y1="' + proof.beforePoint.y + '" x2="' + proof.currentPoint.x + '" y2="' + proof.currentPoint.y + '"/>');
+      parts.push('<circle class="calibrator-drag-proof-ghost" cx="' + proof.beforePoint.x + '" cy="' + proof.beforePoint.y + '" r="10"/>');
+    }
+    dragProof.layer.innerHTML = parts.join('');
+  };
+  const renderControls = () => {
+    if (!layers.controls) return;
+    layers.controls.innerHTML = state.points.map((point, index) => '<g class="calibrator-point' + (selected.type === 'point' && selected.index === index ? ' is-selected' : '') + (drag?.type === 'point' && drag.index === index ? ' is-dragging' : '') + '" data-control-point data-index="' + index + '" transform="translate(' + point.x + ' ' + point.y + ')"><circle r="8" fill="#fff" stroke="#1f49d8" stroke-width="3"/><text class="debug-label" x="12" y="5">P' + index + '</text></g>').join('');
+  };
+  const renderStartFinish = () => {
+    if (!layers.startFinish) return;
+    const start = pointAtS(state.startFinish.startS).point;
+    const finish = pointAtS(state.startFinish.finishS).point;
+    layers.startFinish.innerHTML = '<g class="calibrator-marker calibrator-start' + (selected.type === 'start' ? ' is-selected' : '') + (drag?.type === 'start' ? ' is-dragging' : '') + '" data-start-handle transform="translate(' + start.x + ' ' + start.y + ')"><circle r="13"/><text class="debug-label" x="17" y="5">Start ' + Number(state.startFinish.startS).toFixed(2) + '</text></g><g class="calibrator-marker calibrator-finish' + (selected.type === 'finish' ? ' is-selected' : '') + (drag?.type === 'finish' ? ' is-dragging' : '') + '" data-finish-handle transform="translate(' + finish.x + ' ' + finish.y + ')"><circle r="13"/><text class="debug-label" x="17" y="5">Finish ' + Number(state.startFinish.finishS).toFixed(2) + '</text></g>';
+  };
+  const renderCheckpoints = () => {
+    if (!layers.checkpoints) return;
+    layers.checkpoints.innerHTML = state.checkpoints.map((checkpoint, index) => {
+      const sample = pointAtS(checkpoint.s).point;
+      return '<g class="checkpoint calibrator-checkpoint' + (selected.type === 'checkpoint' && selected.index === index ? ' is-selected' : '') + (drag?.type === 'checkpoint' && drag.index === index ? ' is-dragging' : '') + '" data-checkpoint data-checkpoint-index="' + index + '" transform="translate(' + sample.x + ' ' + sample.y + ')"><circle r="9" fill="#facc15" stroke="#713f12" stroke-width="3"/><text x="13" y="5">' + escapeText(checkpoint.label || checkpoint.checkpointId || ('CP ' + (index + 1))) + '</text></g>';
+    }).join('');
+  };
+  const renderLanes = () => {
+    if (!layers.lanes) return;
+    const samples = Array.from({ length: 34 }, (_, index) => pointAtS(index / 33));
+    layers.lanes.innerHTML = state.lanes.map((lane) => '<polyline class="calibrator-guide-lane" points="' + samples.map((sample) => (sample.point.x + sample.normal.x * finite(lane.offset, 0)) + ',' + (sample.point.y + sample.normal.y * finite(lane.offset, 0))).join(' ') + '"/>').join('');
+  };
+  const renderZones = () => {
+    if (!layers.zones) return;
+    const tone = { messageZones: ['rgba(31,73,216,.10)', '#1f49d8'], noBubbleZones: ['rgba(15,23,42,.09)', '#64748b'], riskZones: ['rgba(239,68,68,.14)', '#ef4444'] };
+    layers.zones.innerHTML = zoneTypes.map((zoneType) => '<g data-zone-group data-zone-type="' + zoneType + '">' + (state.zones[zoneType] || []).map((zone, index) => {
+      const rect = zoneRect(zone, zoneType);
+      const isSelected = selected.type === 'zone' && selected.zoneType === zoneType && selected.index === index;
+      const label = zone.label || zone.zoneId || zoneType + ' ' + (index + 1);
+      const handles = isSelected ? [['nw', rect.x, rect.y], ['ne', rect.x + rect.width, rect.y], ['sw', rect.x, rect.y + rect.height], ['se', rect.x + rect.width, rect.y + rect.height]].map((handle) => '<rect class="zone-resize-handle" data-zone-resize="' + handle[0] + '" data-zone-type="' + zoneType + '" data-zone-index="' + index + '" x="' + (handle[1] - 5) + '" y="' + (handle[2] - 5) + '" width="10" height="10" rx="2" fill="#fff" stroke="#172033"/>').join('') : '';
+      return '<g class="calibrator-zone' + (isSelected ? ' is-selected' : '') + (drag?.type === 'zone' && drag.zoneType === zoneType && drag.index === index ? ' is-dragging' : '') + '" data-zone data-zone-type="' + zoneType + '" data-zone-index="' + index + '"><rect x="' + rect.x + '" y="' + rect.y + '" width="' + rect.width + '" height="' + rect.height + '" rx="10" fill="' + tone[zoneType][0] + '" stroke="' + tone[zoneType][1] + '" stroke-width="2" stroke-dasharray="7 5"/><text class="debug-label" x="' + (rect.x + 10) + '" y="' + (rect.y + 24) + '">' + escapeText(label) + '</text>' + handles + '</g>';
+    }).join('') + '</g>').join('');
+  };
+  const syncForm = () => {
+    if (fields.centerline) fields.centerline.value = JSON.stringify(state.points.map((point) => ({ x: round(point.x), y: round(point.y) })), null, 2);
+    if (fields.lanes) fields.lanes.value = JSON.stringify(state.lanes, null, 2);
+    if (fields.checkpoints) fields.checkpoints.value = JSON.stringify(state.checkpoints, null, 2);
+    if (fields.messageZones) fields.messageZones.value = JSON.stringify(state.zones.messageZones, null, 2);
+    if (fields.noBubbleZones) fields.noBubbleZones.value = JSON.stringify(state.zones.noBubbleZones, null, 2);
+    if (fields.riskZones) fields.riskZones.value = JSON.stringify(state.zones.riskZones, null, 2);
+    if (fields.startS) fields.startS.value = Number(state.startFinish.startS).toFixed(2);
+    if (fields.finishS) fields.finishS.value = Number(state.startFinish.finishS).toFixed(2);
+    if (fields.startRange) fields.startRange.value = state.startFinish.startS;
+    if (fields.finishRange) fields.finishRange.value = state.startFinish.finishS;
+  };
+  const renderInspectorLists = () => {
+    if (tableBody) tableBody.innerHTML = state.points.map((point, index) => '<tr><td>' + index + '</td><td>' + Math.round(point.x) + '</td><td>' + Math.round(point.y) + '</td><td><button class="button secondary" data-select-point="' + index + '" type="button">选择</button></td></tr>').join('');
+    if (laneList) laneList.innerHTML = state.lanes.map((lane, index) => '<div class="calibrator-mini-row"><label>' + escapeText(lane.laneId) + '<input data-lane-offset="' + index + '" type="number" step="1" value="' + escapeText(lane.offset) + '"></label><button class="button secondary" data-select-lane="' + index + '" type="button">Lane</button></div>').join('');
+    if (checkpointList) checkpointList.innerHTML = state.checkpoints.map((checkpoint, index) => '<div class="calibrator-mini-row"><span>' + escapeText(checkpoint.label || checkpoint.checkpointId) + ' · s=' + Number(checkpoint.s).toFixed(2) + '</span><button class="button secondary" data-select-checkpoint="' + index + '" type="button">选择</button></div>').join('') || '<p class="muted">右键路径或点击添加 checkpoint。</p>';
+    const checkpoint = selected.type === 'checkpoint' ? state.checkpoints[selected.index] : null;
+    if (checkpointEditor) checkpointEditor.hidden = !checkpoint;
+    if (checkpoint) {
+      document.getElementById('calibrator-checkpoint-id').value = checkpoint.checkpointId;
+      document.getElementById('calibrator-checkpoint-label').value = checkpoint.label;
+      document.getElementById('calibrator-checkpoint-s').value = checkpoint.s;
+    }
+    const zone = selected.type === 'zone' ? state.zones[selected.zoneType]?.[selected.index] : null;
+    if (zoneEditor) zoneEditor.hidden = !zone;
+    if (zone) {
+      const rect = zoneRect(zone, selected.zoneType);
+      document.getElementById('calibrator-zone-id').value = zone.zoneId || '';
+      document.getElementById('calibrator-zone-label').value = zone.label || '';
+      document.getElementById('calibrator-zone-x').value = Math.round(rect.x);
+      document.getElementById('calibrator-zone-y').value = Math.round(rect.y);
+      document.getElementById('calibrator-zone-width').value = Math.round(rect.width);
+      document.getElementById('calibrator-zone-height').value = Math.round(rect.height);
+    }
+    const summary = document.querySelector('[data-centerline-summary]');
+    if (summary) summary.textContent = state.points.length + ' 个点；' + (state.closed ? '闭合路径' : '开放路径');
+    const laneSummary = document.querySelector('[data-lane-summary]');
+    if (laneSummary) laneSummary.textContent = state.lanes.length + ' 条泳道偏移预览。';
+    const checkpointSummary = document.querySelector('[data-checkpoint-summary]');
+    if (checkpointSummary) checkpointSummary.textContent = state.checkpoints.length + ' 个 checkpoint。';
+    if (fields.selectedSummary) {
+      const text = selected.type === 'point' ? 'centerline P' + selected.index : selected.type === 'checkpoint' ? 'checkpoint ' + (state.checkpoints[selected.index]?.label || selected.index) : selected.type === 'zone' ? selected.zoneType + ' #' + selected.index : selected.type === 'start' ? 'Start handle' : selected.type === 'finish' ? 'Finish handle' : '尚未选择对象。';
+      fields.selectedSummary.textContent = text;
+    }
+  };
+  const renderCanvas = () => {
+    if (layers.band) layers.band.setAttribute('d', pathD());
+    if (layers.polyline) layers.polyline.setAttribute('points', polylinePoints());
+    renderZones();
+    renderLanes();
+    renderControls();
+    renderStartFinish();
+    renderCheckpoints();
+    renderDragProofLayer();
+  };
+  const syncAndRender = (message) => {
+    normalizeState();
+    syncForm();
+    renderCanvas();
+    renderInspectorLists();
+    updateDragProofPanel();
+    updateHistoryButtons();
+    updateStatus(message || '画布操作已开启：左键添加或拖拽对象；右键打开快捷菜单，可在最近两个点之间插入新点。');
+    if (typeof window.syncCalibratorInspectorHeight === 'function') window.syncCalibratorInspectorHeight();
+  };
+  const updateHistoryButtons = () => {
+    const undo = document.getElementById('calibrator-undo');
+    const redo = document.getElementById('calibrator-redo');
+    if (undo) undo.disabled = history.undo.length === 0;
+    if (redo) redo.disabled = history.redo.length === 0;
+  };
+  const undo = () => {
+    if (!history.undo.length) return;
+    history.redo.push(snapshot());
+    restore(history.undo.pop());
+    updateStatus('已回退一步；点击 Preview / Validate 后重算 server preview。');
+  };
+  const redo = () => {
+    if (!history.redo.length) return;
+    history.undo.push(snapshot());
+    restore(history.redo.pop());
+    updateStatus('已重做一步；点击 Preview / Validate 后重算 server preview。');
+  };
+  const setPoint = (index, point) => {
+    const closing = hasClosingDuplicate();
+    state.points[index] = { x: round(point.x), y: round(point.y) };
+    if (closing && index === 0) state.points[state.points.length - 1] = { ...state.points[0] };
+    if (closing && index === state.points.length - 1) state.points[0] = { ...state.points[index] };
+  };
+  const insertPoint = (segmentIndex, point) => {
+    const closing = state.closed && hasClosingDuplicate();
+    const maxInsert = closing ? state.points.length - 1 : state.points.length;
+    const insertIndex = Math.max(0, Math.min(maxInsert, segmentIndex + 1));
+    state.points.splice(insertIndex, 0, { x: round(point.x), y: round(point.y) });
+    selected = { type: 'point', index: insertIndex, zoneType: '' };
+  };
+  const addPoint = (point) => {
+    const closing = state.closed && hasClosingDuplicate();
+    const index = closing ? state.points.length - 1 : state.points.length;
+    state.points.splice(index, 0, { x: round(point.x), y: round(point.y) });
+    selected = { type: 'point', index, zoneType: '' };
+  };
+  const addCheckpoint = (s) => {
+    const index = state.checkpoints.length;
+    state.checkpoints.push({ checkpointId: 'cp-' + (index + 1), label: 'CP ' + (index + 1), s: clamp(s, 0, 1) });
+    selected = { type: 'checkpoint', index, zoneType: '' };
+  };
+  const addZone = (zoneType, point) => {
+    const size = zoneType === 'messageZones' ? [160, 90] : zoneType === 'noBubbleZones' ? [180, 120] : [160, 120];
+    const index = state.zones[zoneType].length;
+    const zone = { zoneId: zoneType.replace('Zones', '-zone') + '-' + (index + 1), label: zoneType.replace('Zones', ' Zone') + ' ' + (index + 1) };
+    setZoneRect(zone, { x: point.x - size[0] / 2, y: point.y - size[1] / 2, width: size[0], height: size[1] });
+    state.zones[zoneType].push(zone);
+    selected = { type: 'zone', index, zoneType };
+  };
+  const deleteSelected = () => {
+    if (selected.type === 'point' && state.points.length > 3) state.points.splice(selected.index, 1);
+    if (selected.type === 'checkpoint') state.checkpoints.splice(selected.index, 1);
+    if (selected.type === 'zone') state.zones[selected.zoneType].splice(selected.index, 1);
+    selected = { type: '', index: -1, zoneType: '' };
+  };
+  const reverseCenterline = () => {
+    const unique = uniquePathPoints();
+    state.points = unique.reverse();
+    if (state.closed && state.points.length > 1) state.points.push({ ...state.points[0] });
+    selected = { type: '', index: -1, zoneType: '' };
+  };
+  const openContextMenu = (event) => {
+    const point = eventPoint(event);
+    if (!point || !contextMenu) return;
+    context.point = point;
+    context.nearest = nearestOnPath(point);
+    contextMenu.style.left = event.clientX + 'px';
+    contextMenu.style.top = event.clientY + 'px';
+    contextMenu.hidden = false;
+    if (contextSummary) contextSummary.textContent = context.nearest ? '最近线段：P' + context.nearest.index + ' → P' + (context.nearest.index + 1) : '右键快捷操作';
+  };
+  const closeContextMenu = () => { if (contextMenu) contextMenu.hidden = true; };
+  svg.addEventListener('contextmenu', (event) => {
+    event.preventDefault();
+    const pointTarget = event.target.closest('[data-control-point]');
+    const checkpointTarget = event.target.closest('[data-checkpoint]');
+    const zoneTarget = event.target.closest('[data-zone]');
+    if (pointTarget) selected = { type: 'point', index: Number(pointTarget.getAttribute('data-index')), zoneType: '' };
+    else if (checkpointTarget) selected = { type: 'checkpoint', index: Number(checkpointTarget.getAttribute('data-checkpoint-index')), zoneType: '' };
+    else if (zoneTarget) selected = { type: 'zone', index: Number(zoneTarget.getAttribute('data-zone-index')), zoneType: zoneTarget.getAttribute('data-zone-type') };
+    openContextMenu(event);
+    syncAndRender('已打开右键快捷菜单。');
+  });
+  svg.addEventListener('pointerdown', (event) => {
+    closeContextMenu();
+    const point = eventPoint(event);
+    if (!point) return;
+    const resizeTarget = event.target.closest('[data-zone-resize]');
+    const zoneTarget = event.target.closest('[data-zone]');
+    const pointTarget = event.target.closest('[data-control-point]');
+    const checkpointTarget = event.target.closest('[data-checkpoint]');
+    const before = snapshot();
+    if (resizeTarget) {
+      selected = { type: 'zone', index: Number(resizeTarget.getAttribute('data-zone-index')), zoneType: resizeTarget.getAttribute('data-zone-type') };
+      drag = { type: 'zone-resize', handle: resizeTarget.getAttribute('data-zone-resize'), index: selected.index, zoneType: selected.zoneType, start: point, rect: zoneRect(state.zones[selected.zoneType][selected.index], selected.zoneType), before };
+    } else if (pointTarget) {
+      selected = { type: 'point', index: Number(pointTarget.getAttribute('data-index')), zoneType: '' };
+      drag = { type: 'point', index: selected.index, before };
+    } else if (checkpointTarget) {
+      selected = { type: 'checkpoint', index: Number(checkpointTarget.getAttribute('data-checkpoint-index')), zoneType: '' };
+      drag = { type: 'checkpoint', index: selected.index, before };
+    } else if (event.target.closest('[data-start-handle]')) {
+      selected = { type: 'start', index: -1, zoneType: '' };
+      drag = { type: 'start', before };
+    } else if (event.target.closest('[data-finish-handle]')) {
+      selected = { type: 'finish', index: -1, zoneType: '' };
+      drag = { type: 'finish', before };
+    } else if (zoneTarget) {
+      selected = { type: 'zone', index: Number(zoneTarget.getAttribute('data-zone-index')), zoneType: zoneTarget.getAttribute('data-zone-type') };
+      drag = { type: 'zone', index: selected.index, zoneType: selected.zoneType, start: point, rect: zoneRect(state.zones[selected.zoneType][selected.index], selected.zoneType), before };
+    } else if (zoneTypes.includes(mode)) {
+      const zone = { zoneId: mode.replace('Zones', '-zone') + '-' + (state.zones[mode].length + 1), label: mode.replace('Zones', ' Zone') + ' ' + (state.zones[mode].length + 1), x: point.x, y: point.y, width: 24, height: 24 };
+      state.zones[mode].push(zone);
+      selected = { type: 'zone', index: state.zones[mode].length - 1, zoneType: mode };
+      drag = { type: 'zone-create', index: selected.index, zoneType: mode, start: point, before };
+    } else {
+      drag = null;
+      return;
+    }
+    event.preventDefault();
+    svg.setPointerCapture(event.pointerId);
+    lastDragProof = buildDragProof('selected');
+    syncAndRender('已选中对象，可拖拽调整。');
+  });
+  svg.addEventListener('pointermove', (event) => {
+    if (!drag) return;
+    const point = eventPoint(event);
+    if (!point) return;
+    event.preventDefault();
+    if (drag.type === 'point') setPoint(drag.index, point);
+    if (drag.type === 'checkpoint') state.checkpoints[drag.index].s = nearestOnPath(point).s;
+    if (drag.type === 'start') state.startFinish.startS = nearestOnPath(point).s;
+    if (drag.type === 'finish') state.startFinish.finishS = nearestOnPath(point).s;
+    if (drag.type === 'zone') {
+      const zone = state.zones[drag.zoneType][drag.index];
+      setZoneRect(zone, { x: drag.rect.x + point.x - drag.start.x, y: drag.rect.y + point.y - drag.start.y, width: drag.rect.width, height: drag.rect.height });
+    }
+    if (drag.type === 'zone-create') {
+      const zone = state.zones[drag.zoneType][drag.index];
+      setZoneRect(zone, { x: Math.min(drag.start.x, point.x), y: Math.min(drag.start.y, point.y), width: Math.abs(point.x - drag.start.x), height: Math.abs(point.y - drag.start.y) });
+    }
+    if (drag.type === 'zone-resize') {
+      const zone = state.zones[drag.zoneType][drag.index];
+      const rect = { ...drag.rect };
+      const dx = point.x - drag.start.x;
+      const dy = point.y - drag.start.y;
+      if (drag.handle.includes('e')) rect.width += dx;
+      if (drag.handle.includes('s')) rect.height += dy;
+      if (drag.handle.includes('w')) { rect.x += dx; rect.width -= dx; }
+      if (drag.handle.includes('n')) { rect.y += dy; rect.height -= dy; }
+      setZoneRect(zone, rect);
+    }
+    ignoreClick = true;
+    lastDragProof = buildDragProof('dragging');
+    syncAndRender('正在拖拽编辑；松开后可 Undo 回退整次操作。');
+  });
+  const finishDrag = (event) => {
+    if (!drag) return;
+    event.preventDefault();
+    try { svg.releasePointerCapture(event.pointerId); } catch {}
+    const before = drag.before;
+    normalizeState();
+    lastDragProof = buildDragProof('completed');
+    drag = null;
+    syncAndRender('已完成画布编辑；点击 Preview / Validate 后重算 server preview。');
+    pushSnapshot(before);
+    setTimeout(() => { ignoreClick = false; }, 0);
+  };
+  svg.addEventListener('pointerup', finishDrag);
+  svg.addEventListener('pointercancel', finishDrag);
+  svg.addEventListener('click', (event) => {
+    if (ignoreClick || event.target.closest('[data-control-point],[data-checkpoint],[data-zone],[data-start-handle],[data-finish-handle],[data-zone-resize]')) return;
+    const point = eventPoint(event);
+    if (!point) return;
+    event.preventDefault();
+    if (mode === 'checkpoint') commit('已从画布添加 checkpoint；点击 Preview / Validate 后重算 server preview。', () => addCheckpoint(nearestOnPath(point).s));
+    else if (zoneTypes.includes(mode)) commit('已从画布添加 zone；可拖动或缩放调整。', () => addZone(mode, point));
+    else commit('已从画布添加 centerline point；点击 Preview / Validate 后重算 server preview。', () => addPoint(point));
+  });
+  document.addEventListener('click', (event) => {
+    const contextButton = event.target.closest('[data-context-action]');
+    if (contextButton) {
+      event.preventDefault();
+      const action = contextButton.getAttribute('data-context-action');
+      closeContextMenu();
+      if (action === 'undo') return undo();
+      if (action === 'redo') return redo();
+      if (action === 'insert-nearest-segment' && context.nearest) return commit('已在最近两个点之间插入新点。', () => insertPoint(context.nearest.index, context.nearest.projection));
+      if (action === 'add-point' && context.point) return commit('已从右键位置添加 centerline point。', () => addPoint(context.point));
+      if (action === 'add-checkpoint' && context.nearest) return commit('已从右键位置添加 checkpoint。', () => addCheckpoint(context.nearest.s));
+      if (action === 'add-message-zone' && context.point) return commit('已添加 message zone。', () => addZone('messageZones', context.point));
+      if (action === 'add-no-bubble-zone' && context.point) return commit('已添加 no bubble zone。', () => addZone('noBubbleZones', context.point));
+      if (action === 'add-risk-zone' && context.point) return commit('已添加 risk zone。', () => addZone('riskZones', context.point));
+      if (action === 'delete-selected') return commit('已删除选中对象。', deleteSelected);
+      if (action === 'reverse') return commit('已反转 centerline 点序；server direction 请按需提交更新。', reverseCenterline);
+    }
+    if (!event.target.closest('#calibrator-context-menu')) closeContextMenu();
+  });
+  document.getElementById('calibrator-undo')?.addEventListener('click', undo);
+  document.getElementById('calibrator-redo')?.addEventListener('click', redo);
+  document.getElementById('calibrator-add-point-button')?.addEventListener('click', () => commit('已添加默认 centerline point。', () => addPoint({ x: 600, y: 310 })));
+  document.getElementById('calibrator-reverse-button')?.addEventListener('click', () => commit('已反转 centerline 点序。', reverseCenterline));
+  document.getElementById('calibrator-delete-selected')?.addEventListener('click', () => commit('已删除选中对象。', deleteSelected));
+  document.getElementById('calibrator-add-checkpoint')?.addEventListener('click', () => commit('已添加 checkpoint。', () => addCheckpoint(0.5)));
+  document.querySelectorAll('[data-add-zone]').forEach((button) => button.addEventListener('click', () => commit('已添加 ' + button.getAttribute('data-add-zone') + '。', () => addZone(button.getAttribute('data-add-zone'), { x: 620, y: 310 }))));
+  form.querySelectorAll('input[name="calibratorMode"]').forEach((input) => input.addEventListener('change', () => { mode = input.value; updateStatus('当前编辑模式：' + mode + '。'); }));
+  form.elements.closed?.addEventListener('change', () => commit('闭合路径设置已同步到画布点位。', () => { state.closed = String(form.elements.closed.value) === 'true'; }));
+  fields.startS?.addEventListener('change', () => commit('已更新 startS。', () => { state.startFinish.startS = fields.startS.value; selected = { type: 'start', index: -1, zoneType: '' }; }));
+  fields.finishS?.addEventListener('change', () => commit('已更新 finishS。', () => { state.startFinish.finishS = fields.finishS.value; selected = { type: 'finish', index: -1, zoneType: '' }; }));
+  fields.startRange?.addEventListener('input', () => { state.startFinish.startS = fields.startRange.value; selected = { type: 'start', index: -1, zoneType: '' }; syncAndRender('正在调整 start handle。'); });
+  fields.startRange?.addEventListener('change', () => commit('已更新 start handle。', () => { state.startFinish.startS = fields.startRange.value; }));
+  fields.finishRange?.addEventListener('input', () => { state.startFinish.finishS = fields.finishRange.value; selected = { type: 'finish', index: -1, zoneType: '' }; syncAndRender('正在调整 finish handle。'); });
+  fields.finishRange?.addEventListener('change', () => commit('已更新 finish handle。', () => { state.startFinish.finishS = fields.finishRange.value; }));
+  document.getElementById('calibrator-generate-lanes')?.addEventListener('click', () => commit('已按 lane count / spacing 自动生成 lanes。', () => {
+    const count = Math.max(1, Math.min(12, Math.round(finite(fields.laneCount?.value, 8))));
+    const spacing = finite(fields.laneSpacing?.value, 14);
+    const base = finite(fields.laneBase?.value, 0);
+    state.lanes = Array.from({ length: count }, (_, index) => ({ laneId: 'lane-' + index, offset: round(base + (index - (count - 1) / 2) * spacing) }));
+  }));
+  document.addEventListener('change', (event) => {
+    const laneInput = event.target.closest('[data-lane-offset]');
+    if (laneInput) return commit('已微调 lane offset。', () => { state.lanes[Number(laneInput.getAttribute('data-lane-offset'))].offset = laneInput.value; });
+    const pointButton = event.target.closest('[data-select-point]');
+    if (pointButton) selected = { type: 'point', index: Number(pointButton.getAttribute('data-select-point')), zoneType: '' };
+  });
+  document.addEventListener('click', (event) => {
+    const pointButton = event.target.closest('[data-select-point]');
+    if (pointButton) { selected = { type: 'point', index: Number(pointButton.getAttribute('data-select-point')), zoneType: '' }; syncAndRender('已选择 P' + selected.index + '。'); }
+    const checkpointButton = event.target.closest('[data-select-checkpoint]');
+    if (checkpointButton) { selected = { type: 'checkpoint', index: Number(checkpointButton.getAttribute('data-select-checkpoint')), zoneType: '' }; syncAndRender('已选择 checkpoint。'); }
+  });
+  ['calibrator-checkpoint-id', 'calibrator-checkpoint-label', 'calibrator-checkpoint-s'].forEach((id) => document.getElementById(id)?.addEventListener('change', () => commit('已更新 checkpoint inspector。', () => {
+    const checkpoint = selected.type === 'checkpoint' ? state.checkpoints[selected.index] : null;
+    if (!checkpoint) return;
+    checkpoint.checkpointId = document.getElementById('calibrator-checkpoint-id').value;
+    checkpoint.label = document.getElementById('calibrator-checkpoint-label').value;
+    checkpoint.s = document.getElementById('calibrator-checkpoint-s').value;
+  })));
+  ['calibrator-zone-id', 'calibrator-zone-label', 'calibrator-zone-x', 'calibrator-zone-y', 'calibrator-zone-width', 'calibrator-zone-height'].forEach((id) => document.getElementById(id)?.addEventListener('change', () => commit('已更新 zone inspector。', () => {
+    const zone = selected.type === 'zone' ? state.zones[selected.zoneType][selected.index] : null;
+    if (!zone) return;
+    zone.zoneId = document.getElementById('calibrator-zone-id').value;
+    zone.label = document.getElementById('calibrator-zone-label').value;
+    setZoneRect(zone, { x: document.getElementById('calibrator-zone-x').value, y: document.getElementById('calibrator-zone-y').value, width: document.getElementById('calibrator-zone-width').value, height: document.getElementById('calibrator-zone-height').value });
+  })));
+  document.querySelectorAll('[data-json-editor]').forEach((textarea) => textarea.addEventListener('change', () => {
+    const type = textarea.getAttribute('data-json-editor');
+    try {
+      const parsed = JSON.parse(textarea.value);
+      if (!Array.isArray(parsed)) throw new Error('not array');
+      commit('Advanced JSON 已应用到画布：' + type + '。', () => {
+        if (type === 'centerline') state.points = parsed;
+        else if (type === 'lanes') state.lanes = parsed;
+        else if (type === 'checkpoints') state.checkpoints = parsed;
+        else if (zoneTypes.includes(type)) state.zones[type] = parsed;
+      });
+    } catch {
+      updateStatus('Advanced JSON 解析失败，当前画布状态未被覆盖：' + type + '。');
+    }
+  }));
+  document.addEventListener('keydown', (event) => {
+    const modifier = event.metaKey || event.ctrlKey;
+    if (modifier && event.key.toLowerCase() === 'z' && event.shiftKey) { event.preventDefault(); redo(); return; }
+    if (modifier && event.key.toLowerCase() === 'z') { event.preventDefault(); undo(); return; }
+    if (modifier && event.key.toLowerCase() === 'y') { event.preventDefault(); redo(); return; }
+    if ((event.key === 'Delete' || event.key === 'Backspace') && !['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement?.tagName || '')) {
+      event.preventDefault(); commit('已删除选中对象。', deleteSelected);
+    }
+  });
+  normalizeState();
+  syncAndRender();
+})();
+</script><section class="jumbotron-validation"><div class="eyebrow">JSON diff preview</div><h2>Imported profile → Exported frozen candidate</h2><p class="muted">只比较 Calibrator 会写入 track.profile.json 的关键字段，用于审阅导入值和冻结候选之间发生了什么变化。</p><table><thead><tr><th>字段</th><th>Imported profile</th><th>Exported candidate</th><th>状态</th></tr></thead><tbody>${renderJsonDiffRows}</tbody></table></section>${renderCalibratorDebugPreview(workbench)}<section class="jumbotron-validation"><div class="eyebrow">Calibrator P1 Backlog / Pending</div><h2>P1 功能边界</h2><div class="validation-grid">${workbench.p1Backlog.map(([title, status, note]) => `<article><strong>${escapeHtml(title)} · ${escapeHtml(status)}</strong><p class="muted">${escapeHtml(note)}</p></article>`).join('')}</div></section></section>`;
+  return page('Track Profile Calibrator', '/jumbotron', session, content);
+}
+
+function renderTrackCalibratorLegacy(session, body = {}, options = {}) {
+  const workbench = buildCalibratorWorkbench(body);
+  const profile = workbench.trackProfile;
+  const demoMode = Boolean(options.demoMode || body.demoMode === '1' || body.demoMode === true);
   const backgroundOptions = Array.from(JUMBOTRON_BACKGROUND_ASSETS).map((src) => `<option value="${escapeHtml(src)}"${profile.background?.src === src ? ' selected' : ''}>${escapeHtml(src)}</option>`).join('');
   const renderChecks = (checks) => checks.map(([label, ok]) => `<article><strong>${ok ? '✓' : '!' } ${escapeHtml(validationLabel(label))}</strong><p class="muted">${ok ? '通过' : '需要补齐'}</p></article>`).join('');
   const renderControlPoints = profile.centerlinePath.map((point, index) => `<tr><td>${index}</td><td>${Math.round(point.x)}</td><td>${Math.round(point.y)}</td><td><button class="button secondary" name="deletePointIndex" value="${index}" type="submit">删除点位</button></td></tr>`).join('');
@@ -2466,7 +3389,161 @@ function renderTrackCalibrator(session, body = {}) {
   const renderJsonDiffRows = workbench.diffRows.length
     ? workbench.diffRows.map((row) => `<tr><td>${escapeHtml(row.label)}</td><td>${escapeHtml(row.before)}</td><td>${escapeHtml(row.after)}</td><td>changed</td></tr>`).join('')
     : '<tr><td colspan="4">暂无字段差异；imported profile 与 exported frozen candidate 一致。</td></tr>';
-  const content = `<section class="jumbotron-page calibrator-page"><section class="jumbotron-header" aria-label="Top Toolbar"><div class="jumbotron-brandline"><span class="jumbotron-live">MVP</span><strong>Track Profile Calibrator</strong><span>设计 / 资产生产工具</span></div><div class="jumbotron-statusbar"><button class="button secondary" form="calibrator-form" type="submit">Import Background</button><button class="button secondary" form="calibrator-form" type="submit">Import Candidate Profile</button><button class="button secondary" form="calibrator-form" type="submit">Validate</button><button class="button secondary" form="calibrator-form" type="submit">Preview</button><button class="button" form="calibrator-form" type="submit">Export</button></div></section>${workbench.error ? `<section class="notice warn"><strong>导入解析失败</strong><p>${escapeHtml(workbench.error)}</p></section>` : ''}<form id="calibrator-form" method="post" action="/jumbotron/calibrator"><section class="jumbotron-calibrator"><div class="eyebrow">Import Candidate Profile → 编辑 → Validate → Export</div><h1>Track Profile Calibrator MVP</h1><p class="muted">这是设计时赛道校准工具，不是运行时大屏。候选 profile 先导入和编辑，再经过 Validate / Preview，最后导出 frozen track.profile.json candidate；预览复用 createJumbotronRuntime / sampleHorsePose，正式资产确认仍需要人工复核。</p><div class="calibrator-grid"><article><strong>Import Background</strong><p class="muted">选择允许的背景资产，Validate 会同时检查 allowlist 与真实文件存在。</p><label>允许背景资产<select name="backgroundSrc">${backgroundOptions}</select></label><label>自定义 /assets/ 输入<input name="backgroundSrcCustom" value="${escapeHtml(body.backgroundSrcCustom || '')}" placeholder="/assets/public-yard-hero.webp"></label></article><article><strong>Import Candidate Profile</strong><textarea name="profileJson" rows="8">${escapeHtml(body.profileJson || workbench.exportJson)}</textarea></article><article><strong>Export frozen track.profile.json candidate</strong><textarea readonly rows="8">${escapeHtml(workbench.exportJson)}</textarea><p class="muted">冻结候选不等于正式资产 confirmed。</p></article></div></section><section class="jumbotron-layout" aria-label="Calibrator IA"><section class="track-stage-card" aria-label="Main Canvas"><div class="eyebrow">Main Canvas</div><h2>Background Layer / Centerline Layer / Control Points Layer</h2><svg class="track-svg" viewBox="0 0 1200 620" role="img" aria-label="Track Profile Calibrator Main Canvas"><rect class="track-bg" x="22" y="22" width="1156" height="576" rx="42"/><text class="debug-label" x="44" y="58">Background Layer：${escapeHtml(profile.background?.src || '未选择')}</text>${profile.riskZones.map((zone) => `<rect x="${zone.x}" y="${zone.y}" width="${zone.width}" height="${zone.height}" fill="rgba(239,68,68,.12)" stroke="#ef4444" stroke-dasharray="8 6"/>`).join('')}${profile.noBubbleZones.map((zone) => `<rect x="${zone.x}" y="${zone.y}" width="${zone.width}" height="${zone.height}" fill="rgba(15,23,42,.08)" stroke="#64748b" stroke-dasharray="5 6"/>`).join('')}<path class="track-band" d="${jumbotronPath(profile.centerlinePath)}"/>${lanePreview}<polyline class="track-centerline" points="${jumbotronPolyline(profile.centerlinePath)}"/>${profile.centerlinePath.map((point, index) => `<g transform="translate(${point.x} ${point.y})"><circle r="8" fill="#fff" stroke="#1f49d8" stroke-width="3"/><text class="debug-label" x="12" y="5">P${index}</text></g>`).join('')}${checkpointMarkers}<g transform="translate(${workbench.singlePose.pose.x} ${workbench.singlePose.pose.y})"><circle r="18" fill="#a855f7" stroke="#f5d0fe" stroke-width="4"/><text class="debug-label" x="24" y="6">Scrubber ${workbench.settings.previewProgress}%</text></g>${workbench.multiHorsePoses.map(({ entry, pose }) => `<g transform="translate(${pose.x} ${pose.y})"><circle r="9" fill="#1f49d8" stroke="#dbeafe" stroke-width="2"/><text class="debug-label" x="14" y="5">${escapeHtml(entry.displayName.replace('Horse ', '#'))}</text></g>`).join('')}<rect x="${bubble.x}" y="${bubble.y}" width="${bubble.width}" height="${bubble.height}" rx="12" fill="rgba(255,255,255,.96)" stroke="${workbench.messageBubblePreview.blockedByNoZone ? '#ef4444' : '#1f49d8'}" stroke-width="2"/><text class="debug-label" x="${bubble.x + 12}" y="${bubble.y + 32}">Message Bubble Preview</text></svg><div class="calibrator-grid"><article><strong>Background Layer</strong><p class="muted">${escapeHtml(profile.background?.src || '未选择背景')}</p></article><article><strong>Centerline Layer</strong><p class="muted">${profile.centerlinePath.length} 个点；${profile.centerline?.closed ? '闭合路径' : '开放路径'}</p></article><article><strong>Control Points Layer</strong><p class="muted">支持添加、删除、JSON 编辑；拖拽点位 pending。</p></article><article><strong>Lane Preview Layer</strong><p class="muted">${profile.lanes.length} 条泳道偏移预览。</p></article><article><strong>Checkpoint Layer</strong><p class="muted">${profile.checkpoints.length} 个 checkpoint。</p></article><article><strong>Horse Preview Layer</strong><p class="muted">scrubber 单马 + ${workbench.multiHorsePoses.length} 匹多马预览。</p></article><article><strong>Message Bubble Preview Layer</strong><p class="muted">基于 messageZones / noBubbleZones；${workbench.messageBubblePreview.blockedByNoZone ? '当前落在 no bubble zone' : '当前可显示示例气泡'}。</p></article></div></section><aside aria-label="Right Inspector"><section class="side-card"><div class="eyebrow">Right Inspector</div><h2>Track Info</h2><label>trackId<input name="trackId" value="${escapeHtml(profile.trackId)}"></label><label>name<input name="name" value="${escapeHtml(profile.name)}"></label></section><section class="side-card"><h2>Geometry</h2><label>centerline JSON<textarea name="centerlinePoints" rows="8">${escapeHtml(JSON.stringify(profile.centerlinePath, null, 2))}</textarea></label><div class="cta-row"><label>新增 x<input name="addPointX" value="${escapeHtml(body.addPointX || '600')}"></label><label>新增 y<input name="addPointY" value="${escapeHtml(body.addPointY || '310')}"></label><button class="button secondary" name="centerlineAction" value="add" type="submit">添加 centerline point</button><button class="button secondary" name="reverseDirection" value="1" type="submit">Reverse Direction / 反转路径方向</button></div><table><thead><tr><th>#</th><th>x</th><th>y</th><th>操作</th></tr></thead><tbody>${renderControlPoints}</tbody></table><p class="muted">拖拽 centerline points：pending。</p></section><section class="side-card"><h2>终点线</h2><label>startS<input name="startS" value="${escapeHtml(profile.startFinish?.startS ?? 0)}"></label><label>finishS<input name="finishS" value="${escapeHtml(profile.startFinish?.finishS ?? 1)}"></label></section><section class="side-card"><h2>Direction</h2><label>direction<select name="direction"><option value="clockwise"${profile.direction === 'clockwise' ? ' selected' : ''}>clockwise</option><option value="counterclockwise"${profile.direction === 'counterclockwise' ? ' selected' : ''}>counterclockwise</option></select></label><label>closed<select name="closed"><option value="true"${profile.centerline?.closed ? ' selected' : ''}>true</option><option value="false"${!profile.centerline?.closed ? ' selected' : ''}>false</option></select></label><label>平滑路径预览<select name="smoothing"><option value="mvp-polyline"${profile.centerline?.smoothing === 'mvp-polyline' ? ' selected' : ''}>关闭：mvp-polyline</option><option value="preview-smoothing"${profile.centerline?.smoothing === 'preview-smoothing' ? ' selected' : ''}>开启：preview-smoothing</option></select></label><p class="muted">平滑路径预览是 MVP 视觉提示，不改写 runtime 事实来源。</p></section><section class="side-card"><h2>Lanes</h2><textarea name="lanes" rows="8">${escapeHtml(JSON.stringify(profile.lanes, null, 2))}</textarea></section><section class="side-card"><h2>Checkpoints</h2><textarea name="checkpoints" rows="7">${escapeHtml(JSON.stringify(profile.checkpoints, null, 2))}</textarea></section><section class="side-card"><h2>Message Bubble</h2><label>messageZones<textarea name="messageZones" rows="5">${escapeHtml(JSON.stringify(profile.messageZones, null, 2))}</textarea></label><label>noBubbleZones<textarea name="noBubbleZones" rows="5">${escapeHtml(JSON.stringify(profile.noBubbleZones, null, 2))}</textarea></label><label>riskZones<textarea name="riskZones" rows="5">${escapeHtml(JSON.stringify(profile.riskZones, null, 2))}</textarea></label></section><section class="side-card"><h2>Validation Results</h2><div class="validation-grid">${renderChecks(workbench.checks)}</div></section></aside></section><section class="jumbotron-kpis" aria-label="Bottom Preview Bar"><span class="jumbotron-chip"><span>Progress Scrubber</span><strong>${workbench.settings.previewProgress}%</strong></span><label>Progress Scrubber<input type="range" name="previewProgress" min="0" max="100" value="${escapeHtml(workbench.settings.previewProgress)}"></label><label>Horse Count<input name="horseCount" value="${escapeHtml(workbench.settings.horseCount)}"></label><label>Speed<input name="previewSpeed" value="${escapeHtml(workbench.settings.previewSpeed)}"></label><label>Play / Pause<select name="playMode"><option value="paused"${workbench.settings.playMode === 'paused' ? ' selected' : ''}>Pause</option><option value="play"${workbench.settings.playMode === 'play' ? ' selected' : ''}>Play</option></select></label><label>Scenario Presets<select name="scenarioPreset"><option value="clustered"${workbench.settings.scenarioPreset === 'clustered' ? ' selected' : ''}>clustered</option><option value="spread"${workbench.settings.scenarioPreset === 'spread' ? ' selected' : ''}>spread</option><option value="finish"${workbench.settings.scenarioPreset === 'finish' ? ' selected' : ''}>finish</option></select></label><button class="button" type="submit">Validate / Preview / Export</button><a class="button secondary" href="/jumbotron">返回 Race Live View</a></section></form><section class="jumbotron-validation"><div class="eyebrow">JSON diff preview</div><h2>Imported profile → Exported frozen candidate</h2><p class="muted">只比较 Calibrator 会写入 track.profile.json 的关键字段，用于审阅导入值和冻结候选之间发生了什么变化。</p><table><thead><tr><th>字段</th><th>Imported profile</th><th>Exported candidate</th><th>状态</th></tr></thead><tbody>${renderJsonDiffRows}</tbody></table></section><section class="jumbotron-validation"><div class="eyebrow">Calibrator P1 Backlog / Pending</div><h2>P1 功能边界</h2><div class="validation-grid">${workbench.p1Backlog.map(([title, status, note]) => `<article><strong>${escapeHtml(title)} · ${escapeHtml(status)}</strong><p class="muted">${escapeHtml(note)}</p></article>`).join('')}</div></section></section>`;
+  const content = `<section class="jumbotron-page calibrator-page"><section class="jumbotron-header" aria-label="Top Toolbar"><div class="jumbotron-brandline"><span class="jumbotron-live">MVP</span><strong>Track Profile Calibrator</strong><span>设计 / 资产生产工具</span></div><div class="jumbotron-statusbar"><button class="button secondary" form="calibrator-form" type="submit">Import Background</button><button class="button secondary" form="calibrator-form" type="submit">Import Candidate Profile</button><button class="button secondary" form="calibrator-form" type="submit">Validate</button><button class="button secondary" form="calibrator-form" type="submit">Preview</button><button class="button" form="calibrator-form" type="submit">Export</button></div></section>${workbench.error ? `<section class="notice warn"><strong>导入解析失败</strong><p>${escapeHtml(workbench.error)}</p></section>` : ''}<form id="calibrator-form" method="post" action="/jumbotron/calibrator"><section class="jumbotron-calibrator"><div class="eyebrow">Import Candidate Profile → 编辑 → Validate → Export</div><h1>Track Profile Calibrator MVP</h1><p class="muted">这是设计时赛道校准工具，不是运行时大屏。候选 profile 先导入和编辑，再经过 Validate / Preview，最后导出 frozen track.profile.json candidate；预览复用 createJumbotronRuntime / sampleHorsePose，正式资产确认仍需要人工复核。</p><div class="calibrator-grid"><article><strong>Import Background</strong><p class="muted">选择允许的背景资产，Validate 会同时检查 allowlist 与真实文件存在。</p><label>允许背景资产<select name="backgroundSrc">${backgroundOptions}</select></label><label>自定义 /assets/ 输入<input name="backgroundSrcCustom" value="${escapeHtml(body.backgroundSrcCustom || '')}" placeholder="/assets/public-yard-hero.webp"></label></article><article><strong>Import Candidate Profile</strong><textarea name="profileJson" rows="8">${escapeHtml(body.profileJson || workbench.exportJson)}</textarea></article><article><strong>Export frozen track.profile.json candidate</strong><textarea readonly rows="8">${escapeHtml(workbench.exportJson)}</textarea><p class="muted">冻结候选不等于正式资产 confirmed。</p></article></div></section><section class="jumbotron-layout calibrator-layout" aria-label="Calibrator IA"><section class="track-stage-card" aria-label="Main Canvas"><div class="eyebrow">Main Canvas</div><h2>Background Layer / Centerline Layer / Control Points Layer</h2><p id="calibrator-canvas-status" class="calibrator-canvas-help">画布操作已开启：点击画布添加点，拖拽 P 点移动；点击 Validate / Preview / Export 后用 server runtime 重算预览。</p><svg id="calibrator-canvas" class="track-svg" viewBox="0 0 1200 620" role="img" aria-label="Track Profile Calibrator Main Canvas"><rect class="track-bg" x="22" y="22" width="1156" height="576" rx="42"/><text class="debug-label" x="44" y="58">Background Layer：${escapeHtml(profile.background?.src || '未选择')}</text>${profile.riskZones.map((zone) => `<rect x="${zone.x}" y="${zone.y}" width="${zone.width}" height="${zone.height}" fill="rgba(239,68,68,.12)" stroke="#ef4444" stroke-dasharray="8 6"/>`).join('')}${profile.noBubbleZones.map((zone) => `<rect x="${zone.x}" y="${zone.y}" width="${zone.width}" height="${zone.height}" fill="rgba(15,23,42,.08)" stroke="#64748b" stroke-dasharray="5 6"/>`).join('')}<path class="track-band" data-centerline-band d="${jumbotronPath(profile.centerlinePath)}"/>${lanePreview}<polyline class="track-centerline" data-centerline-polyline points="${jumbotronPolyline(profile.centerlinePath)}"/><g data-control-points-layer>${profile.centerlinePath.map((point, index) => `<g class="calibrator-point" data-control-point data-index="${index}" transform="translate(${point.x} ${point.y})"><circle r="8" fill="#fff" stroke="#1f49d8" stroke-width="3"/><text class="debug-label" x="12" y="5">P${index}</text></g>`).join('')}</g>${checkpointMarkers}<g transform="translate(${workbench.singlePose.pose.x} ${workbench.singlePose.pose.y})"><circle r="18" fill="#a855f7" stroke="#f5d0fe" stroke-width="4"/><text class="debug-label" x="24" y="6">Scrubber ${workbench.settings.previewProgress}%</text></g>${workbench.multiHorsePoses.map(({ entry, pose }) => `<g transform="translate(${pose.x} ${pose.y})"><circle r="9" fill="#1f49d8" stroke="#dbeafe" stroke-width="2"/><text class="debug-label" x="14" y="5">${escapeHtml(entry.displayName.replace('Horse ', '#'))}</text></g>`).join('')}<rect x="${bubble.x}" y="${bubble.y}" width="${bubble.width}" height="${bubble.height}" rx="12" fill="rgba(255,255,255,.96)" stroke="${workbench.messageBubblePreview.blockedByNoZone ? '#ef4444' : '#1f49d8'}" stroke-width="2"/><text class="debug-label" x="${bubble.x + 12}" y="${bubble.y + 32}">Message Bubble Preview</text></svg><div class="calibrator-grid"><article><strong>Background Layer</strong><p class="muted">${escapeHtml(profile.background?.src || '未选择背景')}</p></article><article><strong>Centerline Layer</strong><p class="muted">${profile.centerlinePath.length} 个点；${profile.centerline?.closed ? '闭合路径' : '开放路径'}</p></article><article><strong>Control Points Layer</strong><p class="muted">支持画布点击添加、拖拽移动、删除和 JSON 高级编辑。</p></article><article><strong>Lane Preview Layer</strong><p class="muted">${profile.lanes.length} 条泳道偏移预览。</p></article><article><strong>Checkpoint Layer</strong><p class="muted">${profile.checkpoints.length} 个 checkpoint。</p></article><article><strong>Horse Preview Layer</strong><p class="muted">scrubber 单马 + ${workbench.multiHorsePoses.length} 匹多马预览。</p></article><article><strong>Message Bubble Preview Layer</strong><p class="muted">基于 messageZones / noBubbleZones；${workbench.messageBubblePreview.blockedByNoZone ? '当前落在 no bubble zone' : '当前可显示示例气泡'}。</p></article></div></section><aside aria-label="Right Inspector"><section class="side-card"><div class="eyebrow">Right Inspector</div><h2>Track Info</h2><label>trackId<input name="trackId" value="${escapeHtml(profile.trackId)}"></label><label>name<input name="name" value="${escapeHtml(profile.name)}"></label></section><section class="side-card"><h2>Geometry</h2><label>centerline JSON<textarea id="calibrator-centerline-points" name="centerlinePoints" rows="8">${escapeHtml(JSON.stringify(profile.centerlinePath, null, 2))}</textarea></label><div class="cta-row"><label>新增 x<input name="addPointX" value="${escapeHtml(body.addPointX || '600')}"></label><label>新增 y<input name="addPointY" value="${escapeHtml(body.addPointY || '310')}"></label><button class="button secondary" name="centerlineAction" value="add" type="submit">添加 centerline point</button><button class="button secondary" name="reverseDirection" value="1" type="submit">Reverse Direction / 反转路径方向</button></div><table><thead><tr><th>#</th><th>x</th><th>y</th><th>操作</th></tr></thead><tbody data-control-points-table>${renderControlPoints}</tbody></table><p class="muted">拖拽 centerline points：已支持画布直接移动。</p></section><section class="side-card"><h2>终点线</h2><label>startS<input name="startS" value="${escapeHtml(profile.startFinish?.startS ?? 0)}"></label><label>finishS<input name="finishS" value="${escapeHtml(profile.startFinish?.finishS ?? 1)}"></label></section><section class="side-card"><h2>Direction</h2><label>direction<select name="direction"><option value="clockwise"${profile.direction === 'clockwise' ? ' selected' : ''}>clockwise</option><option value="counterclockwise"${profile.direction === 'counterclockwise' ? ' selected' : ''}>counterclockwise</option></select></label><label>closed<select name="closed"><option value="true"${profile.centerline?.closed ? ' selected' : ''}>true</option><option value="false"${!profile.centerline?.closed ? ' selected' : ''}>false</option></select></label><label>平滑路径预览<select name="smoothing"><option value="mvp-polyline"${profile.centerline?.smoothing === 'mvp-polyline' ? ' selected' : ''}>关闭：mvp-polyline</option><option value="preview-smoothing"${profile.centerline?.smoothing === 'preview-smoothing' ? ' selected' : ''}>开启：preview-smoothing</option></select></label><p class="muted">平滑路径预览是 MVP 视觉提示，不改写 runtime 事实来源。</p></section><section class="side-card"><h2>Lanes</h2><textarea name="lanes" rows="8">${escapeHtml(JSON.stringify(profile.lanes, null, 2))}</textarea></section><section class="side-card"><h2>Checkpoints</h2><textarea name="checkpoints" rows="7">${escapeHtml(JSON.stringify(profile.checkpoints, null, 2))}</textarea></section><section class="side-card"><h2>Message Bubble</h2><label>messageZones<textarea name="messageZones" rows="5">${escapeHtml(JSON.stringify(profile.messageZones, null, 2))}</textarea></label><label>noBubbleZones<textarea name="noBubbleZones" rows="5">${escapeHtml(JSON.stringify(profile.noBubbleZones, null, 2))}</textarea></label><label>riskZones<textarea name="riskZones" rows="5">${escapeHtml(JSON.stringify(profile.riskZones, null, 2))}</textarea></label></section><section class="side-card"><h2>Validation Results</h2><div class="validation-grid">${renderChecks(workbench.checks)}</div></section></aside></section><section class="jumbotron-kpis" aria-label="Bottom Preview Bar"><span class="jumbotron-chip"><span>Progress Scrubber</span><strong>${workbench.settings.previewProgress}%</strong></span><label>Progress Scrubber<input type="range" name="previewProgress" min="0" max="100" value="${escapeHtml(workbench.settings.previewProgress)}"></label><label>Horse Count<input name="horseCount" value="${escapeHtml(workbench.settings.horseCount)}"></label><label>Speed<input name="previewSpeed" value="${escapeHtml(workbench.settings.previewSpeed)}"></label><label>Play / Pause<select name="playMode"><option value="paused"${workbench.settings.playMode === 'paused' ? ' selected' : ''}>Pause</option><option value="play"${workbench.settings.playMode === 'play' ? ' selected' : ''}>Play</option></select></label><label>Scenario Presets<select name="scenarioPreset"><option value="clustered"${workbench.settings.scenarioPreset === 'clustered' ? ' selected' : ''}>clustered</option><option value="spread"${workbench.settings.scenarioPreset === 'spread' ? ' selected' : ''}>spread</option><option value="finish"${workbench.settings.scenarioPreset === 'finish' ? ' selected' : ''}>finish</option></select></label><button class="button" type="submit">Validate / Preview / Export</button><a class="button secondary" href="/jumbotron">返回 Race Live View</a></section></form><script>
+(() => {
+  const syncCalibratorInspectorHeight = () => {
+    const layout = document.querySelector('.calibrator-layout');
+    const mainCanvas = layout?.querySelector('.track-stage-card');
+    const inspector = layout?.querySelector('aside[aria-label="Right Inspector"]');
+    if (!mainCanvas || !inspector) return;
+    inspector.style.maxHeight = Math.ceil(mainCanvas.getBoundingClientRect().height) + 'px';
+  };
+  window.addEventListener('load', syncCalibratorInspectorHeight);
+  window.addEventListener('resize', syncCalibratorInspectorHeight);
+  if ('ResizeObserver' in window) {
+    window.addEventListener('load', () => {
+      const mainCanvas = document.querySelector('.calibrator-layout .track-stage-card');
+      if (mainCanvas) new ResizeObserver(syncCalibratorInspectorHeight).observe(mainCanvas);
+    });
+  }
+})();
+
+(() => {
+  const form = document.getElementById('calibrator-form');
+  const svg = document.getElementById('calibrator-canvas');
+  const textarea = document.getElementById('calibrator-centerline-points');
+  if (!form || !svg || !textarea) return;
+  const band = svg.querySelector('[data-centerline-band]');
+  const polyline = svg.querySelector('[data-centerline-polyline]');
+  const controlsLayer = svg.querySelector('[data-control-points-layer]');
+  const tableBody = document.querySelector('[data-control-points-table]');
+  const status = document.getElementById('calibrator-canvas-status');
+  const closedSelect = form.elements.closed;
+  const viewBox = svg.viewBox.baseVal;
+  let selectedIndex = -1;
+  let dragIndex = -1;
+  let didDrag = false;
+  const samePoint = (a, b) => Boolean(a && b && Math.abs(a.x - b.x) < 0.01 && Math.abs(a.y - b.y) < 0.01);
+  const isClosed = () => String(closedSelect?.value || 'true') === 'true';
+  const readPoints = () => {
+    try {
+      const parsed = JSON.parse(textarea.value);
+      return Array.isArray(parsed) ? parsed.map((point) => ({ x: Number(point.x), y: Number(point.y) })).filter((point) => Number.isFinite(point.x) && Number.isFinite(point.y)) : [];
+    } catch {
+      return [];
+    }
+  };
+  let points = readPoints();
+  const hasClosingDuplicate = () => points.length > 2 && samePoint(points[0], points[points.length - 1]);
+  const formatNumber = (value) => Math.round(value * 10) / 10;
+  const formatPoint = (point) => ({ x: formatNumber(point.x), y: formatNumber(point.y) });
+  const pointList = () => points.map((point) => formatPoint(point));
+  const updateStatus = (message) => {
+    if (status) status.textContent = message;
+  };
+  const pathD = () => points.length ? 'M ' + points.map((point) => point.x + ' ' + point.y).join(' L ') : '';
+  const polylinePoints = () => points.map((point) => point.x + ',' + point.y).join(' ');
+  const normalizeClosingDuplicate = () => {
+    if (isClosed() && hasClosingDuplicate()) points[points.length - 1] = { ...points[0] };
+  };
+  const syncTextarea = () => {
+    textarea.value = JSON.stringify(pointList(), null, 2);
+  };
+  const renderControls = () => {
+    if (!controlsLayer) return;
+    controlsLayer.innerHTML = points.map((point, index) => '<g class="calibrator-point' + (index === selectedIndex ? ' is-selected' : '') + (index === dragIndex ? ' is-dragging' : '') + '" data-control-point data-index="' + index + '" transform="translate(' + point.x + ' ' + point.y + ')"><circle r="8" fill="#fff" stroke="#1f49d8" stroke-width="3"/><text class="debug-label" x="12" y="5">P' + index + '</text></g>').join('');
+  };
+  const renderTable = () => {
+    if (!tableBody) return;
+    tableBody.innerHTML = points.map((point, index) => '<tr><td>' + index + '</td><td>' + Math.round(point.x) + '</td><td>' + Math.round(point.y) + '</td><td><button class="button secondary" name="deletePointIndex" value="' + index + '" type="submit">删除点位</button></td></tr>').join('');
+  };
+  const redraw = (message) => {
+    normalizeClosingDuplicate();
+    syncTextarea();
+    if (band) band.setAttribute('d', pathD());
+    if (polyline) polyline.setAttribute('points', polylinePoints());
+    renderControls();
+    renderTable();
+    updateStatus(message || '画布操作已开启：点击画布添加点，拖拽 P 点移动；点击 Validate / Preview / Export 后用 server runtime 重算预览。');
+    if (typeof window.syncCalibratorInspectorHeight === 'function') window.syncCalibratorInspectorHeight();
+  };
+  const eventPoint = (event) => {
+    const matrix = svg.getScreenCTM();
+    if (!matrix) return null;
+    const point = svg.createSVGPoint();
+    point.x = event.clientX;
+    point.y = event.clientY;
+    const svgPoint = point.matrixTransform(matrix.inverse());
+    return {
+      x: Math.max(viewBox.x, Math.min(viewBox.x + viewBox.width, svgPoint.x)),
+      y: Math.max(viewBox.y, Math.min(viewBox.y + viewBox.height, svgPoint.y))
+    };
+  };
+  const setPoint = (index, point) => {
+    const closingDuplicate = hasClosingDuplicate();
+    points[index] = point;
+    if (closingDuplicate && index === 0) points[points.length - 1] = { ...point };
+    if (closingDuplicate && index === points.length - 1) points[0] = { ...point };
+  };
+  const addPoint = (point) => {
+    if (isClosed() && hasClosingDuplicate()) {
+      selectedIndex = points.length - 1;
+      points.splice(points.length - 1, 0, point);
+    } else {
+      points.push(point);
+      selectedIndex = points.length - 1;
+    }
+    redraw('已从画布添加 P' + selectedIndex + '；点击 Validate / Preview / Export 重算预览。');
+  };
+  svg.addEventListener('pointerdown', (event) => {
+    const control = event.target.closest('[data-control-point]');
+    if (!control) return;
+    event.preventDefault();
+    selectedIndex = Number(control.getAttribute('data-index'));
+    dragIndex = selectedIndex;
+    didDrag = false;
+    svg.setPointerCapture(event.pointerId);
+    redraw('已选中 P' + selectedIndex + '；拖拽可移动点位。');
+  });
+  svg.addEventListener('pointermove', (event) => {
+    if (dragIndex < 0) return;
+    const point = eventPoint(event);
+    if (!point) return;
+    event.preventDefault();
+    didDrag = true;
+    setPoint(dragIndex, point);
+    redraw('正在拖拽 P' + dragIndex + '；松开后再 Validate / Export。');
+  });
+  const finishDrag = (event) => {
+    if (dragIndex < 0) return;
+    const finishedIndex = dragIndex;
+    dragIndex = -1;
+    try { svg.releasePointerCapture(event.pointerId); } catch {}
+    if (didDrag) {
+      event.preventDefault();
+      redraw('已移动 P' + finishedIndex + '；点击 Validate / Preview / Export 重算预览。');
+      setTimeout(() => { didDrag = false; }, 0);
+    }
+  };
+  svg.addEventListener('pointerup', finishDrag);
+  svg.addEventListener('pointercancel', finishDrag);
+  svg.addEventListener('click', (event) => {
+    if (didDrag || event.target.closest('[data-control-point]')) return;
+    const point = eventPoint(event);
+    if (!point) return;
+    event.preventDefault();
+    addPoint(point);
+  });
+  closedSelect?.addEventListener('change', () => {
+    points = readPoints();
+    if (isClosed() && points.length > 1 && !hasClosingDuplicate()) points.push({ ...points[0] });
+    if (!isClosed() && hasClosingDuplicate()) points = points.slice(0, -1);
+    selectedIndex = -1;
+    redraw('闭合路径设置已同步到画布点位。');
+  });
+  redraw();
+})();
+</script><section class="jumbotron-validation"><div class="eyebrow">JSON diff preview</div><h2>Imported profile → Exported frozen candidate</h2><p class="muted">只比较 Calibrator 会写入 track.profile.json 的关键字段，用于审阅导入值和冻结候选之间发生了什么变化。</p><table><thead><tr><th>字段</th><th>Imported profile</th><th>Exported candidate</th><th>状态</th></tr></thead><tbody>${renderJsonDiffRows}</tbody></table></section><section class="jumbotron-validation"><div class="eyebrow">Calibrator P1 Backlog / Pending</div><h2>P1 功能边界</h2><div class="validation-grid">${workbench.p1Backlog.map(([title, status, note]) => `<article><strong>${escapeHtml(title)} · ${escapeHtml(status)}</strong><p class="muted">${escapeHtml(note)}</p></article>`).join('')}</div></section></section>`;
   return page('Track Profile Calibrator', '/jumbotron', session, content);
 }
 
@@ -2474,7 +3551,7 @@ function renderJumbotronFooter({ trackProfile, raceSnapshot, showReviewTools }) 
   const competition = raceSnapshot.competition;
   const reviewHref = showReviewTools ? '/jumbotron' : '/jumbotron?debug=1';
   const reviewLabelText = showReviewTools ? '返回公开视图' : '打开审阅工具';
-  return `<section class="jumbotron-footer"><article><div class="eyebrow">展示边界</div><h2>只展示摘要</h2><p class="muted">不展示完整 Session、终端日志、长文本评论流或复杂 diff。</p><div class="cta-row"><a class="button secondary" href="${reviewHref}">${reviewLabelText}</a><a class="button secondary" href="/jumbotron/calibrator">赛道校准器</a></div></article><article><div class="eyebrow">赛事状态</div><h2>${escapeHtml(competition.liveStatus)}</h2><p class="muted">主题：${escapeHtml(competition.theme)}；主办方：${escapeHtml(competition.organizer || 'Organizer')}</p><p class="muted">阶段：${escapeHtml(competition.currentPhase)}；下一步：${escapeHtml(competition.nextPhase)}</p></article><article><div class="eyebrow">赛道模板</div><h2>${escapeHtml(trackProfile.name || trackProfile.trackId)}</h2><p><span class="boundary-pill">背景资产</span><span class="boundary-pill">视图框</span><span class="boundary-pill">设计尺寸</span><span class="boundary-pill">中心线路径</span><span class="boundary-pill">起点</span><span class="boundary-pill">终点</span><span class="boundary-pill">检查点</span><span class="boundary-pill">泳道偏移</span><span class="boundary-pill">安全区</span></p></article><article id="remote-cockpit"><div class="eyebrow">协作入口</div><h2>查看队伍现场</h2><p class="muted">入口保留在大屏，不在此页展开完整协作流程。</p><p class="muted">系统时间：${escapeHtml(competition.systemTime)}</p></article></section>`;
+  return `<section class="jumbotron-footer">${renderJumbotronSideDrawer({ eyebrow: '展示边界', title: '只展示摘要', body: `<p class="muted">只展示摘要，不展开原始记录、终端输出、长文本评论或代码差异。</p><div class="cta-row"><a class="button secondary" href="${reviewHref}">${reviewLabelText}</a><a class="button secondary" href="/jumbotron/calibrator">赛道校准器</a></div>` })}${renderJumbotronSideDrawer({ eyebrow: '赛事状态', title: competition.liveStatus, body: `<p class="muted">主题：${escapeHtml(competition.theme)}；主办方：${escapeHtml(competition.organizer || 'Organizer')}</p><p class="muted">阶段：${escapeHtml(competition.currentPhase)}；下一步：${escapeHtml(competition.nextPhase)}</p>` })}${renderJumbotronSideDrawer({ eyebrow: '赛道模板', title: trackProfile.name || trackProfile.trackId, body: `<p><span class="boundary-pill">背景资产</span><span class="boundary-pill">视图框</span><span class="boundary-pill">设计尺寸</span><span class="boundary-pill">中心线路径</span><span class="boundary-pill">起点</span><span class="boundary-pill">终点</span><span class="boundary-pill">检查点</span><span class="boundary-pill">泳道偏移</span><span class="boundary-pill">安全区</span></p>` })}${renderJumbotronSideDrawer({ eyebrow: '协作入口', title: '查看队伍现场', id: 'remote-cockpit', className: 'jumbotron-remote-drawer', body: `<p class="muted">入口保留在大屏，不在此页展开完整协作流程。</p><p class="muted">系统时间：${escapeHtml(competition.systemTime)}</p>` })}</section>`;
 }
 
 function renderLogin(error = '', view = '') {
@@ -2672,6 +3749,17 @@ export function createServerApp(port = 4400, organizerPort = 4401) {
         res.writeHead(200, { 'content-type': 'image/webp', 'content-length': asset.length, 'cache-control': 'public, max-age=3600' });
         return res.end(asset);
       }
+      if (req.method === 'GET' && JUMBOTRON_RUNTIME_ASSETS.has(url.pathname)) {
+        const assetInfo = JUMBOTRON_RUNTIME_ASSETS.get(url.pathname);
+        const asset = await readFile(join(rootDir, 'assets', 'jumbotron', assetInfo.file));
+        res.writeHead(200, { 'content-type': assetInfo.contentType, 'content-length': asset.length, 'cache-control': 'public, max-age=3600' });
+        return res.end(asset);
+      }
+      if (req.method === 'GET' && url.pathname === JUMBOTRON_DEBUG_PREVIEW_PNG_ROUTE) {
+        const asset = await readFile(JUMBOTRON_DEBUG_PREVIEW_PNG_PATH);
+        res.writeHead(200, { 'content-type': 'image/png', 'content-length': asset.length, 'cache-control': 'no-store' });
+        return res.end(asset);
+      }
       if (req.method === 'GET' && url.pathname === '/demo') {
         res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' });
         return res.end(renderDemo(session));
@@ -2710,12 +3798,12 @@ export function createServerApp(port = 4400, organizerPort = 4401) {
       }
       if (req.method === 'GET' && url.pathname === '/jumbotron/calibrator') {
         res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' });
-        return res.end(renderTrackCalibrator(session));
+        return res.end(renderTrackCalibrator(session, {}, { demoMode: url.searchParams.get('demo') === '1' }));
       }
       if (req.method === 'POST' && url.pathname === '/jumbotron/calibrator') {
         const body = await readBody(req);
         res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' });
-        return res.end(renderTrackCalibrator(session, body));
+        return res.end(renderTrackCalibrator(session, body, { demoMode: url.searchParams.get('demo') === '1' }));
       }
       if (req.method === 'GET' && url.pathname.startsWith('/race/')) {
         res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' });

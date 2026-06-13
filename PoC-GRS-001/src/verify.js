@@ -141,6 +141,20 @@ function assertSvgHorseLabelsAvoidBboxes(html) {
   assert(bubbleOverlaps === 0, 'horse labels should avoid riding message bubble bboxes');
 }
 
+function assertJumbotronSpriteFacing(html) {
+  assertIncludes(html, 'horse-rider-facing', 'jumbotron should wrap rider sprites in a facing-only group');
+  assertIncludes(html, 'data-facing="left"', 'jumbotron should flip left-facing rider sprites from track tangent');
+  assertIncludes(html, 'data-facing="right"', 'jumbotron should keep right-facing rider sprites from track tangent');
+  assertIncludes(html, 'transform="scale(-1 1)"', 'left-facing rider sprites should use horizontal flip only');
+  assertIncludes(html, 'transform="scale(1 1)"', 'right-facing rider sprites should use horizontal scale only');
+  assert(!/<g class="horse [^"]*"[^>]*transform="translate\([^)]+\) rotate\(/.test(html), 'horse groups should translate only and never continuously rotate sprites');
+  assert(!/<text class="debug-label" transform="rotate\(/.test(html), 'rank text should remain upright without inverse rotation');
+  assert(!/<g class="horse-status-pill" transform="rotate\(/.test(html), 'status pills should remain upright without inverse rotation');
+  const groups = [...html.matchAll(/<g class="horse-rider-facing" data-facing="(left|right)" transform="(scale\(-?1 1\))">/g)];
+  assert(groups.length >= 8, 'multi-horse preview should expose facing metadata for rider sprites');
+  assert(groups.every(([, facing, transform]) => (facing === 'left' && transform === 'scale(-1 1)') || (facing === 'right' && transform === 'scale(1 1)')), 'rider sprite facing metadata should match horizontal flip transform');
+}
+
 function assertBubblePlanTiming(plan, rules) {
   const bubbles = plan.bubbles.map((item) => ({ start: item.startSecond, duration: item.durationSecond }));
   const cycle = rules.cycleSeconds;
@@ -221,6 +235,11 @@ async function postText(path, fields, cookie) {
     body: new URLSearchParams(fields)
   });
   return { response, body: await response.text() };
+}
+
+async function binary(path, cookie) {
+  const response = await request(path, { headers: cookie ? { cookie } : {} });
+  return { response, body: Buffer.from(await response.arrayBuffer()) };
 }
 
 async function json(path, cookie) {
@@ -317,6 +336,33 @@ try {
   assertIncludes(demoPage.body, '/login?view=organizer', 'entry should link organizer login');
   assertIncludes(demoPage.body, '/login?view=team', 'entry should link team login');
 
+  const jumbotronRuntimeAssets = [
+    ['/assets/jumbotron/background1.png', 'image/png'],
+    ['/assets/jumbotron/rider3_run.png', 'image/png'],
+    ['/assets/jumbotron/rider3_walk.png', 'image/png'],
+    ['/assets/jumbotron/rider3_stay.png', 'image/png'],
+    ['/assets/jumbotron/rider3_run.gif', 'image/gif'],
+    ['/assets/jumbotron/rider3_walk.gif', 'image/gif'],
+    ['/assets/jumbotron/rider3_stay.gif', 'image/gif'],
+    ['/assets/jumbotron/jumbotron-state-badges.png', 'image/png'],
+    ['/assets/jumbotron/state-badge-idle.png', 'image/png'],
+    ['/assets/jumbotron/state-badge-running.png', 'image/png'],
+    ['/assets/jumbotron/state-badge-sprinting.png', 'image/png'],
+    ['/assets/jumbotron/state-badge-slowed.png', 'image/png'],
+    ['/assets/jumbotron/state-badge-blocked.png', 'image/png'],
+    ['/assets/jumbotron/state-badge-pit_stop.png', 'image/png'],
+    ['/assets/jumbotron/state-badge-takeover.png', 'image/png'],
+    ['/assets/jumbotron/state-badge-finished.png', 'image/png'],
+    ['/assets/jumbotron/state-badge-stale.png', 'image/png']
+  ];
+  for (const [assetPath, contentType] of jumbotronRuntimeAssets) {
+    const asset = await request(assetPath);
+    assert(asset.status === 200, `${assetPath} should be served from the Jumbotron runtime asset allowlist`);
+    assert(asset.headers.get('content-type') === contentType, `${assetPath} should be served as ${contentType}`);
+  }
+  const blockedAsset = await request('/assets/jumbotron/label.png');
+  assert(blockedAsset.status === 404, 'non-runtime collaborator assets should not be served by the Jumbotron allowlist');
+
   const yard = await text('/yard');
   assert(yard.response.status === 200, 'public yard should load');
   assertIncludes(yard.body, 'Public Yard', 'yard should show public race discovery');
@@ -328,6 +374,16 @@ try {
   assert(jumbotron.response.status === 200, 'jumbotron should load');
   assertIncludes(jumbotron.body, '赛事大屏', 'jumbotron should show public race live view');
   assertIncludes(jumbotron.body, '实时赛道', 'jumbotron should show main track');
+  assertIncludes(jumbotron.body, '/assets/jumbotron/background1.png', 'jumbotron should render collaborator track background asset');
+  assertIncludes(jumbotron.body, 'track-background-image', 'jumbotron should keep track background as its own SVG layer');
+  assertIncludes(jumbotron.body, 'horse-rider-sprite', 'jumbotron should render collaborator rider sprites');
+  assertNotIncludes(jumbotron.body, '<circle class="horse-body"', 'jumbotron should not render fallback circle when rider sprites exist');
+  assertNotIncludes(jumbotron.body, '<path class="horse-arrow"', 'jumbotron should not render fallback flag when rider sprites exist');
+  assertIncludes(jumbotron.body, '/assets/jumbotron/rider3_run.gif', 'jumbotron should map running and sprinting entries to animated run sprite');
+  assertIncludes(jumbotron.body, '/assets/jumbotron/rider3_walk.gif', 'jumbotron should map blocked/takeover/pit_stop entries to animated walk sprite');
+  assertIncludes(jumbotron.body, '/assets/jumbotron/rider3_stay.gif', 'jumbotron should map idle/slowed/finished/stale entries to animated stay sprite');
+  assertIncludes(jumbotron.body, 'horse-status-badge', 'jumbotron should render no-text state badge image assets');
+  assertIncludes(jumbotron.body, '/assets/jumbotron/state-badge-', 'jumbotron should use per-motion-state badge assets');
   assertIncludes(jumbotron.body, 'AI Sudoku', 'jumbotron should show curated mock-data leader');
   assertIncludes(jumbotron.body, 'DevCompass Racing', 'jumbotron should show curated mock-data entry');
   assertIncludes(jumbotron.body, 'GreenRoute', 'jumbotron should show curated mock-data tail entry');
@@ -354,8 +410,21 @@ try {
   assertNotIncludes(jumbotron.body, 'Track Profile 校准器 Preview', 'public jumbotron should hide calibrator by default');
   assertNotIncludes(jumbotron.body, '调试模式', 'public jumbotron should hide debug mode by default');
   assertNotIncludes(jumbotron.body, 'Track Profile 校验', 'public jumbotron should hide validation by default');
-  assertIncludes(jumbotron.body, 'Data Profile', 'jumbotron should expose data profile selector');
-  assertIncludes(jumbotron.body, 'dataProfileId=curated-full-12', 'jumbotron should show full canonical profile id');
+  assertIncludes(jumbotron.body, 'jumbotron-drawer', 'jumbotron should use collapsible drawer cards for auxiliary panels');
+  assertIncludes(jumbotron.body, 'jumbotron-drawer-icon', 'jumbotron drawers should show a visible expand indicator');
+  assertIncludes(jumbotron.body, 'font-size:34px', 'jumbotron drawer indicator should be large enough to notice');
+  assertIncludes(jumbotron.body, 'overflow-anchor:none', 'jumbotron drawers should keep hover title positions stable while expanding');
+  assertIncludes(jumbotron.body, 'liveAside.scrollTop += currentTop - active.top', 'jumbotron drawers should anchor hovered titles during expansion');
+  assertIncludes(jumbotron.body, 'padding-bottom .26s ease', 'jumbotron drawers should expand downward without moving the body upward first');
+  assertNotIncludes(jumbotron.body, 'transform:translateY(-4px)', 'jumbotron drawer body should not shift upward during hover expansion');
+  assertIncludes(jumbotron.body, 'jumbotron-profile-drawer', 'jumbotron should expose collapsible data profile selector');
+  assertIncludes(jumbotron.body, '数据档位', 'jumbotron data profile selector should be Chinese');
+  assertIncludes(jumbotron.body, '完整数据档位', 'jumbotron should show full profile in Chinese');
+  assertIncludes(jumbotron.body, '档位编号：curated-full-12', 'jumbotron should show full canonical profile id in Chinese');
+  assertIncludes(jumbotron.body, '轻量演示档位', 'jumbotron should show smoke profile in Chinese');
+  assertIncludes(jumbotron.body, '覆盖验证档位', 'jumbotron should show coverage profile in Chinese');
+  assertNotIncludes(jumbotron.body, 'Data Profile', 'public jumbotron should not expose English data profile heading');
+  assertNotIncludes(jumbotron.body, 'dataProfileId=', 'public jumbotron should not expose English data profile label');
   assertIncludes(jumbotron.body, '/jumbotron?profile=smoke-8', 'jumbotron should link smoke-8 profile');
   assertIncludes(jumbotron.body, '/jumbotron?profile=coverage-9', 'jumbotron should link coverage-9 profile');
   assertIncludes(jumbotron.body, '/api/jumbotron-bubbles?profile=full', 'jumbotron should poll bubble queue API for selected profile');
@@ -372,6 +441,7 @@ try {
   assertIncludes(jumbotron.body, 'setInterval(syncBubbleLayer, 2500)', 'jumbotron should sync bubble layer without page refresh');
   assertSvgMessageBubblesInViewBox(jumbotron.body);
   assertSvgHorseLabelsAvoidBboxes(jumbotron.body);
+  assertJumbotronSpriteFacing(jumbotron.body);
   const bubbleApi = await json('/api/jumbotron-bubbles');
   assert(bubbleApi.response.status === 200, 'bubble API should load');
   assert(bubbleApi.body.dataProfileId === 'curated-full-12', 'bubble API should default to full profile');
@@ -456,7 +526,7 @@ try {
 
   const jumbotronSmoke = await text('/jumbotron?profile=smoke-8');
   assert(jumbotronSmoke.response.status === 200, 'smoke-8 jumbotron should load');
-  assertIncludes(jumbotronSmoke.body, 'dataProfileId=smoke-8-visual-low-load', 'smoke-8 jumbotron should show canonical profile id');
+  assertIncludes(jumbotronSmoke.body, '档位编号：smoke-8-visual-low-load', 'smoke-8 jumbotron should show canonical profile id in Chinese');
   assertIncludes(jumbotronSmoke.body, '/api/jumbotron-bubbles?profile=smoke-8', 'smoke-8 jumbotron should poll matching bubble profile');
   assertNotIncludes(jumbotronSmoke.body, 'HorsePose', 'smoke-8 public jumbotron should hide runtime debug output');
   assertNoLeaks(jumbotronSmoke.body, 'smoke-8 jumbotron');
@@ -478,15 +548,41 @@ try {
   assertIncludes(calibrator.body, 'Right Inspector', 'calibrator should expose right inspector');
   assertIncludes(calibrator.body, 'Bottom Preview Bar', 'calibrator should expose bottom preview bar');
   assertIncludes(calibrator.body, 'Import Background', 'calibrator should expose background import');
+  assertIncludes(calibrator.body, '/assets/jumbotron/background1.png', 'calibrator should expose extracted track background option');
+  assertIncludes(calibrator.body, '/assets/jumbotron/example.png', 'calibrator should expose extracted example background option');
   assertIncludes(calibrator.body, 'Import Candidate Profile', 'calibrator should expose candidate profile import');
   assertIncludes(calibrator.body, 'Validate', 'calibrator should expose validate action');
   assertIncludes(calibrator.body, 'Preview', 'calibrator should expose preview action');
   assertIncludes(calibrator.body, 'Export', 'calibrator should expose export action');
   assertIncludes(calibrator.body, 'Export frozen track.profile.json candidate', 'calibrator should export frozen candidate');
+  assertIncludes(calibrator.body, 'data-asset-review-status="pending"', 'calibrator should default asset review to pending');
+  assertIncludes(calibrator.body, 'pending human review', 'calibrator should show pending human review by default');
+  assertIncludes(calibrator.body, 'candidate preview', 'calibrator should distinguish candidate preview from formal asset');
+  assertNotIncludes(calibrator.body, 'data-asset-review-status="confirmed"', 'calibrator default pending state should not be marked confirmed');
+  assertNotIncludes(calibrator.body, 'confirmed by human review</strong>', 'calibrator default pending state should not claim human confirmation');
   assertIncludes(calibrator.body, '正式资产 confirmed', 'calibrator should not claim formal asset confirmation');
   assertIncludes(calibrator.body, 'Background Layer', 'calibrator should expose background layer');
   assertIncludes(calibrator.body, 'Centerline Layer', 'calibrator should expose centerline layer');
   assertIncludes(calibrator.body, 'Control Points Layer', 'calibrator should expose control points layer');
+  assertIncludes(calibrator.body, 'id="calibrator-canvas"', 'calibrator should expose interactive canvas');
+  assertIncludes(calibrator.body, 'data-control-point', 'calibrator should render draggable control point handles');
+  assertIncludes(calibrator.body, 'Undo / 回退', 'calibrator should expose undo action');
+  assertIncludes(calibrator.body, 'Redo / 重做', 'calibrator should expose redo action');
+  assertIncludes(calibrator.body, 'data-context-menu', 'calibrator should expose right-click context menu');
+  assertIncludes(calibrator.body, 'data-context-action="insert-nearest-segment"', 'calibrator should expose nearest-segment insert action');
+  assertIncludes(calibrator.body, 'data-background-image', 'calibrator should render real background image layer');
+  assertIncludes(calibrator.body, 'data-start-handle', 'calibrator should expose draggable start handle');
+  assertIncludes(calibrator.body, 'data-finish-handle', 'calibrator should expose draggable finish handle');
+  assertIncludes(calibrator.body, 'data-checkpoints-layer', 'calibrator should expose editable checkpoint layer');
+  assertIncludes(calibrator.body, 'data-zone-layer', 'calibrator should expose editable zone layer');
+  assertIncludes(calibrator.body, 'data-zone-type="messageZones"', 'calibrator should expose message zone editing layer');
+  assertIncludes(calibrator.body, 'data-zone-type="noBubbleZones"', 'calibrator should expose no bubble zone editing layer');
+  assertIncludes(calibrator.body, 'data-zone-type="riskZones"', 'calibrator should expose risk zone editing layer');
+  assertIncludes(calibrator.body, 'Lane Count', 'calibrator should expose lane count control');
+  assertIncludes(calibrator.body, 'Lane Spacing', 'calibrator should expose lane spacing control');
+  assertIncludes(calibrator.body, 'Advanced JSON mode', 'calibrator should keep JSON editing as advanced mode');
+  assertIncludes(calibrator.body, '画布操作已开启', 'calibrator should explain canvas point editing');
+  assertIncludes(calibrator.body, '拖拽 centerline points：已支持画布直接移动', 'calibrator should mark centerline dragging as implemented');
   assertIncludes(calibrator.body, 'Lane Preview Layer', 'calibrator should expose lane preview layer');
   assertIncludes(calibrator.body, 'Checkpoint Layer', 'calibrator should expose checkpoint layer');
   assertIncludes(calibrator.body, 'Horse Preview Layer', 'calibrator should expose horse preview layer');
@@ -518,17 +614,51 @@ try {
   assertIncludes(calibrator.body, 'riskZones', 'calibrator export should include riskZones');
   assertIncludes(calibrator.body, 'scrubber 单马', 'calibrator should preview scrubber horse');
   assertIncludes(calibrator.body, '多马预览', 'calibrator should preview multiple horses');
-  assertIncludes(calibrator.body, '气泡区域编辑 · pending', 'calibrator should list bubble zone P1 pending');
-  assertIncludes(calibrator.body, 'no bubble zone 编辑 · pending', 'calibrator should list no bubble zone P1 pending');
-  assertIncludes(calibrator.body, '风险区域编辑 · pending', 'calibrator should list risk zone P1 pending');
+  assertIncludes(calibrator.body, 'message zone 画布编辑 · implemented', 'calibrator should implement message zone canvas editing');
+  assertIncludes(calibrator.body, 'no bubble zone 编辑 · implemented', 'calibrator should implement no bubble zone canvas editing');
+  assertIncludes(calibrator.body, 'risk zone 画布编辑 · implemented', 'calibrator should implement risk zone canvas editing');
+  assertIncludes(calibrator.body, '拖拽状态变化证据 · implemented', 'calibrator should expose drag state proof as implemented');
   assertIncludes(calibrator.body, 'AI 候选点导入 · pending', 'calibrator should list AI candidate P1 pending');
   assertIncludes(calibrator.body, '自动检测尖角 · pending', 'calibrator should list corner detection P1 pending');
-  assertIncludes(calibrator.body, '自动分配 lanes · pending', 'calibrator should list lane assignment P1 pending');
-  assertIncludes(calibrator.body, '导出 debug-preview.png · pending', 'calibrator should list debug preview export P1 pending');
+  assertIncludes(calibrator.body, 'lane 快捷调整 · implemented', 'calibrator should implement lane quick adjustment');
+  assertIncludes(calibrator.body, '导出 debug-preview.png · implemented', 'calibrator should list debug preview export P1 implemented');
+  assertIncludes(calibrator.body, 'Week2-Jumbotron/review-ledger/screenshots/2026-06-13-jumbotron-debug-preview-export/debug-preview.png', 'calibrator should expose debug preview PNG evidence path');
   assertIncludes(calibrator.body, 'JSON diff preview · implemented', 'calibrator should implement JSON diff preview');
   assertIncludes(calibrator.body, 'Imported profile → Exported frozen candidate', 'calibrator should show JSON diff preview table');
   assertIncludes(calibrator.body, '暂无字段差异', 'calibrator should show empty diff state');
+  assertIncludes(calibrator.body, '校准证明', 'calibrator should expose proof mode panel');
+  assertIncludes(calibrator.body, '打开演示模式', 'calibrator should expose recording walkthrough proof panel');
+  assertIncludes(calibrator.body, 'progress → centerline distance → point/rotation → laneOffset → displayAdjustment', 'calibrator should explain Jumbotron runtime mapping chain');
+  assertIncludes(calibrator.body, 'Use in Jumbotron', 'calibrator should show use-in-jumbotron evidence');
+  assertIncludes(calibrator.body, 'P1 Debug Preview HTML/SVG', 'calibrator should expose debug preview HTML SVG evidence');
+  assertIncludes(calibrator.body, 'Capture debug preview PNG', 'calibrator should expose debug preview PNG capture entry');
+  assertIncludes(calibrator.body, 'debug-preview.png</span><strong>implemented</strong>', 'calibrator should mark png export implemented');
+  assertNotIncludes(calibrator.body, 'debug-preview.png 导出仍 pending', 'calibrator should not keep png export pending');
+  assertIncludes(calibrator.body, 'data-drag-proof', 'calibrator should expose live drag proof panel');
+  assertIncludes(calibrator.body, 'data-drag-proof-layer', 'calibrator should expose drag proof SVG layer');
+  assertIncludes(calibrator.body, 'centerline point 坐标变化证据', 'calibrator should describe centerline drag coordinate proof');
+  assertIncludes(calibrator.body, 'zone 坐标变化证据', 'calibrator should describe zone drag coordinate proof');
+  assertIncludes(calibrator.body, "lastDragProof = buildDragProof('dragging')", 'calibrator should update proof while pointer drag changes coordinates');
+  assertIncludes(calibrator.body, "lastDragProof = buildDragProof('completed')", 'calibrator should retain proof after drag completes');
+  assertIncludes(calibrator.body, 'dragProof.layer.innerHTML', 'calibrator should render before/current drag evidence in SVG');
   assertNoLeaks(calibrator.body, 'track calibrator');
+  const debugPreviewPng = await binary('/jumbotron/debug-preview.png');
+  assert(debugPreviewPng.response.status === 200, 'debug preview png should load');
+  assert(debugPreviewPng.response.headers.get('content-type') === 'image/png', 'debug preview route should return PNG content type');
+  assert(debugPreviewPng.body.length > 40000, 'debug preview png should not be a blank tiny file');
+  assert(debugPreviewPng.body.slice(0, 8).equals(Buffer.from([137, 80, 78, 71, 13, 10, 26, 10])), 'debug preview png should have PNG signature');
+
+  const calibratorDemo = await text('/jumbotron/calibrator?demo=1');
+  assert(calibratorDemo.response.status === 200, 'calibrator demo proof mode should load');
+  assertIncludes(calibratorDemo.body, '推荐录制路径', 'calibrator demo should show recording guide');
+  assertIncludes(calibratorDemo.body, '打开 /jumbotron，展示 Race Live View', 'calibrator demo should include step 1');
+  assertIncludes(calibratorDemo.body, '多个 Racing Entry、TOP3、KPI、message bubble/ticker、risk/violation', 'calibrator demo should include race live view evidence step');
+  assertIncludes(calibratorDemo.body, '底图、centerline、lane offsets、checkpoints', 'calibrator demo should include track asset proof step');
+  assertIncludes(calibratorDemo.body, '单马 / 多马 preview', 'calibrator demo should include preview step');
+  assertIncludes(calibratorDemo.body, 'Export frozen track.profile.json candidate', 'calibrator demo should include export candidate step');
+  assertIncludes(calibratorDemo.body, '明确数据来源和可运行范围', 'calibrator demo should separate sample data, runnable implementation, and pending work');
+  assertIncludes(calibratorDemo.body, 'messageZones overlay', 'calibrator demo should show zone debug preview evidence');
+  assertNoLeaks(calibratorDemo.body, 'track calibrator demo');
 
   const addPoint = await postText('/jumbotron/calibrator', { centerlineAction: 'add', addPointX: '610', addPointY: '315', previewProgress: '37', horseCount: '5', scenarioPreset: 'spread' });
   assertIncludes(addPoint.body, 'P9', 'add point should add a visible control point before closing duplicate');
@@ -543,6 +673,47 @@ try {
   const reverseDirection = await postText('/jumbotron/calibrator', { reverseDirection: '1', direction: 'clockwise' });
   assertIncludes(reverseDirection.body, '<option value="counterclockwise" selected>counterclockwise</option>', 'reverse direction should toggle direction semantics');
   assertNoLeaks(reverseDirection.body, 'track calibrator reverse direction');
+  const insertPoint = await postText('/jumbotron/calibrator', { centerlineAction: 'insert', insertPointIndex: '1', insertPointX: '455', insertPointY: '222' });
+  assertIncludes(insertPoint.body, '455', 'nearest-segment insert should keep inserted x coordinate');
+  assertIncludes(insertPoint.body, '222', 'nearest-segment insert should keep inserted y coordinate');
+  assertIncludes(insertPoint.body, '<td>centerline.points</td>', 'nearest-segment insert should produce JSON diff');
+  assertNoLeaks(insertPoint.body, 'track calibrator insert point');
+  const startFinishEdit = await postText('/jumbotron/calibrator', { startS: '0.12', finishS: '0.88' });
+  assertIncludes(startFinishEdit.body, '0.12', 'start handle edit should update startS in export');
+  assertIncludes(startFinishEdit.body, '0.88', 'finish handle edit should update finishS in export');
+  assertIncludes(startFinishEdit.body, '<td>startFinish.startS</td>', 'start handle edit should produce JSON diff');
+  assertNoLeaks(startFinishEdit.body, 'track calibrator start finish edit');
+  const checkpointEdit = await postText('/jumbotron/calibrator', { checkpoints: JSON.stringify([{ checkpointId: 'cp-test', label: 'CP Test', s: 0.42 }]) });
+  assertIncludes(checkpointEdit.body, 'CP Test', 'checkpoint canvas edit should render checkpoint label');
+  assertIncludes(checkpointEdit.body, 'cp-test', 'checkpoint canvas edit should persist checkpoint id');
+  assertNoLeaks(checkpointEdit.body, 'track calibrator checkpoint edit');
+  const lanesEdit = await postText('/jumbotron/calibrator', { lanes: JSON.stringify([{ laneId: 'lane-0', offset: -21 }, { laneId: 'lane-1', offset: 0 }, { laneId: 'lane-2', offset: 21 }]) });
+  assertIncludes(lanesEdit.body, 'lane-2', 'lane quick controls should persist generated lane ids');
+  assertIncludes(lanesEdit.body, '<td>lanes</td>', 'lane quick controls should produce JSON diff');
+  assertNoLeaks(lanesEdit.body, 'track calibrator lanes edit');
+  const zonesEdit = await postText('/jumbotron/calibrator', {
+    messageZones: JSON.stringify([{ zoneId: 'message-test', label: 'Message Test', x: 720, y: 120, width: 160, height: 90 }]),
+    noBubbleZones: JSON.stringify([{ zoneId: 'no-bubble-test', label: 'No Bubble Test', x: 80, y: 80, width: 180, height: 120 }]),
+    riskZones: JSON.stringify([{ zoneId: 'risk-test', label: 'Risk Test', x: 840, y: 420, width: 160, height: 120 }])
+  });
+  assertIncludes(zonesEdit.body, 'message-test', 'message zone canvas edit should persist zone id');
+  assertIncludes(zonesEdit.body, 'no-bubble-test', 'no bubble zone canvas edit should persist zone id');
+  assertIncludes(zonesEdit.body, 'risk-test', 'risk zone canvas edit should persist zone id');
+  assertNoLeaks(zonesEdit.body, 'track calibrator zones edit');
+
+  const rejectedAsset = await postText('/jumbotron/calibrator', { assetReviewStatus: 'rejected' });
+  assertIncludes(rejectedAsset.body, 'data-asset-review-status="rejected"', 'rejected asset review state should render rejected status');
+  assertIncludes(rejectedAsset.body, 'rejected by human review', 'rejected asset review state should show human rejection');
+  assertIncludes(rejectedAsset.body, 'rejected candidate 不得进入正式大屏资产流程', 'rejected candidate should not pass into formal jumbotron assets');
+  assertNotIncludes(rejectedAsset.body, 'data-asset-review-status="confirmed"', 'rejected asset review state should not be marked confirmed');
+  assertNotIncludes(rejectedAsset.body, 'confirmed by human review</strong>', 'rejected asset review state should not claim human confirmation');
+  assertNoLeaks(rejectedAsset.body, 'track calibrator rejected asset');
+  const confirmedAsset = await postText('/jumbotron/calibrator', { assetReviewStatus: 'confirmed' });
+  assertIncludes(confirmedAsset.body, 'data-asset-review-status="confirmed"', 'confirmed asset review state should render confirmed status');
+  assertIncludes(confirmedAsset.body, 'confirmed by human review', 'confirmed asset review state should show human confirmation');
+  assertIncludes(confirmedAsset.body, '人工确认：已由人工复核通过', 'confirmed asset review state should keep explicit human boundary');
+  assertIncludes(confirmedAsset.body, 'confirmed asset 进入正式大屏资产流程', 'confirmed asset review state should distinguish formal use from candidate preview');
+  assertNoLeaks(confirmedAsset.body, 'track calibrator confirmed asset');
 
   const invalidDirection = await postText('/jumbotron/calibrator', { direction: 'sideways' });
   assertIncludes(invalidDirection.body, '! 赛道方向', 'invalid direction should fail validation');

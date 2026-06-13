@@ -1,7 +1,9 @@
 # Calibrator 实现交接文档
 
-交接对象：继续实现 `/jumbotron/calibrator` 的组员  
-当前结论：已有开发者工具页级 Calibrator MVP，但还不能称为成熟的人类友好型 Track Profile Calibrator。下一步重点是把主要编辑方式从“输入精确数字 / JSON”改成“画布直接操作”。
+交接对象：继续实现或复审 `/jumbotron/calibrator` 的组员<br>
+当前结论：Calibrator 已从开发者工具页升级为可画布操作的 Track Profile Calibrator。主流程支持真实底图、centerline 点位拖拽、右键插点、Undo / Redo、start / finish 可视化设置、checkpoint 可视化编辑、lane 快捷生成、三类 zone 画布编辑、Advanced JSON、Validate / Preview / Export。
+
+> 2026-06-13 更新：旧复审记录中“画布只能看”“拖拽 pending”“zones 仍是高级 JSON”等判断已不代表当前实现。下文保留原需求和问题分析，用作追踪为什么要做这轮改造；当前验证证据见 `Week2-Jumbotron/review-ledger/screenshots/2026-06-13-jumbotron-calibrator-full-interaction/`。
 
 ## 1. 当前判断
 
