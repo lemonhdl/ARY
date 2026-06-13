@@ -1,0 +1,303 @@
+{
+  "source": "/media/lemonhdl/Shared/Software_Engineering/ARY/Week2-Jumbotron/assets/collaborator-resource-2026-06-12/background1.png",
+  "size": [
+    1672,
+    941
+  ],
+  "palette": [
+    {
+      "rgb": [
+        221,
+        227,
+        239
+      ],
+      "count": 47310,
+      "lum": 229.0,
+      "chroma": 18,
+      "blueMinusRed": 18,
+      "blueMinusGreen": 12
+    },
+    {
+      "rgb": [
+        246,
+        250,
+        253
+      ],
+      "count": 16641,
+      "lum": 249.7,
+      "chroma": 7,
+      "blueMinusRed": 7,
+      "blueMinusGreen": 3
+    },
+    {
+      "rgb": [
+        145,
+        157,
+        177
+      ],
+      "count": 9341,
+      "lum": 159.7,
+      "chroma": 32,
+      "blueMinusRed": 32,
+      "blueMinusGreen": 20
+    },
+    {
+      "rgb": [
+        163,
+        179,
+        204
+      ],
+      "count": 9135,
+      "lum": 182.0,
+      "chroma": 41,
+      "blueMinusRed": 41,
+      "blueMinusGreen": 25
+    },
+    {
+      "rgb": [
+        106,
+        118,
+        139
+      ],
+      "count": 5536,
+      "lum": 121.0,
+      "chroma": 33,
+      "blueMinusRed": 33,
+      "blueMinusGreen": 21
+    },
+    {
+      "rgb": [
+        177,
+        203,
+        227
+      ],
+      "count": 5102,
+      "lum": 202.3,
+      "chroma": 50,
+      "blueMinusRed": 50,
+      "blueMinusGreen": 24
+    },
+    {
+      "rgb": [
+        117,
+        134,
+        158
+      ],
+      "count": 3837,
+      "lum": 136.3,
+      "chroma": 41,
+      "blueMinusRed": 41,
+      "blueMinusGreen": 24
+    },
+    {
+      "rgb": [
+        108,
+        164,
+        212
+      ],
+      "count": 1016,
+      "lum": 161.3,
+      "chroma": 104,
+      "blueMinusRed": 104,
+      "blueMinusGreen": 48
+    },
+    {
+      "rgb": [
+        86,
+        101,
+        122
+      ],
+      "count": 95,
+      "lum": 103.0,
+      "chroma": 36,
+      "blueMinusRed": 36,
+      "blueMinusGreen": 21
+    },
+    {
+      "rgb": [
+        120,
+        197,
+        237
+      ],
+      "count": 57,
+      "lum": 184.7,
+      "chroma": 117,
+      "blueMinusRed": 117,
+      "blueMinusGreen": 40
+    },
+    {
+      "rgb": [
+        54,
+        81,
+        112
+      ],
+      "count": 53,
+      "lum": 82.3,
+      "chroma": 58,
+      "blueMinusRed": 58,
+      "blueMinusGreen": 31
+    },
+    {
+      "rgb": [
+        59,
+        104,
+        142
+      ],
+      "count": 37,
+      "lum": 101.7,
+      "chroma": 83,
+      "blueMinusRed": 83,
+      "blueMinusGreen": 38
+    },
+    {
+      "rgb": [
+        61,
+        140,
+        183
+      ],
+      "count": 36,
+      "lum": 128.0,
+      "chroma": 122,
+      "blueMinusRed": 122,
+      "blueMinusGreen": 43
+    },
+    {
+      "rgb": [
+        38,
+        52,
+        72
+      ],
+      "count": 16,
+      "lum": 54.0,
+      "chroma": 34,
+      "blueMinusRed": 34,
+      "blueMinusGreen": 20
+    },
+    {
+      "rgb": [
+        21,
+        34,
+        52
+      ],
+      "count": 12,
+      "lum": 35.7,
+      "chroma": 31,
+      "blueMinusRed": 31,
+      "blueMinusGreen": 18
+    },
+    {
+      "rgb": [
+        59,
+        147,
+        194
+      ],
+      "count": 6,
+      "lum": 133.3,
+      "chroma": 135,
+      "blueMinusRed": 135,
+      "blueMinusGreen": 47
+    }
+  ],
+  "components": [
+    {
+      "count": 53996,
+      "bbox": [
+        0,
+        0,
+        1596,
+        940
+      ]
+    },
+    {
+      "count": 372,
+      "bbox": [
+        748,
+        68,
+        872,
+        160
+      ]
+    },
+    {
+      "count": 260,
+      "bbox": [
+        1400,
+        472,
+        1576,
+        744
+      ]
+    },
+    {
+      "count": 242,
+      "bbox": [
+        1512,
+        780,
+        1672,
+        940
+      ]
+    },
+    {
+      "count": 170,
+      "bbox": [
+        1452,
+        324,
+        1552,
+        448
+      ]
+    },
+    {
+      "count": 126,
+      "bbox": [
+        316,
+        328,
+        508,
+        452
+      ]
+    },
+    {
+      "count": 124,
+      "bbox": [
+        1572,
+        856,
+        1644,
+        940
+      ]
+    },
+    {
+      "count": 105,
+      "bbox": [
+        1000,
+        32,
+        1244,
+        40
+      ]
+    },
+    {
+      "count": 98,
+      "bbox": [
+        1500,
+        0,
+        1672,
+        100
+      ]
+    },
+    {
+      "count": 93,
+      "bbox": [
+        1240,
+        96,
+        1396,
+        132
+      ]
+    },
+    {
+      "count": 84,
+      "bbox": [
+        576,
+        60,
+        712,
+        132
+      ]
+    }
+  ],
+  "maskPath": "/media/lemonhdl/Shared/Software_Engineering/ARY/Week2-Jumbotron/review-ledger/screenshots/2026-06-13-original-background-track-fit/original-background-gray-mask-components.png"
+}

@@ -1,0 +1,26 @@
+[
+  {
+    "path": "mock_data/README.md",
+    "size": 6899
+  },
+  {
+    "path": "mock_data/index.js",
+    "size": 2638
+  },
+  {
+    "path": "mock_data/race-snapshot.json",
+    "size": 23525
+  },
+  {
+    "path": "mock_data/racing-entry-snapshots.json",
+    "size": 11887
+  },
+  {
+    "path": "mock_data/tracks/grandstand-oval/notes.md",
+    "size": 3279
+  },
+  {
+    "path": "mock_data/tracks/grandstand-oval/track.profile.json",
+    "size": 4101
+  }
+]

@@ -1,0 +1,54 @@
+{
+  "trackId": "real-explicit-closed-course",
+  "status": "pass",
+  "generatedAt": "2026-06-13",
+  "source": "Calibrator-compatible export derived from user-approved real-explicit-closed-course image/profile",
+  "outputs": {
+    "calibratorExportProfile": "calibrator-export.track.profile.json",
+    "runtimeNormalizedProfile": "calibrator-export.runtime-normalized.track.profile.json",
+    "background": "background.webp",
+    "preview": "preview.png",
+    "readingHtml": "calibrator-track-asset-reading.html",
+    "mainVisualCenterline": "main-visual-centerline.track.json"
+  },
+  "checks": {
+    "activeCandidateChainEndsAtRealExplicitClosedCourse": true,
+    "calibratorExportShapeMatchesServerExport": true,
+    "runtimeNormalizedProfileWritten": true,
+    "schemaVersion": true,
+    "backgroundRoute": "/jumbotron/candidate-assets/real-explicit-closed-course/background.webp",
+    "previewRoute": "/jumbotron/candidate-assets/real-explicit-closed-course/preview.png",
+    "backgroundExists": true,
+    "previewExists": true,
+    "profileReferencesCandidateAssetRoute": true,
+    "centerlineClosed": true,
+    "centerlinePointCountIncludingClosingDuplicate": 33,
+    "laneCount": 12,
+    "laneOffsetsUnique": true,
+    "checkpointCount": 4,
+    "direction": "clockwise",
+    "pathLength": 2822.97,
+    "minimumPathLengthThreshold": 671.51,
+    "pathLengthPassesThreshold": true,
+    "containsPlaceholderAssets": false,
+    "manualReviewRequired": true,
+    "backgroundFormat": "WEBP",
+    "backgroundSize": [
+      1672,
+      941
+    ],
+    "previewFormat": "PNG",
+    "previewSize": [
+      1672,
+      941
+    ],
+    "hasNearMidFarDepthProfile": true
+  },
+  "notes": [
+    "当前 Calibrator 导出已使用 main-visual-centerline.track.json 的主视觉曲线。",
+    "calibrator-export.track.profile.json 按 server.js exportTrackProfileShape 字段集合冻结。",
+    "calibrator-export.runtime-normalized.track.profile.json 保留 centerlinePath / laneOffsets / meta / safeZones 等 runtime 辅助字段。",
+    "底图仍只作为视觉层；赛道定位事实来自 centerline、lanes、checkpoints。",
+    "进入正式大屏默认赛道前仍需人工在 Calibrator 里复核 horse-on-track、curve、bubble 和 checkpoint。"
+  ]
+}

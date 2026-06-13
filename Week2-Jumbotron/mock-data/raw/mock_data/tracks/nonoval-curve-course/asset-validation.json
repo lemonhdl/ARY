@@ -1,0 +1,9 @@
+{
+  "trackId": "nonoval-curve-course",
+  "status": "withdrawn",
+  "checks": {
+    "doNotUse": true,
+    "reason": "not closed enough / too monotone / style mismatch with background1.png",
+    "replacementCandidate": "../bright-complex-closed-course/"
+  }
+}

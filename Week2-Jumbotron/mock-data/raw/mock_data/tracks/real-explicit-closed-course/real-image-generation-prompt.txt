@@ -1,0 +1,24 @@
+请生成一张 16:9 横向真实视觉资产，用作 ARY Jumbotron 的第二条赛道背景。必须是一条清楚闭合成一圈的完整赛道：观众一眼能看出首尾相连、构成完整 loop。
+
+关键要求：闭合，但不是普通椭圆。它应该像复杂的未来赛事赛道或高速测试赛道：有明显闭环，有 S 弯、发卡弯、斜向穿行、局部收束、宽窄变化、不对称外扩和内收。不要生成开放道路、断开的道路、看不出闭合的路线，也不要生成普通椭圆、圆环、标准操场或对称 stadium oval。
+
+风格参考：已有 Jumbotron 资产 background1.png 的感觉。高亮冰蓝、银白、浅灰、清透、明亮白天、未来赛事直播感。主赛道应为浅灰白/银白色宽阔道路，边缘有蓝白光带、护栏和层次。背景可有玻璃看台、现代场馆结构、浅色草地或浅色地面、柔和天空、灯杆，但不要遮挡赛道。画面要比普通椭圆更丰富、更复杂，但仍然干净，适合叠加 rider sprites、状态徽标和赛况气泡。
+
+构图硬约束：
+- 16:9 横向。
+- 赛道必须闭合成一圈，首尾连接关系清楚可见。
+- 赛道主体必须完整出现在画面内，不要被裁切。
+- 不要椭圆、不要标准操场、不要圆环、不要对称体育场跑道。
+- 需要复杂闭环：S 弯、发卡弯、斜向穿行、局部收束、宽窄变化、不对称转向。
+- 顶部和中部保留干净空间给后续 UI 叠加。
+- 可以有无文字的起终点棋盘纹或短横线，但不能出现任何字母或数字。
+
+禁忌：
+- 不要开放式路线，不要断路，不要看不出闭合的路线。
+- 不要暗黑工业风、不要黑色赛道、不要脏污地形图。
+- 不要出现任何文字、字母、数字、中文、英文、logo、水印、品牌、广告牌、路牌、比分牌文字。
+- 不要出现马、骑手、人物特写、车辆。
+- 不要做成网页 UI、信息图、流程图、卡片、PPT、Markdown 或带文字说明的图。
+- 不要透明背景。
+
+负面约束：no open road, no disconnected road, no unclear closure, no simple oval, no stadium oval, no athletic track, no symmetric loop, no circular ring, no dark industrial style, no black track, no dirty texture, no text, no letters, no numbers, no logo, no watermark, no signage, no UI, no webpage, no diagram, no labels, no horse, no rider, no car, no crowd close-up.

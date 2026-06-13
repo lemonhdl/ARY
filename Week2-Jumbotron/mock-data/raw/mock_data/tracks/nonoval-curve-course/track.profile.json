@@ -1,0 +1,374 @@
+{
+  "schemaVersion": "1.0.0",
+  "trackId": "nonoval-curve-course",
+  "name": "Non-oval Curve Course",
+  "viewBox": [
+    0,
+    0,
+    1672,
+    941
+  ],
+  "designSize": {
+    "width": 1672,
+    "height": 941
+  },
+  "background": {
+    "asset": "background.webp",
+    "preview": "preview.png",
+    "credit": "cc-data 使用真实图像生成管线产出非椭圆曲线赛道候选底图；底图只负责视觉，几何以 centerline 为准。",
+    "sourceImage": "source-generated-image.png",
+    "provenance": "asset-provenance.json",
+    "validation": "asset-validation.json"
+  },
+  "centerline": {
+    "type": "polyline",
+    "closed": true,
+    "smoothing": "catmull-rom",
+    "tension": 0.5,
+    "comment": "非椭圆曲线道路候选中心线，由独立视觉复核 worker 基于生成底图标注；进入正式 flow 前需 Calibrator 人工复核。",
+    "points": [
+      [
+        190,
+        515
+      ],
+      [
+        170,
+        590
+      ],
+      [
+        185,
+        665
+      ],
+      [
+        245,
+        730
+      ],
+      [
+        365,
+        755
+      ],
+      [
+        525,
+        735
+      ],
+      [
+        690,
+        720
+      ],
+      [
+        840,
+        745
+      ],
+      [
+        1010,
+        735
+      ],
+      [
+        1165,
+        700
+      ],
+      [
+        1275,
+        640
+      ],
+      [
+        1325,
+        565
+      ],
+      [
+        1285,
+        505
+      ],
+      [
+        1160,
+        480
+      ],
+      [
+        980,
+        495
+      ],
+      [
+        795,
+        515
+      ],
+      [
+        600,
+        525
+      ],
+      [
+        405,
+        520
+      ],
+      [
+        260,
+        505
+      ]
+    ]
+  },
+  "direction": "cw",
+  "directionNote": "点序沿画面下半部主道路顺时针推进；不是标准椭圆/操场环道。",
+  "startFinish": {
+    "s": 0.0,
+    "x": 190,
+    "y": 515,
+    "label": "Start / Finish"
+  },
+  "lanes": [
+    {
+      "laneId": "lane-1",
+      "offset": -42,
+      "label": "Lane 1"
+    },
+    {
+      "laneId": "lane-2",
+      "offset": -34,
+      "label": "Lane 2"
+    },
+    {
+      "laneId": "lane-3",
+      "offset": -26,
+      "label": "Lane 3"
+    },
+    {
+      "laneId": "lane-4",
+      "offset": -18,
+      "label": "Lane 4"
+    },
+    {
+      "laneId": "lane-5",
+      "offset": -10,
+      "label": "Lane 5"
+    },
+    {
+      "laneId": "lane-6",
+      "offset": -3,
+      "label": "Lane 6"
+    },
+    {
+      "laneId": "lane-7",
+      "offset": 3,
+      "label": "Lane 7"
+    },
+    {
+      "laneId": "lane-8",
+      "offset": 10,
+      "label": "Lane 8"
+    },
+    {
+      "laneId": "lane-9",
+      "offset": 18,
+      "label": "Lane 9"
+    },
+    {
+      "laneId": "lane-10",
+      "offset": 26,
+      "label": "Lane 10"
+    },
+    {
+      "laneId": "lane-11",
+      "offset": 34,
+      "label": "Lane 11"
+    },
+    {
+      "laneId": "lane-12",
+      "offset": 42,
+      "label": "Lane 12"
+    }
+  ],
+  "checkpoints": [
+    {
+      "checkpointId": "cp-start",
+      "s": 0.0,
+      "label": "Start / Finish"
+    },
+    {
+      "checkpointId": "cp-1",
+      "s": 0.25,
+      "label": "Curve 1"
+    },
+    {
+      "checkpointId": "cp-2",
+      "s": 0.5,
+      "label": "Curve 2"
+    },
+    {
+      "checkpointId": "cp-3",
+      "s": 0.75,
+      "label": "Curve 3"
+    }
+  ],
+  "messageZones": [
+    {
+      "zoneId": "zone-sky",
+      "rect": [
+        70,
+        60,
+        1532,
+        120
+      ],
+      "label": "顶部留白区"
+    },
+    {
+      "zoneId": "zone-mid",
+      "rect": [
+        520,
+        250,
+        660,
+        140
+      ],
+      "label": "中部留白区"
+    }
+  ],
+  "noBubbleZones": [
+    {
+      "zoneId": "nb-header",
+      "rect": [
+        0,
+        0,
+        1672,
+        88
+      ],
+      "label": "Header"
+    },
+    {
+      "zoneId": "nb-summary",
+      "rect": [
+        0,
+        88,
+        1672,
+        78
+      ],
+      "label": "TOP3 + KPI"
+    },
+    {
+      "zoneId": "nb-leftrail",
+      "rect": [
+        0,
+        170,
+        250,
+        601
+      ],
+      "label": "Left rail"
+    },
+    {
+      "zoneId": "nb-ticker",
+      "rect": [
+        0,
+        799,
+        1672,
+        64
+      ],
+      "label": "Ticker"
+    },
+    {
+      "zoneId": "nb-footer",
+      "rect": [
+        0,
+        863,
+        1672,
+        78
+      ],
+      "label": "Footer"
+    }
+  ],
+  "safeZones": [
+    {
+      "zoneId": "safe-track",
+      "polyline": [
+        [
+          190,
+          515
+        ],
+        [
+          170,
+          590
+        ],
+        [
+          185,
+          665
+        ],
+        [
+          245,
+          730
+        ],
+        [
+          365,
+          755
+        ],
+        [
+          525,
+          735
+        ],
+        [
+          690,
+          720
+        ],
+        [
+          840,
+          745
+        ],
+        [
+          1010,
+          735
+        ],
+        [
+          1165,
+          700
+        ],
+        [
+          1275,
+          640
+        ],
+        [
+          1325,
+          565
+        ],
+        [
+          1285,
+          505
+        ],
+        [
+          1160,
+          480
+        ],
+        [
+          980,
+          495
+        ],
+        [
+          795,
+          515
+        ],
+        [
+          600,
+          525
+        ],
+        [
+          405,
+          520
+        ],
+        [
+          260,
+          505
+        ]
+      ],
+      "lanePadding": 58,
+      "label": "非椭圆主道路活动带"
+    }
+  ],
+  "meta": {
+    "laps": 1,
+    "minLaneCount": 1,
+    "laneCount": 12,
+    "validated": false,
+    "assetStatus": "withdrawn_not_closed_or_style_mismatch",
+    "assetGeneratedAt": "2026-06-13",
+    "containsPlaceholderAssets": false,
+    "humanReviewRequired": true,
+    "visualReviewVerdict": "pass: non-oval, no visible text/logo, style close to background1.png",
+    "doNotUse": true,
+    "withdrawnAt": "2026-06-13",
+    "withdrawnReason": "用户澄清第二赛道应闭合成一圈；该候选不够闭合、过于单调且风格不够贴近 background1.png。",
+    "replacementCandidate": "../bright-complex-closed-course/"
+  }
+}

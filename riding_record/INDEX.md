@@ -17,6 +17,8 @@
 - [session 09](session-09-rider-history-devcompass-replay.md)：Rider 历史、DevCompass 回放记录、本地素材边界和开源模式调研
 - [session 10](session-10-public-yard-private-source-restructure.md)：按 GRS001 评分标准重构 Public Yard / Private Race Source 主证明链
 - [session 11](session-11-final-prd-swarm-consistency-review.md)：最终 PRD、README、Knowledge 和蜂群反思的一致性审阅
+- [session 11-week2](session-11-week2-jumbotron-framework.md)：Week2 Jumbotron 框架、Race Live View、Calibrator、资产接入、轨道重校准和左右朝向收敛
+- [session 12](session-12-week2-jumbotron-mock-data.md)：Week2 Jumbotron mock-data 迁入、timeline replay、主视觉比例、几何隐藏和底栏工具栏收敛
 
 ## 辅助素材
 

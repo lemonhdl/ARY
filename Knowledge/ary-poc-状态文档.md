@@ -172,3 +172,29 @@ flowchart LR
 
 **还需要补哪些页面、状态或演示证据。**
 还需要补哪些页面、状态或演示证据。
+
+---
+
+## 本地补充：Week2 Jumbotron 状态（2026-06-13）
+
+Week2 Jumbotron 已在 `ARY/PoC-GRS-001` 主服务内形成可运行状态：公开入口为 `/jumbotron`，调试入口为 `/jumbotron?debug=1&profile=...`，Calibrator 入口为 `/jumbotron/calibrator` 与 `/jumbotron/calibrator?demo=1`，data evidence endpoint 为 `/api/jumbotron-data-evidence?profile=...`。
+
+当前状态要点：
+
+- 公开大屏聚焦 Race Live View，不展示完整 Coding Agent Session。
+- 三套 data profile 已接入 runtime：`curated-full-12`、`smoke-8-visual-low-load`、`coverage-9-enum-complete`。
+- mock-data、adapter、lastMessage mapping、validator/status 和 public-hidden evidence 由 cc-data 自行完成，不转交 cc-ARY 代做。
+- cc-ARY 负责公开页 UI/runtime：队伍 label bbox 避让、bubble/ticker 降噪、动态态势、领先/追赶/风险叙事、低频现场感动效、focus detail。
+- 合作者底图、第二赛道 `real-explicit-closed-course` 和 rider assets 已接入，但语义位置仍来自 `track.profile.json` 与 `track-runtime`，不把图片当成事实来源。
+- Calibrator proof / demo walkthrough 已覆盖底图来源、profile 来源、centerline / startFinish / direction / lanes / checkpoints、Validate / Export、runtime 映射链路、鼠标描线、候选导入和可录屏 Demo 路径。
+- Calibrator 真实拖拽小闭环已覆盖 centerline point、checkpoint、start/finish handle 与 zone 的 before/current/delta，并保留 SVG proof layer。
+- Calibrator asset review 已有 `pending / confirmed / rejected` 三态边界；`real-explicit-closed-course` 已由用户人工确认通过，并作为默认 `/jumbotron` 赛道。
+- `debug-preview.png` 已从页面 debug preview 推进为 `/jumbotron/debug-preview.png` 可引用 PNG 证据，包含 centerline、sampled points、message/no-bubble/risk zones、checkpoint 和 collision boxes。
+- 当前最新视觉复核包括第二赛道默认赛道、assets integration、轨道重校准、左右朝向、Calibrator proof/drag/asset review/debug-preview；`npm --prefix ./PoC-GRS-001 run verify` 通过，fresh label/bubble metrics 均为 0。
+
+仍需后续复核或交付的内容：
+
+- 最终 3 到 5 分钟 demo video 文件。
+- 正式多赛道资产管理流程和后续真实后端聚合。
+- 已撤回或未确认的历史候选如 `grandstand-oval`、`nonoval-curve-course` 不能再作为 confirmed 第二赛道；当前默认赛道以 `real-explicit-closed-course` 为准。
+- 正式提交前需要重新检查当前工作树、远端身份和 public-hidden 边界。

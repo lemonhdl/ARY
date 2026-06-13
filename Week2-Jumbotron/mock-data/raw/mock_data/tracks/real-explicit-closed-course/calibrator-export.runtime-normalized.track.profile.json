@@ -1,0 +1,526 @@
+{
+  "schemaVersion": "0.1.0",
+  "trackId": "real-explicit-closed-course",
+  "name": "Real Explicit Closed Course",
+  "viewBox": {
+    "x": 0.0,
+    "y": 0.0,
+    "width": 1672.0,
+    "height": 941.0
+  },
+  "designSize": {
+    "width": 1672,
+    "height": 941,
+    "aspectRatio": "16:9"
+  },
+  "background": {
+    "assetId": "real-explicit-closed-course-candidate-background",
+    "src": "/jumbotron/candidate-assets/real-explicit-closed-course/background.webp",
+    "previewSrc": "/jumbotron/candidate-assets/real-explicit-closed-course/preview.png",
+    "kind": "webp",
+    "status": "candidate",
+    "sourceImage": "source-generated-image.png",
+    "provenance": "asset-provenance.json",
+    "validation": "asset-validation.json"
+  },
+  "backgroundAsset": "real-explicit-closed-course-candidate-background",
+  "centerline": {
+    "type": "polyline",
+    "closed": true,
+    "points": [
+      {
+        "x": 310.0,
+        "y": 442.0
+      },
+      {
+        "x": 382.0,
+        "y": 356.0
+      },
+      {
+        "x": 500.0,
+        "y": 296.0
+      },
+      {
+        "x": 656.0,
+        "y": 266.0
+      },
+      {
+        "x": 802.0,
+        "y": 285.0
+      },
+      {
+        "x": 934.0,
+        "y": 340.0
+      },
+      {
+        "x": 1058.0,
+        "y": 408.0
+      },
+      {
+        "x": 1188.0,
+        "y": 456.0
+      },
+      {
+        "x": 1322.0,
+        "y": 486.0
+      },
+      {
+        "x": 1450.0,
+        "y": 548.0
+      },
+      {
+        "x": 1512.0,
+        "y": 644.0
+      },
+      {
+        "x": 1470.0,
+        "y": 728.0
+      },
+      {
+        "x": 1338.0,
+        "y": 768.0
+      },
+      {
+        "x": 1178.0,
+        "y": 760.0
+      },
+      {
+        "x": 1008.0,
+        "y": 728.0
+      },
+      {
+        "x": 850.0,
+        "y": 696.0
+      },
+      {
+        "x": 698.0,
+        "y": 690.0
+      },
+      {
+        "x": 560.0,
+        "y": 720.0
+      },
+      {
+        "x": 432.0,
+        "y": 714.0
+      },
+      {
+        "x": 330.0,
+        "y": 648.0
+      },
+      {
+        "x": 270.0,
+        "y": 558.0
+      },
+      {
+        "x": 276.0,
+        "y": 492.0
+      },
+      {
+        "x": 310.0,
+        "y": 442.0
+      }
+    ],
+    "smoothing": "mvp-polyline",
+    "sourceSmoothing": "catmull-rom"
+  },
+  "centerlinePath": [
+    {
+      "x": 310.0,
+      "y": 442.0
+    },
+    {
+      "x": 382.0,
+      "y": 356.0
+    },
+    {
+      "x": 500.0,
+      "y": 296.0
+    },
+    {
+      "x": 656.0,
+      "y": 266.0
+    },
+    {
+      "x": 802.0,
+      "y": 285.0
+    },
+    {
+      "x": 934.0,
+      "y": 340.0
+    },
+    {
+      "x": 1058.0,
+      "y": 408.0
+    },
+    {
+      "x": 1188.0,
+      "y": 456.0
+    },
+    {
+      "x": 1322.0,
+      "y": 486.0
+    },
+    {
+      "x": 1450.0,
+      "y": 548.0
+    },
+    {
+      "x": 1512.0,
+      "y": 644.0
+    },
+    {
+      "x": 1470.0,
+      "y": 728.0
+    },
+    {
+      "x": 1338.0,
+      "y": 768.0
+    },
+    {
+      "x": 1178.0,
+      "y": 760.0
+    },
+    {
+      "x": 1008.0,
+      "y": 728.0
+    },
+    {
+      "x": 850.0,
+      "y": 696.0
+    },
+    {
+      "x": 698.0,
+      "y": 690.0
+    },
+    {
+      "x": 560.0,
+      "y": 720.0
+    },
+    {
+      "x": 432.0,
+      "y": 714.0
+    },
+    {
+      "x": 330.0,
+      "y": 648.0
+    },
+    {
+      "x": 270.0,
+      "y": 558.0
+    },
+    {
+      "x": 276.0,
+      "y": 492.0
+    },
+    {
+      "x": 310.0,
+      "y": 442.0
+    }
+  ],
+  "direction": "clockwise",
+  "startFinish": {
+    "startS": 0.0,
+    "finishS": 1,
+    "label": "终点线"
+  },
+  "laneOffsets": [
+    -50.0,
+    -41.0,
+    -32.0,
+    -23.0,
+    -14.0,
+    -5.0,
+    5.0,
+    14.0,
+    23.0,
+    32.0,
+    41.0,
+    50.0
+  ],
+  "lanes": [
+    {
+      "laneId": "lane-1",
+      "offset": -50.0
+    },
+    {
+      "laneId": "lane-2",
+      "offset": -41.0
+    },
+    {
+      "laneId": "lane-3",
+      "offset": -32.0
+    },
+    {
+      "laneId": "lane-4",
+      "offset": -23.0
+    },
+    {
+      "laneId": "lane-5",
+      "offset": -14.0
+    },
+    {
+      "laneId": "lane-6",
+      "offset": -5.0
+    },
+    {
+      "laneId": "lane-7",
+      "offset": 5.0
+    },
+    {
+      "laneId": "lane-8",
+      "offset": 14.0
+    },
+    {
+      "laneId": "lane-9",
+      "offset": 23.0
+    },
+    {
+      "laneId": "lane-10",
+      "offset": 32.0
+    },
+    {
+      "laneId": "lane-11",
+      "offset": 41.0
+    },
+    {
+      "laneId": "lane-12",
+      "offset": 50.0
+    }
+  ],
+  "checkpoints": [
+    {
+      "checkpointId": "cp-start",
+      "label": "Start / Finish",
+      "s": 0.0
+    },
+    {
+      "checkpointId": "cp-1",
+      "label": "Complex Curve 1",
+      "s": 0.25
+    },
+    {
+      "checkpointId": "cp-2",
+      "label": "Complex Curve 2",
+      "s": 0.5
+    },
+    {
+      "checkpointId": "cp-3",
+      "label": "Complex Curve 3",
+      "s": 0.75
+    }
+  ],
+  "messageZones": [
+    {
+      "zoneId": "zone-sky",
+      "rect": [
+        70,
+        48,
+        1532,
+        125
+      ],
+      "label": "顶部留白区"
+    },
+    {
+      "zoneId": "zone-mid",
+      "rect": [
+        570,
+        320,
+        545,
+        145
+      ],
+      "label": "中部留白区"
+    }
+  ],
+  "noBubbleZones": [
+    {
+      "zoneId": "nb-header",
+      "rect": [
+        0,
+        0,
+        1672,
+        82
+      ],
+      "label": "Header"
+    },
+    {
+      "zoneId": "nb-summary",
+      "rect": [
+        0,
+        82,
+        1672,
+        76
+      ],
+      "label": "TOP3 + KPI"
+    },
+    {
+      "zoneId": "nb-leftrail",
+      "rect": [
+        0,
+        170,
+        245,
+        611
+      ],
+      "label": "Left rail"
+    },
+    {
+      "zoneId": "nb-ticker",
+      "rect": [
+        0,
+        801,
+        1672,
+        64
+      ],
+      "label": "Ticker"
+    },
+    {
+      "zoneId": "nb-footer",
+      "rect": [
+        0,
+        865,
+        1672,
+        76
+      ],
+      "label": "Footer"
+    }
+  ],
+  "riskZones": [],
+  "safeZones": [
+    {
+      "zoneId": "safe-track",
+      "polyline": [
+        [
+          310,
+          442
+        ],
+        [
+          382,
+          356
+        ],
+        [
+          500,
+          296
+        ],
+        [
+          656,
+          266
+        ],
+        [
+          802,
+          285
+        ],
+        [
+          934,
+          340
+        ],
+        [
+          1058,
+          408
+        ],
+        [
+          1188,
+          456
+        ],
+        [
+          1322,
+          486
+        ],
+        [
+          1450,
+          548
+        ],
+        [
+          1512,
+          644
+        ],
+        [
+          1470,
+          728
+        ],
+        [
+          1338,
+          768
+        ],
+        [
+          1178,
+          760
+        ],
+        [
+          1008,
+          728
+        ],
+        [
+          850,
+          696
+        ],
+        [
+          698,
+          690
+        ],
+        [
+          560,
+          720
+        ],
+        [
+          432,
+          714
+        ],
+        [
+          330,
+          648
+        ],
+        [
+          270,
+          558
+        ],
+        [
+          276,
+          492
+        ]
+      ],
+      "lanePadding": 66,
+      "label": "真实闭合复杂主道路活动带"
+    }
+  ],
+  "meta": {
+    "laps": 1,
+    "minLaneCount": 1,
+    "laneCount": 12,
+    "validated": false,
+    "assetStatus": "candidate_calibrator_export_generated",
+    "assetGeneratedAt": "2026-06-13",
+    "containsPlaceholderAssets": false,
+    "humanReviewRequired": true,
+    "visualReviewVerdict": "pass: real generated image, clearly closed loop, complex non-ordinary-oval, background1-like ice-blue/silver style, no visible text/logo/watermark",
+    "candidateOnly": true,
+    "humanReviewStatus": "pending",
+    "calibratorExportGeneratedAt": "2026-06-13",
+    "calibratorExportSource": "real-explicit-closed-course/track.profile.json"
+  },
+  "debug": {
+    "sampleCount": 28,
+    "collisionBox": {
+      "width": 44,
+      "height": 44
+    },
+    "staleThresholdMs": 300000,
+    "manualChecks": {
+      "horseOnTrack": {
+        "status": "pending",
+        "label": "待人工复核"
+      },
+      "curveNatural": {
+        "status": "pending",
+        "label": "待人工复核"
+      },
+      "bubbleClearance": {
+        "status": "pending",
+        "label": "待人工复核"
+      },
+      "checkpointMeaning": {
+        "status": "pending",
+        "label": "待人工复核"
+      }
+    }
+  }
+}

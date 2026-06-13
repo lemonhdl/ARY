@@ -1,0 +1,22 @@
+Create one production-quality sprite sheet for a looping RUNNING animation of the same existing fantasy rider-and-horse character shown in the local reference asset rider3_run.png.
+
+Output requirements:
+- A single real image sprite sheet, not HTML, not a web page, not a diagram.
+- Exactly 12 animation frames arranged as a clean 4 columns × 3 rows sprite sheet.
+- Each cell must show the full body of the same horse and same rider, side view, facing right.
+- Keep the character identity consistent across all frames: same horse color, same rider costume, same saddle, same painterly fantasy game style, same proportions, same camera angle.
+- The horse is in a gallop/running cycle. Use real horse locomotion phases: gathered suspension, lead foreleg reach, diagonal support, hind push-off, extended suspension, foreleg landing, body compression, hind-leg recovery, repeated smoothly back to frame 1.
+- The rider follows the motion naturally: torso and arms stable, slight vertical bounce, same seat and reins, no change of character.
+- Use transparent or very plain light background so the character can be cut out cleanly into game UI sprites.
+- Center each frame in its cell with consistent scale and margins; no cropping of head, tail, legs, rider, or hooves.
+- No text, no letters, no numbers, no watermark, no logo, no UI, no frame labels.
+- No extra horses, no duplicate riders, no motion blur that hides legs, no background scenery.
+
+Visual style constraints:
+- High-resolution painterly fantasy racing sprite, close to a polished game asset.
+- Consistent lighting and color palette across all 12 frames.
+- The output should be easy to split into 12 PNG frames and assemble into a seamless GIF.
+
+Composition:
+- 4 × 3 grid, equal-size cells, full character in every cell, right-facing side profile.
+- Keep empty margin around the character in every cell.

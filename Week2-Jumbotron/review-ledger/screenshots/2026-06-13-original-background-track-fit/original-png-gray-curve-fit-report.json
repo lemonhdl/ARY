@@ -1,0 +1,70 @@
+{
+  "source": "/media/lemonhdl/Shared/Software_Engineering/ARY/Week2-Jumbotron/assets/collaborator-resource-2026-06-12/background1.png",
+  "inputOnly": "original background1.png; no page screenshot, no example.png, no runtime overlay",
+  "originalSize": [
+    1672,
+    941
+  ],
+  "selectedComponent": {
+    "count": 50023,
+    "strong": 45245,
+    "bbox": [
+      31,
+      21,
+      520,
+      274
+    ]
+  },
+  "rawRadialSamples": 178,
+  "originalControlPoints": 49,
+  "svgControlPoints": 49,
+  "renderMapping": {
+    "svgImage": [
+      22,
+      22,
+      1156,
+      576
+    ],
+    "scale": 0.6913875598086124,
+    "cropLeft": 0.0,
+    "cropTop": 37.297846889952154
+  },
+  "facingDistribution": {
+    "left": 6,
+    "right": 6,
+    "facings": [
+      "left",
+      "left",
+      "left",
+      "left",
+      "right",
+      "left",
+      "left",
+      "right",
+      "right",
+      "right",
+      "right",
+      "right"
+    ],
+    "reverse": false,
+    "shift": 13
+  },
+  "laneOffsets": [
+    -24,
+    -20,
+    -16,
+    -12,
+    -8,
+    -4,
+    4,
+    8,
+    12,
+    16,
+    20,
+    24
+  ],
+  "artifacts": {
+    "originalOverlay": "/media/lemonhdl/Shared/Software_Engineering/ARY/Week2-Jumbotron/review-ledger/screenshots/2026-06-13-original-background-track-fit/original-png-gray-mask-fitted-curve.png",
+    "svgOverlay": "/media/lemonhdl/Shared/Software_Engineering/ARY/Week2-Jumbotron/review-ledger/screenshots/2026-06-13-original-background-track-fit/mapped-svg-gray-curve-overlay.png"
+  }
+}

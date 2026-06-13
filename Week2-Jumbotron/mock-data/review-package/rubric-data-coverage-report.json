@@ -1,0 +1,342 @@
+{
+  "generatedAt": "2026-06-12T12:58:27.262899+00:00",
+  "triggerMessage": "2026-06-12T12:56:02Z-cc-Jumbotron-1716f0c5",
+  "scope": "cc-data narrow mock-data review under three core documents",
+  "coreDocuments": [
+    "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/ARY GRS 002 Jumbotron 评审标准.md",
+    "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron信息架构.md",
+    "/media/lemonhdl/Shared/Software_Engineering/ary-grs-002-sinbawang/Jumbotron子系统定义.md"
+  ],
+  "lineCoverageUpdated": [
+    {
+      "line": 7,
+      "status": "implemented",
+      "evidence": "curated RaceSnapshot covers Competition, Racing Entry, Riding Message, AttentionItem risk/violation data for public Race Live View."
+    },
+    {
+      "line": 14,
+      "status": "implemented",
+      "evidence": "Data is driven by RaceSnapshot + TrackProfile geometry inputs; narrow data package excludes hand-written visual asset claims."
+    },
+    {
+      "line": 28,
+      "status": "implemented",
+      "evidence": "Competition metadata contains title/liveStatus/currentRound/currentPhase/elapsedTime/systemTime.",
+      "sourceLineBeforeAlignmentFix": 27
+    },
+    {
+      "line": 29,
+      "status": "implemented",
+      "evidence": "KPI contains completionRate, activeRiders, token totals, Codex/Claude usage and shares.",
+      "sourceLineBeforeAlignmentFix": 28
+    },
+    {
+      "line": 30,
+      "status": "implemented",
+      "evidence": "Entries include laneId, roundProgress and track data to support Race Live positions."
+    },
+    {
+      "line": 31,
+      "status": "implemented",
+      "evidence": "12 entries include rank, project and rider labels."
+    },
+    {
+      "line": 32,
+      "status": "implemented",
+      "evidence": "Ranking data supports TOP3 or leading entries."
+    },
+    {
+      "line": 33,
+      "status": "implemented",
+      "evidence": "Messages contain bubble and ticker display modes."
+    },
+    {
+      "line": 34,
+      "status": "implemented",
+      "evidence": "Attention items cover risk, obstacle and violation categories."
+    },
+    {
+      "line": 58,
+      "status": "out_of_scope_for_narrow_data",
+      "evidence": "Visual background asset is asset-line responsibility, not narrow mock-data completeness.",
+      "sourceLineBeforeAlignmentFix": 57
+    },
+    {
+      "line": 59,
+      "status": "implemented",
+      "evidence": "TrackProfile data includes semantic geometry: centerlinePath, viewBox, lanes, offsets and checkpoints.",
+      "sourceLineBeforeAlignmentFix": 58
+    },
+    {
+      "line": 60,
+      "status": "implemented",
+      "evidence": "Entries provide progress and laneId; runtime derives horse pose from path sampling and lane offset.",
+      "sourceLineBeforeAlignmentFix": 59
+    },
+    {
+      "line": 61,
+      "status": "implemented",
+      "evidence": "Rank, progress, risk and messages are data-driven in RaceSnapshot.",
+      "sourceLineBeforeAlignmentFix": 60
+    },
+    {
+      "line": 62,
+      "status": "implemented",
+      "evidence": "Narrow data does not encode fixed horse x/y as business facts.",
+      "sourceLineBeforeAlignmentFix": 61
+    },
+    {
+      "line": 78,
+      "status": "documented",
+      "evidence": "Review package scope states what is mock data and excludes visual assets.",
+      "sourceLineBeforeAlignmentFix": 77
+    },
+    {
+      "line": 88,
+      "status": "implemented",
+      "evidence": "Riding record session 12 records mock data work split and cc-data role.",
+      "sourceLineBeforeAlignmentFix": 87
+    },
+    {
+      "line": 89,
+      "status": "implemented",
+      "evidence": "Riding record session 12 lists generated curated data, review package and validation.",
+      "sourceLineBeforeAlignmentFix": 88
+    },
+    {
+      "line": 90,
+      "status": "implemented",
+      "evidence": "Riding record session 12 records raw progress ratio mismatch, stale timestamp, leak word and asset boundary corrections."
+    },
+    {
+      "line": 92,
+      "status": "implemented",
+      "evidence": "Validation commands and pass results are recorded.",
+      "sourceLineBeforeAlignmentFix": 91
+    },
+    {
+      "line": 107,
+      "status": "implemented",
+      "evidence": "review-package explains data scope and asset exclusion.",
+      "sourceLineBeforeAlignmentFix": 106
+    },
+    {
+      "line": 112,
+      "status": "implemented",
+      "evidence": "review-package contains mock data explanations and field mapping report.",
+      "sourceLineBeforeAlignmentFix": 111
+    },
+    {
+      "line": 125,
+      "status": "implemented",
+      "evidence": "review-package and curated directory provide data samples.",
+      "sourceLineBeforeAlignmentFix": 124
+    },
+    {
+      "line": 126,
+      "status": "implemented",
+      "evidence": "curated race-snapshot.json and smoke snapshots provide RaceSnapshot/mock-racing-data.",
+      "sourceLineBeforeAlignmentFix": 125
+    },
+    {
+      "line": 127,
+      "status": "implemented",
+      "evidence": "entries satisfy RacingEntrySnapshot input fields; lastMessage is adapter-derived from latestMessage/messages.",
+      "sourceLineBeforeAlignmentFix": 126
+    },
+    {
+      "line": 128,
+      "status": "implemented",
+      "evidence": "messages satisfy RidingMessage fields and all 9 message types are covered in full/9-entry coverage set.",
+      "sourceLineBeforeAlignmentFix": 127
+    },
+    {
+      "line": 129,
+      "status": "implemented",
+      "evidence": "attentionItems satisfy AttentionItem/Risk/Violation fields and category/severity/status coverage.",
+      "sourceLineBeforeAlignmentFix": 128
+    },
+    {
+      "line": 147,
+      "status": "implemented",
+      "evidence": "Public boundary report marks full session/logs/diffs/private paths as forbidden.",
+      "sourceLineBeforeAlignmentFix": 146
+    },
+    {
+      "line": 149,
+      "status": "implemented",
+      "evidence": "KPI and entries cover progress, leading relationship, key dynamics, resources and risks.",
+      "sourceLineBeforeAlignmentFix": 148
+    },
+    {
+      "line": 150,
+      "status": "implemented",
+      "evidence": "field-mapping-report separates runtime, track, mock data and public-hidden fields.",
+      "sourceLineBeforeAlignmentFix": 149
+    },
+    {
+      "line": 167,
+      "status": "implemented",
+      "evidence": "12-entry full set and 8/9-entry smoke sets demonstrate multiple Racing Entries.",
+      "sourceLineBeforeAlignmentFix": 166
+    },
+    {
+      "line": 168,
+      "status": "implemented",
+      "evidence": "rank, gapLabel, progress, status and motionState express ranking/lead/chase/completion/status.",
+      "sourceLineBeforeAlignmentFix": 167
+    },
+    {
+      "line": 169,
+      "status": "implemented",
+      "evidence": "messages include bubble and ticker modes.",
+      "sourceLineBeforeAlignmentFix": 168
+    },
+    {
+      "line": 170,
+      "status": "implemented",
+      "evidence": "attentionItems cover risk/obstacle/violation.",
+      "sourceLineBeforeAlignmentFix": 169
+    },
+    {
+      "line": 173,
+      "status": "implemented",
+      "evidence": "validator rejects private paths/session/log/diff markers in race data.",
+      "sourceLineBeforeAlignmentFix": 172
+    },
+    {
+      "line": 174,
+      "status": "implemented_public_hidden",
+      "evidence": "remoteCockpitUrl/targetUrl exist for drill-down but are marked public-hidden.",
+      "sourceLineBeforeAlignmentFix": 173
+    },
+    {
+      "line": 214,
+      "status": "implemented",
+      "evidence": "field-mapping-report covers TrackProfile, RacingEntrySnapshot, RidingMessage and AttentionItem structures.",
+      "sourceLineBeforeAlignmentFix": 213
+    },
+    {
+      "line": 215,
+      "status": "implemented",
+      "evidence": "RaceSnapshot maps to runtime input via curated data and server adapter.",
+      "sourceLineBeforeAlignmentFix": 214
+    },
+    {
+      "line": 216,
+      "status": "implemented",
+      "evidence": "roundProgress is present and converted to 0-100 for current runtime.",
+      "sourceLineBeforeAlignmentFix": 215
+    },
+    {
+      "line": 219,
+      "status": "implemented",
+      "evidence": "12 lanes and laneOffsets support multi-horse display.",
+      "sourceLineBeforeAlignmentFix": 218
+    },
+    {
+      "line": 220,
+      "status": "implemented",
+      "evidence": "overallProgress, roundProgress and phaseProgress all present.",
+      "sourceLineBeforeAlignmentFix": 219
+    },
+    {
+      "line": 221,
+      "status": "implemented",
+      "evidence": "Full set and 9-entry coverage set cover idle/running/sprinting/blocked/pit_stop/takeover/finished/stale plus slowed.",
+      "sourceLineBeforeAlignmentFix": 220
+    },
+    {
+      "line": 222,
+      "status": "implemented_data_sample",
+      "evidence": "Data includes stale and valid ranges; missing/invalid lane/profile failures are implementation validation, not data content.",
+      "sourceLineBeforeAlignmentFix": 221
+    },
+    {
+      "line": 223,
+      "status": "supported_by_data",
+      "evidence": "TrackProfile includes centerline, lane offsets, checkpoints; debug view is cc-Jumbotron/cc-ARY visual line.",
+      "sourceLineBeforeAlignmentFix": 222
+    },
+    {
+      "line": 245,
+      "status": "documented",
+      "evidence": "review-package README and reports state mock data scope and PoC boundary.",
+      "sourceLineBeforeAlignmentFix": 244
+    },
+    {
+      "line": 247,
+      "status": "implemented",
+      "evidence": "review-package README provides executable validation commands and sample data paths.",
+      "sourceLineBeforeAlignmentFix": 246
+    },
+    {
+      "line": 285,
+      "status": "implemented",
+      "evidence": "field-mapping report and review package document RaceSnapshot -> runtime data flow plus mock-data locations."
+    },
+    {
+      "line": 286,
+      "status": "implemented",
+      "evidence": "review package lists mock-data files and states visual asset completeness is outside narrow data scope."
+    },
+    {
+      "line": 287,
+      "status": "implemented",
+      "evidence": "reports list public-hidden fields and adapter-derived lastMessage boundary as PoC/data-scope limits."
+    },
+    {
+      "line": 327,
+      "status": "implemented",
+      "evidence": "Adapter chain and RaceSnapshot -> RacingEntrySnapshot -> runtime inputs are represented in curated data and reports.",
+      "sourceLineBeforeAlignmentFix": 326
+    },
+    {
+      "line": 331,
+      "status": "implemented",
+      "evidence": "Messages contain bubble/ticker modes; full data and smoke sets support prioritization/fallback review.",
+      "sourceLineBeforeAlignmentFix": 330
+    },
+    {
+      "line": 353,
+      "status": "implemented",
+      "evidence": "Public boundary report and validator forbid session/log/private path exposure.",
+      "sourceLineBeforeAlignmentFix": 352
+    },
+    {
+      "line": 411,
+      "status": "implemented",
+      "evidence": "RaceSnapshot, TrackProfile, Riding Message and risk data are present for trusted data-driven Jumbotron.",
+      "sourceLineBeforeAlignmentFix": 410
+    }
+  ],
+  "rubricDataConclusion": {
+    "hardGateRaceLiveData": "covered for data fields: title/live/KPI/entries/ranking/messages/risk-obstacle-violation.",
+    "dataDrivenPosition": "covered by roundProgress, centerlinePath, laneId/laneOffsets, and no fixed x/y business facts.",
+    "dataSamples": "covered by full curated RaceSnapshot plus 8-entry and 9-entry smoke subsets.",
+    "publicBoundary": "covered by public-hidden field marking and validator checks; UI must still avoid rendering hidden URLs/logs/session content.",
+    "agentRidingEvidence": "covered by session-12 riding record and review package outputs."
+  },
+  "outOfScopeForNarrowData": [
+    "short video submission",
+    "visual asset completeness such as background.webp/preview.png/source.prompt.md",
+    "Calibrator UI operation quality",
+    "human visual validation of curve naturalness, bubble clearance, and checkpoint semantics"
+  ],
+  "reviewPackageFiles": [
+    "Week2-Jumbotron/mock-data/review-package/field-mapping-report.json",
+    "Week2-Jumbotron/mock-data/review-package/rubric-data-coverage-report.json",
+    "Week2-Jumbotron/mock-data/review-package/smoke-race-snapshot-8.json",
+    "Week2-Jumbotron/mock-data/review-package/smoke-race-snapshot-9-coverage.json",
+    "Week2-Jumbotron/mock-data/review-package/validate-curated-mock-data.js"
+  ],
+  "lineAlignmentCorrection": {
+    "correctedAt": "2026-06-12T13:03:40.223272+00:00",
+    "auditor": "cc-Jumbotron",
+    "reason": "Corrected rubric lineCoverageUpdated references to match actual ARY GRS 002 Jumbotron 评审标准.md line numbers after cc-Jumbotron audit.",
+    "backups": [
+      "/media/lemonhdl/Shared/Software_Engineering/ARY/Week2-Jumbotron/review-ledger/source-line-ledger.before-cc-data-line-alignment-fix.jsonl",
+      "/media/lemonhdl/Shared/Software_Engineering/ARY/Week2-Jumbotron/mock-data/review-package/rubric-data-coverage-report.before-line-alignment-fix.json"
+    ]
+  }
+}

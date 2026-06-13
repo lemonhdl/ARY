@@ -1,0 +1,1706 @@
+{
+  "schemaVersion": "1.0.0",
+  "kind": "RaceTimeline",
+  "generatedAt": "2026-06-08T10:21:38+08:00",
+  "competitionId": "grs001-dcr-2026",
+  "trackId": "grandstand-oval",
+  "note": "赛事时序帧序列（§5.4 Snapshot 序列）。13 帧覆盖 10:16:40→10:22:22，分起跑/比赛/冲线三段。currentFrameIndex=9 标记「当前直播帧」并严格等于 race-snapshot.json；冲线段(10..12)为其之后的演化，领先者进入 finished。每帧仅含动态字段（rank/rankDelta/roundProgress/status/motionState）+ events；静态字段按 entryId 从 race-snapshot.json 取。位置仍由 roundProgress 经 track-runtime 派生，不写死 x/y。",
+  "frameCount": 13,
+  "startFrameIndex": 0,
+  "currentFrameIndex": 9,
+  "finishFrameIndex": 11,
+  "frameIntervalNote": "帧间隔约 13~48 秒，非等距；时间见各帧 systemTime/elapsedTime。",
+  "finalFrameAlignsWith": "race-snapshot.json (= frames[currentFrameIndex])",
+  "eventTypes": [
+    "race_start",
+    "overtake",
+    "status_change",
+    "lead_change"
+  ],
+  "phases": {
+    "start": "起跑 idx0..1",
+    "race": "比赛 idx2..9（idx9=当前直播帧）",
+    "finish": "冲线 idx10..12"
+  },
+  "top3Changes": [
+    {
+      "frameIndex": 7,
+      "t": "10:21:10",
+      "from": [
+        "AI Sudoku",
+        "Travel AIAR",
+        "DevCompass Racing"
+      ],
+      "to": [
+        "AI Sudoku",
+        "DevCompass Racing",
+        "Travel AIAR"
+      ]
+    },
+    {
+      "frameIndex": 8,
+      "t": "10:21:30",
+      "from": [
+        "AI Sudoku",
+        "DevCompass Racing",
+        "Travel AIAR"
+      ],
+      "to": [
+        "AI Sudoku",
+        "Travel AIAR",
+        "DevCompass Racing"
+      ]
+    },
+    {
+      "frameIndex": 9,
+      "t": "10:21:38",
+      "from": [
+        "AI Sudoku",
+        "Travel AIAR",
+        "DevCompass Racing"
+      ],
+      "to": [
+        "AI Sudoku",
+        "DevCompass Racing",
+        "Travel AIAR"
+      ]
+    }
+  ],
+  "frames": [
+    {
+      "frameIndex": 0,
+      "systemTime": "10:16:40",
+      "elapsedTime": "01:19:39",
+      "phase": "start",
+      "isCurrent": false,
+      "avgRoundProgress": 0.134,
+      "top3": [
+        "ent-ai-sudoku",
+        "ent-travel-aiar",
+        "ent-devcompass"
+      ],
+      "entries": [
+        {
+          "entryId": "ent-ai-sudoku",
+          "rank": 1,
+          "rankDelta": 0,
+          "roundProgress": 0.16,
+          "status": "running",
+          "motionState": "running"
+        },
+        {
+          "entryId": "ent-travel-aiar",
+          "rank": 2,
+          "rankDelta": 0,
+          "roundProgress": 0.153,
+          "status": "running",
+          "motionState": "running"
+        },
+        {
+          "entryId": "ent-devcompass",
+          "rank": 3,
+          "rankDelta": 0,
+          "roundProgress": 0.15,
+          "status": "running",
+          "motionState": "running"
+        },
+        {
+          "entryId": "ent-study-copilot",
+          "rank": 4,
+          "rankDelta": 0,
+          "roundProgress": 0.146,
+          "status": "running",
+          "motionState": "running"
+        },
+        {
+          "entryId": "ent-docpilot",
+          "rank": 5,
+          "rankDelta": 0,
+          "roundProgress": 0.14,
+          "status": "running",
+          "motionState": "running"
+        },
+        {
+          "entryId": "ent-pixelmind",
+          "rank": 6,
+          "rankDelta": 0,
+          "roundProgress": 0.136,
+          "status": "running",
+          "motionState": "running"
+        },
+        {
+          "entryId": "ent-chatops-hub",
+          "rank": 7,
+          "rankDelta": 0,
+          "roundProgress": 0.132,
+          "status": "running",
+          "motionState": "running"
+        },
+        {
+          "entryId": "ent-codelab",
+          "rank": 8,
+          "rankDelta": 0,
+          "roundProgress": 0.128,
+          "status": "running",
+          "motionState": "running"
+        },
+        {
+          "entryId": "ent-dataforge",
+          "rank": 9,
+          "rankDelta": 0,
+          "roundProgress": 0.124,
+          "status": "running",
+          "motionState": "running"
+        },
+        {
+          "entryId": "ent-finsight",
+          "rank": 10,
+          "rankDelta": 0,
+          "roundProgress": 0.118,
+          "status": "running",
+          "motionState": "running"
+        },
+        {
+          "entryId": "ent-mediscribe",
+          "rank": 11,
+          "rankDelta": 0,
+          "roundProgress": 0.112,
+          "status": "running",
+          "motionState": "running"
+        },
+        {
+          "entryId": "ent-greenroute",
+          "rank": 12,
+          "rankDelta": 0,
+          "roundProgress": 0.105,
+          "status": "running",
+          "motionState": "running"
+        }
+      ],
+      "events": [
+        {
+          "type": "race_start",
+          "summary": "发车！12 支队伍起跑"
+        }
+      ]
+    },
+    {
+      "frameIndex": 1,
+      "systemTime": "10:17:20",
+      "elapsedTime": "01:20:19",
+      "phase": "start",
+      "isCurrent": false,
+      "avgRoundProgress": 0.321,
+      "top3": [
+        "ent-ai-sudoku",
+        "ent-travel-aiar",
+        "ent-devcompass"
+      ],
+      "entries": [
+        {
+          "entryId": "ent-ai-sudoku",
+          "rank": 1,
+          "rankDelta": 0,
+          "roundProgress": 0.384,
+          "status": "running",
+          "motionState": "running"
+        },
+        {
+          "entryId": "ent-travel-aiar",
+          "rank": 2,
+          "rankDelta": 0,
+          "roundProgress": 0.367,
+          "status": "running",
+          "motionState": "running"
+        },
+        {
+          "entryId": "ent-devcompass",
+          "rank": 3,
+          "rankDelta": 0,
+          "roundProgress": 0.36,
+          "status": "running",
+          "motionState": "running"
+        },
+        {
+          "entryId": "ent-study-copilot",
+          "rank": 4,
+          "rankDelta": 0,
+          "roundProgress": 0.351,
+          "status": "running",
+          "motionState": "running"
+        },
+        {
+          "entryId": "ent-docpilot",
+          "rank": 5,
+          "rankDelta": 0,
+          "roundProgress": 0.336,
+          "status": "running",
+          "motionState": "running"
+        },
+        {
+          "entryId": "ent-pixelmind",
+          "rank": 6,
+          "rankDelta": 0,
+          "roundProgress": 0.327,
+          "status": "running",
+          "motionState": "running"
+        },
+        {
+          "entryId": "ent-chatops-hub",
+          "rank": 7,
+          "rankDelta": 0,
+          "roundProgress": 0.318,
+          "status": "running",
+          "motionState": "running"
+        },
+        {
+          "entryId": "ent-codelab",
+          "rank": 8,
+          "rankDelta": 0,
+          "roundProgress": 0.306,
+          "status": "running",
+          "motionState": "running"
+        },
+        {
+          "entryId": "ent-dataforge",
+          "rank": 9,
+          "rankDelta": 0,
+          "roundProgress": 0.297,
+          "status": "running",
+          "motionState": "running"
+        },
+        {
+          "entryId": "ent-finsight",
+          "rank": 10,
+          "rankDelta": 0,
+          "roundProgress": 0.282,
+          "status": "running",
+          "motionState": "running"
+        },
+        {
+          "entryId": "ent-mediscribe",
+          "rank": 11,
+          "rankDelta": 0,
+          "roundProgress": 0.269,
+          "status": "running",
+          "motionState": "running"
+        },
+        {
+          "entryId": "ent-greenroute",
+          "rank": 12,
+          "rankDelta": 0,
+          "roundProgress": 0.252,
+          "status": "running",
+          "motionState": "running"
+        }
+      ],
+      "events": []
+    },
+    {
+      "frameIndex": 2,
+      "systemTime": "10:18:08",
+      "elapsedTime": "01:21:07",
+      "phase": "race",
+      "isCurrent": false,
+      "avgRoundProgress": 0.535,
+      "top3": [
+        "ent-ai-sudoku",
+        "ent-travel-aiar",
+        "ent-devcompass"
+      ],
+      "entries": [
+        {
+          "entryId": "ent-ai-sudoku",
+          "rank": 1,
+          "rankDelta": 0,
+          "roundProgress": 0.64,
+          "status": "running",
+          "motionState": "running"
+        },
+        {
+          "entryId": "ent-travel-aiar",
+          "rank": 2,
+          "rankDelta": 0,
+          "roundProgress": 0.612,
+          "status": "running",
+          "motionState": "running"
+        },
+        {
+          "entryId": "ent-devcompass",
+          "rank": 3,
+          "rankDelta": 0,
+          "roundProgress": 0.6,
+          "status": "running",
+          "motionState": "running"
+        },
+        {
+          "entryId": "ent-study-copilot",
+          "rank": 4,
+          "rankDelta": 0,
+          "roundProgress": 0.585,
+          "status": "running",
+          "motionState": "running"
+        },
+        {
+          "entryId": "ent-docpilot",
+          "rank": 5,
+          "rankDelta": 0,
+          "roundProgress": 0.56,
+          "status": "running",
+          "motionState": "running"
+        },
+        {
+          "entryId": "ent-pixelmind",
+          "rank": 6,
+          "rankDelta": 0,
+          "roundProgress": 0.545,
+          "status": "running",
+          "motionState": "running"
+        },
+        {
+          "entryId": "ent-chatops-hub",
+          "rank": 7,
+          "rankDelta": 0,
+          "roundProgress": 0.53,
+          "status": "running",
+          "motionState": "running"
+        },
+        {
+          "entryId": "ent-codelab",
+          "rank": 8,
+          "rankDelta": 0,
+          "roundProgress": 0.51,
+          "status": "running",
+          "motionState": "running"
+        },
+        {
+          "entryId": "ent-dataforge",
+          "rank": 9,
+          "rankDelta": 0,
+          "roundProgress": 0.495,
+          "status": "running",
+          "motionState": "running"
+        },
+        {
+          "entryId": "ent-finsight",
+          "rank": 10,
+          "rankDelta": 0,
+          "roundProgress": 0.47,
+          "status": "running",
+          "motionState": "running"
+        },
+        {
+          "entryId": "ent-mediscribe",
+          "rank": 11,
+          "rankDelta": 0,
+          "roundProgress": 0.448,
+          "status": "running",
+          "motionState": "running"
+        },
+        {
+          "entryId": "ent-greenroute",
+          "rank": 12,
+          "rankDelta": 0,
+          "roundProgress": 0.42,
+          "status": "running",
+          "motionState": "running"
+        }
+      ],
+      "events": []
+    },
+    {
+      "frameIndex": 3,
+      "systemTime": "10:18:40",
+      "elapsedTime": "01:21:39",
+      "phase": "race",
+      "isCurrent": false,
+      "avgRoundProgress": 0.576,
+      "top3": [
+        "ent-ai-sudoku",
+        "ent-travel-aiar",
+        "ent-devcompass"
+      ],
+      "entries": [
+        {
+          "entryId": "ent-ai-sudoku",
+          "rank": 1,
+          "rankDelta": 0,
+          "roundProgress": 0.69,
+          "status": "running",
+          "motionState": "running"
+        },
+        {
+          "entryId": "ent-travel-aiar",
+          "rank": 2,
+          "rankDelta": 0,
+          "roundProgress": 0.66,
+          "status": "running",
+          "motionState": "running"
+        },
+        {
+          "entryId": "ent-devcompass",
+          "rank": 3,
+          "rankDelta": 0,
+          "roundProgress": 0.646,
+          "status": "running",
+          "motionState": "running"
+        },
+        {
+          "entryId": "ent-study-copilot",
+          "rank": 4,
+          "rankDelta": 0,
+          "roundProgress": 0.63,
+          "status": "running",
+          "motionState": "running"
+        },
+        {
+          "entryId": "ent-docpilot",
+          "rank": 5,
+          "rankDelta": 0,
+          "roundProgress": 0.604,
+          "status": "running",
+          "motionState": "running"
+        },
+        {
+          "entryId": "ent-pixelmind",
+          "rank": 6,
+          "rankDelta": 0,
+          "roundProgress": 0.58,
+          "status": "running",
+          "motionState": "running"
+        },
+        {
+          "entryId": "ent-chatops-hub",
+          "rank": 7,
+          "rankDelta": 0,
+          "roundProgress": 0.566,
+          "status": "running",
+          "motionState": "running"
+        },
+        {
+          "entryId": "ent-codelab",
+          "rank": 8,
+          "rankDelta": 0,
+          "roundProgress": 0.56,
+          "status": "running",
+          "motionState": "sprinting"
+        },
+        {
+          "entryId": "ent-dataforge",
+          "rank": 9,
+          "rankDelta": 0,
+          "roundProgress": 0.548,
+          "status": "running",
+          "motionState": "running"
+        },
+        {
+          "entryId": "ent-finsight",
+          "rank": 10,
+          "rankDelta": 0,
+          "roundProgress": 0.5,
+          "status": "running",
+          "motionState": "running"
+        },
+        {
+          "entryId": "ent-mediscribe",
+          "rank": 11,
+          "rankDelta": 0,
+          "roundProgress": 0.482,
+          "status": "running",
+          "motionState": "running"
+        },
+        {
+          "entryId": "ent-greenroute",
+          "rank": 12,
+          "rankDelta": 0,
+          "roundProgress": 0.44,
+          "status": "running",
+          "motionState": "running"
+        }
+      ],
+      "events": []
+    },
+    {
+      "frameIndex": 4,
+      "systemTime": "10:19:20",
+      "elapsedTime": "01:22:19",
+      "phase": "race",
+      "isCurrent": false,
+      "avgRoundProgress": 0.614,
+      "top3": [
+        "ent-ai-sudoku",
+        "ent-travel-aiar",
+        "ent-devcompass"
+      ],
+      "entries": [
+        {
+          "entryId": "ent-ai-sudoku",
+          "rank": 1,
+          "rankDelta": 0,
+          "roundProgress": 0.74,
+          "status": "running",
+          "motionState": "running"
+        },
+        {
+          "entryId": "ent-travel-aiar",
+          "rank": 2,
+          "rankDelta": 0,
+          "roundProgress": 0.706,
+          "status": "running",
+          "motionState": "running"
+        },
+        {
+          "entryId": "ent-devcompass",
+          "rank": 3,
+          "rankDelta": 0,
+          "roundProgress": 0.692,
+          "status": "running",
+          "motionState": "running"
+        },
+        {
+          "entryId": "ent-study-copilot",
+          "rank": 4,
+          "rankDelta": 0,
+          "roundProgress": 0.676,
+          "status": "running",
+          "motionState": "running"
+        },
+        {
+          "entryId": "ent-docpilot",
+          "rank": 5,
+          "rankDelta": 0,
+          "roundProgress": 0.648,
+          "status": "running",
+          "motionState": "running"
+        },
+        {
+          "entryId": "ent-codelab",
+          "rank": 6,
+          "rankDelta": 2,
+          "roundProgress": 0.612,
+          "status": "running",
+          "motionState": "sprinting"
+        },
+        {
+          "entryId": "ent-pixelmind",
+          "rank": 7,
+          "rankDelta": -1,
+          "roundProgress": 0.612,
+          "status": "running",
+          "motionState": "running"
+        },
+        {
+          "entryId": "ent-dataforge",
+          "rank": 8,
+          "rankDelta": 1,
+          "roundProgress": 0.602,
+          "status": "running",
+          "motionState": "sprinting"
+        },
+        {
+          "entryId": "ent-chatops-hub",
+          "rank": 9,
+          "rankDelta": -2,
+          "roundProgress": 0.596,
+          "status": "running",
+          "motionState": "running"
+        },
+        {
+          "entryId": "ent-finsight",
+          "rank": 10,
+          "rankDelta": 0,
+          "roundProgress": 0.524,
+          "status": "running",
+          "motionState": "running"
+        },
+        {
+          "entryId": "ent-mediscribe",
+          "rank": 11,
+          "rankDelta": 0,
+          "roundProgress": 0.505,
+          "status": "running",
+          "motionState": "running"
+        },
+        {
+          "entryId": "ent-greenroute",
+          "rank": 12,
+          "rankDelta": 0,
+          "roundProgress": 0.452,
+          "status": "running",
+          "motionState": "slowed"
+        }
+      ],
+      "events": [
+        {
+          "type": "overtake",
+          "entryId": "ent-codelab",
+          "entryName": "CodeLab",
+          "fromRank": 8,
+          "toRank": 6,
+          "passed": [
+            "PixelMind",
+            "ChatOps Hub"
+          ]
+        },
+        {
+          "type": "overtake",
+          "entryId": "ent-dataforge",
+          "entryName": "DataForge",
+          "fromRank": 9,
+          "toRank": 8,
+          "passed": [
+            "ChatOps Hub"
+          ]
+        }
+      ]
+    },
+    {
+      "frameIndex": 5,
+      "systemTime": "10:20:00",
+      "elapsedTime": "01:22:59",
+      "phase": "race",
+      "isCurrent": false,
+      "avgRoundProgress": 0.647,
+      "top3": [
+        "ent-ai-sudoku",
+        "ent-travel-aiar",
+        "ent-devcompass"
+      ],
+      "entries": [
+        {
+          "entryId": "ent-ai-sudoku",
+          "rank": 1,
+          "rankDelta": 0,
+          "roundProgress": 0.788,
+          "status": "running",
+          "motionState": "running"
+        },
+        {
+          "entryId": "ent-travel-aiar",
+          "rank": 2,
+          "rankDelta": 0,
+          "roundProgress": 0.752,
+          "status": "running",
+          "motionState": "running"
+        },
+        {
+          "entryId": "ent-devcompass",
+          "rank": 3,
+          "rankDelta": 0,
+          "roundProgress": 0.74,
+          "status": "running",
+          "motionState": "running"
+        },
+        {
+          "entryId": "ent-study-copilot",
+          "rank": 4,
+          "rankDelta": 0,
+          "roundProgress": 0.722,
+          "status": "running",
+          "motionState": "running"
+        },
+        {
+          "entryId": "ent-docpilot",
+          "rank": 5,
+          "rankDelta": 0,
+          "roundProgress": 0.696,
+          "status": "running",
+          "motionState": "running"
+        },
+        {
+          "entryId": "ent-codelab",
+          "rank": 6,
+          "rankDelta": 0,
+          "roundProgress": 0.66,
+          "status": "running",
+          "motionState": "sprinting"
+        },
+        {
+          "entryId": "ent-dataforge",
+          "rank": 7,
+          "rankDelta": 1,
+          "roundProgress": 0.648,
+          "status": "running",
+          "motionState": "sprinting"
+        },
+        {
+          "entryId": "ent-pixelmind",
+          "rank": 8,
+          "rankDelta": -1,
+          "roundProgress": 0.636,
+          "status": "running",
+          "motionState": "slowed"
+        },
+        {
+          "entryId": "ent-chatops-hub",
+          "rank": 9,
+          "rankDelta": 0,
+          "roundProgress": 0.61,
+          "status": "takeover",
+          "motionState": "takeover"
+        },
+        {
+          "entryId": "ent-finsight",
+          "rank": 10,
+          "rankDelta": 0,
+          "roundProgress": 0.54,
+          "status": "running",
+          "motionState": "slowed"
+        },
+        {
+          "entryId": "ent-mediscribe",
+          "rank": 11,
+          "rankDelta": 0,
+          "roundProgress": 0.512,
+          "status": "running",
+          "motionState": "running"
+        },
+        {
+          "entryId": "ent-greenroute",
+          "rank": 12,
+          "rankDelta": 0,
+          "roundProgress": 0.46,
+          "status": "running",
+          "motionState": "slowed"
+        }
+      ],
+      "events": [
+        {
+          "type": "overtake",
+          "entryId": "ent-dataforge",
+          "entryName": "DataForge",
+          "fromRank": 8,
+          "toRank": 7,
+          "passed": [
+            "PixelMind"
+          ]
+        },
+        {
+          "type": "status_change",
+          "entryId": "ent-chatops-hub",
+          "entryName": "ChatOps Hub",
+          "from": "running",
+          "to": "takeover",
+          "kind": "risk"
+        }
+      ]
+    },
+    {
+      "frameIndex": 6,
+      "systemTime": "10:20:40",
+      "elapsedTime": "01:23:39",
+      "phase": "race",
+      "isCurrent": false,
+      "avgRoundProgress": 0.672,
+      "top3": [
+        "ent-ai-sudoku",
+        "ent-travel-aiar",
+        "ent-devcompass"
+      ],
+      "entries": [
+        {
+          "entryId": "ent-ai-sudoku",
+          "rank": 1,
+          "rankDelta": 0,
+          "roundProgress": 0.838,
+          "status": "running",
+          "motionState": "running"
+        },
+        {
+          "entryId": "ent-travel-aiar",
+          "rank": 2,
+          "rankDelta": 0,
+          "roundProgress": 0.794,
+          "status": "running",
+          "motionState": "running"
+        },
+        {
+          "entryId": "ent-devcompass",
+          "rank": 3,
+          "rankDelta": 0,
+          "roundProgress": 0.788,
+          "status": "running",
+          "motionState": "running"
+        },
+        {
+          "entryId": "ent-study-copilot",
+          "rank": 4,
+          "rankDelta": 0,
+          "roundProgress": 0.76,
+          "status": "running",
+          "motionState": "slowed"
+        },
+        {
+          "entryId": "ent-docpilot",
+          "rank": 5,
+          "rankDelta": 0,
+          "roundProgress": 0.73,
+          "status": "running",
+          "motionState": "slowed"
+        },
+        {
+          "entryId": "ent-codelab",
+          "rank": 6,
+          "rankDelta": 0,
+          "roundProgress": 0.692,
+          "status": "running",
+          "motionState": "sprinting"
+        },
+        {
+          "entryId": "ent-dataforge",
+          "rank": 7,
+          "rankDelta": 0,
+          "roundProgress": 0.676,
+          "status": "running",
+          "motionState": "sprinting"
+        },
+        {
+          "entryId": "ent-pixelmind",
+          "rank": 8,
+          "rankDelta": 0,
+          "roundProgress": 0.65,
+          "status": "running",
+          "motionState": "slowed"
+        },
+        {
+          "entryId": "ent-chatops-hub",
+          "rank": 9,
+          "rankDelta": 0,
+          "roundProgress": 0.61,
+          "status": "takeover",
+          "motionState": "takeover"
+        },
+        {
+          "entryId": "ent-finsight",
+          "rank": 10,
+          "rankDelta": 0,
+          "roundProgress": 0.55,
+          "status": "running",
+          "motionState": "slowed"
+        },
+        {
+          "entryId": "ent-mediscribe",
+          "rank": 11,
+          "rankDelta": 0,
+          "roundProgress": 0.514,
+          "status": "stale",
+          "motionState": "stale"
+        },
+        {
+          "entryId": "ent-greenroute",
+          "rank": 12,
+          "rankDelta": 0,
+          "roundProgress": 0.465,
+          "status": "running",
+          "motionState": "slowed"
+        }
+      ],
+      "events": [
+        {
+          "type": "status_change",
+          "entryId": "ent-mediscribe",
+          "entryName": "MediScribe",
+          "from": "running",
+          "to": "stale",
+          "kind": "risk"
+        }
+      ]
+    },
+    {
+      "frameIndex": 7,
+      "systemTime": "10:21:10",
+      "elapsedTime": "01:24:09",
+      "phase": "race",
+      "isCurrent": false,
+      "avgRoundProgress": 0.688,
+      "top3": [
+        "ent-ai-sudoku",
+        "ent-devcompass",
+        "ent-travel-aiar"
+      ],
+      "entries": [
+        {
+          "entryId": "ent-ai-sudoku",
+          "rank": 1,
+          "rankDelta": 0,
+          "roundProgress": 0.882,
+          "status": "running",
+          "motionState": "sprinting"
+        },
+        {
+          "entryId": "ent-devcompass",
+          "rank": 2,
+          "rankDelta": 1,
+          "roundProgress": 0.824,
+          "status": "running",
+          "motionState": "sprinting"
+        },
+        {
+          "entryId": "ent-travel-aiar",
+          "rank": 3,
+          "rankDelta": -1,
+          "roundProgress": 0.822,
+          "status": "running",
+          "motionState": "running"
+        },
+        {
+          "entryId": "ent-study-copilot",
+          "rank": 4,
+          "rankDelta": 0,
+          "roundProgress": 0.786,
+          "status": "running",
+          "motionState": "slowed"
+        },
+        {
+          "entryId": "ent-docpilot",
+          "rank": 5,
+          "rankDelta": 0,
+          "roundProgress": 0.744,
+          "status": "blocked",
+          "motionState": "blocked"
+        },
+        {
+          "entryId": "ent-codelab",
+          "rank": 6,
+          "rankDelta": 0,
+          "roundProgress": 0.71,
+          "status": "running",
+          "motionState": "sprinting"
+        },
+        {
+          "entryId": "ent-dataforge",
+          "rank": 7,
+          "rankDelta": 0,
+          "roundProgress": 0.688,
+          "status": "pit_stop",
+          "motionState": "pit_stop"
+        },
+        {
+          "entryId": "ent-pixelmind",
+          "rank": 8,
+          "rankDelta": 0,
+          "roundProgress": 0.654,
+          "status": "running",
+          "motionState": "slowed"
+        },
+        {
+          "entryId": "ent-chatops-hub",
+          "rank": 9,
+          "rankDelta": 0,
+          "roundProgress": 0.61,
+          "status": "takeover",
+          "motionState": "takeover"
+        },
+        {
+          "entryId": "ent-finsight",
+          "rank": 10,
+          "rankDelta": 0,
+          "roundProgress": 0.556,
+          "status": "running",
+          "motionState": "slowed"
+        },
+        {
+          "entryId": "ent-mediscribe",
+          "rank": 11,
+          "rankDelta": 0,
+          "roundProgress": 0.515,
+          "status": "stale",
+          "motionState": "stale"
+        },
+        {
+          "entryId": "ent-greenroute",
+          "rank": 12,
+          "rankDelta": 0,
+          "roundProgress": 0.468,
+          "status": "running",
+          "motionState": "slowed"
+        }
+      ],
+      "events": [
+        {
+          "type": "overtake",
+          "entryId": "ent-devcompass",
+          "entryName": "DevCompass Racing",
+          "fromRank": 3,
+          "toRank": 2,
+          "passed": [
+            "Travel AIAR"
+          ]
+        },
+        {
+          "type": "status_change",
+          "entryId": "ent-docpilot",
+          "entryName": "DocPilot",
+          "from": "running",
+          "to": "blocked",
+          "kind": "risk"
+        },
+        {
+          "type": "status_change",
+          "entryId": "ent-dataforge",
+          "entryName": "DataForge",
+          "from": "running",
+          "to": "pit_stop",
+          "kind": "pit_stop"
+        }
+      ]
+    },
+    {
+      "frameIndex": 8,
+      "systemTime": "10:21:30",
+      "elapsedTime": "01:24:29",
+      "phase": "race",
+      "isCurrent": false,
+      "avgRoundProgress": 0.697,
+      "top3": [
+        "ent-ai-sudoku",
+        "ent-travel-aiar",
+        "ent-devcompass"
+      ],
+      "entries": [
+        {
+          "entryId": "ent-ai-sudoku",
+          "rank": 1,
+          "rankDelta": 0,
+          "roundProgress": 0.912,
+          "status": "running",
+          "motionState": "sprinting"
+        },
+        {
+          "entryId": "ent-travel-aiar",
+          "rank": 2,
+          "rankDelta": 1,
+          "roundProgress": 0.838,
+          "status": "running",
+          "motionState": "running"
+        },
+        {
+          "entryId": "ent-devcompass",
+          "rank": 3,
+          "rankDelta": -1,
+          "roundProgress": 0.836,
+          "status": "running",
+          "motionState": "running"
+        },
+        {
+          "entryId": "ent-study-copilot",
+          "rank": 4,
+          "rankDelta": 0,
+          "roundProgress": 0.8,
+          "status": "running",
+          "motionState": "slowed"
+        },
+        {
+          "entryId": "ent-docpilot",
+          "rank": 5,
+          "rankDelta": 0,
+          "roundProgress": 0.752,
+          "status": "blocked",
+          "motionState": "blocked"
+        },
+        {
+          "entryId": "ent-codelab",
+          "rank": 6,
+          "rankDelta": 0,
+          "roundProgress": 0.722,
+          "status": "running",
+          "motionState": "sprinting"
+        },
+        {
+          "entryId": "ent-dataforge",
+          "rank": 7,
+          "rankDelta": 0,
+          "roundProgress": 0.69,
+          "status": "pit_stop",
+          "motionState": "pit_stop"
+        },
+        {
+          "entryId": "ent-pixelmind",
+          "rank": 8,
+          "rankDelta": 0,
+          "roundProgress": 0.655,
+          "status": "running",
+          "motionState": "slowed"
+        },
+        {
+          "entryId": "ent-chatops-hub",
+          "rank": 9,
+          "rankDelta": 0,
+          "roundProgress": 0.611,
+          "status": "takeover",
+          "motionState": "takeover"
+        },
+        {
+          "entryId": "ent-finsight",
+          "rank": 10,
+          "rankDelta": 0,
+          "roundProgress": 0.559,
+          "status": "running",
+          "motionState": "slowed"
+        },
+        {
+          "entryId": "ent-mediscribe",
+          "rank": 11,
+          "rankDelta": 0,
+          "roundProgress": 0.515,
+          "status": "stale",
+          "motionState": "stale"
+        },
+        {
+          "entryId": "ent-greenroute",
+          "rank": 12,
+          "rankDelta": 0,
+          "roundProgress": 0.47,
+          "status": "running",
+          "motionState": "slowed"
+        }
+      ],
+      "events": [
+        {
+          "type": "overtake",
+          "entryId": "ent-travel-aiar",
+          "entryName": "Travel AIAR",
+          "fromRank": 3,
+          "toRank": 2,
+          "passed": [
+            "DevCompass Racing"
+          ]
+        }
+      ]
+    },
+    {
+      "frameIndex": 9,
+      "systemTime": "10:21:38",
+      "elapsedTime": "01:24:37",
+      "phase": "race",
+      "isCurrent": true,
+      "avgRoundProgress": 0.704,
+      "top3": [
+        "ent-ai-sudoku",
+        "ent-devcompass",
+        "ent-travel-aiar"
+      ],
+      "entries": [
+        {
+          "entryId": "ent-ai-sudoku",
+          "rank": 1,
+          "rankDelta": 0,
+          "roundProgress": 0.93,
+          "status": "running",
+          "motionState": "sprinting"
+        },
+        {
+          "entryId": "ent-devcompass",
+          "rank": 2,
+          "rankDelta": 1,
+          "roundProgress": 0.872,
+          "status": "running",
+          "motionState": "running"
+        },
+        {
+          "entryId": "ent-travel-aiar",
+          "rank": 3,
+          "rankDelta": -1,
+          "roundProgress": 0.845,
+          "status": "running",
+          "motionState": "running"
+        },
+        {
+          "entryId": "ent-study-copilot",
+          "rank": 4,
+          "rankDelta": 0,
+          "roundProgress": 0.808,
+          "status": "running",
+          "motionState": "slowed"
+        },
+        {
+          "entryId": "ent-docpilot",
+          "rank": 5,
+          "rankDelta": 0,
+          "roundProgress": 0.76,
+          "status": "blocked",
+          "motionState": "blocked"
+        },
+        {
+          "entryId": "ent-codelab",
+          "rank": 6,
+          "rankDelta": 0,
+          "roundProgress": 0.728,
+          "status": "running",
+          "motionState": "sprinting"
+        },
+        {
+          "entryId": "ent-dataforge",
+          "rank": 7,
+          "rankDelta": 0,
+          "roundProgress": 0.69,
+          "status": "pit_stop",
+          "motionState": "pit_stop"
+        },
+        {
+          "entryId": "ent-pixelmind",
+          "rank": 8,
+          "rankDelta": 0,
+          "roundProgress": 0.655,
+          "status": "running",
+          "motionState": "running"
+        },
+        {
+          "entryId": "ent-chatops-hub",
+          "rank": 9,
+          "rankDelta": 0,
+          "roundProgress": 0.612,
+          "status": "takeover",
+          "motionState": "takeover"
+        },
+        {
+          "entryId": "ent-finsight",
+          "rank": 10,
+          "rankDelta": 0,
+          "roundProgress": 0.56,
+          "status": "running",
+          "motionState": "slowed"
+        },
+        {
+          "entryId": "ent-mediscribe",
+          "rank": 11,
+          "rankDelta": 0,
+          "roundProgress": 0.515,
+          "status": "stale",
+          "motionState": "stale"
+        },
+        {
+          "entryId": "ent-greenroute",
+          "rank": 12,
+          "rankDelta": 0,
+          "roundProgress": 0.47,
+          "status": "idle",
+          "motionState": "idle"
+        }
+      ],
+      "events": [
+        {
+          "type": "overtake",
+          "entryId": "ent-devcompass",
+          "entryName": "DevCompass Racing",
+          "fromRank": 3,
+          "toRank": 2,
+          "passed": [
+            "Travel AIAR"
+          ]
+        },
+        {
+          "type": "status_change",
+          "entryId": "ent-greenroute",
+          "entryName": "GreenRoute",
+          "from": "running",
+          "to": "idle",
+          "kind": "info"
+        }
+      ]
+    },
+    {
+      "frameIndex": 10,
+      "systemTime": "10:21:55",
+      "elapsedTime": "01:24:54",
+      "phase": "finish",
+      "isCurrent": false,
+      "avgRoundProgress": 0.737,
+      "top3": [
+        "ent-ai-sudoku",
+        "ent-devcompass",
+        "ent-travel-aiar"
+      ],
+      "entries": [
+        {
+          "entryId": "ent-ai-sudoku",
+          "rank": 1,
+          "rankDelta": 0,
+          "roundProgress": 0.985,
+          "status": "running",
+          "motionState": "sprinting"
+        },
+        {
+          "entryId": "ent-devcompass",
+          "rank": 2,
+          "rankDelta": 0,
+          "roundProgress": 0.945,
+          "status": "running",
+          "motionState": "sprinting"
+        },
+        {
+          "entryId": "ent-travel-aiar",
+          "rank": 3,
+          "rankDelta": 0,
+          "roundProgress": 0.918,
+          "status": "running",
+          "motionState": "sprinting"
+        },
+        {
+          "entryId": "ent-study-copilot",
+          "rank": 4,
+          "rankDelta": 0,
+          "roundProgress": 0.858,
+          "status": "running",
+          "motionState": "sprinting"
+        },
+        {
+          "entryId": "ent-codelab",
+          "rank": 5,
+          "rankDelta": 1,
+          "roundProgress": 0.79,
+          "status": "running",
+          "motionState": "sprinting"
+        },
+        {
+          "entryId": "ent-docpilot",
+          "rank": 6,
+          "rankDelta": -1,
+          "roundProgress": 0.76,
+          "status": "blocked",
+          "motionState": "blocked"
+        },
+        {
+          "entryId": "ent-pixelmind",
+          "rank": 7,
+          "rankDelta": 1,
+          "roundProgress": 0.702,
+          "status": "running",
+          "motionState": "sprinting"
+        },
+        {
+          "entryId": "ent-dataforge",
+          "rank": 8,
+          "rankDelta": -1,
+          "roundProgress": 0.69,
+          "status": "pit_stop",
+          "motionState": "pit_stop"
+        },
+        {
+          "entryId": "ent-chatops-hub",
+          "rank": 9,
+          "rankDelta": 0,
+          "roundProgress": 0.612,
+          "status": "takeover",
+          "motionState": "takeover"
+        },
+        {
+          "entryId": "ent-finsight",
+          "rank": 10,
+          "rankDelta": 0,
+          "roundProgress": 0.6,
+          "status": "running",
+          "motionState": "sprinting"
+        },
+        {
+          "entryId": "ent-mediscribe",
+          "rank": 11,
+          "rankDelta": 0,
+          "roundProgress": 0.515,
+          "status": "stale",
+          "motionState": "stale"
+        },
+        {
+          "entryId": "ent-greenroute",
+          "rank": 12,
+          "rankDelta": 0,
+          "roundProgress": 0.47,
+          "status": "idle",
+          "motionState": "idle"
+        }
+      ],
+      "events": [
+        {
+          "type": "overtake",
+          "entryId": "ent-codelab",
+          "entryName": "CodeLab",
+          "fromRank": 6,
+          "toRank": 5,
+          "passed": [
+            "DocPilot"
+          ]
+        },
+        {
+          "type": "overtake",
+          "entryId": "ent-pixelmind",
+          "entryName": "PixelMind",
+          "fromRank": 8,
+          "toRank": 7,
+          "passed": [
+            "DataForge"
+          ]
+        }
+      ]
+    },
+    {
+      "frameIndex": 11,
+      "systemTime": "10:22:08",
+      "elapsedTime": "01:25:07",
+      "phase": "finish",
+      "isCurrent": false,
+      "avgRoundProgress": 0.761,
+      "top3": [
+        "ent-ai-sudoku",
+        "ent-devcompass",
+        "ent-travel-aiar"
+      ],
+      "entries": [
+        {
+          "entryId": "ent-ai-sudoku",
+          "rank": 1,
+          "rankDelta": 0,
+          "roundProgress": 1,
+          "status": "finished",
+          "motionState": "finished"
+        },
+        {
+          "entryId": "ent-devcompass",
+          "rank": 2,
+          "rankDelta": 0,
+          "roundProgress": 0.988,
+          "status": "running",
+          "motionState": "sprinting"
+        },
+        {
+          "entryId": "ent-travel-aiar",
+          "rank": 3,
+          "rankDelta": 0,
+          "roundProgress": 0.968,
+          "status": "running",
+          "motionState": "sprinting"
+        },
+        {
+          "entryId": "ent-study-copilot",
+          "rank": 4,
+          "rankDelta": 0,
+          "roundProgress": 0.912,
+          "status": "running",
+          "motionState": "sprinting"
+        },
+        {
+          "entryId": "ent-codelab",
+          "rank": 5,
+          "rankDelta": 0,
+          "roundProgress": 0.845,
+          "status": "running",
+          "motionState": "sprinting"
+        },
+        {
+          "entryId": "ent-docpilot",
+          "rank": 6,
+          "rankDelta": 0,
+          "roundProgress": 0.76,
+          "status": "blocked",
+          "motionState": "blocked"
+        },
+        {
+          "entryId": "ent-pixelmind",
+          "rank": 7,
+          "rankDelta": 0,
+          "roundProgress": 0.74,
+          "status": "running",
+          "motionState": "sprinting"
+        },
+        {
+          "entryId": "ent-dataforge",
+          "rank": 8,
+          "rankDelta": 0,
+          "roundProgress": 0.69,
+          "status": "pit_stop",
+          "motionState": "pit_stop"
+        },
+        {
+          "entryId": "ent-finsight",
+          "rank": 9,
+          "rankDelta": 1,
+          "roundProgress": 0.636,
+          "status": "running",
+          "motionState": "sprinting"
+        },
+        {
+          "entryId": "ent-chatops-hub",
+          "rank": 10,
+          "rankDelta": -1,
+          "roundProgress": 0.612,
+          "status": "takeover",
+          "motionState": "takeover"
+        },
+        {
+          "entryId": "ent-mediscribe",
+          "rank": 11,
+          "rankDelta": 0,
+          "roundProgress": 0.515,
+          "status": "stale",
+          "motionState": "stale"
+        },
+        {
+          "entryId": "ent-greenroute",
+          "rank": 12,
+          "rankDelta": 0,
+          "roundProgress": 0.47,
+          "status": "idle",
+          "motionState": "idle"
+        }
+      ],
+      "events": [
+        {
+          "type": "overtake",
+          "entryId": "ent-finsight",
+          "entryName": "FinSight",
+          "fromRank": 10,
+          "toRank": 9,
+          "passed": [
+            "ChatOps Hub"
+          ]
+        },
+        {
+          "type": "status_change",
+          "entryId": "ent-ai-sudoku",
+          "entryName": "AI Sudoku",
+          "from": "running",
+          "to": "finished",
+          "kind": "finish"
+        }
+      ]
+    },
+    {
+      "frameIndex": 12,
+      "systemTime": "10:22:22",
+      "elapsedTime": "01:25:21",
+      "phase": "finish",
+      "isCurrent": false,
+      "avgRoundProgress": 0.781,
+      "top3": [
+        "ent-ai-sudoku",
+        "ent-devcompass",
+        "ent-travel-aiar"
+      ],
+      "entries": [
+        {
+          "entryId": "ent-ai-sudoku",
+          "rank": 1,
+          "rankDelta": 0,
+          "roundProgress": 1,
+          "status": "finished",
+          "motionState": "finished"
+        },
+        {
+          "entryId": "ent-devcompass",
+          "rank": 2,
+          "rankDelta": 0,
+          "roundProgress": 1,
+          "status": "finished",
+          "motionState": "finished"
+        },
+        {
+          "entryId": "ent-travel-aiar",
+          "rank": 3,
+          "rankDelta": 0,
+          "roundProgress": 1,
+          "status": "finished",
+          "motionState": "finished"
+        },
+        {
+          "entryId": "ent-study-copilot",
+          "rank": 4,
+          "rankDelta": 0,
+          "roundProgress": 0.958,
+          "status": "running",
+          "motionState": "sprinting"
+        },
+        {
+          "entryId": "ent-codelab",
+          "rank": 5,
+          "rankDelta": 0,
+          "roundProgress": 0.892,
+          "status": "running",
+          "motionState": "sprinting"
+        },
+        {
+          "entryId": "ent-pixelmind",
+          "rank": 6,
+          "rankDelta": 1,
+          "roundProgress": 0.792,
+          "status": "running",
+          "motionState": "sprinting"
+        },
+        {
+          "entryId": "ent-docpilot",
+          "rank": 7,
+          "rankDelta": -1,
+          "roundProgress": 0.76,
+          "status": "blocked",
+          "motionState": "blocked"
+        },
+        {
+          "entryId": "ent-dataforge",
+          "rank": 8,
+          "rankDelta": 0,
+          "roundProgress": 0.69,
+          "status": "pit_stop",
+          "motionState": "pit_stop"
+        },
+        {
+          "entryId": "ent-finsight",
+          "rank": 9,
+          "rankDelta": 0,
+          "roundProgress": 0.682,
+          "status": "running",
+          "motionState": "sprinting"
+        },
+        {
+          "entryId": "ent-chatops-hub",
+          "rank": 10,
+          "rankDelta": 0,
+          "roundProgress": 0.612,
+          "status": "takeover",
+          "motionState": "takeover"
+        },
+        {
+          "entryId": "ent-mediscribe",
+          "rank": 11,
+          "rankDelta": 0,
+          "roundProgress": 0.515,
+          "status": "stale",
+          "motionState": "stale"
+        },
+        {
+          "entryId": "ent-greenroute",
+          "rank": 12,
+          "rankDelta": 0,
+          "roundProgress": 0.47,
+          "status": "idle",
+          "motionState": "idle"
+        }
+      ],
+      "events": [
+        {
+          "type": "overtake",
+          "entryId": "ent-pixelmind",
+          "entryName": "PixelMind",
+          "fromRank": 7,
+          "toRank": 6,
+          "passed": [
+            "DocPilot"
+          ]
+        },
+        {
+          "type": "status_change",
+          "entryId": "ent-devcompass",
+          "entryName": "DevCompass Racing",
+          "from": "running",
+          "to": "finished",
+          "kind": "finish"
+        },
+        {
+          "type": "status_change",
+          "entryId": "ent-travel-aiar",
+          "entryName": "Travel AIAR",
+          "from": "running",
+          "to": "finished",
+          "kind": "finish"
+        }
+      ]
+    }
+  ]
+}

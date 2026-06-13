@@ -32,7 +32,7 @@ VERIFY_PASS GRS001 creation disclosure lifecycle riding evidence result radar ho
 
 路径：
 
-`/media/lemonhdl/Shared/Software_Engineering/ARY/PoC`
+`./PoC`
 
 这是一个本地双进程 Demo，用于证明 ARY GRS 001 的数据安全关键假设，并展示 Agent Riding Record 的组织、展示和回放能力。
 
@@ -41,7 +41,7 @@ VERIFY_PASS GRS001 creation disclosure lifecycle riding evidence result radar ho
 终端 1 启动 ARY 平台：
 
 ```bash
-cd /media/lemonhdl/Shared/Software_Engineering/ARY/PoC
+cd ./PoC
 npm start
 ```
 
@@ -60,7 +60,7 @@ npm start
 终端 2 启动评测进程：
 
 ```bash
-cd /media/lemonhdl/Shared/Software_Engineering/ARY/PoC
+cd ./PoC
 npm run start:organizer
 ```
 
@@ -69,7 +69,7 @@ npm run start:organizer
 ## 验证方式
 
 ```bash
-cd /media/lemonhdl/Shared/Software_Engineering/ARY/PoC
+cd ./PoC
 npm run verify
 ```
 
@@ -135,13 +135,13 @@ ARY 页面展示：
 
 详细说明见：
 
-`/media/lemonhdl/Shared/Software_Engineering/ARY/Knowledge/riding-record-去中心化设计.md`
+`./Knowledge/riding-record-去中心化设计.md`
 
 ## PoC_v2 交付状态
 
 路径：
 
-`/media/lemonhdl/Shared/Software_Engineering/ARY/PoC_v2`
+`./PoC_v2`
 
 PoC_v2 在 v1 提交评测闭环上增加登录、组织方视图和多队伍隔离。
 
@@ -184,7 +184,7 @@ PoC_v2 已覆盖的用例：
 验证方式：
 
 ```bash
-cd /media/lemonhdl/Shared/Software_Engineering/ARY/PoC_v2
+cd ./PoC_v2
 npm run verify
 ```
 
@@ -196,8 +196,8 @@ VERIFY_PASS ARY PoC_v2 role boundary holds
 
 本次实现过程记录：
 
-`/media/lemonhdl/Shared/Software_Engineering/ARY/coding-agent-sessions/session-03-poc-v2-claude-code.md`
-`/media/lemonhdl/Shared/Software_Engineering/ARY/coding-agent-sessions/session-04-rider-history-session.md`
+`./coding-agent-sessions/session-03-poc-v2-claude-code.md`
+`./coding-agent-sessions/session-04-rider-history-session.md`
 
 DevCompass 方向：
 
@@ -242,15 +242,15 @@ ARY 页面只展示：
 
 演示脚本：
 
-`/media/lemonhdl/Shared/Software_Engineering/ARY/PoC/DEMO_SCRIPT.md`
+`./PoC/DEMO_SCRIPT.md`
 
 项目说明：
 
-`/media/lemonhdl/Shared/Software_Engineering/ARY/PoC/README.md`
+`./PoC/README.md`
 
 构建回放记录：
 
-`/media/lemonhdl/Shared/Software_Engineering/ARY/coding-agent-sessions/session-02-claude-code.md`
+`./coding-agent-sessions/session-02-claude-code.md`
 
 ## 当前验证范围
 
@@ -263,3 +263,60 @@ ARY 页面只展示：
 - 参赛者提交后才触发评测
 - 数据可用时，提交会得到 mock 评测结果
 - 数据不可用时，提交会提示数据缺失
+
+## Week2 Jumbotron 当前交付状态（2026-06-13）
+
+内部仓库 `ARY/PoC-GRS-001` 已把 Week2 Jumbotron 主线接入现有 PoC 服务，当前证明重点从第一周的数据边界扩展为“可信赛事大屏 / 可校准赛道资产 / data profile 可复验”。
+
+当前可运行入口：
+
+```bash
+npm --prefix ./PoC-GRS-001 start
+```
+
+常用页面与 endpoint：
+
+```text
+http://127.0.0.1:4400/jumbotron
+http://127.0.0.1:4400/jumbotron?profile=full
+http://127.0.0.1:4400/jumbotron?profile=smoke-8
+http://127.0.0.1:4400/jumbotron?profile=coverage-9
+http://127.0.0.1:4400/jumbotron?debug=1&profile=full
+http://127.0.0.1:4400/jumbotron/calibrator
+http://127.0.0.1:4400/jumbotron/calibrator?demo=1
+http://127.0.0.1:4400/jumbotron/debug-preview.png
+http://127.0.0.1:4400/api/jumbotron-data-evidence?profile=full
+```
+
+已完成的 Week2 Jumbotron 交付状态：
+
+- `/jumbotron` 默认公开 Race Live View：Header / KPI Strip / 主赛道 / TOP3 / 现场播报 ticker / focus detail 已接入，默认赛道为已人工确认的 `real-explicit-closed-course`。
+- `profile=full|smoke-8|coverage-9` 已接入 runtime，分别对应完整压力 profile、低负载视觉 smoke profile、enum coverage/debug profile。
+- `/jumbotron?debug=1&profile=...` 与 `/api/jumbotron-data-evidence?profile=...` 已展示 dataProfileId、counts、motion/message coverage、publicHiddenFields、validatorStatus 与 lastMessage mapping evidence。
+- `/jumbotron/calibrator` 已形成 Track Profile Calibrator proof / demo walkthrough：展示底图来源、profile 来源、centerline / startFinish / direction / lanes / checkpoints 证据，以及 `progress → centerline distance → point/rotation → laneOffset → displayAdjustment` 运行链路。
+- `/jumbotron/calibrator?demo=1` 已提供可录屏的 Demo 路径，覆盖公开大屏、多个 Racing Entry、TOP3/KPI/message/risk、Calibrator、Validate/Export、profile 进入 runtime 和 PoC 边界说明。
+- Calibrator drag proof 已覆盖 centerline point、checkpoint、start/finish handle 与 zone 的 before/current/delta，并保留 SVG proof layer 证据。
+- Calibrator asset review 已有 `pending / confirmed / rejected` 三态：pending 不自动进入正式资产，rejected 不得进入正式大屏资产流程，confirmed 明确需要 human review 边界。
+- 第二赛道 `real-explicit-closed-course` 资产已由用户人工确认通过，并作为默认 `/jumbotron` 赛道；`/jumbotron?profile=full&track=default-public-track` 仍保留旧公开赛道显式切换入口。
+- Calibrator 已融合鼠标描线模式、候选导入、自动尖角修复证据和 candidate direct view；`/jumbotron/calibrator?candidate=real-explicit-closed-course` 使用受控 candidate asset route 与 1672×941 viewBox。
+- `/jumbotron/debug-preview.png` 已提供可引用 PNG 证据，包含 centerline、sampled points、messageZones / noBubbleZones / riskZones overlay、checkpoint 和 preview horse collision boxes。
+- Race Live View 已使用合作者 `background1.png`、第二赛道 `background.webp` 和 `rider3_run/walk/stay` 动态人马 sprite；位置仍由 `track.profile.json`、centerline、lane offset 和 runtime pose 驱动。
+- 人马 sprite 已限制为按轨道切向左右翻转，文字、编号、状态 pill 不镜像；fresh HTML 同时包含 `data-facing="left"` 与 `data-facing="right"`。
+- public/debug/API 均保持边界：不输出 raw `targetUrl`、raw `remoteCockpitUrl`、完整 Session log、private path、复杂 diff 或内部评分细则。
+
+当前验证摘要：
+
+```text
+VERIFY_PASS GRS001 creation disclosure lifecycle riding evidence result radar holds
+full validator: pass / 0 warnings
+smoke-8 validator: pass_with_expected_warnings / 5 expected warnings
+coverage-9 validator: pass / 0 warnings
+fresh /jumbotron label metrics: label=0, marker=0, bubble=0, out-of-viewbox=0
+fresh /jumbotron/calibrator: 200
+fresh /jumbotron/calibrator?demo=1: 200
+fresh /jumbotron/debug-preview.png: 200 image/png, PNG signature valid
+```
+
+仍不能伪装完成的项：最终 3 到 5 分钟 demo video 文件、正式多赛道资产管理流程和后续真实后端聚合。已撤回或未确认的历史候选如 `grandstand-oval`、`nonoval-curve-course` 不能再作为 confirmed 第二赛道；当前默认赛道以 `real-explicit-closed-course` 为准。
+
+当前远端内部仓库 `lemonhdl/ARY` 的 `main` 已更新到 `865893e6572bba232da8fcd88e2f6c7dc34b63cc`（`Update Week2 Jumbotron review records`）。后续若继续提交，需要再次检查 remote、GitHub 账号和当前工作树状态。

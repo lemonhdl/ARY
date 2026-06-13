@@ -1,0 +1,13 @@
+{
+  "trackId": "grandstand-oval",
+  "assetStatus": "withdrawn_invalid_oval_candidate",
+  "withdrawnAt": "2026-06-13",
+  "withdrawnReason": "该候选是通用椭圆赛道，违反用户“不要是椭圆赛道”和 riding record 中不要停留在旧通用椭圆的约束。",
+  "doNotUse": true,
+  "withdrawnFiles": [
+    "withdrawn-oval-background.webp",
+    "withdrawn-oval-preview.png",
+    "withdrawn-oval-real-background-candidate.png"
+  ],
+  "replacementCandidate": "../nonoval-curve-course/"
+}

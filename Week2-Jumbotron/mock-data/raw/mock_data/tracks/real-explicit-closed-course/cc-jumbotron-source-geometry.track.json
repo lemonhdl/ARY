@@ -1,0 +1,236 @@
+{
+  "schemaVersion": "cc-jumbotron-source-geometry.v1",
+  "trackId": "real-explicit-closed-course",
+  "sourceImage": "source-generated-image.png",
+  "viewBox": {
+    "x": 0,
+    "y": 0,
+    "width": 1672,
+    "height": 941
+  },
+  "centerline": {
+    "type": "polyline",
+    "closed": true,
+    "smoothing": "source-image-reviewed-polyline",
+    "points": [
+      {
+        "x": 304.04,
+        "y": 445.6
+      },
+      {
+        "x": 319.14,
+        "y": 410.3
+      },
+      {
+        "x": 350.78,
+        "y": 380.0
+      },
+      {
+        "x": 395.9,
+        "y": 350.0
+      },
+      {
+        "x": 455.9,
+        "y": 320.24
+      },
+      {
+        "x": 530.6,
+        "y": 294.6
+      },
+      {
+        "x": 615.6,
+        "y": 278.9
+      },
+      {
+        "x": 710.0,
+        "y": 277.84
+      },
+      {
+        "x": 804.7,
+        "y": 291.32
+      },
+      {
+        "x": 894.82,
+        "y": 325.6
+      },
+      {
+        "x": 981.76,
+        "y": 369.94
+      },
+      {
+        "x": 1065.42,
+        "y": 413.22
+      },
+      {
+        "x": 1155.9,
+        "y": 444.64
+      },
+      {
+        "x": 1259.82,
+        "y": 470.54
+      },
+      {
+        "x": 1360.56,
+        "y": 505.02
+      },
+      {
+        "x": 1438.62,
+        "y": 555.96
+      },
+      {
+        "x": 1491.82,
+        "y": 621.58
+      },
+      {
+        "x": 1494.06,
+        "y": 681.28
+      },
+      {
+        "x": 1447.42,
+        "y": 728.92
+      },
+      {
+        "x": 1358.5,
+        "y": 758.5
+      },
+      {
+        "x": 1244.7,
+        "y": 763.8
+      },
+      {
+        "x": 1124.7,
+        "y": 749.4
+      },
+      {
+        "x": 1000.0,
+        "y": 725.0
+      },
+      {
+        "x": 875.3,
+        "y": 701.08
+      },
+      {
+        "x": 755.6,
+        "y": 693.84
+      },
+      {
+        "x": 645.3,
+        "y": 700.66
+      },
+      {
+        "x": 540.6,
+        "y": 716.14
+      },
+      {
+        "x": 445.9,
+        "y": 703.38
+      },
+      {
+        "x": 366.26,
+        "y": 663.86
+      },
+      {
+        "x": 307.38,
+        "y": 605.58
+      },
+      {
+        "x": 272.52,
+        "y": 540.96
+      },
+      {
+        "x": 277.38,
+        "y": 490.3
+      }
+    ]
+  },
+  "direction": "cw",
+  "lanes": [
+    {
+      "laneId": "lane-1",
+      "offset": -50,
+      "label": "Lane 1"
+    },
+    {
+      "laneId": "lane-2",
+      "offset": -41,
+      "label": "Lane 2"
+    },
+    {
+      "laneId": "lane-3",
+      "offset": -32,
+      "label": "Lane 3"
+    },
+    {
+      "laneId": "lane-4",
+      "offset": -23,
+      "label": "Lane 4"
+    },
+    {
+      "laneId": "lane-5",
+      "offset": -14,
+      "label": "Lane 5"
+    },
+    {
+      "laneId": "lane-6",
+      "offset": -5,
+      "label": "Lane 6"
+    },
+    {
+      "laneId": "lane-7",
+      "offset": 5,
+      "label": "Lane 7"
+    },
+    {
+      "laneId": "lane-8",
+      "offset": 14,
+      "label": "Lane 8"
+    },
+    {
+      "laneId": "lane-9",
+      "offset": 23,
+      "label": "Lane 9"
+    },
+    {
+      "laneId": "lane-10",
+      "offset": 32,
+      "label": "Lane 10"
+    },
+    {
+      "laneId": "lane-11",
+      "offset": 41,
+      "label": "Lane 11"
+    },
+    {
+      "laneId": "lane-12",
+      "offset": 50,
+      "label": "Lane 12"
+    }
+  ],
+  "checkpoints": [
+    {
+      "checkpointId": "cp-start",
+      "s": 0.0,
+      "label": "Start / Finish"
+    },
+    {
+      "checkpointId": "cp-1",
+      "s": 0.25,
+      "label": "Complex Curve 1"
+    },
+    {
+      "checkpointId": "cp-2",
+      "s": 0.5,
+      "label": "Complex Curve 2"
+    },
+    {
+      "checkpointId": "cp-3",
+      "s": 0.75,
+      "label": "Complex Curve 3"
+    }
+  ],
+  "outputs": {
+    "overlay": "cc-jumbotron-source-geometry.overlay.png",
+    "mask": "cc-jumbotron-source-geometry.mask.png",
+    "validation": "cc-jumbotron-source-geometry.validation.json"
+  }
+}

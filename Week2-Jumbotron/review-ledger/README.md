@@ -4,10 +4,13 @@
 
 ## 标准
 
-只以两份源文档为准：
+只以三份核心文档为准：
 
-- `../docs/source/jumbotron-information-architecture.md`
-- `../docs/source/jumbotron-subsystem-definition.md`
+- `../docs/core/ARY GRS 002 Jumbotron 评审标准.md`
+- `../docs/core/Jumbotron信息架构.md`
+- `../docs/core/Jumbotron子系统定义.md`
+
+其中 `Jumbotron信息架构.md` 和 `Jumbotron子系统定义.md` 与原 `docs/source/` 两份源文档逐行一致，原有效阅读次数已无损迁移；新增评审标准文档从 0 次开始累计。
 
 ## 有效阅读
 
@@ -21,8 +24,9 @@
 
 ## 文件
 
-- `source-line-ledger.jsonl`：每个源文档行号的累计有效阅读次数和最近结论。
-- `review-events.jsonl`：每次审阅事件，记录引用行、实现证据、状态和发给 `cc-ARY` 的要求。
+- `source-line-ledger.jsonl`：每个核心文档行号的累计有效阅读次数和最近结论。
+- `source-line-ledger.before-three-core-docs.jsonl`：迁移到三文档口径前的两文档台账备份。
+- `review-events.jsonl`：每次审阅事件，记录引用行、实现证据、状态和发给 `cc-ARY` / `cc-data` 的要求。
 - `screenshots/`：每次页面截图审阅的全屏图、区域裁剪图和长屏图证据。
 
 ## 视觉审阅

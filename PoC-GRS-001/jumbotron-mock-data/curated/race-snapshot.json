@@ -590,7 +590,7 @@
       "source": "rider",
       "type": "violation",
       "severity": "warning",
-      "summary": "GreenRoute 未按模板提交 PRD，进入违规提示。",
+      "summary": "GreenRoute 未按模板提交 PRD，进入异常提示。",
       "createdAt": "2026-06-12T06:46:09.078562Z",
       "displayMode": "ticker",
       "targetUrl": "https://dcr.devcompass.dev/cockpit/ck-greenroute"

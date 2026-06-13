@@ -1,0 +1,380 @@
+{
+  "schemaVersion": "1.0.0",
+  "trackId": "explicit-closed-complex-course",
+  "name": "Explicit Closed Complex Course",
+  "viewBox": [
+    0,
+    0,
+    1672,
+    941
+  ],
+  "designSize": {
+    "width": 1672,
+    "height": 941
+  },
+  "background": {
+    "asset": "background.webp",
+    "preview": "preview.png",
+    "sourceImage": "source-controlled-render.png",
+    "credit": "cc-data 本地可控绘制生成的闭合复杂非普通椭圆赛道候选底图；底图只负责视觉，几何以 centerline 为准。",
+    "provenance": "asset-provenance.json",
+    "validation": "asset-validation.json"
+  },
+  "centerline": {
+    "type": "polyline",
+    "closed": true,
+    "smoothing": "catmull-rom",
+    "tension": 0.5,
+    "comment": "几何上明确闭合的复杂非普通椭圆中心线，由 cc-data 可控绘制；进入正式 flow 前需 Calibrator 人工复核。",
+    "points": [
+      [
+        260,
+        560
+      ],
+      [
+        220,
+        430
+      ],
+      [
+        305,
+        300
+      ],
+      [
+        470,
+        230
+      ],
+      [
+        650,
+        255
+      ],
+      [
+        790,
+        190
+      ],
+      [
+        960,
+        215
+      ],
+      [
+        1145,
+        270
+      ],
+      [
+        1345,
+        250
+      ],
+      [
+        1495,
+        370
+      ],
+      [
+        1440,
+        520
+      ],
+      [
+        1295,
+        590
+      ],
+      [
+        1375,
+        710
+      ],
+      [
+        1215,
+        805
+      ],
+      [
+        1010,
+        760
+      ],
+      [
+        850,
+        825
+      ],
+      [
+        660,
+        760
+      ],
+      [
+        540,
+        650
+      ],
+      [
+        405,
+        700
+      ],
+      [
+        285,
+        650
+      ]
+    ]
+  },
+  "direction": "cw",
+  "directionNote": "点序沿闭合复杂主道路顺时针推进；首尾明确相连成一圈，但不是普通椭圆/标准操场环道。",
+  "startFinish": {
+    "s": 0.0,
+    "x": 260,
+    "y": 560,
+    "label": "Start / Finish"
+  },
+  "lanes": [
+    {
+      "laneId": "lane-1",
+      "offset": -54,
+      "label": "Lane 1"
+    },
+    {
+      "laneId": "lane-2",
+      "offset": -44,
+      "label": "Lane 2"
+    },
+    {
+      "laneId": "lane-3",
+      "offset": -34,
+      "label": "Lane 3"
+    },
+    {
+      "laneId": "lane-4",
+      "offset": -24,
+      "label": "Lane 4"
+    },
+    {
+      "laneId": "lane-5",
+      "offset": -14,
+      "label": "Lane 5"
+    },
+    {
+      "laneId": "lane-6",
+      "offset": -5,
+      "label": "Lane 6"
+    },
+    {
+      "laneId": "lane-7",
+      "offset": 5,
+      "label": "Lane 7"
+    },
+    {
+      "laneId": "lane-8",
+      "offset": 14,
+      "label": "Lane 8"
+    },
+    {
+      "laneId": "lane-9",
+      "offset": 24,
+      "label": "Lane 9"
+    },
+    {
+      "laneId": "lane-10",
+      "offset": 34,
+      "label": "Lane 10"
+    },
+    {
+      "laneId": "lane-11",
+      "offset": 44,
+      "label": "Lane 11"
+    },
+    {
+      "laneId": "lane-12",
+      "offset": 54,
+      "label": "Lane 12"
+    }
+  ],
+  "checkpoints": [
+    {
+      "checkpointId": "cp-start",
+      "s": 0.0,
+      "label": "Start / Finish"
+    },
+    {
+      "checkpointId": "cp-1",
+      "s": 0.25,
+      "label": "Complex Curve 1"
+    },
+    {
+      "checkpointId": "cp-2",
+      "s": 0.5,
+      "label": "Complex Curve 2"
+    },
+    {
+      "checkpointId": "cp-3",
+      "s": 0.75,
+      "label": "Complex Curve 3"
+    }
+  ],
+  "messageZones": [
+    {
+      "zoneId": "zone-sky",
+      "rect": [
+        70,
+        46,
+        1532,
+        126
+      ],
+      "label": "顶部留白区"
+    },
+    {
+      "zoneId": "zone-mid",
+      "rect": [
+        560,
+        330,
+        560,
+        135
+      ],
+      "label": "中部留白区"
+    }
+  ],
+  "noBubbleZones": [
+    {
+      "zoneId": "nb-header",
+      "rect": [
+        0,
+        0,
+        1672,
+        82
+      ],
+      "label": "Header"
+    },
+    {
+      "zoneId": "nb-summary",
+      "rect": [
+        0,
+        82,
+        1672,
+        76
+      ],
+      "label": "TOP3 + KPI"
+    },
+    {
+      "zoneId": "nb-leftrail",
+      "rect": [
+        0,
+        170,
+        245,
+        611
+      ],
+      "label": "Left rail"
+    },
+    {
+      "zoneId": "nb-ticker",
+      "rect": [
+        0,
+        801,
+        1672,
+        64
+      ],
+      "label": "Ticker"
+    },
+    {
+      "zoneId": "nb-footer",
+      "rect": [
+        0,
+        865,
+        1672,
+        76
+      ],
+      "label": "Footer"
+    }
+  ],
+  "safeZones": [
+    {
+      "zoneId": "safe-track",
+      "polyline": [
+        [
+          260,
+          560
+        ],
+        [
+          220,
+          430
+        ],
+        [
+          305,
+          300
+        ],
+        [
+          470,
+          230
+        ],
+        [
+          650,
+          255
+        ],
+        [
+          790,
+          190
+        ],
+        [
+          960,
+          215
+        ],
+        [
+          1145,
+          270
+        ],
+        [
+          1345,
+          250
+        ],
+        [
+          1495,
+          370
+        ],
+        [
+          1440,
+          520
+        ],
+        [
+          1295,
+          590
+        ],
+        [
+          1375,
+          710
+        ],
+        [
+          1215,
+          805
+        ],
+        [
+          1010,
+          760
+        ],
+        [
+          850,
+          825
+        ],
+        [
+          660,
+          760
+        ],
+        [
+          540,
+          650
+        ],
+        [
+          405,
+          700
+        ],
+        [
+          285,
+          650
+        ]
+      ],
+      "lanePadding": 72,
+      "label": "闭合复杂主道路活动带"
+    }
+  ],
+  "meta": {
+    "laps": 1,
+    "minLaneCount": 1,
+    "laneCount": 12,
+    "validated": false,
+    "assetStatus": "withdrawn_superseded_by_real_explicit_closed_course",
+    "assetGeneratedAt": "2026-06-13",
+    "containsPlaceholderAssets": false,
+    "humanReviewRequired": true,
+    "visualReviewVerdict": "controlled render: explicitly closed complex loop, non-ordinary-oval, bright ice-blue/silver style, no embedded text/logo/watermark",
+    "doNotUse": true,
+    "replacementCandidate": "../real-explicit-closed-course/"
+  }
+}

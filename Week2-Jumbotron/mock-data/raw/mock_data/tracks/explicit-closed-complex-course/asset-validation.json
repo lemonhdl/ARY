@@ -1,0 +1,40 @@
+{
+  "trackId": "explicit-closed-complex-course",
+  "status": "withdrawn",
+  "checks": {
+    "backgroundExists": true,
+    "previewExists": true,
+    "profileExists": true,
+    "backgroundFormat": "WEBP",
+    "previewFormat": "PNG",
+    "backgroundSize": [
+      1672,
+      941
+    ],
+    "previewSize": [
+      1672,
+      941
+    ],
+    "backgroundBytes": 179796,
+    "previewBytes": 349585,
+    "backgroundNonBlankColorCount96x54": 1917,
+    "previewNonBlankColorCount96x54": 2402,
+    "meanRgb": [
+      221.0,
+      239.0,
+      241.0
+    ],
+    "profileReferencesResolve": true,
+    "centerlinePointCount": 20,
+    "laneCount": 12,
+    "isClosedCourse": true,
+    "startEndExplicitlyConnected": true,
+    "isOrdinaryOvalOrStadium": false,
+    "isTooMonotone": false,
+    "styleCloseToBackground1": true,
+    "containsPlaceholderAssets": false,
+    "doNotUse": true,
+    "reason": "superseded by user-approved /real-image-generation candidate real-explicit-closed-course",
+    "replacementCandidate": "../real-explicit-closed-course/"
+  }
+}

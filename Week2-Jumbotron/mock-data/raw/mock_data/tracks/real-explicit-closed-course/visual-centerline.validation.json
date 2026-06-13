@@ -1,0 +1,27 @@
+{
+  "trackId": "real-explicit-closed-course",
+  "status": "pass",
+  "generatedAt": "2026-06-13",
+  "method": "Pillow-only visual feature scan: seed centerline -> normal scan for ice-blue/silver road band -> circular smoothing -> perspective depth profile from y position.",
+  "checks": {
+    "sourceImage": "source-generated-image.png",
+    "visualCenterlinePointCount": 32,
+    "closedPointCountIncludingDuplicate": 33,
+    "isClosed": true,
+    "pathLength": 2748.6,
+    "minimumPathLengthThreshold": 671.51,
+    "pathLengthPassesThreshold": true,
+    "averageRoadnessAtPoints": 0.6721,
+    "minRoadnessAtPoints": -0.0916,
+    "maxTurnInteriorAngle": 179.18,
+    "pointsInsideViewBox": true,
+    "depthSamples": 32,
+    "hasNearMidFarBands": [
+      "far",
+      "mid",
+      "near"
+    ],
+    "usesExistingProfileOnlyAsSeed": true,
+    "containsPlaceholderAssets": false
+  }
+}

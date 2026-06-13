@@ -1,0 +1,88 @@
+{
+  "entries": [
+    {
+      "path": "background1.png",
+      "ext": ".png",
+      "kind": "image",
+      "bytes": 1936756,
+      "dimensions": [
+        1672,
+        941
+      ],
+      "sha256_16": "f628d7c0dd0bbfe0",
+      "mime": "image/png"
+    },
+    {
+      "path": "example.png",
+      "ext": ".png",
+      "kind": "image",
+      "bytes": 1865943,
+      "dimensions": [
+        1416,
+        820
+      ],
+      "sha256_16": "c9f7a91a59f5f137",
+      "mime": "image/png"
+    },
+    {
+      "path": "label.png",
+      "ext": ".png",
+      "kind": "image",
+      "bytes": 1324168,
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "sha256_16": "ee4c456a0a42456d",
+      "mime": "image/png"
+    },
+    {
+      "path": "rider3_run.png",
+      "ext": ".png",
+      "kind": "image",
+      "bytes": 2487555,
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "sha256_16": "984495e20fed1019",
+      "mime": "image/png"
+    },
+    {
+      "path": "rider3_stay.png",
+      "ext": ".png",
+      "kind": "image",
+      "bytes": 2876449,
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "sha256_16": "20909a8640e527be",
+      "mime": "image/png"
+    },
+    {
+      "path": "rider3_walk.png",
+      "ext": ".png",
+      "kind": "image",
+      "bytes": 2586408,
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "sha256_16": "0f43d4c1254a2482",
+      "mime": "image/png"
+    }
+  ],
+  "zip": "/home/lemonhdl/Documents/xwechat_files/wxid_ldfhq2k6ayeq22_844a/temp/RWTemp/2026-06/fb268d294e5bb129b9d2ff547c5b2e5a/resource.zip",
+  "extractedTo": "/media/lemonhdl/Shared/Software_Engineering/ARY/Week2-Jumbotron/assets/collaborator-resource-2026-06-12",
+  "fileCount": 6,
+  "totalBytes": 13077279,
+  "countsByKind": {
+    "image": 6
+  },
+  "countsByExt": {
+    ".png": 6
+  },
+  "overall": "partial",
+  "reviewRule": "只把视觉/几何/可复用运行时资产纳入 assets 完备性；不把 mock-data 类型覆盖混入 assets 判断。"
+}

@@ -1,0 +1,20 @@
+请生成一张 16:9 横向真实视觉资产，用作 ARY Jumbotron 的第二条赛道背景。必须是闭合成一圈的完整复杂赛道，但不能是普通椭圆、标准操场、圆环或对称 stadium oval。
+
+最重要的风格：高亮冰蓝、银白、浅灰、干净透明的未来赛事直播感。参考方向是已有 Jumbotron 资产 background1.png：明亮、清透、浅色道路、蓝白光感、曲线道路层次。不要暗黑工业风，不要深灰地形图，不要黑色赛道，不要脏污纹理。整体应像白天高质量大屏底图，清爽、现代、明亮。
+
+赛道形态硬约束：
+- 闭合 loop，首尾清楚连成一圈。
+- 非椭圆，非标准操场，非圆环，非对称 stadium oval。
+- 轮廓复杂：包含 S 弯、发卡弯、斜向穿行、局部收束、宽窄变化、不对称转向。
+- 主赛道是浅灰白/银白色宽阔曲线道路，可追踪，适合后续标注 centerline。
+- 图面要丰富但不乱：可以有玻璃看台、浅色护栏、蓝白灯带、草地/浅色地面、天空、远景结构，但主赛道必须清楚。
+- 顶部和中部保留较干净空间，便于叠加 rider sprites、状态徽标和气泡。
+
+禁忌：
+- 不要深色工业风、不要暗黑山地、不要黑色赛道、不要地形热力图、不要脏污复杂纹理。
+- 不要出现任何文字、字母、数字、中文、英文、logo、水印、品牌、广告牌、路牌、比分牌文字。
+- 不要出现马、骑手、人物特写、车辆。
+- 不要做成网页 UI、信息图、流程图、卡片、PPT、Markdown 或带文字说明的图。
+- 不要透明背景。
+
+负面约束：no dark industrial style, no black track, no dirty texture, no terrain map, no simple oval, no stadium oval, no athletic track, no symmetric loop, no circular ring, no text, no letters, no numbers, no logo, no watermark, no signage, no UI, no webpage, no diagram, no labels, no horse, no rider, no car, no crowd close-up.

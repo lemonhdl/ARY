@@ -1,0 +1,100 @@
+{
+  "schemaVersion": "1.0.0",
+  "trackId": "grandstand-oval",
+  "name": "Grandstand Oval",
+  "viewBox": [0, 0, 1920, 1080],
+  "designSize": { "width": 1920, "height": 1080 },
+  "background": {
+    "asset": "background.webp",
+    "preview": "preview.png",
+    "credit": "AI 生成的看台草地赛道底图（占位）。底图只负责视觉，几何以 centerline 为准。"
+  },
+  "centerline": {
+    "type": "polyline",
+    "closed": true,
+    "smoothing": "catmull-rom",
+    "tension": 0.5,
+    "comment": "顺序即赛道行进方向：起点在前直道右端(1740,610)，先上右弯 → 后直道由右向左 → 下左弯 → 前直道由左向右回到终点。前直道(底部,贴近观众)从左向右推进，领先者落在右侧，复刻高保真图构图。",
+    "points": [
+      [1740, 610],
+      [1681, 499],
+      [1512, 405],
+      [1259, 342],
+      [960, 320],
+      [661, 342],
+      [409, 405],
+      [239, 499],
+      [180, 610],
+      [239, 721],
+      [409, 815],
+      [661, 878],
+      [960, 900],
+      [1259, 878],
+      [1512, 815],
+      [1681, 721]
+    ]
+  },
+  "direction": "cw",
+  "directionNote": "在屏幕坐标系(y 向下)中为顺时针；前直道从左向右。",
+  "startFinish": {
+    "s": 0.0,
+    "x": 1740,
+    "y": 610,
+    "startLabel": "Start",
+    "finishLabel": "Finish"
+  },
+  "lanes": [
+    { "laneId": "lane-1", "offset": -88, "label": "Lane 1 (最内)" },
+    { "laneId": "lane-2", "offset": -72, "label": "Lane 2" },
+    { "laneId": "lane-3", "offset": -56, "label": "Lane 3" },
+    { "laneId": "lane-4", "offset": -40, "label": "Lane 4" },
+    { "laneId": "lane-5", "offset": -24, "label": "Lane 5" },
+    { "laneId": "lane-6", "offset": -8, "label": "Lane 6" },
+    { "laneId": "lane-7", "offset": 8, "label": "Lane 7" },
+    { "laneId": "lane-8", "offset": 24, "label": "Lane 8" },
+    { "laneId": "lane-9", "offset": 40, "label": "Lane 9" },
+    { "laneId": "lane-10", "offset": 56, "label": "Lane 10" },
+    { "laneId": "lane-11", "offset": 72, "label": "Lane 11" },
+    { "laneId": "lane-12", "offset": 88, "label": "Lane 12 (最外)" }
+  ],
+  "laneNote": "12 条车道，沿赛道法线偏移；负值偏内圈、正值偏外圈(前直道即贴近观众一侧)。相邻车道间距 16px，互不重复，覆盖 lane-1..lane-12。",
+  "checkpoints": [
+    { "checkpointId": "cp-start", "s": 0.0, "label": "Start / Finish" },
+    { "checkpointId": "cp-1", "s": 0.25, "label": "Far Turn" },
+    { "checkpointId": "cp-2", "s": 0.5, "label": "Back Straight" },
+    { "checkpointId": "cp-3", "s": 0.75, "label": "Home Straight" }
+  ],
+  "messageZones": [
+    {
+      "zoneId": "zone-sky",
+      "rect": [150, 150, 1620, 170],
+      "label": "顶部天空带：里程碑/冲刺类气泡优先落位"
+    },
+    {
+      "zoneId": "zone-infield",
+      "rect": [520, 470, 880, 150],
+      "label": "内场中心：常规播报气泡落位"
+    }
+  ],
+  "noBubbleZones": [
+    { "zoneId": "nb-header", "rect": [0, 0, 1920, 120], "label": "Header（标题/LIVE/计时）" },
+    { "zoneId": "nb-summary", "rect": [0, 120, 1920, 90], "label": "TOP3 + KPI 摘要行" },
+    { "zoneId": "nb-leftrail", "rect": [0, 210, 300, 690], "label": "左侧小地图 + 图例" },
+    { "zoneId": "nb-ticker", "rect": [0, 910, 1920, 90], "label": "底部风险/违章 ticker" },
+    { "zoneId": "nb-footer", "rect": [0, 1000, 1920, 80], "label": "Footer（主题/主办方/时间）" }
+  ],
+  "safeZones": [
+    {
+      "zoneId": "safe-track",
+      "ellipse": { "cx": 960, "cy": 610, "rx": 880, "ry": 380 },
+      "label": "赛马活动带（含 12 车道外圈与避让余量）"
+    }
+  ],
+  "meta": {
+    "laps": 1,
+    "minLaneCount": 1,
+    "laneCount": 12,
+    "validated": true,
+    "validationNote": "已对照《子系统定义》§9.1：schemaVersion/trackId/viewBox/background 齐备；闭合赛道 16(>=4) 点；direction 合法；startFinish.s 与全部 checkpoints.s ∈ [0,1]；lanes 12(>=1) 条且 offset 不重复；相邻采样点无异常跳变。lane-1..lane-12 与 race-snapshot.json 中 12 个 entry 的 laneId 一一对应。"
+  }
+}

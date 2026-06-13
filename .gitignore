@@ -3,3 +3,11 @@ dist/
 .tmp-feishu/
 *.log
 .DS_Store
+
+# Local visual review scratch captures
+PoC-GRS-001/jumbotron-*-review.png
+PoC-GRS-001/jumbotron-default-track-geometry-toggle.png
+PoC-GRS-001/jumbotron-geometry-hidden-track.png
+PoC-GRS-001/jumbotron-replay-status-hidden-review.png
+PoC-GRS-001/jumbotron-second-track-fit.png
+PoC-GRS-001/jumbotron-toolbar-bottom.png

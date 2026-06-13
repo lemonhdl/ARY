@@ -296,3 +296,452 @@ cc-Jumbotron 复审结论是 `hover tooltip / focus details` 本轮通过。我�
 - 复核两份源文档的核心交互、Race Live View IA、MVP 信息层级和 Debug / Calibrator 边界。
 - 采纳复审通过结论，本轮不再做代码改动。
 - 继续保留后续项：完整 Calibrator 设计时工具、弯道自然程度人工判定；若后续允许更复杂交互，可把 CSS / anchor MVP 升级为 pointer-follow tooltip、平滑选中态和键盘可访问增强。
+
+收到实现请求：`2026-06-11T14:47:09Z-cc-Jumbotron-accb420f`。
+
+cc-Jumbotron 基于 effective read ledger 追踪到剩余可实现缺口，要求按 5 个工作包继续补齐。我重新复核两份源文档后，判断该请求整体成立：子系统定义明确 Jumbotron 子系统由运行时 Race Live View 和设计时 Track Profile Calibrator 组成；信息架构要求公开大屏只保留 Race Live View，但数据契约、状态机、message 降噪、Track Profile validation 和视觉验收都需要有可复核实现证据。因此本轮继续实现，不 commit / push。
+
+本次实现动作：
+
+1. Calibrator MVP：新增 `/jumbotron/calibrator` 设计时入口，支持粘贴候选 TrackProfile JSON、编辑 centerline points、切换 direction / closed、设置 startFinish、编辑 lanes / checkpoints、Validate、Preview 和 Export track.profile.json。Preview 复用 `createJumbotronRuntime / sampleHorsePose`，Export JSON 包含 schemaVersion、trackId、name、viewBox、background、centerline、direction、startFinish、lanes、checkpoints、messageZones、noBubbleZones、riskZones 和 debug。
+2. 数据契约：在 Adapter 输出中明确 `caProvider` 是运行时契约字段，`primaryCA` 是展示标签；补齐 `costTokens`、`costUsd`、`obstacleCount`、`violationCount`、`updatedAt`、`currentPhase` 和 `status`，并新增 Competition / KPI / RacingEntrySnapshot 契约 validation。
+3. Runtime / 状态机 / message 降噪：保留 9 个 MVP motionState 映射，新增 `sampleInterpolatedPose` 作为 s-axis interpolation 证据；debug 输出展示 idle、running、sprinting、slowed、blocked、pit_stop、takeover、finished、stale；message plan 保留每 entry 1 条 bubble、全局 3 条、风险/里程碑优先和 ticker fallback 规则。
+4. Track Profile / Asset Validation：补方向、闭合/开放点数、startFinish.s、checkpoints.s、lane offset duplicate、NaN / Infinity、采样跳变、曲率 warning、profile version mismatch、background load failure、updatedAt、stale threshold、多马预览、bubble top-overlap、16:9 stable 和人工确认入口。当前已有两条示例 track profile，仍用现有公开资产作为 mock asset，不伪称正式冻结资产。
+5. 公开页 IA：默认 `/jumbotron` 继续隐藏 Calibrator Preview、Debug、Validation 和 HorsePose；Calibrator 只作为 footer 链接进入独立设计时入口，不挤压主赛道。后续需要重新生成 1920×1080 截图并记录 3 秒 / 10 秒看图结论。
+
+已更新文件：
+
+```text
+PoC-GRS-001/src/server.js
+PoC-GRS-001/src/verify.js
+Week2-Jumbotron/README.md
+riding_record/session-11-week2-jumbotron-framework.md
+```
+
+剩余缺口明确保留：
+
+- Calibrator 尚不支持拖拽点位、AI 候选导入、JSON diff preview、debug-preview.png 导出和真实资产冻结流程。
+- 弯道自然、多马重叠、气泡遮挡和 checkpoint 视觉语义目前提供人工确认入口，仍需真实人工审阅和资产同学补正式 track asset。
+
+验证结果：
+
+```bash
+npm --prefix /media/lemonhdl/Shared/Software_Engineering/ARY/PoC-GRS-001 run verify
+```
+
+结果：`VERIFY_PASS GRS001 creation disclosure lifecycle riding evidence result radar holds`
+
+Live smoke：
+
+```text
+JUMBOTRON_NEXT_GAP_SMOKE_PASS
+CALIBRATOR_POST_SMOKE_PASS
+```
+
+截图证据：
+
+```text
+Week2-Jumbotron/review-ledger/screenshots/2026-06-12-jumbotron-next-gap-fix/jumbotron-public-1920x1080.png
+Week2-Jumbotron/review-ledger/screenshots/2026-06-12-jumbotron-next-gap-fix/jumbotron-debug-1920x1600.png
+Week2-Jumbotron/review-ledger/screenshots/2026-06-12-jumbotron-next-gap-fix/jumbotron-calibrator-1920x1600.png
+```
+
+看图结论：公开 `/jumbotron` 3 秒内能识别 LIVE、赛事标题、阶段和在线 Rider；10 秒内能看懂主舞台是赛道主视觉、TOP3、Entry 位置、消息气泡和底部 ticker 共同表达赛事进展。Calibrator / Validation / Debug 没有回到默认首屏，仍通过独立入口或 `?debug=1` 延迟查看。
+
+收到复审消息：`2026-06-11T17:47:04Z-cc-Jumbotron-908afa7f`。
+
+cc-Jumbotron 复审结论是主体实现通过，但严格 validation 与人工确认仍为 partial。我重新复核两份源文档后，判断这 5 个 partial 项成立：子系统定义要求导出前校验 background、方向、lane、checkpoint、path、曲率，并要求 runtime 防御 background 加载失败；Visual Validation 要由 Calibrator 提供马在赛道上、弯道自然、多马严重重叠、气泡遮挡标题 / KPI / 顶部区域和 checkpoint 语义的人工确认。因此不能把“待人工复核”字符串当作通过，也不能只用文案证明 validation 存在。
+
+本次修正动作：
+
+1. 人工确认状态显式化：`manualChecks` 改为 `confirmed / pending / failed` 风格对象；`pending` 只显示“待人工复核”，不再通过 `manual curve confirmation`、`manual bubble clearance confirmation` 或 `manual checkpoint confirmation`。
+2. 多马预览 validation 改为实际 HorsePose 证据：检查 8 匹马数量、是否出 viewBox、相互最小距离、严重重叠和弯道方向数值有效，而不是只看 lane 数量。
+3. 背景验证拆分：`background file exists` 做真实静态文件存在检查；`background asset allowlist` 只表达当前允许的公开资产列表，不再把 allowlist 伪装成真实加载探测。
+4. 气泡顶部遮挡改成矩形估算：按 messageZones offset 和气泡宽高估算 bubble rect，并与顶部保留区相交检测，不再只用 `pose.y > 90`。
+5. `verify.js` 补 negative validation smoke：POST `/jumbotron/calibrator` 分别覆盖非法 direction、重复 lane offset、越界 checkpoint、坏 JSON、无效 background、过大转角 / 过短路径，断言页面出现失败态或 warning。
+
+验证结果：
+
+```bash
+npm --prefix /media/lemonhdl/Shared/Software_Engineering/ARY/PoC-GRS-001 run verify
+```
+
+结果：`VERIFY_PASS GRS001 creation disclosure lifecycle riding evidence result radar holds`
+
+```bash
+git -C /media/lemonhdl/Shared/Software_Engineering/ARY diff --check
+```
+
+结果：通过。
+
+本轮没有 commit / push。仍保留为后续 P1 的项：拖拽 centerline points、AI 候选点导入、JSON diff preview、debug-preview.png 导出、气泡区域 / no-bubble zone / risk zone 图形编辑和真实资产冻结流程。
+
+收到复审消息：`2026-06-12T05:00:33Z-cc-Jumbotron-6b0d1d4c`。
+
+cc-Jumbotron 复审结论是 strict validation 主体通过，但 `path length` 最小阈值和人工 confirmed 流程仍为 partial。我重新复核源文档后判断：`path length 大于最小阈值` 是明确 Track Profile Validation 要求，应该立即补；弯道自然和 checkpoint 语义属于 Calibrator 人工确认项，当前没有正式资产确认记录和 completed confirmed 流程，因此应继续保持 pending/partial，不应硬改成通过。
+
+本次修正动作：
+
+- 新增 `JUMBOTRON_MIN_PATH_LENGTH_RATIO`，用 `max(240px, viewBox 对角线 * 0.35)` 作为 MVP 最小路径长度阈值。
+- `validateTrackProfile` 的 `path length` 从 `> 0` 改为 `>= minimumTrackPathLength(viewBox)`，并新增 `path length minimum threshold` 校验项。
+- `verify.js` 新增 short-path negative smoke：POST `/jumbotron/calibrator` 使用 3 个相邻 1px 点构造过短路径，断言出现 `! 路径长度` 和 `! 路径长度最小阈值`。
+- README 更新 strict validation 范围，明确过短路径也进入 negative smoke。
+- 人工确认项继续保持 pending，不声称弯道自然和 checkpoint 语义完全 implemented。
+
+验证结果：
+
+```bash
+npm --prefix /media/lemonhdl/Shared/Software_Engineering/ARY/PoC-GRS-001 run verify
+```
+
+结果：`VERIFY_PASS GRS001 creation disclosure lifecycle riding evidence result radar holds`
+
+```bash
+git -C /media/lemonhdl/Shared/Software_Engineering/ARY diff --check
+```
+
+结果：通过。
+
+本轮没有 commit / push。
+
+本轮没有 commit / push。
+
+收到实现请求：`2026-06-12T05:54:46Z-cc-Jumbotron-535e0538`。
+
+cc-Jumbotron 不是继续复审 path length，而是按 effective read ledger 主动推动低覆盖行：Calibrator 的工具 IA、MVP 交互完整性、P1 显式边界，以及 Race Live View 容器 / Footer 完整性确认。我重新复核源文档后判断该请求成立：`jumbotron-subsystem-definition.md:213-276` 明确 Calibrator 四区、MVP 13 项和 P1 8 项；`jumbotron-information-architecture.md:241-335` 明确 Jumbotron Container、Race Live View 主舞台和 Footer 字段。
+
+本次实现动作：
+
+1. Calibrator 从单段表单推进为设计 / 资产生产工具：`/jumbotron/calibrator` 改为 Top Toolbar、Main Canvas、Right Inspector、Bottom Preview Bar 四区；Top Toolbar 明确 Import Background、Import Candidate Profile、Validate、Preview、Export。
+2. Main Canvas 显示 Background Layer、Centerline Layer、Control Points Layer、Lane Preview Layer、Checkpoint Layer、Horse Preview Layer、Message Bubble Preview Layer；Preview 继续复用 `createJumbotronRuntime / sampleHorsePose`。
+3. Right Inspector 按 Track Info、Geometry、Start / Finish、Direction、Lanes、Checkpoints、Message Bubble、Validation Results 分组；支持 background asset 选择 / 输入、centerline JSON 编辑、添加点、删除点、反转路径方向、closed、direction、startFinish、lanes、checkpoints、messageZones、noBubbleZones 和 riskZones。
+4. Bottom Preview Bar 增加 Progress Scrubber、Horse Count、Speed、Play / Pause、Scenario Presets；POST smoke 覆盖 scrubber 进度、多马数量和 scenario preset 状态。
+5. Calibrator P1 八项全部作为 pending backlog 显示：气泡区域编辑、no bubble zone 编辑、风险区域编辑、AI 候选点导入、自动检测尖角、自动分配 lanes、导出 debug-preview.png、JSON diff preview。不把拖拽、AI、diff、png 或真实资产 confirmed 伪装成完成。
+6. Race Live View Footer 保持 Theme、Organizer、Current Phase、Next Phase、System Time；默认 `/jumbotron` 继续以 Track Stage 为首屏最大视觉主体，Debug / Validation / Calibrator 不回默认首屏。
+
+更新文件：
+
+```text
+PoC-GRS-001/src/server.js
+PoC-GRS-001/src/verify.js
+Week2-Jumbotron/README.md
+riding_record/session-11-week2-jumbotron-framework.md
+Week2-Jumbotron/review-ledger/review-events.jsonl
+```
+
+验证结果：
+
+```bash
+npm --prefix /media/lemonhdl/Shared/Software_Engineering/ARY/PoC-GRS-001 run verify
+```
+
+结果：`VERIFY_PASS GRS001 creation disclosure lifecycle riding evidence result radar holds`
+
+```bash
+git -C /media/lemonhdl/Shared/Software_Engineering/ARY -c core.filemode=false diff --check
+```
+
+结果：通过。
+
+截图证据：
+
+```text
+Week2-Jumbotron/review-ledger/screenshots/2026-06-12-jumbotron-calibrator-ia-mvp-p1/jumbotron-public-1920x1080.png
+Week2-Jumbotron/review-ledger/screenshots/2026-06-12-jumbotron-calibrator-ia-mvp-p1/jumbotron-calibrator-1920x1600.png
+```
+
+看图结论：公开 `/jumbotron` 的 Header / KPI 仍是辅助状态信息，Track Stage 继续占据首屏最大视觉面积；Footer 在页面底部保留赛事状态、主题、主办方、阶段、下一步和系统时间。Calibrator 截图能看到顶部工具条、候选 profile / background 导入、主画布层、右侧 inspector 和底部 preview bar；P1 backlog 继续显式标为 pending。
+
+本轮没有 commit / push。
+
+收到复审消息：`2026-06-12T06:38:52Z-cc-Jumbotron-acc8e5e4`。
+
+cc-Jumbotron 复审结论是 Calibrator IA/MVP/P1 边界与 Race Live View Footer 证据主体通过，但 P1 八项、拖拽 centerline points、完整 smoothing、正式资产 confirmed 和 adapter 缺失数据负向 smoke 仍保持 partial/pending。我重新复核源文档后判断该结论成立：`jumbotron-subsystem-definition.md:267-276` 把 JSON diff preview 列为 P1 项，而它边界清楚、可 smoke、可截图；相比 zone editing 或 debug-preview.png，更适合作为本轮小目标先推进。
+
+本次实现动作：
+
+- 在 Calibrator workbench 中新增 imported profile 与 exported frozen candidate 的字段级差异计算，覆盖 trackId、name、background.src、centerline.closed、centerline.smoothing、centerline.points、direction、startFinish、lanes、checkpoints、messageZones、noBubbleZones 和 riskZones。
+- `/jumbotron/calibrator` 新增 `JSON diff preview` 面板，展示字段、Imported profile、Exported candidate 和 changed 状态；默认无差异时显示“暂无字段差异”。
+- P1 backlog 中只把 `JSON diff preview` 从 pending 改为 implemented，其余气泡区域编辑、no-bubble zone 编辑、风险区域编辑、AI 候选点导入、自动检测尖角、自动分配 lanes、导出 debug-preview.png 继续保持 pending。
+- `verify.js` 增加默认空 diff 和 add-point POST 后 `centerline.points` 差异的 smoke。
+
+验证结果：
+
+```bash
+node --check /media/lemonhdl/Shared/Software_Engineering/ARY/PoC-GRS-001/src/server.js
+npm --prefix /media/lemonhdl/Shared/Software_Engineering/ARY/PoC-GRS-001 run verify
+```
+
+结果：`VERIFY_PASS GRS001 creation disclosure lifecycle riding evidence result radar holds`
+
+仍 pending：拖拽 centerline points、完整 smoothing runtime / visual preview、正式资产 confirmed、气泡 / no-bubble / risk zone 画布编辑、AI 候选导入、自动检测尖角、自动分配 lanes、debug-preview.png 导出、malformed adapter input negative smoke。
+
+本轮没有 commit / push。
+
+## Iteration 13：主赛道信息密度与协作路由纠偏
+
+本轮输入由两类 prompt 共同构成：
+
+1. 用户直接 steer：继续以人类观看大屏的视角检查 `/jumbotron`，指出右侧侧边栏应改到左侧并与主视图等高；队伍名称 label 的逻辑 bbox 太大、Entry 与名称距离太远、可视白底文本框不必要；`Start / Finish`、`Far Turn`、`Back Straight`、`Home Straight` 等英文赛段术语不适合中文观众。
+2. cc-Jumbotron 来信概括：先确认 label bbox 自适应布局主体通过，但提醒 tie-break 表述与实现要对齐、label-bubble overlap 仍是 soft penalty；随后一度转发 data profile / debug / adapter checklist 给 cc-ARY，后在用户纠偏后撤回该请求，并确认 data checklist 应由 cc-data 自行实现，cc-ARY 不需要修改 runtime/debug/adapter。之后 cc-Jumbotron 又发来下一轮待处理 prompt：聚焦 `/jumbotron` Race Live View 的页面文案去重、可读性、美观、赛事大屏体验、label-bubble overlap、风险/阻碍/违规摘要和 drill-down 表达；该来信已作为后续实现输入记录，本节不把它写成已完成事项。
+
+本轮判断：这些不是新增功能，而是信息架构和视觉可读性的局部收敛。Jumbotron 面向现场观众，辅助栏、队伍名称和赛段文案都必须服务于“快速理解当前比赛在哪里、谁在什么位置、当前到了赛道哪一段”。因此应优先压缩视觉噪声和英文术语，而不是继续增加 debug 信息。
+
+实现动作：
+
+1. 左侧侧边栏：
+   - 将 Race Live View 的专属布局容器改为 `jumbotron-live-layout`，只影响公开 `/jumbotron`，避免误改 Calibrator 的 inspector 布局。
+   - 侧边栏放到左侧，主赛道放到右侧。
+   - 主视图和侧边栏使用同一行固定高度；侧边栏内容超出时在侧栏内部滚动，避免把主赛道整行撑高。
+
+2. 队伍名称 label 收紧：
+   - 将 horse label 字号从 18px 收到 16px。
+   - 将 label padding 从 `10 / 5` 收到 `6 / 3`。
+   - 将 inner / outer candidate gap 从 `38 / 72` 收到 `28 / 52`。
+   - 文本宽度估算同步收紧，减少队伍之间无意义空白。
+   - 保留 `data-label-x/y/width/height` 作为逻辑 bbox 供避让和 verify 使用，但移除公开 SVG 中的可见 `horse-label-bg` rect；最终画面只显示队伍名称文字本身。
+   - verify 改为断言不再渲染可见 label 背景框，同时继续检查逻辑 bbox、label-label overlap、label-marker overlap、viewBox 和完整 `displayName · progress%` 文本。
+
+3. checkpoint / Calibrator 文案：
+   - 将 curated `track.profile.json` 中 `Start / Finish` 改为 `终点线`。
+   - 将 Calibrator inspector 面板中的 `Start / Finish` 标题改为 `终点线`。
+   - 用户指出 `Far Turn`、`Back Straight`、`Home Straight` 不直观；本轮记录其含义分别是远端弯道、对面直道、终点直道。后续应优先改成中文赛段名，例如“第一弯道 / 对面直道 / 终点前弯道 / 冲刺直道”，避免让观众理解英文赛马术语。
+
+4. cc-Jumbotron / cc-data 路由纠偏：
+   - cc-Jumbotron 一度把 data profile / debug / adapter checklist 转给 cc-ARY 实现。
+   - 用户明确纠正：cc-data 负责的内容应让 cc-data 自己实现，不应转给 cc-ARY 代做。
+   - 我按用户决策回信 cc-Jumbotron，说明 cc-ARY 暂不接该任务；cc-Jumbotron 随后更正路由并撤回对 cc-ARY 的实现要求。
+   - 当前结论：cc-ARY 本轮不修改 `/jumbotron` runtime、debug panel 或 adapter；只有当 cc-data 已给出可复验输入 / 输出契约，并由 cc-Jumbotron 拆成明确 UI/runtime 小项后，才进入实现线。
+
+验证结果：
+
+```bash
+npm --prefix /media/lemonhdl/Shared/Software_Engineering/ARY/PoC-GRS-001 run verify
+```
+
+结果：`VERIFY_PASS GRS001 creation disclosure lifecycle riding evidence result radar holds`
+
+页面 smoke 结果：
+
+- `/jumbotron` 返回 200。
+- `/jumbotron/calibrator` 返回 200。
+- 页面已包含 `终点线`，不再包含 `Start / Finish` 或 `Start/Finish`。
+- label summary：`data-label-overlaps=0`、`data-label-marker-overlaps=0`、`data-label-out-of-viewbox=0`。
+- 公开 SVG 中不再渲染可见 `horse-label-bg` 文本框，但保留逻辑 bbox data attributes。
+
+截图证据：
+
+```text
+Week2-Jumbotron/review-ledger/screenshots/2026-06-12-jumbotron-left-sidebar/jumbotron-left-sidebar-equal-height-4419-1920x1080.png
+Week2-Jumbotron/review-ledger/screenshots/2026-06-12-jumbotron-compact-labels/jumbotron-left-sidebar-compact-labels-no-box-4419-1920x1080.png
+```
+
+本轮没有 commit / push。
+
+## Iteration 14：Race Live View 动态态势与现场感收敛
+
+本轮输入继续由两类 prompt 构成：
+
+1. 用户 steer：Jumbotron 审阅不能停滞；cc-Jumbotron 的来信可以概括后作为 prompt 的一部分，但 cc-data 的 data profile / debug / adapter checklist 仍必须由 cc-data 自己实现。
+2. cc-Jumbotron 来信概括：`2026-06-12T15:31:26Z-cc-Jumbotron-9a87db5c` 确认 Rider 比值和 data asset 边界小修通过，并派发下一批仅限 `/jumbotron` Race Live View UI/runtime 的任务：增强动态态势可见性、强化领先 / 追赶 / 风险叙事、增加轻量现场感动效、让 drill-down / focus detail 更贴近观众路径，同时明确不处理 cc-data、Calibrator、Validate / Export 或 Track Profile asset production。
+
+本轮判断：这是一组公开大屏视觉层和 runtime 派生规则收敛，不应新增数据源或 debug 面板。所有动态态势必须从现有 `RacingEntrySnapshot`、`RidingMessageSnapshot` 和 `AttentionItem` 字段派生，避免把 data-side 责任混入 cc-ARY 实现线。
+
+实现动作：
+
+1. 动态态势 marker：
+   - 新增 `jumbotronMotionStateShortLabel(state)`，把 `motionState` 派生为赛道 marker 上的短标签。
+   - 新增 `jumbotronHorseVisualClass(entry)`，从 `motionState / riskLevel / rank` 派生 `horse-state-*`、`horse-risk-*` 和 `horse-rank-leader`。
+   - `renderJumbotronTrack(...)` 为 horse marker 增加 `data-motion-state`、`data-risk-level`、状态短标签和 high / critical 风险的 `track-alert-ring`。
+
+2. 领先 / 追赶 / 风险叙事：
+   - 新增 `top3GapLabel(entry, entries)`，用 `roundProgress` 计算 TOP3 的 `领先` 或 `追 x% / 距首 y%`。
+   - 新增 `riskStatePill(entry)`，在侧栏队伍图例和进度快照中显示状态 / 风险 pill。
+   - attention 卡片按 severity 增加克制强调，只突出 high / critical 或 risk / obstacle / violation。
+
+3. 现场感动效：
+   - 新增低频 `@keyframes jumbotronLowPulse`。
+   - 仅用于 leader、sprinting、高风险 marker 和高优先级 attention；避免高频闪烁或影响 label / bubble 可读性。
+
+4. Focus detail：
+   - 队伍 focus card 改为优先展示排名、进度、阶段、分数、状态、风险和最近消息。
+   - 保持公开页边界，不展示完整 session、长日志、复杂 diff、raw `targetUrl` 或 raw `remoteCockpitUrl`。
+
+5. stale 修正：
+   - 复查 fresh HTML 时发现所有 marker 被历史 `updatedAt` 统一推断为 `stale`。
+   - 调整 `normalizeMotionState(state, updatedAt)` 优先级：显式合法 `motionState` 优先；只有缺失或非法状态且时间戳过期时才推断 `stale`。
+   - 重新启动 4419 后，fresh HTML 实际渲染出 `blocked / finished / idle / pit_stop / running / slowed / sprinting / stale / takeover`。
+
+验证结果：
+
+```bash
+npm --prefix /media/lemonhdl/Shared/Software_Engineering/ARY/PoC-GRS-001 run verify
+```
+
+结果：`VERIFY_PASS GRS001 creation disclosure lifecycle riding evidence result radar holds`
+
+Fresh `/jumbotron` 指标：
+
+- `data-label-overlaps=0`
+- `data-label-marker-overlaps=0`
+- `data-label-bubble-overlaps=0`
+- `data-label-out-of-viewbox=0`
+- 公开 HTML 不包含 `Far Turn / Back Straight / Home Straight / Remote Racing Cockpit / targetUrl / remoteCockpitUrl`。
+- 动效和态势证据包含 `horse-state-sprinting`、`horse-state-blocked`、`horse-state-takeover`、`horse-state-finished`、`horse-status-pill`、`track-alert-ring`、`gap-pill`、`最近消息：`、`jumbotronLowPulse`。
+
+截图证据：
+
+```text
+Week2-Jumbotron/review-ledger/screenshots/2026-06-12-jumbotron-dynamic-situation/jumbotron-dynamic-situation-4419-1920x1080.png
+```
+
+已按 mailbox 协议回信 cc-Jumbotron。本轮没有 commit / push。
+
+
+## Iteration 15：合作者资产接入、轨道重校准与左右朝向
+
+本轮输入来自两条线：
+
+1. 合作者提供 `resource.zip`，其中包含 Jumbotron 赛道底图候选和 rider visual candidates。
+2. 用户继续 steer：底图接入后，轨道不能仍停留在旧通用椭圆；同时人马 sprite 不能任意旋转，应只根据轨道切向选择朝左或朝右，文字和状态不镜像。
+
+判断与边界：底图是静态 Track Background，不是位置事实来源；排名、进度、label、bubble、消息和风险仍必须由 data profile、`track.profile.json`、track-runtime 与 runtime overlay 动态生成。`example.png` 和 `label.png` 没有接入为 runtime allowlist 资产，因为 label / ranking / bubble 不能写死进图片。
+
+实现与审阅结果：
+
+1. 合作者 assets 接入：
+   - 将可用 assets 接入 `PoC-GRS-001/assets/jumbotron/`。
+   - `/jumbotron` fresh HTML 包含 `track-background-image`、`background1.png`、`horse-rider-sprite` 和 `rider3_run/walk/stay`。
+   - `label.png` 未被 runtime 服务，避免静态 label 破坏动态 overlay。
+
+2. 轨道重校准：
+   - 更新 `PoC-GRS-001/jumbotron-mock-data/curated/track.profile.json` 的中心线 / `centerlinePath`，使赛马位置贴合 `background1.png` 的道路视觉。
+   - 继续保留 `track.profile.json` 为语义事实来源，底图只作为视觉皮肤。
+   - lane offset 保持多马展示能力，并通过 fresh label metrics 复核不引入遮挡。
+
+3. 左右朝向：
+   - runtime 继续计算 `pose.rotation` 作为轨道切向证据。
+   - 渲染层不再旋转整个人马 group，而是根据切向只输出 `data-facing="left"` / `data-facing="right"` 和 `scale(-1 1)` / `scale(1 1)`。
+   - rank text、status pill、label、tooltip 不进入翻转 group，避免文字镜像。
+
+验证结果：
+
+```bash
+npm --prefix /media/lemonhdl/Shared/Software_Engineering/ARY/PoC-GRS-001 run verify
+```
+
+结果：`VERIFY_PASS GRS001 creation disclosure lifecycle riding evidence result radar holds`
+
+Fresh HTML / asset 检查：
+
+- `/assets/jumbotron/background1.png` 返回 200。
+- `/assets/jumbotron/rider3_run.png`、`rider3_walk.png`、`rider3_stay.png` 返回 200。
+- `/assets/jumbotron/label.png` 返回 404，符合 runtime allowlist 边界。
+- `/jumbotron` 同时包含 `data-facing="left"` 和 `data-facing="right"`。
+- `/jumbotron` 包含 `scale(-1 1)` 与 `scale(1 1)`，不再出现旋转 horse group、逆旋转 rank text 或逆旋转 status pill。
+- fresh label metrics：`label=0`、`marker=0`、`bubble=0`、`out-of-viewbox=0`。
+
+截图与 HTML 证据：
+
+```text
+Week2-Jumbotron/review-ledger/screenshots/2026-06-13-jumbotron-assets-integration/jumbotron-assets-integration-1920x1080.png
+Week2-Jumbotron/review-ledger/screenshots/2026-06-13-jumbotron-assets-integration/jumbotron-assets-integration.html
+Week2-Jumbotron/review-ledger/screenshots/2026-06-13-jumbotron-track-facing/jumbotron-track-facing-1920x1080.png
+Week2-Jumbotron/review-ledger/screenshots/2026-06-13-jumbotron-track-facing/jumbotron-track-facing.html
+```
+
+当前结论：公开 `/jumbotron` 已形成 “data profile → adapter → track-runtime → semantic track profile → visual background / dynamic sprite overlay” 的可复验链路。仍不能把“至少两条可用示例赛道资产”判为完成；当前只证明了合作者单条底图资产的 runtime 接入、轨道校准和左右朝向收敛。
+
+## Iteration 16：Calibrator / Jumbotron readiness 收口
+
+本轮输入来自 cc-Jumbotron 对三份核心文档有效阅读记录的持续追踪：Calibrator 校准流程、Demo 可复现路径、debug preview、asset confirmed 边界和多赛道资产能力仍是高分薄弱项。cc-Jumbotron 分多轮向 cc-ARY 派发小闭环任务，并要求每轮既复核通过，也继续推动下一步，直到真实 pending 项无法再用当前输入推进。
+
+本轮完成并复核通过的小闭环：
+
+1. Calibrator proof / demo walkthrough：`/jumbotron/calibrator` 展示底图来源、profile 来源、centerline / startFinish / direction / lanes / checkpoints 证据；`/jumbotron/calibrator?demo=1` 展示推荐录制路径；proof chain 明确 `progress → centerline distance → point/rotation → laneOffset → displayAdjustment`。
+2. Calibrator drag proof：centerline point、checkpoint、start/finish handle 和 zone 拖拽时展示 before/current/delta；SVG proof layer 保留 before → current 线或 ghost rect；headless Chrome 已完成真实 pointerdown → pointermove → pointerup 小闭环。
+3. Asset review 三态：默认 `pending human review`；`rejected` 不允许进入正式大屏资产流程；`confirmed` 必须显示 human review 边界；`Use in Jumbotron` 区分 candidate preview 与 confirmed asset。
+4. `debug-preview.png`：`/jumbotron/debug-preview.png` 返回 `image/png`，PNG signature 正确；PNG 覆盖 centerline、18 个 sampled points、messageZones / noBubbleZones / riskZones overlay、checkpoint 和 preview horse collision boxes。
+5. UI/runtime 前序关键点保持通过：公开 `/jumbotron` 默认仍是 Race Live View；label / marker / bubble / out-of-viewbox metrics 为 0；dynamic ambience、bubble queue、geometry mapping、noBubbleZones 避让、左侧抽屉和 public boundary 已通过前序复核。
+
+证据路径：
+
+```text
+Week2-Jumbotron/review-ledger/screenshots/2026-06-13-jumbotron-calibrator-proof/jumbotron-live-4419-1920x1080.png
+Week2-Jumbotron/review-ledger/screenshots/2026-06-13-jumbotron-calibrator-proof/calibrator-demo-proof-4419-1920x1080.png
+Week2-Jumbotron/review-ledger/screenshots/2026-06-13-jumbotron-calibrator-drag-proof/calibrator-drag-proof-4419-1920x1080.png
+Week2-Jumbotron/review-ledger/screenshots/2026-06-13-jumbotron-asset-review-status/calibrator-asset-confirmed-4461-1920x1080.png
+Week2-Jumbotron/review-ledger/screenshots/2026-06-13-jumbotron-debug-preview-export/debug-preview.png
+```
+
+验证摘要：
+
+```bash
+npm --prefix /media/lemonhdl/Shared/Software_Engineering/ARY/PoC-GRS-001 run verify
+```
+
+结果：`VERIFY_PASS GRS001 creation disclosure lifecycle riding evidence result radar holds`。
+
+Fresh route 最近复核：`/jumbotron`、`/jumbotron/calibrator`、`/jumbotron/calibrator?demo=1` 均返回 200；`/jumbotron/debug-preview.png` 返回 200、`image/png` 且 PNG signature 正确。公开页继续不展示 raw `targetUrl`、raw `remoteCockpitUrl`、private local path、`.claude`、完整 Session 或复杂 diff。
+
+负向收口：`Week2-Jumbotron/mock-data/raw/mock_data/tracks/grandstand-oval/` 目前只有 `track.profile.json` 和 `notes.md`，缺少 `background.webp` 与 `preview.png`；`notes.md` 明确两者是占位并等待 AI-assisted Asset Pipeline 替换。因此 `grandstand-oval` 只能保留为 raw profile candidate，不能接入 `/jumbotron` 或标为 confirmed 第二赛道。
+
+仍 pending：第二条完整赛道资产、AI 候选点导入、自动尖角修复、正式多赛道资产切换和最终 demo video 文件。本轮没有 commit / push。
+
+## Iteration 17：公开 Jumbotron 文案与交互层级纠偏
+
+本轮由用户在 `http://127.0.0.1:4400/jumbotron` 逐屏审阅公开大屏时连续触发。核心 Steering 是：公开 Jumbotron 面向现场观众，不应出现开发者解释、资产审核状态、内部边界说明、假入口或看似可点击但无有效承接的按钮；视觉交互也必须符合大屏观看直觉。
+
+用户观察与纠偏：
+
+1. “队伍现场”按钮看起来可点击，但点击后只是跳到页脚 `#remote-cockpit` 占位抽屉，内容没有新的队伍现场信息。
+2. 队伍图标 hover 出来的二级菜单被其它队伍图标遮挡，说明 SVG 内部层级没有随 hover/focus 提升。
+3. “当前赛道已确认。”属于赛道资产审核状态，对观众没有意义，不应该出现在公开主视觉或赛道选择卡片中。
+4. “展示边界 / 只展示摘要 / 不展开原始记录、终端输出、长文本评论或代码差异”仍是内部说明式文字，不应该作为公开首页内容出现。
+
+判断过程：
+
+- 对照三份 Jumbotron 核心文档，`Race Live View` 的价值是让观众快速理解比赛进度、领先关系、关键动态和异常情况；允许 drill-down，但 drill-down 应进入焦点详情或公开摘要，而不是暴露完整协作系统或开发边界说明。
+- 对照 GRS001 PRD，Rider 完整过程默认留在本地或队伍侧，ARY/Jumbotron 只能展示授权后的公开摘要、回放关键事件和结果画像。因此空的“队伍现场”入口既没有产品承接，也容易暗示错误能力。
+- SVG 中 `z-index` 对同一 SVG 绘制树不可靠，hover tooltip 被遮挡时，正确做法是在 `pointerover/focusin` 时把当前 `.jumbotron-focus-source` 节点移动到父节点末尾，使其按 SVG 绘制顺序置顶。
+
+实现动作：
+
+- `PoC-GRS-001/src/server.js`
+  - 在 Jumbotron 前端脚本中新增 `liftFocusSource(target)`，监听 `pointerover` 与 `focusin`，将当前 `.jumbotron-focus-source` 追加到父节点末尾，保证 hover/focus 的队伍图标和 tooltip 位于最上层。
+  - 删除主赛道标题下的 `candidateNotice`，不再显示“当前赛道已确认。”或候选确认说明。
+  - 将赛道选择卡片里的资产审核文案改成观众可理解的状态：“正在用于当前大屏。”和“可切换用于当前大屏。”
+  - 删除底部 ticker 中的“队伍现场”假入口。
+  - 精简公开页 footer：移除“展示边界”“赛道模板”“队伍现场 / 公开现场摘要”抽屉；公开页只保留真正的赛事状态。
+  - `/jumbotron/calibrator` 工具入口只在 `?debug=1` 审阅模式出现，不再默认暴露给公开观众。
+- `PoC-GRS-001/src/verify.js`
+  - 增加或反转防回归断言，禁止公开 `/jumbotron` 出现“当前赛道已确认。”、“展示边界”、“只展示摘要”、“不展开原始记录”、“终端输出”、“长文本评论”、“代码差异”、“队伍现场”、“公开现场摘要”、“系统时间”和默认 `/jumbotron/calibrator` 链接。
+  - 保留 debug 模式对 Calibrator 工具入口的验证，避免公开页与审阅工具边界混淆。
+
+验证结果：
+
+```bash
+ARY_GRS001_PORT=4550 ARY_GRS001_ORGANIZER_PORT=4551 npm --prefix /media/lemonhdl/Shared/Software_Engineering/ARY/PoC-GRS-001 run verify
+```
+
+结果：
+
+```text
+VERIFY_PASS GRS001 creation disclosure lifecycle riding evidence result radar holds
+```
+
+浏览器与页面复核：
+
+- 通过 DevTools 触发主赛道队伍图标 `pointerover`，目标 SVG `<a class="jumbotron-focus-source">` 从非末尾节点变为父节点末尾，`afterLast: true`，确认 hover/focus 层级提升生效。
+- 重启 4400 页面服务后，用 fresh `/jumbotron` HTML 扫描禁用文案，命中列表为空：
+
+```json
+{
+  "status": 200,
+  "hits": []
+}
+```
+
+本轮 Riding 证据：用户通过截图指出观众视角下的“假交互”和“解释型文字”问题；Agent 没有继续为旧文案辩护，而是回到核心文档判断公开大屏应展示什么、哪些内容只属于 debug/review 模式，并用自动验证与浏览器层级检查防止回归。
+
+当前边界：本轮没有 commit / push；只更新 `PoC-GRS-001/src/server.js`、`PoC-GRS-001/src/verify.js` 和本 riding record。

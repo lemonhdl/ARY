@@ -1,0 +1,1907 @@
+{
+  "source": "/media/lemonhdl/Shared/Software_Engineering/ARY/Week2-Jumbotron/assets/collaborator-resource-2026-06-12/background1.png",
+  "size": [
+    1672,
+    941
+  ],
+  "workSize": [
+    418,
+    235
+  ],
+  "summary": [
+    {
+      "rgb": [
+        246,
+        250,
+        253
+      ],
+      "total": 16641,
+      "lum": 249.7,
+      "chroma": 7,
+      "blueMinusRed": 7,
+      "blueMinusGreen": 3,
+      "components": [
+        {
+          "count": 9829,
+          "bboxSmall": [
+            127,
+            0,
+            418,
+            201
+          ]
+        },
+        {
+          "count": 3739,
+          "bboxSmall": [
+            258,
+            52,
+            347,
+            168
+          ]
+        },
+        {
+          "count": 431,
+          "bboxSmall": [
+            380,
+            0,
+            418,
+            22
+          ]
+        },
+        {
+          "count": 268,
+          "bboxSmall": [
+            118,
+            97,
+            138,
+            152
+          ]
+        },
+        {
+          "count": 212,
+          "bboxSmall": [
+            70,
+            48,
+            92,
+            87
+          ]
+        },
+        {
+          "count": 190,
+          "bboxSmall": [
+            297,
+            205,
+            345,
+            210
+          ]
+        },
+        {
+          "count": 188,
+          "bboxSmall": [
+            106,
+            162,
+            194,
+            168
+          ]
+        },
+        {
+          "count": 123,
+          "bboxSmall": [
+            407,
+            48,
+            418,
+            71
+          ]
+        },
+        {
+          "count": 119,
+          "bboxSmall": [
+            198,
+            165,
+            251,
+            169
+          ]
+        },
+        {
+          "count": 114,
+          "bboxSmall": [
+            0,
+            142,
+            47,
+            172
+          ]
+        },
+        {
+          "count": 86,
+          "bboxSmall": [
+            0,
+            222,
+            13,
+            235
+          ]
+        },
+        {
+          "count": 77,
+          "bboxSmall": [
+            104,
+            34,
+            145,
+            42
+          ]
+        }
+      ]
+    },
+    {
+      "rgb": [
+        229,
+        233,
+        243
+      ],
+      "total": 14946,
+      "lum": 235.0,
+      "chroma": 14,
+      "blueMinusRed": 14,
+      "blueMinusGreen": 10,
+      "components": [
+        {
+          "count": 5833,
+          "bboxSmall": [
+            135,
+            63,
+            276,
+            156
+          ]
+        },
+        {
+          "count": 2566,
+          "bboxSmall": [
+            179,
+            8,
+            272,
+            54
+          ]
+        },
+        {
+          "count": 1379,
+          "bboxSmall": [
+            76,
+            41,
+            147,
+            161
+          ]
+        },
+        {
+          "count": 1269,
+          "bboxSmall": [
+            226,
+            219,
+            380,
+            235
+          ]
+        },
+        {
+          "count": 648,
+          "bboxSmall": [
+            134,
+            158,
+            259,
+            166
+          ]
+        },
+        {
+          "count": 170,
+          "bboxSmall": [
+            371,
+            202,
+            394,
+            224
+          ]
+        },
+        {
+          "count": 170,
+          "bboxSmall": [
+            405,
+            203,
+            418,
+            229
+          ]
+        },
+        {
+          "count": 144,
+          "bboxSmall": [
+            406,
+            166,
+            418,
+            194
+          ]
+        },
+        {
+          "count": 141,
+          "bboxSmall": [
+            0,
+            0,
+            17,
+            10
+          ]
+        },
+        {
+          "count": 120,
+          "bboxSmall": [
+            394,
+            226,
+            418,
+            235
+          ]
+        },
+        {
+          "count": 117,
+          "bboxSmall": [
+            54,
+            124,
+            67,
+            140
+          ]
+        },
+        {
+          "count": 115,
+          "bboxSmall": [
+            147,
+            95,
+            166,
+            110
+          ]
+        }
+      ]
+    },
+    {
+      "rgb": [
+        213,
+        218,
+        230
+      ],
+      "total": 9550,
+      "lum": 220.3,
+      "chroma": 17,
+      "blueMinusRed": 17,
+      "blueMinusGreen": 12,
+      "components": [
+        {
+          "count": 3527,
+          "bboxSmall": [
+            0,
+            0,
+            75,
+            144
+          ]
+        },
+        {
+          "count": 2013,
+          "bboxSmall": [
+            86,
+            213,
+            297,
+            235
+          ]
+        },
+        {
+          "count": 1572,
+          "bboxSmall": [
+            0,
+            111,
+            44,
+            167
+          ]
+        },
+        {
+          "count": 345,
+          "bboxSmall": [
+            0,
+            166,
+            22,
+            215
+          ]
+        },
+        {
+          "count": 293,
+          "bboxSmall": [
+            56,
+            222,
+            97,
+            235
+          ]
+        },
+        {
+          "count": 155,
+          "bboxSmall": [
+            4,
+            213,
+            30,
+            235
+          ]
+        },
+        {
+          "count": 57,
+          "bboxSmall": [
+            87,
+            4,
+            119,
+            11
+          ]
+        },
+        {
+          "count": 46,
+          "bboxSmall": [
+            337,
+            224,
+            375,
+            226
+          ]
+        },
+        {
+          "count": 43,
+          "bboxSmall": [
+            266,
+            8,
+            309,
+            9
+          ]
+        },
+        {
+          "count": 40,
+          "bboxSmall": [
+            342,
+            216,
+            365,
+            221
+          ]
+        },
+        {
+          "count": 37,
+          "bboxSmall": [
+            137,
+            44,
+            156,
+            60
+          ]
+        },
+        {
+          "count": 35,
+          "bboxSmall": [
+            208,
+            156,
+            241,
+            158
+          ]
+        }
+      ]
+    },
+    {
+      "rgb": [
+        163,
+        179,
+        204
+      ],
+      "total": 9135,
+      "lum": 182.0,
+      "chroma": 41,
+      "blueMinusRed": 41,
+      "blueMinusGreen": 25,
+      "components": [
+        {
+          "count": 4197,
+          "bboxSmall": [
+            245,
+            29,
+            380,
+            167
+          ]
+        },
+        {
+          "count": 370,
+          "bboxSmall": [
+            199,
+            207,
+            309,
+            218
+          ]
+        },
+        {
+          "count": 264,
+          "bboxSmall": [
+            110,
+            206,
+            201,
+            212
+          ]
+        },
+        {
+          "count": 247,
+          "bboxSmall": [
+            19,
+            197,
+            60,
+            220
+          ]
+        },
+        {
+          "count": 190,
+          "bboxSmall": [
+            207,
+            199,
+            355,
+            205
+          ]
+        },
+        {
+          "count": 120,
+          "bboxSmall": [
+            105,
+            26,
+            151,
+            39
+          ]
+        },
+        {
+          "count": 113,
+          "bboxSmall": [
+            189,
+            67,
+            223,
+            75
+          ]
+        },
+        {
+          "count": 84,
+          "bboxSmall": [
+            117,
+            204,
+            201,
+            205
+          ]
+        },
+        {
+          "count": 80,
+          "bboxSmall": [
+            113,
+            211,
+            157,
+            213
+          ]
+        },
+        {
+          "count": 65,
+          "bboxSmall": [
+            277,
+            172,
+            325,
+            175
+          ]
+        },
+        {
+          "count": 58,
+          "bboxSmall": [
+            76,
+            120,
+            88,
+            131
+          ]
+        },
+        {
+          "count": 56,
+          "bboxSmall": [
+            356,
+            36,
+            379,
+            55
+          ]
+        }
+      ]
+    },
+    {
+      "rgb": [
+        141,
+        153,
+        173
+      ],
+      "total": 5756,
+      "lum": 155.7,
+      "chroma": 32,
+      "blueMinusRed": 32,
+      "blueMinusGreen": 20,
+      "components": [
+        {
+          "count": 1366,
+          "bboxSmall": [
+            316,
+            157,
+            386,
+            200
+          ]
+        },
+        {
+          "count": 1203,
+          "bboxSmall": [
+            222,
+            175,
+            294,
+            201
+          ]
+        },
+        {
+          "count": 652,
+          "bboxSmall": [
+            57,
+            18,
+            122,
+            70
+          ]
+        },
+        {
+          "count": 452,
+          "bboxSmall": [
+            144,
+            22,
+            181,
+            56
+          ]
+        },
+        {
+          "count": 401,
+          "bboxSmall": [
+            99,
+            116,
+            123,
+            154
+          ]
+        },
+        {
+          "count": 174,
+          "bboxSmall": [
+            351,
+            132,
+            372,
+            171
+          ]
+        },
+        {
+          "count": 127,
+          "bboxSmall": [
+            110,
+            172,
+            202,
+            175
+          ]
+        },
+        {
+          "count": 117,
+          "bboxSmall": [
+            207,
+            202,
+            276,
+            204
+          ]
+        },
+        {
+          "count": 82,
+          "bboxSmall": [
+            223,
+            62,
+            237,
+            73
+          ]
+        },
+        {
+          "count": 66,
+          "bboxSmall": [
+            359,
+            80,
+            373,
+            89
+          ]
+        },
+        {
+          "count": 51,
+          "bboxSmall": [
+            180,
+            55,
+            193,
+            64
+          ]
+        },
+        {
+          "count": 34,
+          "bboxSmall": [
+            276,
+            177,
+            292,
+            182
+          ]
+        }
+      ]
+    },
+    {
+      "rgb": [
+        236,
+        242,
+        250
+      ],
+      "total": 5401,
+      "lum": 242.7,
+      "chroma": 14,
+      "blueMinusRed": 14,
+      "blueMinusGreen": 8,
+      "components": [
+        {
+          "count": 1073,
+          "bboxSmall": [
+            246,
+            81,
+            286,
+            155
+          ]
+        },
+        {
+          "count": 982,
+          "bboxSmall": [
+            219,
+            139,
+            323,
+            169
+          ]
+        },
+        {
+          "count": 356,
+          "bboxSmall": [
+            389,
+            158,
+            414,
+            205
+          ]
+        },
+        {
+          "count": 298,
+          "bboxSmall": [
+            267,
+            15,
+            309,
+            32
+          ]
+        },
+        {
+          "count": 118,
+          "bboxSmall": [
+            260,
+            10,
+            278,
+            24
+          ]
+        },
+        {
+          "count": 81,
+          "bboxSmall": [
+            81,
+            45,
+            98,
+            55
+          ]
+        },
+        {
+          "count": 80,
+          "bboxSmall": [
+            112,
+            156,
+            128,
+            167
+          ]
+        },
+        {
+          "count": 66,
+          "bboxSmall": [
+            192,
+            82,
+            214,
+            88
+          ]
+        },
+        {
+          "count": 60,
+          "bboxSmall": [
+            0,
+            8,
+            13,
+            16
+          ]
+        },
+        {
+          "count": 56,
+          "bboxSmall": [
+            16,
+            0,
+            28,
+            8
+          ]
+        },
+        {
+          "count": 52,
+          "bboxSmall": [
+            403,
+            64,
+            410,
+            83
+          ]
+        },
+        {
+          "count": 39,
+          "bboxSmall": [
+            142,
+            11,
+            164,
+            20
+          ]
+        }
+      ]
+    },
+    {
+      "rgb": [
+        225,
+        228,
+        238
+      ],
+      "total": 5199,
+      "lum": 230.3,
+      "chroma": 13,
+      "blueMinusRed": 13,
+      "blueMinusGreen": 10,
+      "components": [
+        {
+          "count": 2506,
+          "bboxSmall": [
+            138,
+            79,
+            202,
+            156
+          ]
+        },
+        {
+          "count": 1359,
+          "bboxSmall": [
+            83,
+            46,
+            156,
+            95
+          ]
+        },
+        {
+          "count": 277,
+          "bboxSmall": [
+            229,
+            222,
+            268,
+            235
+          ]
+        },
+        {
+          "count": 144,
+          "bboxSmall": [
+            190,
+            20,
+            209,
+            36
+          ]
+        },
+        {
+          "count": 144,
+          "bboxSmall": [
+            392,
+            216,
+            414,
+            235
+          ]
+        },
+        {
+          "count": 110,
+          "bboxSmall": [
+            134,
+            158,
+            172,
+            165
+          ]
+        },
+        {
+          "count": 78,
+          "bboxSmall": [
+            249,
+            217,
+            292,
+            220
+          ]
+        },
+        {
+          "count": 75,
+          "bboxSmall": [
+            347,
+            215,
+            375,
+            224
+          ]
+        },
+        {
+          "count": 27,
+          "bboxSmall": [
+            174,
+            75,
+            183,
+            83
+          ]
+        },
+        {
+          "count": 21,
+          "bboxSmall": [
+            141,
+            139,
+            146,
+            146
+          ]
+        },
+        {
+          "count": 20,
+          "bboxSmall": [
+            97,
+            50,
+            104,
+            56
+          ]
+        }
+      ]
+    },
+    {
+      "rgb": [
+        177,
+        203,
+        227
+      ],
+      "total": 5102,
+      "lum": 202.3,
+      "chroma": 50,
+      "blueMinusRed": 50,
+      "blueMinusGreen": 24,
+      "components": [
+        {
+          "count": 274,
+          "bboxSmall": [
+            13,
+            178,
+            87,
+            221
+          ]
+        },
+        {
+          "count": 266,
+          "bboxSmall": [
+            307,
+            39,
+            360,
+            79
+          ]
+        },
+        {
+          "count": 147,
+          "bboxSmall": [
+            191,
+            69,
+            235,
+            80
+          ]
+        },
+        {
+          "count": 144,
+          "bboxSmall": [
+            304,
+            211,
+            350,
+            218
+          ]
+        },
+        {
+          "count": 133,
+          "bboxSmall": [
+            309,
+            96,
+            327,
+            142
+          ]
+        },
+        {
+          "count": 118,
+          "bboxSmall": [
+            239,
+            64,
+            277,
+            78
+          ]
+        },
+        {
+          "count": 114,
+          "bboxSmall": [
+            374,
+            135,
+            393,
+            181
+          ]
+        },
+        {
+          "count": 108,
+          "bboxSmall": [
+            369,
+            47,
+            386,
+            83
+          ]
+        },
+        {
+          "count": 100,
+          "bboxSmall": [
+            386,
+            205,
+            408,
+            230
+          ]
+        },
+        {
+          "count": 64,
+          "bboxSmall": [
+            158,
+            56,
+            174,
+            69
+          ]
+        },
+        {
+          "count": 61,
+          "bboxSmall": [
+            94,
+            205,
+            114,
+            210
+          ]
+        },
+        {
+          "count": 61,
+          "bboxSmall": [
+            156,
+            206,
+            196,
+            209
+          ]
+        }
+      ]
+    },
+    {
+      "rgb": [
+        207,
+        222,
+        238
+      ],
+      "total": 4953,
+      "lum": 222.3,
+      "chroma": 31,
+      "blueMinusRed": 31,
+      "blueMinusGreen": 16,
+      "components": [
+        {
+          "count": 246,
+          "bboxSmall": [
+            15,
+            153,
+            42,
+            172
+          ]
+        },
+        {
+          "count": 220,
+          "bboxSmall": [
+            42,
+            203,
+            93,
+            212
+          ]
+        },
+        {
+          "count": 192,
+          "bboxSmall": [
+            46,
+            110,
+            82,
+            142
+          ]
+        },
+        {
+          "count": 156,
+          "bboxSmall": [
+            96,
+            212,
+            158,
+            217
+          ]
+        },
+        {
+          "count": 128,
+          "bboxSmall": [
+            305,
+            217,
+            343,
+            224
+          ]
+        },
+        {
+          "count": 96,
+          "bboxSmall": [
+            111,
+            205,
+            202,
+            207
+          ]
+        },
+        {
+          "count": 93,
+          "bboxSmall": [
+            205,
+            205,
+            296,
+            207
+          ]
+        },
+        {
+          "count": 88,
+          "bboxSmall": [
+            53,
+            20,
+            69,
+            36
+          ]
+        },
+        {
+          "count": 84,
+          "bboxSmall": [
+            189,
+            76,
+            217,
+            83
+          ]
+        },
+        {
+          "count": 67,
+          "bboxSmall": [
+            251,
+            72,
+            269,
+            82
+          ]
+        },
+        {
+          "count": 63,
+          "bboxSmall": [
+            329,
+            43,
+            348,
+            55
+          ]
+        },
+        {
+          "count": 60,
+          "bboxSmall": [
+            32,
+            195,
+            50,
+            206
+          ]
+        }
+      ]
+    },
+    {
+      "rgb": [
+        220,
+        225,
+        236
+      ],
+      "total": 3919,
+      "lum": 227.0,
+      "chroma": 16,
+      "blueMinusRed": 16,
+      "blueMinusGreen": 11,
+      "components": [
+        {
+          "count": 782,
+          "bboxSmall": [
+            86,
+            48,
+            130,
+            78
+          ]
+        },
+        {
+          "count": 604,
+          "bboxSmall": [
+            181,
+            221,
+            249,
+            235
+          ]
+        },
+        {
+          "count": 456,
+          "bboxSmall": [
+            128,
+            136,
+            169,
+            164
+          ]
+        },
+        {
+          "count": 328,
+          "bboxSmall": [
+            56,
+            0,
+            107,
+            14
+          ]
+        },
+        {
+          "count": 248,
+          "bboxSmall": [
+            32,
+            105,
+            65,
+            129
+          ]
+        },
+        {
+          "count": 97,
+          "bboxSmall": [
+            221,
+            217,
+            269,
+            221
+          ]
+        },
+        {
+          "count": 90,
+          "bboxSmall": [
+            51,
+            14,
+            79,
+            30
+          ]
+        },
+        {
+          "count": 73,
+          "bboxSmall": [
+            342,
+            216,
+            368,
+            223
+          ]
+        },
+        {
+          "count": 67,
+          "bboxSmall": [
+            93,
+            3,
+            125,
+            12
+          ]
+        },
+        {
+          "count": 55,
+          "bboxSmall": [
+            48,
+            137,
+            62,
+            149
+          ]
+        },
+        {
+          "count": 29,
+          "bboxSmall": [
+            198,
+            212,
+            215,
+            216
+          ]
+        },
+        {
+          "count": 24,
+          "bboxSmall": [
+            53,
+            0,
+            61,
+            5
+          ]
+        }
+      ]
+    },
+    {
+      "rgb": [
+        117,
+        134,
+        158
+      ],
+      "total": 3837,
+      "lum": 136.3,
+      "chroma": 41,
+      "blueMinusRed": 41,
+      "blueMinusGreen": 24,
+      "components": [
+        {
+          "count": 1746,
+          "bboxSmall": [
+            41,
+            36,
+            123,
+            150
+          ]
+        },
+        {
+          "count": 547,
+          "bboxSmall": [
+            206,
+            175,
+            241,
+            201
+          ]
+        },
+        {
+          "count": 163,
+          "bboxSmall": [
+            115,
+            175,
+            147,
+            182
+          ]
+        },
+        {
+          "count": 156,
+          "bboxSmall": [
+            86,
+            145,
+            115,
+            175
+          ]
+        },
+        {
+          "count": 128,
+          "bboxSmall": [
+            213,
+            170,
+            294,
+            173
+          ]
+        },
+        {
+          "count": 83,
+          "bboxSmall": [
+            150,
+            202,
+            194,
+            204
+          ]
+        },
+        {
+          "count": 67,
+          "bboxSmall": [
+            182,
+            175,
+            201,
+            182
+          ]
+        },
+        {
+          "count": 37,
+          "bboxSmall": [
+            153,
+            175,
+            168,
+            179
+          ]
+        },
+        {
+          "count": 35,
+          "bboxSmall": [
+            115,
+            202,
+            140,
+            204
+          ]
+        },
+        {
+          "count": 25,
+          "bboxSmall": [
+            47,
+            195,
+            58,
+            201
+          ]
+        },
+        {
+          "count": 23,
+          "bboxSmall": [
+            59,
+            201,
+            79,
+            203
+          ]
+        },
+        {
+          "count": 21,
+          "bboxSmall": [
+            51,
+            93,
+            61,
+            102
+          ]
+        }
+      ]
+    },
+    {
+      "rgb": [
+        152,
+        164,
+        184
+      ],
+      "total": 3585,
+      "lum": 166.7,
+      "chroma": 32,
+      "blueMinusRed": 32,
+      "blueMinusGreen": 20,
+      "components": [
+        {
+          "count": 1410,
+          "bboxSmall": [
+            80,
+            17,
+            257,
+            75
+          ]
+        },
+        {
+          "count": 1058,
+          "bboxSmall": [
+            259,
+            175,
+            339,
+            201
+          ]
+        },
+        {
+          "count": 496,
+          "bboxSmall": [
+            334,
+            136,
+            384,
+            180
+          ]
+        },
+        {
+          "count": 42,
+          "bboxSmall": [
+            275,
+            202,
+            299,
+            204
+          ]
+        },
+        {
+          "count": 28,
+          "bboxSmall": [
+            101,
+            18,
+            115,
+            22
+          ]
+        },
+        {
+          "count": 22,
+          "bboxSmall": [
+            269,
+            212,
+            287,
+            214
+          ]
+        },
+        {
+          "count": 20,
+          "bboxSmall": [
+            38,
+            97,
+            46,
+            106
+          ]
+        }
+      ]
+    },
+    {
+      "rgb": [
+        203,
+        213,
+        229
+      ],
+      "total": 3342,
+      "lum": 215.0,
+      "chroma": 26,
+      "blueMinusRed": 26,
+      "blueMinusGreen": 16,
+      "components": [
+        {
+          "count": 857,
+          "bboxSmall": [
+            11,
+            208,
+            107,
+            235
+          ]
+        },
+        {
+          "count": 262,
+          "bboxSmall": [
+            5,
+            175,
+            20,
+            211
+          ]
+        },
+        {
+          "count": 132,
+          "bboxSmall": [
+            145,
+            156,
+            230,
+            158
+          ]
+        },
+        {
+          "count": 94,
+          "bboxSmall": [
+            0,
+            21,
+            16,
+            33
+          ]
+        },
+        {
+          "count": 75,
+          "bboxSmall": [
+            0,
+            216,
+            21,
+            235
+          ]
+        },
+        {
+          "count": 50,
+          "bboxSmall": [
+            100,
+            38,
+            124,
+            42
+          ]
+        },
+        {
+          "count": 43,
+          "bboxSmall": [
+            0,
+            37,
+            9,
+            45
+          ]
+        },
+        {
+          "count": 42,
+          "bboxSmall": [
+            5,
+            9,
+            18,
+            18
+          ]
+        },
+        {
+          "count": 35,
+          "bboxSmall": [
+            145,
+            214,
+            169,
+            217
+          ]
+        },
+        {
+          "count": 32,
+          "bboxSmall": [
+            232,
+            156,
+            260,
+            158
+          ]
+        },
+        {
+          "count": 28,
+          "bboxSmall": [
+            296,
+            201,
+            324,
+            202
+          ]
+        },
+        {
+          "count": 26,
+          "bboxSmall": [
+            0,
+            172,
+            6,
+            179
+          ]
+        }
+      ]
+    },
+    {
+      "rgb": [
+        105,
+        116,
+        136
+      ],
+      "total": 3217,
+      "lum": 119.0,
+      "chroma": 31,
+      "blueMinusRed": 31,
+      "blueMinusGreen": 20,
+      "components": [
+        {
+          "count": 2903,
+          "bboxSmall": [
+            48,
+            150,
+            201,
+            201
+          ]
+        },
+        {
+          "count": 174,
+          "bboxSmall": [
+            47,
+            77,
+            69,
+            97
+          ]
+        }
+      ]
+    },
+    {
+      "rgb": [
+        106,
+        120,
+        143
+      ],
+      "total": 2319,
+      "lum": 123.0,
+      "chroma": 37,
+      "blueMinusRed": 37,
+      "blueMinusGreen": 23,
+      "components": [
+        {
+          "count": 358,
+          "bboxSmall": [
+            43,
+            70,
+            87,
+            105
+          ]
+        },
+        {
+          "count": 358,
+          "bboxSmall": [
+            100,
+            175,
+            175,
+            187
+          ]
+        },
+        {
+          "count": 156,
+          "bboxSmall": [
+            44,
+            164,
+            59,
+            198
+          ]
+        },
+        {
+          "count": 150,
+          "bboxSmall": [
+            79,
+            158,
+            101,
+            181
+          ]
+        },
+        {
+          "count": 130,
+          "bboxSmall": [
+            175,
+            175,
+            201,
+            190
+          ]
+        },
+        {
+          "count": 100,
+          "bboxSmall": [
+            77,
+            142,
+            102,
+            159
+          ]
+        },
+        {
+          "count": 91,
+          "bboxSmall": [
+            104,
+            189,
+            129,
+            199
+          ]
+        },
+        {
+          "count": 79,
+          "bboxSmall": [
+            111,
+            172,
+            190,
+            173
+          ]
+        },
+        {
+          "count": 55,
+          "bboxSmall": [
+            62,
+            152,
+            77,
+            163
+          ]
+        },
+        {
+          "count": 47,
+          "bboxSmall": [
+            181,
+            196,
+            199,
+            201
+          ]
+        },
+        {
+          "count": 30,
+          "bboxSmall": [
+            79,
+            194,
+            93,
+            199
+          ]
+        },
+        {
+          "count": 24,
+          "bboxSmall": [
+            312,
+            172,
+            336,
+            173
+          ]
+        }
+      ]
+    },
+    {
+      "rgb": [
+        108,
+        164,
+        212
+      ],
+      "total": 1016,
+      "lum": 161.3,
+      "chroma": 104,
+      "blueMinusRed": 104,
+      "blueMinusGreen": 48,
+      "components": [
+        {
+          "count": 146,
+          "bboxSmall": [
+            97,
+            169,
+            192,
+            172
+          ]
+        },
+        {
+          "count": 132,
+          "bboxSmall": [
+            236,
+            169,
+            340,
+            172
+          ]
+        },
+        {
+          "count": 87,
+          "bboxSmall": [
+            111,
+            209,
+            157,
+            211
+          ]
+        },
+        {
+          "count": 63,
+          "bboxSmall": [
+            245,
+            209,
+            296,
+            211
+          ]
+        },
+        {
+          "count": 43,
+          "bboxSmall": [
+            225,
+            51,
+            252,
+            58
+          ]
+        },
+        {
+          "count": 23,
+          "bboxSmall": [
+            104,
+            15,
+            126,
+            17
+          ]
+        },
+        {
+          "count": 23,
+          "bboxSmall": [
+            283,
+            27,
+            301,
+            32
+          ]
+        },
+        {
+          "count": 22,
+          "bboxSmall": [
+            311,
+            27,
+            327,
+            29
+          ]
+        },
+        {
+          "count": 20,
+          "bboxSmall": [
+            331,
+            82,
+            341,
+            88
+          ]
+        },
+        {
+          "count": 20,
+          "bboxSmall": [
+            89,
+            209,
+            103,
+            212
+          ]
+        }
+      ]
+    },
+    {
+      "rgb": [
+        86,
+        101,
+        122
+      ],
+      "total": 95,
+      "lum": 103.0,
+      "chroma": 36,
+      "blueMinusRed": 36,
+      "blueMinusGreen": 21,
+      "components": []
+    },
+    {
+      "rgb": [
+        120,
+        197,
+        237
+      ],
+      "total": 57,
+      "lum": 184.7,
+      "chroma": 117,
+      "blueMinusRed": 117,
+      "blueMinusGreen": 40,
+      "components": []
+    },
+    {
+      "rgb": [
+        54,
+        81,
+        112
+      ],
+      "total": 53,
+      "lum": 82.3,
+      "chroma": 58,
+      "blueMinusRed": 58,
+      "blueMinusGreen": 31,
+      "components": []
+    },
+    {
+      "rgb": [
+        59,
+        104,
+        142
+      ],
+      "total": 37,
+      "lum": 101.7,
+      "chroma": 83,
+      "blueMinusRed": 83,
+      "blueMinusGreen": 38,
+      "components": []
+    },
+    {
+      "rgb": [
+        61,
+        140,
+        183
+      ],
+      "total": 36,
+      "lum": 128.0,
+      "chroma": 122,
+      "blueMinusRed": 122,
+      "blueMinusGreen": 43,
+      "components": []
+    },
+    {
+      "rgb": [
+        38,
+        52,
+        72
+      ],
+      "total": 16,
+      "lum": 54.0,
+      "chroma": 34,
+      "blueMinusRed": 34,
+      "blueMinusGreen": 20,
+      "components": []
+    },
+    {
+      "rgb": [
+        21,
+        34,
+        52
+      ],
+      "total": 12,
+      "lum": 35.7,
+      "chroma": 31,
+      "blueMinusRed": 31,
+      "blueMinusGreen": 18,
+      "components": []
+    },
+    {
+      "rgb": [
+        59,
+        147,
+        194
+      ],
+      "total": 6,
+      "lum": 133.3,
+      "chroma": 135,
+      "blueMinusRed": 135,
+      "blueMinusGreen": 47,
+      "components": []
+    }
+  ]
+}
