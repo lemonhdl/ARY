@@ -448,6 +448,8 @@ try {
   assert(yard.response.status === 200, 'public yard should load');
   assertIncludes(yard.body, 'Public Yard', 'yard should show public race discovery');
   assertIncludes(yard.body, 'ARY GRS 001：Product Definition Race', 'yard should show disclosed race');
+  assertIncludes(yard.body, '进入 Jumbotron', 'yard race card should link to the Jumbotron view');
+  assertIncludes(yard.body, 'href="/jumbotron"', 'yard Jumbotron button should point to the Jumbotron page');
   assertIncludes(yard.body, 'Organizer 数据可用', 'yard should show public source state');
   assertNoLeaks(yard.body, 'public yard');
 
@@ -456,12 +458,16 @@ try {
   assertIncludes(jumbotron.body, '<div class="jumbotron-brandline"><span class="jumbotron-live">LIVE</span><strong>DevCompass Racing</strong></div>', 'jumbotron header should not repeat identical brand and title');
   assertNotIncludes(jumbotron.body, '<strong>DevCompass Racing</strong><span>DevCompass Racing</span>', 'jumbotron header should delete duplicated subtitle text');
   assertNotIncludes(jumbotron.body, '最终主视觉', 'public jumbotron should not show internal final-frame status copy');
+  assertIncludes(jumbotron.body, 'data-local-clock', 'jumbotron header should render a local clock target');
+  assertIncludes(jumbotron.body, 'updateLocalClock', 'jumbotron should update the local clock in the browser');
+  assertIncludes(jumbotron.body, 'window.setInterval(updateLocalClock,1000)', 'jumbotron local clock should refresh every second');
   assertIncludes(jumbotron.body, '赛事大屏', 'jumbotron should show public race live view');
   assertIncludes(jumbotron.body, '实时赛道', 'jumbotron should show main track');
   assertIncludes(jumbotron.body, '/jumbotron/candidate-assets/real-explicit-closed-course/background.webp', 'default jumbotron should render the confirmed second-track background asset');
   assertIncludes(jumbotron.body, '✓ Real Explicit Closed Course', 'default jumbotron should use the confirmed second track');
   assertNotIncludes(jumbotron.body, '当前赛道已确认。', 'public jumbotron main view should not expose asset review confirmation copy');
-  assertIncludes(jumbotron.body, '/jumbotron?profile=full&amp;track=default-public-track', 'jumbotron should still allow switching back to the public track');
+  assertNotIncludes(jumbotron.body, 'GRS 技术回环赛道', 'jumbotron should not show the removed technical loop track option');
+  assertNotIncludes(jumbotron.body, 'track=grs-technical-loop', 'jumbotron should not link to the removed technical loop track');
   assertIncludes(jumbotron.body, '赛道选择', 'jumbotron should expose concise track switching boundary');
   assertIncludes(jumbotron.body, 'Real Explicit Closed Course', 'jumbotron should list the human-confirmed second track as a formal switch option');
   assertIncludes(jumbotron.body, 'track-background-image', 'jumbotron should keep track background as its own SVG layer');
@@ -510,7 +516,11 @@ try {
   assertNotIncludes(jumbotron.body, '；下一步', 'jumbotron race status should avoid semicolon-separated long lines');
   assertNotIncludes(jumbotron.body, '系统时间', 'public jumbotron should not show static footer system-time filler');
   assertNotIncludes(jumbotron.body, 'HorsePose', 'public jumbotron should hide runtime debug output');
-  assertNotIncludes(jumbotron.body, '赛道校准器入口', 'public jumbotron should hide calibrator by default');
+  assertNotIncludes(jumbotron.body, '赛道校准器入口', 'public jumbotron should not use verbose calibrator-entry copy');
+  assertIncludes(jumbotron.body, '/jumbotron?debug=1', 'public jumbotron should link the debug review view');
+  assertIncludes(jumbotron.body, '/jumbotron/calibrator', 'public jumbotron should link the track calibrator');
+  assertIncludes(jumbotron.body, '调试审阅', 'public jumbotron should expose a concise debug review action');
+  assertIncludes(jumbotron.body, '赛道校准器', 'public jumbotron should expose a concise calibrator action');
   assertNotIncludes(jumbotron.body, '调试模式', 'public jumbotron should hide debug mode by default');
   assertNotIncludes(jumbotron.body, '几何 / 运行时 / 待刷新', 'public jumbotron should hide validation by default');
   assertIncludes(jumbotron.body, 'jumbotron-drawer', 'jumbotron should use collapsible drawer cards for auxiliary panels');
@@ -662,7 +672,7 @@ try {
   assert(invalidEvidence.response.status === 400, 'invalid profile evidence API should reject request');
   assert(invalidEvidence.body.error === 'invalid_jumbotron_data_profile', 'invalid profile evidence API should return explicit error');
   assert(invalidEvidence.body.allowedProfiles.some((profile) => profile.alias === 'coverage-9'), 'invalid profile evidence API should list allowed profiles');
-  assertNotIncludes(jumbotron.body, '/jumbotron/calibrator', 'public jumbotron should not link calibrator by default');
+  assertIncludes(jumbotron.body, '/jumbotron/calibrator', 'public jumbotron should link calibrator from the tools drawer');
   assertNoLeaks(jumbotron.body, 'jumbotron');
 
   const jumbotronDebug = await text('/jumbotron?debug=1');
@@ -875,6 +885,9 @@ try {
   assertNotIncludes(calibrator.body, 'debug-preview.png 导出仍 pending', 'calibrator should not keep png export pending');
   assertIncludes(calibrator.body, 'data-trace-panel', 'calibrator should expose integrated trace centerline panel');
   assertIncludes(calibrator.body, 'value="trace"', 'calibrator should expose trace centerline mode');
+  assertIncludes(calibrator.body, 'value="keypoints"', 'calibrator should expose safe keypoint mode');
+  assertIncludes(calibrator.body, '关键点安全模式只修改起终点和检查点的 s，不修改中心线几何', 'calibrator should explain safe keypoint editing boundary');
+  assertIncludes(calibrator.body, 'data-keypoint-handle', 'calibrator should render keypoint handles for safe keypoint mode');
   assertIncludes(calibrator.body, '按住鼠标沿底图道路拖动即可连续采样', 'calibrator should describe mouse trace sampling');
   assertIncludes(calibrator.body, 'calibrator-trace-output', 'calibrator should expose trace point JSON output');
   assertIncludes(calibrator.body, 'data-trace-guide', 'calibrator should render local trace guide layer');

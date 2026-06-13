@@ -399,3 +399,110 @@ active track: Real Explicit Closed Course
 - 4400 服务重启过程中出现过后台 wrapper 把 `kill` 旧进程记录为 exit code 143 的通知；随后已确认新服务监听 4400，`/jumbotron` 返回正常。
 - 本轮验证集中在 Jumbotron 主视觉、几何隐藏和底栏工具栏，不代表 Calibrator demo 录制说明等其他验证线已一并审完。
 
+## Jumbotron UI 文案、抽屉和固定入口验收收敛
+
+2026-06-13，用户继续通过截图审阅 Jumbotron 主页，重点指出公开大屏上仍有面向实现或开发者的残留信息，以及若干抽屉和状态组件的视觉问题。本轮工作属于主视觉表达收敛，不改变 mock-data、timeline replay 或 track runtime 的数据链路。
+
+### Rider steering
+
+用户连续给出以下纠偏：
+
+1. `最终主视觉` 这类状态字样不应出现在主页；删除文字后，也不能留下空的绿色文本框。
+2. 页头出现 `DevCompass Racing DevCompass Racing` 这类主副标题完全一致时，优先删除重复副标题。
+3. `数据视图` 抽屉展开后不能截断 `赛道选择` 卡片。
+4. `赛事状态` 抽屉里的信息应多换行，少用标点；不要把 `主题：...；主办方：...`、`阶段：...；下一步：...` 写成两条长句。
+5. 页面修改后必须重启并验证固定入口 `http://127.0.0.1:4400/jumbotron`，不能只在临时端口验证后把 4400 报给用户。用户对此明确警告过一次。
+
+这些 steering 继续强调 Jumbotron 的产品页边界：公开页面服务观众观看，不展示实现状态、重复标题、机械标点或开发者说明。
+
+### 实现记录
+
+主要修改集中在 `PoC-GRS-001/src/server.js` 和 `PoC-GRS-001/src/verify.js`：
+
+- `renderJumbotronHeader(...)` 对 `competition.brand` 和 `competition.title` 做去重；两者相同时只渲染一次，避免页头重复。
+- `renderJumbotronMainReplayControls(...)` 将 `data-replay-status` 设为默认隐藏，不再显示 `最终主视觉`。
+- replay 脚本新增 `setReplayStatus(...)`，回放中显示状态，恢复最终画面时清空并隐藏状态。
+- 全局 pill 样式补 `.pill[hidden]{display:none}`，修复空 `data-replay-status` 被 `.pill{display:inline-flex}` 撑出绿色空框的问题。
+- `jumbotron-profile-drawer` 单独放宽展开高度，确保 `数据视图` 和 `赛道选择` 两组内容完整展开。
+- `renderJumbotronFooter(...)` 将赛事状态从两段带冒号、分号的长句改成四个分行信息块：`主题`、`主办方`、`阶段`、`下一步`。
+- `verify.js` 增加回归断言：不允许 `最终主视觉`、重复页头、空状态 pill、`主题：`、`主办方：`、`阶段：`、`；下一步` 等问题回归。
+
+### 浏览器验收证据
+
+固定入口：
+
+```text
+http://127.0.0.1:4400/jumbotron
+```
+
+服务启动命令：
+
+```bash
+npm --prefix "/media/lemonhdl/Shared/Software_Engineering/ARY/PoC-GRS-001" start
+```
+
+本轮特别记录：一次修复后只在临时端口完成验证，没有将 4400 切到最新代码。用户指出“你没有启动服务 警告一次”。随后重启 4400，并把后续页面修改的验收标准收紧为：最终汇报前必须确认固定入口已运行最新代码。
+
+浏览器与 DOM 检查证据：
+
+```text
+页头：LIVE / DevCompass Racing
+DevCompass Racing 出现次数：1
+页面包含“最终主视觉”：false
+回放状态 hidden：true
+空状态 display：none
+空状态宽高：0×0
+```
+
+数据视图抽屉：
+
+```text
+bodyScrollHeight: 460
+bodyClientHeight: 460
+complete: true
+```
+
+赛事状态抽屉：
+
+```text
+主题
+Agentic Development
+
+主办方
+DevCompass
+
+阶段
+ROUND 3 · 实时赛事
+
+下一步
+ROUND 4 · 最终冲刺
+
+冒号：false
+分号：false
+```
+
+截图产物：
+
+- `PoC-GRS-001/jumbotron-copy-dedup-review.png`
+- `PoC-GRS-001/jumbotron-replay-status-hidden-review.png`
+- `PoC-GRS-001/jumbotron-profile-drawer-full-review.png`
+- `PoC-GRS-001/jumbotron-status-lines-review.png`
+
+验证命令：
+
+```bash
+ARY_GRS001_PORT=4570 ARY_GRS001_ORGANIZER_PORT=4571 npm --prefix "/media/lemonhdl/Shared/Software_Engineering/ARY/PoC-GRS-001" run verify
+```
+
+结果：
+
+```text
+VERIFY_PASS GRS001 creation disclosure lifecycle riding evidence result radar holds
+```
+
+### 边界
+
+- 本轮未 commit、未 push。
+- 本轮只记录 Jumbotron 公开页 UI 文案和抽屉布局收敛，不代表 Calibrator、录制入口或其他页面已完成同等级视觉审阅。
+- `targetUrl`、`remoteCockpitUrl`、本地绝对路径、raw session log 和完整内部日志仍不进入 public Jumbotron 页面。
+

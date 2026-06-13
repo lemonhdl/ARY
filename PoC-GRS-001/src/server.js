@@ -413,7 +413,7 @@ const JUMBOTRON_RUNTIME_ASSETS = new Map([
   ['/assets/jumbotron/state-badge-finished.png', { file: 'state-badge-finished.png', contentType: 'image/png' }],
   ['/assets/jumbotron/state-badge-stale.png', { file: 'state-badge-stale.png', contentType: 'image/png' }]
 ]);
-const JUMBOTRON_BACKGROUND_ASSETS = new Set(['/assets/public-yard-hero.webp', '/assets/organizer-source-visual.webp', '/assets/jumbotron/background1.png', '/assets/jumbotron/example.png']);
+const JUMBOTRON_BACKGROUND_ASSETS = new Set(['/assets/public-yard-hero.webp', '/assets/jumbotron/background1.png', '/assets/jumbotron/example.png']);
 const JUMBOTRON_MIN_PATH_LENGTH_RATIO = 0.35;
 const JUMBOTRON_MANUAL_CHECK_PENDING = { status: 'pending', label: '待人工复核' };
 const JUMBOTRON_MANUAL_CHECK_CONFIRMED = { status: 'confirmed', label: '已人工确认' };
@@ -432,8 +432,7 @@ const JUMBOTRON_CANDIDATE_ASSET_FILES = new Map([
   ['preview.png', { role: 'preview', contentType: 'image/png' }]
 ]);
 const JUMBOTRON_CONFIRMED_TRACKS = [
-  { trackId: 'default-public-track', label: '当前公开赛道', mode: 'curated' },
-  { trackId: 'grs-technical-loop', label: 'GRS 技术回环赛道', mode: 'builtin', builtInTrackId: 'grs-technical-loop' }
+  { trackId: 'default-public-track', label: '当前公开赛道', mode: 'curated' }
 ];
 const JUMBOTRON_DEFAULT_TRACK_ID = 'real-explicit-closed-course';
 const JUMBOTRON_DEBUG_PREVIEW_PNG_ROUTE = '/jumbotron/debug-preview.png';
@@ -555,41 +554,7 @@ const jumbotronTrackProfiles = [
     noBubbleZones: [{ zoneId: 'finish-line', x: 980, y: 210, width: 120, height: 160 }],
     messageZones: [{ zoneId: 'track-bubble', offsetX: 28, offsetY: -64 }]
   },
-  {
-    schemaVersion: '0.1.0',
-    trackId: 'grs-technical-loop',
-    name: 'GRS 技术回环赛道',
-    label: 'GRS 技术回环赛道',
-    background: { assetId: 'organizer-source-visual', src: '/assets/organizer-source-visual.webp', kind: 'webp' },
-    backgroundAsset: 'organizer-source-visual',
-    viewBox: { x: 0, y: 0, width: 1200, height: 620 },
-    designSize: { width: 1200, height: 620, aspectRatio: '16:9' },
-    direction: 'counterclockwise',
-    centerline: { type: 'polyline', closed: true, smoothing: 'mvp-polyline', points: [
-      { x: 210, y: 500 }, { x: 120, y: 310 }, { x: 270, y: 140 }, { x: 560, y: 190 },
-      { x: 720, y: 80 }, { x: 1030, y: 160 }, { x: 980, y: 420 }, { x: 690, y: 475 }, { x: 430, y: 360 }, { x: 210, y: 500 }
-    ] },
-    centerlinePath: [
-      { x: 210, y: 500 }, { x: 120, y: 310 }, { x: 270, y: 140 }, { x: 560, y: 190 },
-      { x: 720, y: 80 }, { x: 1030, y: 160 }, { x: 980, y: 420 }, { x: 690, y: 475 }, { x: 430, y: 360 }, { x: 210, y: 500 }
-    ],
-    startFinish: { startS: 0, finishS: 1, label: '起终点' },
-    startLine: { s: 0, label: '起点' },
-    finishLine: { s: 1, label: '终点' },
-    lanes: [-48, -20, 20, 48, 72, -72, 96, -96].map((offset, index) => ({ laneId: `lane-${index}`, offset })),
-    displayAdjustment: { horseX: 0, horseY: 0, bubbleX: 26, bubbleY: -58 },
-    riskZones: [{ zoneId: 'tight-turn-watch', x: 105, y: 235, width: 220, height: 160, severity: 'medium' }],
-    debug: { sampleCount: 28, collisionBox: { width: 44, height: 44 }, staleThresholdMs: JUMBOTRON_STALE_THRESHOLD_MS, manualChecks: { horseOnTrack: JUMBOTRON_MANUAL_CHECK_CONFIRMED, curveNatural: JUMBOTRON_MANUAL_CHECK_PENDING, bubbleClearance: JUMBOTRON_MANUAL_CHECK_PENDING, checkpointMeaning: JUMBOTRON_MANUAL_CHECK_PENDING } },
-    checkpoints: [
-      { checkpointId: 'cp-source', label: '源', s: 0.2 },
-      { checkpointId: 'cp-boundary', label: '边界', s: 0.46 },
-      { checkpointId: 'cp-proof', label: '证明', s: 0.7 }
-    ],
-    laneOffsets: [-48, -20, 20, 48, 72, -72, 96, -96],
-    safeZones: [{ zoneId: 'inside-loop', x: 260, y: 170, width: 630, height: 260 }],
-    noBubbleZones: [{ zoneId: 'tight-turn', x: 120, y: 250, width: 180, height: 130 }],
-    messageZones: [{ zoneId: 'loop-bubble', offsetX: 26, offsetY: -58 }]
-  }
+
 ];
 
 function allowedJumbotronDataProfiles() {
@@ -1155,6 +1120,7 @@ async function renderJumbotron(session, options = {}) {
     ${renderJumbotronTicker(viewModel)}
     ${showReviewTools ? `${renderJumbotronDataEvidenceDebug(viewModel)}${renderJumbotronCalibrator(viewModel)}${renderJumbotronValidationPanel(viewModel)}` : ''}
     ${renderJumbotronFooter(viewModel)}
+    ${renderJumbotronLocalClockScript()}
     ${renderJumbotronDrawerStabilizerScript()}
     ${renderJumbotronReplayScript(model.dataProfile.profileAlias, selectedTrackId)}
     ${renderJumbotronBubbleSyncScript(model.dataProfile.profileAlias, selectedTrackId)}
@@ -1624,16 +1590,32 @@ function createJumbotronRuntime(trackProfile) {
   const segments = buildTrackSegments(trackProfile.centerlinePath);
   const pathLength = segments.reduce((sum, segment) => sum + segment.length, 0);
   const counterclockwise = trackProfile.direction === 'counterclockwise';
+  const closedTrack = Boolean(trackProfile.centerline?.closed);
+  const clampS = (value) => Math.max(0, Math.min(1, Number(value) || 0));
+  const startS = clampS(trackProfile.startFinish?.startS ?? trackProfile.startFinish?.s ?? 0);
+  const finishS = clampS(trackProfile.startFinish?.finishS ?? trackProfile.startFinish?.s ?? 1);
+  const progressToTrackS = (progress) => {
+    const clampedProgress = clampS(progress);
+    const directDelta = finishS - startS;
+    const lapDelta = closedTrack && Math.abs(directDelta) < 0.0005 ? 1 : directDelta;
+    const wrappedDelta = closedTrack && lapDelta < 0 ? lapDelta + 1 : lapDelta;
+    const mapped = startS + clampedProgress * (closedTrack ? wrappedDelta : lapDelta);
+    if (!closedTrack) return clampS(mapped);
+    const wrapped = ((mapped % 1) + 1) % 1;
+    return clampedProgress >= 1 && Math.abs(wrapped - startS) < 0.0005 ? finishS : wrapped;
+  };
   const sampleAtS = (s) => {
-    const sample = sampleTrackPath(segments, pathLength, counterclockwise ? 1 - Math.max(0, Math.min(1, s)) : s);
+    const rawS = clampS(s);
+    const sample = sampleTrackPath(segments, pathLength, counterclockwise ? 1 - rawS : rawS);
     return counterclockwise
       ? { ...sample, tangent: { x: -sample.tangent.x, y: -sample.tangent.y }, rotation: sample.rotation + 180 }
       : sample;
   };
-  const poseAtS = (entry, s) => {
-    const clampedS = Math.max(0, Math.min(1, s));
-    const sample = sampleAtS(clampedS);
-    const lane = trackProfile.lanes.find((item) => item.laneId === entry.laneId) || trackProfile.lanes[entry.laneOffsetIndex % trackProfile.lanes.length] || trackProfile.lanes[0];
+  const poseAtProgress = (entry, progress) => {
+    const clampedProgress = clampS(progress);
+    const trackS = progressToTrackS(clampedProgress);
+    const sample = sampleAtS(trackS);
+    const lane = trackProfile.lanes.find((item) => item.laneId === entry.laneId) || trackProfile.lanes[entry.laneOffsetIndex % trackProfile.lanes.length] || trackProfile.lanes[0] || { laneId: 'lane-0', offset: 0 };
     const adjustment = trackProfile.displayAdjustment || { horseX: 0, horseY: 0 };
     const laneOffset = lane.offset;
     return {
@@ -1641,20 +1623,24 @@ function createJumbotronRuntime(trackProfile) {
       x: sample.point.x + sample.normal.x * laneOffset + (adjustment.horseX || 0),
       y: sample.point.y + sample.normal.y * laneOffset + (adjustment.horseY || 0),
       rotation: sample.rotation,
-      s: clampedS,
+      s: trackS,
+      progress: clampedProgress,
       laneId: lane.laneId,
       state: entry.motionState,
-      zIndex: Math.round(1000 + clampedS * 100 + (entry.laneOffsetIndex || 0))
+      zIndex: Math.round(1000 + clampedProgress * 100 + (entry.laneOffsetIndex || 0))
     };
   };
   return {
     pathLength,
+    startS,
+    finishS,
+    progressToTrackS,
     sampleHorsePose(entry) {
-      return poseAtS(entry, entry.roundProgress / 100);
+      return poseAtProgress(entry, entry.roundProgress / 100);
     },
     sampleInterpolatedPose(entry, previousS, nextS, t) {
-      const s = previousS + (nextS - previousS) * Math.max(0, Math.min(1, t));
-      return poseAtS(entry, s);
+      const progress = previousS + (nextS - previousS) * Math.max(0, Math.min(1, t));
+      return poseAtProgress(entry, progress);
     },
     samplePoint(s) {
       return sampleAtS(s);
@@ -2438,7 +2424,7 @@ function buildHorseLabelLayout({ horsePoses, trackProfile, messageBubbleRects = 
   const tickerRect = bottomReservedRect({ ...trackProfile, viewBox });
   const items = [];
   for (const { entry, pose } of ordered) {
-    const text = `${entry.displayName} · ${Math.round(pose.s * 100)}%`;
+    const text = `${entry.displayName} · ${Math.round(entry.roundProgress)}%`;
     const size = estimateHorseLabelSize(text);
     const currentMarkerRect = markerRects.find((marker) => marker.entryId === entry.entryId) || markerRectForPose(pose);
     const context = { entryId: entry.entryId, placedLabels, markerRects, currentMarkerRect, messageBubbleRects, noBubbleZones: trackProfile.noBubbleZones || [], headerRect, tickerRect, viewBox };
@@ -2679,7 +2665,16 @@ function renderJumbotronHeader({ raceSnapshot }) {
   const brand = String(competition.brand || '').trim();
   const title = String(competition.title || '').trim();
   const titleText = title && title !== brand ? `<span>${escapeHtml(title)}</span>` : '';
-  return `<section class="jumbotron-header"><div class="jumbotron-brandline"><span class="jumbotron-live">LIVE</span><strong>${escapeHtml(brand || title)}</strong>${titleText}</div><div class="jumbotron-statusbar"><span>${escapeHtml(competition.currentRound)}</span><span>${escapeHtml(competition.elapsedTime)}</span><span>在线 ${raceSnapshot.kpi.onlineRiders} 人</span></div></section>`;
+  return `<section class="jumbotron-header"><div class="jumbotron-brandline"><span class="jumbotron-live">LIVE</span><strong>${escapeHtml(brand || title)}</strong>${titleText}</div><div class="jumbotron-statusbar"><span>${escapeHtml(competition.currentRound)}</span><span data-local-clock>${escapeHtml(formatLocalClock(new Date()))}</span><span>在线 ${raceSnapshot.kpi.onlineRiders} 人</span></div></section>`;
+}
+
+function formatLocalClock(value) {
+  const pad = (number) => String(number).padStart(2, '0');
+  return `${pad(value.getHours())}:${pad(value.getMinutes())}:${pad(value.getSeconds())}`;
+}
+
+function renderJumbotronLocalClockScript() {
+  return `<script>(()=>{const clock=document.querySelector('[data-local-clock]');if(!clock)return;const pad=(value)=>String(value).padStart(2,'0');const updateLocalClock=()=>{const now=new Date();clock.textContent=pad(now.getHours())+':'+pad(now.getMinutes())+':'+pad(now.getSeconds());};updateLocalClock();window.setInterval(updateLocalClock,1000);})();</script>`;
 }
 
 function renderJumbotronKpis(kpi) {
@@ -3794,7 +3789,7 @@ function renderTrackCalibrator(session, body = {}, options = {}) {
     ? '当前候选已被驳回，不能进入正式大屏资产流程。'
     : '在校准器中选择第二赛道，进入候选赛道选择后继续复核几何、泳道和气泡区。用户人工确认通过。';
   const autoFixPanel = workbench.autoFixEvidence ? `<section class="notice"><strong>${escapeHtml(workbench.autoFixEvidence.label)}</strong><p class="muted">fix count=${escapeHtml(workbench.autoFixEvidence.fixCount)}；remainingSharpTurnCount=${escapeHtml(workbench.autoFixEvidence.remainingSharpTurnCount)}；${escapeHtml((workbench.autoFixEvidence.fixes || []).map((fix) => fix.action).join('、') || 'no-op')}</p><p class="muted">${escapeHtml(workbench.autoFixEvidence.humanReview)}</p></section>` : '';
-  const content = `<section class="jumbotron-page calibrator-page"><section class="jumbotron-header" aria-label="顶部工具栏"><div class="jumbotron-brandline"><span class="jumbotron-live">MVP</span><strong>赛道校准器</strong><span>设计资产工具</span></div><div class="jumbotron-statusbar"><button class="button secondary" form="calibrator-form" type="submit">导入底图</button><button class="button secondary" form="calibrator-form" type="submit">导入候选配置</button><button class="button secondary" form="calibrator-form" type="submit">校验</button><button class="button secondary" form="calibrator-form" type="submit">预览</button><button class="button" form="calibrator-form" type="submit">导出</button></div></section>${workbench.error ? `<section class="notice warn"><strong>导入解析失败</strong><p>${escapeHtml(workbench.error)}</p></section>` : ''}<form id="calibrator-form" method="post" action="/jumbotron/calibrator"><input type="hidden" name="centerlinePointsJson" id="hf-centerlinePoints"><input type="hidden" name="checkpointsJson" id="hf-checkpoints"><input type="hidden" name="lanesJson" id="hf-lanes"><input type="hidden" name="startSHidden" id="hf-startS"><input type="hidden" name="finishSHidden" id="hf-finishS"><section class="jumbotron-calibrator calibrator-compact-head"><div class="eyebrow">画布校准 → 校验 → 导出</div><h1>赛道校准器</h1><p class="muted">先在主画布调整赛道；导入、候选 JSON 和冻结结果收在折叠区。</p><section class="notice" aria-label="第二赛道候选入口"><strong>第二赛道候选入口</strong><strong>${escapeHtml(secondTrackReviewTitle)}</strong><p class="muted">${escapeHtml(secondTrackReviewCopy)}</p><div class="cta-row"><a class="button secondary" href="/jumbotron/calibrator?candidate=real-explicit-closed-course">打开第二赛道校准器</a><span class="jumbotron-chip"><span>候选赛道选择</span><strong>real-explicit-closed-course</strong></span></div><section class="notice"><strong>real-explicit-closed-course candidate asset evidence</strong><p class="muted">validation=pass；containsPlaceholderAssets=false；centerline=40 点；runtime=41 点；lanes=12；checkpoints=4；候选已提升=true。</p></section></section><details class="calibrator-fold"><summary><strong>导入与候选配置</strong><span>底图、候选 JSON</span></summary><div class="calibrator-grid"><article><strong>导入底图</strong><p class="muted">选择允许的背景资产，校验会检查 allowlist 与文件存在。</p><label>允许背景资产<select name="backgroundSrc">${backgroundOptions}</select></label><label>自定义 /assets/ 输入<input name="backgroundSrcCustom" value="${escapeHtml(body.backgroundSrcCustom || '')}" placeholder="/assets/public-yard-hero.webp"></label></article><article><strong>导入候选配置</strong><textarea name="profileJson" rows="5">${escapeHtml(body.profileJson || workbench.exportJson)}</textarea></article></div></details><details class="calibrator-fold"><summary><strong>导出冻结候选配置</strong><span>JSON 与复核状态</span></summary><article class="calibrator-export"><textarea readonly rows="6">${escapeHtml(workbench.exportJson)}</textarea>${renderCalibratorAssetReviewStatus(workbench.assetReview)}<p class="muted">冻结候选不等于正式资产 confirmed。</p></article></details>${autoFixPanel}</section><section class="jumbotron-layout calibrator-layout" aria-label="Calibrator IA"><section class="track-stage-card" aria-label="主画布"><div class="eyebrow">主画布</div><h2>底图层、中心线层、控制点层</h2><p id="calibrator-canvas-status" class="calibrator-canvas-help">画布操作已开启：点击画布添加点，拖拽 P 点移动；点击校验、预览或导出 后用 server runtime 重算预览。</p><svg id="calibrator-canvas" class="track-svg" viewBox="${viewBox.x || 0} ${viewBox.y || 0} ${viewBox.width} ${viewBox.height}" role="img" aria-label="赛道校准器 主画布"><rect class="track-bg" x="${viewBox.x || 0}" y="${viewBox.y || 0}" width="${viewBox.width}" height="${viewBox.height}" rx="42"/><image data-background-image class="calibrator-background-image" href="${escapeHtml(backgroundSrc)}" x="${viewBox.x || 0}" y="${viewBox.y || 0}" width="${viewBox.width}" height="${viewBox.height}" opacity="0.42" preserveAspectRatio="xMidYMid slice"/><text class="debug-label" x="${(viewBox.x || 0) + 44}" y="${(viewBox.y || 0) + 58}">底图层：${escapeHtml(backgroundSrc || '未选择')}</text><g data-zone-layer data-zone-type="messageZones">${profile.messageZones.map((zone) => zone.rect ? `<rect x="${zone.rect.x}" y="${zone.rect.y}" width="${zone.rect.width}" height="${zone.rect.height}" fill="rgba(34,197,94,.1)" stroke="#22c55e" stroke-dasharray="6 5"/>` : '').join('')}</g><g data-zone-layer data-zone-type="riskZones">${profile.riskZones.map((zone) => `<rect x="${zone.x}" y="${zone.y}" width="${zone.width}" height="${zone.height}" fill="rgba(239,68,68,.12)" stroke="#ef4444" stroke-dasharray="8 6"/>`).join('')}</g><g data-zone-layer data-zone-type="noBubbleZones">${profile.noBubbleZones.map((zone) => `<rect x="${zone.x}" y="${zone.y}" width="${zone.width}" height="${zone.height}" fill="rgba(15,23,42,.08)" stroke="#64748b" stroke-dasharray="5 6"/>`).join('')}</g><path class="track-band" data-centerline-band d="${jumbotronPath(profile.centerlinePath)}"/>${lanePreview}<polyline class="track-centerline" data-centerline-polyline points="${jumbotronPolyline(profile.centerlinePath)}"/><polyline data-closing-segment class="track-closing-segment" points="" display="none"/><g data-control-points-layer>${profile.centerlinePath.map((point, index) => `<g class="calibrator-point" data-control-point data-index="${index}" transform="translate(${point.x} ${point.y})"><circle r="8" fill="#fff" stroke="#1f49d8" stroke-width="3"/><text class="debug-label" x="12" y="5">P${index}</text></g>`).join('')}</g><g data-checkpoints-layer>${checkpointMarkers}</g><g data-start-handle transform="translate(${startHandle.x} ${startHandle.y})"><circle r="10" fill="#22c55e" stroke="#064e3b" stroke-width="3"/><text class="debug-label" x="14" y="5">Start</text></g><g data-finish-handle transform="translate(${finishHandle.x} ${finishHandle.y})"><circle r="10" fill="#f97316" stroke="#7c2d12" stroke-width="3"/><text class="debug-label" x="14" y="5">Finish</text></g><g transform="translate(${workbench.singlePose.pose.x} ${workbench.singlePose.pose.y})"><circle r="18" fill="#a855f7" stroke="#f5d0fe" stroke-width="4"/><text class="debug-label" x="24" y="6">Scrubber ${workbench.settings.previewProgress}%</text></g>${workbench.multiHorsePoses.map(({ entry, pose }) => `<g transform="translate(${pose.x} ${pose.y})"><circle r="9" fill="#1f49d8" stroke="#dbeafe" stroke-width="2"/><text class="debug-label" x="14" y="5">${escapeHtml(entry.displayName.replace('Horse ', '#'))}</text></g>`).join('')}<rect x="${bubble.x}" y="${bubble.y}" width="${bubble.width}" height="${bubble.height}" rx="12" fill="rgba(255,255,255,.96)" stroke="${workbench.messageBubblePreview.blockedByNoZone ? '#ef4444' : '#1f49d8'}" stroke-width="2"/><text class="debug-label" x="${bubble.x + 12}" y="${bubble.y + 32}">消息气泡预览</text><polyline data-trace-guide class="calibrator-trace-guide" points="" display="none"/></svg><div class="calibrator-grid"><article><strong>底图层</strong><p class="muted">${escapeHtml(profile.background?.src || '未选择背景')}</p></article><article><strong>中心线层</strong><p class="muted">${profile.centerlinePath.length} 个点；${profile.centerline?.closed ? '闭合路径' : '开放路径'}</p></article><article><strong>控制点层</strong><p class="muted">支持画布点击添加、拖拽移动、删除和 JSON 高级编辑。</p></article><article data-lane-summary><strong>泳道预览层</strong><p class="muted">${profile.lanes.length} 条泳道偏移预览。</p></article><article data-checkpoint-summary><strong>检查点层</strong><p class="muted">${profile.checkpoints.length} 个检查点。</p></article><article><strong>马匹预览层</strong><p class="muted">进度滑杆单马 + ${workbench.multiHorsePoses.length} 匹多马预览。大屏运行时采样，预览复用大屏运行时。</p></article><article><strong>消息气泡预览层</strong><p class="muted">基于 消息区、禁气泡区；${workbench.messageBubblePreview.blockedByNoZone ? '当前落在 禁气泡区' : '当前可显示示例气泡'}。</p></article></div></section><aside aria-label="右侧面板"><section class="side-card"><div class="eyebrow">右侧面板</div><h2>赛道信息</h2><label>trackId<input name="trackId" value="${escapeHtml(profile.trackId)}"></label><label>name<input name="name" value="${escapeHtml(profile.name)}"></label></section><section class="side-card"><h2>几何</h2><p class="muted">高级 JSON</p><label>中心线 JSON<textarea id="calibrator-centerline-points" name="centerlinePoints" rows="8">${escapeHtml(JSON.stringify(profile.centerlinePath, null, 2))}</textarea></label><div class="calibrator-mode-grid"><label><input type="radio" name="calibratorMode" value="centerline" checked> 中心线</label><label><input type="radio" name="calibratorMode" value="trace"> 描线</label><label><input type="radio" name="calibratorMode" value="checkpoint"> 检查点</label></div><div class="cta-row"><button class="button secondary" type="button" data-calibrator-undo>撤销</button><button class="button secondary" type="button" data-calibrator-redo>重做</button></div><div class="cta-row"><label>新增 x<input name="addPointX" value="${escapeHtml(body.addPointX || '600')}"></label><label>新增 y<input name="addPointY" value="${escapeHtml(body.addPointY || '310')}"></label><button id="calibrator-add-point-button" class="button secondary" name="centerlineAction" value="add" type="submit">添加中心线点</button><button id="calibrator-reverse-button" class="button secondary" name="reverseDirection" value="1" type="submit">反转路径方向</button></div><table><thead><tr><th>#</th><th>x</th><th>y</th><th>操作</th></tr></thead><tbody data-control-points-table>${renderControlPoints}</tbody></table><p class="muted">拖拽中心线点；Shift+点击路径添加检查点。</p><div class="calibrator-trace-panel" data-trace-panel><strong>描线模式</strong><p class="muted">按住鼠标沿底图道路拖动即可连续采样；验证通过不等于正式资产确认。</p><div class="calibrator-trace-controls"><label>采样距离<input id="calibrator-trace-min-distance" type="number" min="4" max="80" value="16"></label><button class="button secondary" id="calibrator-close-trace" type="button">闭合描线</button><button class="button secondary" id="calibrator-copy-trace-json" type="button">复制点集 JSON</button></div><textarea id="calibrator-trace-output" readonly rows="5"></textarea></div><div data-context-menu class="calibrator-context-menu" hidden><button class="button secondary" type="button" data-context-action="insert-nearest-segment">在最近线段插入点</button></div></section><section class="side-card"><h2>终点线</h2><label>startS<input name="startS" value="${escapeHtml(profile.startFinish?.startS ?? 0)}"></label><label>finishS<input name="finishS" value="${escapeHtml(profile.startFinish?.finishS ?? 1)}"></label></section><section class="side-card"><h2>方向</h2><label>direction<select name="direction"><option value="clockwise"${profile.direction === 'clockwise' ? ' selected' : ''}>clockwise</option><option value="counterclockwise"${profile.direction === 'counterclockwise' ? ' selected' : ''}>counterclockwise</option></select></label><label>closed<select name="closed"><option value="true"${profile.centerline?.closed ? ' selected' : ''}>true</option><option value="false"${!profile.centerline?.closed ? ' selected' : ''}>false</option></select></label><label>平滑路径预览<select name="smoothing"><option value="mvp-polyline"${profile.centerline?.smoothing === 'mvp-polyline' ? ' selected' : ''}>关闭：mvp-polyline</option><option value="preview-smoothing"${profile.centerline?.smoothing === 'preview-smoothing' ? ' selected' : ''}>开启：preview-smoothing</option></select></label><p class="muted">平滑路径预览是 MVP 视觉提示，不改写 runtime 事实来源。</p></section><section class="side-card"><h2>泳道</h2><label>泳道数量<input name="laneCount" value="${escapeHtml(profile.lanes.length)}"></label><label>泳道间距<input name="laneSpacing" value="28"></label><textarea name="lanes" rows="8">${escapeHtml(JSON.stringify(profile.lanes, null, 2))}</textarea></section><section class="side-card"><h2>检查点</h2><textarea name="checkpoints" rows="7">${escapeHtml(JSON.stringify(profile.checkpoints, null, 2))}</textarea></section><section class="side-card"><h2>消息气泡与区域</h2><label>消息区<textarea name="messageZones" rows="5">${escapeHtml(JSON.stringify(profile.messageZones, null, 2))}</textarea></label><label>禁气泡区<textarea name="noBubbleZones" rows="5">${escapeHtml(JSON.stringify(profile.noBubbleZones, null, 2))}</textarea></label><label>风险区<textarea name="riskZones" rows="5">${escapeHtml(JSON.stringify(profile.riskZones, null, 2))}</textarea></label></section><section class="side-card"><h2>校验结果</h2><div class="validation-grid">${renderChecks(workbench.checks)}</div></section></aside></section><section class="jumbotron-kpis" aria-label="底部预览栏"><span class="jumbotron-chip"><span>进度滑杆</span><strong>${workbench.settings.previewProgress}%</strong></span><label>进度滑杆<input type="range" name="previewProgress" min="0" max="100" value="${escapeHtml(workbench.settings.previewProgress)}"></label><label>马匹数量<input name="horseCount" value="${escapeHtml(workbench.settings.horseCount)}"></label><label>速度<input name="previewSpeed" value="${escapeHtml(workbench.settings.previewSpeed)}"></label><label>播放状态<select name="playMode"><option value="paused"${workbench.settings.playMode === 'paused' ? ' selected' : ''}>暂停</option><option value="play"${workbench.settings.playMode === 'play' ? ' selected' : ''}>播放</option></select></label><label>场景预设<select name="scenarioPreset"><option value="clustered"${workbench.settings.scenarioPreset === 'clustered' ? ' selected' : ''}>clustered</option><option value="spread"${workbench.settings.scenarioPreset === 'spread' ? ' selected' : ''}>spread</option><option value="finish"${workbench.settings.scenarioPreset === 'finish' ? ' selected' : ''}>finish</option></select></label><button class="button" type="submit">校验、预览或导出</button><a class="button secondary" href="/jumbotron">返回 赛事大屏</a></section></form><script>
+  const content = `<section class="jumbotron-page calibrator-page"><section class="jumbotron-header" aria-label="顶部工具栏"><div class="jumbotron-brandline"><span class="jumbotron-live">MVP</span><strong>赛道校准器</strong><span>设计资产工具</span></div><div class="jumbotron-statusbar"><button class="button secondary" form="calibrator-form" type="submit">导入底图</button><button class="button secondary" form="calibrator-form" type="submit">导入候选配置</button><button class="button secondary" form="calibrator-form" type="submit">校验</button><button class="button secondary" form="calibrator-form" type="submit">预览</button><button class="button" form="calibrator-form" type="submit">导出</button></div></section>${workbench.error ? `<section class="notice warn"><strong>导入解析失败</strong><p>${escapeHtml(workbench.error)}</p></section>` : ''}<form id="calibrator-form" method="post" action="/jumbotron/calibrator"><input type="hidden" name="centerlinePointsJson" id="hf-centerlinePoints"><input type="hidden" name="checkpointsJson" id="hf-checkpoints"><input type="hidden" name="lanesJson" id="hf-lanes"><input type="hidden" name="startSHidden" id="hf-startS"><input type="hidden" name="finishSHidden" id="hf-finishS"><section class="jumbotron-calibrator calibrator-compact-head"><div class="eyebrow">画布校准 → 校验 → 导出</div><h1>赛道校准器</h1><p class="muted">先在主画布调整赛道；导入、候选 JSON 和冻结结果收在折叠区。</p><section class="notice" aria-label="第二赛道候选入口"><strong>第二赛道候选入口</strong><strong>${escapeHtml(secondTrackReviewTitle)}</strong><p class="muted">${escapeHtml(secondTrackReviewCopy)}</p><div class="cta-row"><a class="button secondary" href="/jumbotron/calibrator?candidate=real-explicit-closed-course">打开第二赛道校准器</a><span class="jumbotron-chip"><span>候选赛道选择</span><strong>real-explicit-closed-course</strong></span></div><section class="notice"><strong>real-explicit-closed-course candidate asset evidence</strong><p class="muted">validation=pass；containsPlaceholderAssets=false；centerline=40 点；runtime=41 点；lanes=12；checkpoints=4；候选已提升=true。</p></section></section><details class="calibrator-fold"><summary><strong>导入与候选配置</strong><span>底图、候选 JSON</span></summary><div class="calibrator-grid"><article><strong>导入底图</strong><p class="muted">选择允许的背景资产，校验会检查 allowlist 与文件存在。</p><label>允许背景资产<select name="backgroundSrc">${backgroundOptions}</select></label><label>自定义 /assets/ 输入<input name="backgroundSrcCustom" value="${escapeHtml(body.backgroundSrcCustom || '')}" placeholder="/assets/public-yard-hero.webp"></label></article><article><strong>导入候选配置</strong><textarea name="profileJson" rows="5">${escapeHtml(body.profileJson || workbench.exportJson)}</textarea></article></div></details><details class="calibrator-fold"><summary><strong>导出冻结候选配置</strong><span>JSON 与复核状态</span></summary><article class="calibrator-export"><textarea readonly rows="6">${escapeHtml(workbench.exportJson)}</textarea>${renderCalibratorAssetReviewStatus(workbench.assetReview)}<p class="muted">冻结候选不等于正式资产 confirmed。</p></article></details>${autoFixPanel}</section><section class="jumbotron-layout calibrator-layout" aria-label="Calibrator IA"><section class="track-stage-card" aria-label="主画布"><div class="eyebrow">主画布</div><h2>底图层、中心线层、控制点层</h2><p id="calibrator-canvas-status" class="calibrator-canvas-help">画布操作已开启：点击画布添加点，拖拽 P 点移动；点击校验、预览或导出 后用 server runtime 重算预览。</p><svg id="calibrator-canvas" class="track-svg" viewBox="${viewBox.x || 0} ${viewBox.y || 0} ${viewBox.width} ${viewBox.height}" role="img" aria-label="赛道校准器 主画布"><rect class="track-bg" x="${viewBox.x || 0}" y="${viewBox.y || 0}" width="${viewBox.width}" height="${viewBox.height}" rx="42"/><image data-background-image class="calibrator-background-image" href="${escapeHtml(backgroundSrc)}" x="${viewBox.x || 0}" y="${viewBox.y || 0}" width="${viewBox.width}" height="${viewBox.height}" opacity="0.42" preserveAspectRatio="xMidYMid slice"/><text class="debug-label" x="${(viewBox.x || 0) + 44}" y="${(viewBox.y || 0) + 58}">底图层：${escapeHtml(backgroundSrc || '未选择')}</text><g data-zone-layer data-zone-type="messageZones">${profile.messageZones.map((zone) => zone.rect ? `<rect x="${zone.rect.x}" y="${zone.rect.y}" width="${zone.rect.width}" height="${zone.rect.height}" fill="rgba(34,197,94,.1)" stroke="#22c55e" stroke-dasharray="6 5"/>` : '').join('')}</g><g data-zone-layer data-zone-type="riskZones">${profile.riskZones.map((zone) => `<rect x="${zone.x}" y="${zone.y}" width="${zone.width}" height="${zone.height}" fill="rgba(239,68,68,.12)" stroke="#ef4444" stroke-dasharray="8 6"/>`).join('')}</g><g data-zone-layer data-zone-type="noBubbleZones">${profile.noBubbleZones.map((zone) => `<rect x="${zone.x}" y="${zone.y}" width="${zone.width}" height="${zone.height}" fill="rgba(15,23,42,.08)" stroke="#64748b" stroke-dasharray="5 6"/>`).join('')}</g><path class="track-band" data-centerline-band d="${jumbotronPath(profile.centerlinePath)}"/>${lanePreview}<polyline class="track-centerline" data-centerline-polyline points="${jumbotronPolyline(profile.centerlinePath)}"/><polyline data-closing-segment class="track-closing-segment" points="" display="none"/><g data-control-points-layer>${profile.centerlinePath.map((point, index) => `<g class="calibrator-point" data-control-point data-index="${index}" transform="translate(${point.x} ${point.y})"><circle r="8" fill="#fff" stroke="#1f49d8" stroke-width="3"/><text class="debug-label" x="12" y="5">P${index}</text></g>`).join('')}</g><g data-checkpoints-layer>${checkpointMarkers}</g><g data-start-handle transform="translate(${startHandle.x} ${startHandle.y})"><circle r="10" fill="#22c55e" stroke="#064e3b" stroke-width="3"/><text class="debug-label" x="14" y="5">Start</text></g><g data-finish-handle transform="translate(${finishHandle.x} ${finishHandle.y})"><circle r="10" fill="#f97316" stroke="#7c2d12" stroke-width="3"/><text class="debug-label" x="14" y="5">Finish</text></g><g transform="translate(${workbench.singlePose.pose.x} ${workbench.singlePose.pose.y})"><circle r="18" fill="#a855f7" stroke="#f5d0fe" stroke-width="4"/><text class="debug-label" x="24" y="6">Scrubber ${workbench.settings.previewProgress}%</text></g>${workbench.multiHorsePoses.map(({ entry, pose }) => `<g transform="translate(${pose.x} ${pose.y})"><circle r="9" fill="#1f49d8" stroke="#dbeafe" stroke-width="2"/><text class="debug-label" x="14" y="5">${escapeHtml(entry.displayName.replace('Horse ', '#'))}</text></g>`).join('')}<rect x="${bubble.x}" y="${bubble.y}" width="${bubble.width}" height="${bubble.height}" rx="12" fill="rgba(255,255,255,.96)" stroke="${workbench.messageBubblePreview.blockedByNoZone ? '#ef4444' : '#1f49d8'}" stroke-width="2"/><text class="debug-label" x="${bubble.x + 12}" y="${bubble.y + 32}">消息气泡预览</text><polyline data-trace-guide class="calibrator-trace-guide" points="" display="none"/></svg><div class="calibrator-grid"><article><strong>底图层</strong><p class="muted">${escapeHtml(profile.background?.src || '未选择背景')}</p></article><article><strong>中心线层</strong><p class="muted">${profile.centerlinePath.length} 个点；${profile.centerline?.closed ? '闭合路径' : '开放路径'}</p></article><article><strong>控制点层</strong><p class="muted">支持画布点击添加、拖拽移动、删除和 JSON 高级编辑。</p></article><article data-lane-summary><strong>泳道预览层</strong><p class="muted">${profile.lanes.length} 条泳道偏移预览。</p></article><article data-checkpoint-summary><strong>检查点层</strong><p class="muted">${profile.checkpoints.length} 个检查点。</p></article><article><strong>马匹预览层</strong><p class="muted">进度滑杆单马 + ${workbench.multiHorsePoses.length} 匹多马预览。大屏运行时采样，预览复用大屏运行时。</p></article><article><strong>消息气泡预览层</strong><p class="muted">基于 消息区、禁气泡区；${workbench.messageBubblePreview.blockedByNoZone ? '当前落在 禁气泡区' : '当前可显示示例气泡'}。</p></article></div></section><aside aria-label="右侧面板"><section class="side-card"><div class="eyebrow">右侧面板</div><h2>赛道信息</h2><label>trackId<input name="trackId" value="${escapeHtml(profile.trackId)}"></label><label>name<input name="name" value="${escapeHtml(profile.name)}"></label></section><section class="side-card"><h2>几何</h2><p class="muted">高级 JSON</p><label>中心线 JSON<textarea id="calibrator-centerline-points" name="centerlinePoints" rows="8">${escapeHtml(JSON.stringify(profile.centerlinePath, null, 2))}</textarea></label><div class="calibrator-mode-grid"><label><input type="radio" name="calibratorMode" value="centerline" checked> 中心线</label><label><input type="radio" name="calibratorMode" value="trace"> 描线</label><label><input type="radio" name="calibratorMode" value="keypoints"> 关键点安全</label><label><input type="radio" name="calibratorMode" value="checkpoint"> 检查点</label></div><p class="muted" data-keypoint-safe-copy>关键点安全模式只修改起终点和检查点的 s，不修改中心线几何。</p><div class="cta-row"><button class="button secondary" type="button" data-calibrator-undo>撤销</button><button class="button secondary" type="button" data-calibrator-redo>重做</button></div><div class="cta-row"><label>新增 x<input name="addPointX" value="${escapeHtml(body.addPointX || '600')}"></label><label>新增 y<input name="addPointY" value="${escapeHtml(body.addPointY || '310')}"></label><button id="calibrator-add-point-button" class="button secondary" name="centerlineAction" value="add" type="submit">添加中心线点</button><button id="calibrator-reverse-button" class="button secondary" name="reverseDirection" value="1" type="submit">反转路径方向</button></div><table><thead><tr><th>#</th><th>x</th><th>y</th><th>操作</th></tr></thead><tbody data-control-points-table>${renderControlPoints}</tbody></table><p class="muted">拖拽中心线点；Shift+点击路径添加检查点。</p><div class="calibrator-trace-panel" data-trace-panel><strong>描线模式</strong><p class="muted">按住鼠标沿底图道路拖动即可连续采样；验证通过不等于正式资产确认。</p><div class="calibrator-trace-controls"><label>采样距离<input id="calibrator-trace-min-distance" type="number" min="4" max="80" value="16"></label><button class="button secondary" id="calibrator-close-trace" type="button">闭合描线</button><button class="button secondary" id="calibrator-copy-trace-json" type="button">复制点集 JSON</button></div><textarea id="calibrator-trace-output" readonly rows="5"></textarea></div><div data-context-menu class="calibrator-context-menu" hidden><button class="button secondary" type="button" data-context-action="insert-nearest-segment">在最近线段插入点</button></div></section><section class="side-card"><h2>终点线</h2><label>startS<input name="startS" value="${escapeHtml(profile.startFinish?.startS ?? 0)}"></label><label>finishS<input name="finishS" value="${escapeHtml(profile.startFinish?.finishS ?? 1)}"></label></section><section class="side-card"><h2>方向</h2><label>direction<select name="direction"><option value="clockwise"${profile.direction === 'clockwise' ? ' selected' : ''}>clockwise</option><option value="counterclockwise"${profile.direction === 'counterclockwise' ? ' selected' : ''}>counterclockwise</option></select></label><label>closed<select name="closed"><option value="true"${profile.centerline?.closed ? ' selected' : ''}>true</option><option value="false"${!profile.centerline?.closed ? ' selected' : ''}>false</option></select></label><label>平滑路径预览<select name="smoothing"><option value="mvp-polyline"${profile.centerline?.smoothing === 'mvp-polyline' ? ' selected' : ''}>关闭：mvp-polyline</option><option value="preview-smoothing"${profile.centerline?.smoothing === 'preview-smoothing' ? ' selected' : ''}>开启：preview-smoothing</option></select></label><p class="muted">平滑路径预览是 MVP 视觉提示，不改写 runtime 事实来源。</p></section><section class="side-card"><h2>泳道</h2><label>泳道数量<input name="laneCount" value="${escapeHtml(profile.lanes.length)}"></label><label>泳道间距<input name="laneSpacing" value="28"></label><textarea name="lanes" rows="8">${escapeHtml(JSON.stringify(profile.lanes, null, 2))}</textarea></section><section class="side-card"><h2>检查点</h2><textarea name="checkpoints" rows="7">${escapeHtml(JSON.stringify(profile.checkpoints, null, 2))}</textarea></section><section class="side-card"><h2>消息气泡与区域</h2><label>消息区<textarea name="messageZones" rows="5">${escapeHtml(JSON.stringify(profile.messageZones, null, 2))}</textarea></label><label>禁气泡区<textarea name="noBubbleZones" rows="5">${escapeHtml(JSON.stringify(profile.noBubbleZones, null, 2))}</textarea></label><label>风险区<textarea name="riskZones" rows="5">${escapeHtml(JSON.stringify(profile.riskZones, null, 2))}</textarea></label></section><section class="side-card"><h2>校验结果</h2><div class="validation-grid">${renderChecks(workbench.checks)}</div></section></aside></section><section class="jumbotron-kpis" aria-label="底部预览栏"><span class="jumbotron-chip"><span>进度滑杆</span><strong>${workbench.settings.previewProgress}%</strong></span><label>进度滑杆<input type="range" name="previewProgress" min="0" max="100" value="${escapeHtml(workbench.settings.previewProgress)}"></label><label>马匹数量<input name="horseCount" value="${escapeHtml(workbench.settings.horseCount)}"></label><label>速度<input name="previewSpeed" value="${escapeHtml(workbench.settings.previewSpeed)}"></label><label>播放状态<select name="playMode"><option value="paused"${workbench.settings.playMode === 'paused' ? ' selected' : ''}>暂停</option><option value="play"${workbench.settings.playMode === 'play' ? ' selected' : ''}>播放</option></select></label><label>场景预设<select name="scenarioPreset"><option value="clustered"${workbench.settings.scenarioPreset === 'clustered' ? ' selected' : ''}>clustered</option><option value="spread"${workbench.settings.scenarioPreset === 'spread' ? ' selected' : ''}>spread</option><option value="finish"${workbench.settings.scenarioPreset === 'finish' ? ' selected' : ''}>finish</option></select></label><button class="button" type="submit">校验、预览或导出</button><a class="button secondary" href="/jumbotron">返回 赛事大屏</a></section></form><script>
 (() => {
   const syncCalibratorInspectorHeight = () => {
     const layout = document.querySelector('.calibrator-layout');
@@ -3839,6 +3834,7 @@ function renderTrackCalibrator(session, body = {}, options = {}) {
   let dragIndex = -1;
   let didDrag = false;
   let dragSnapshot = null;
+  let keypointDrag = null;
   let traceActive = false;
   let traceChanged = false;
   let traceSnapshot = null;
@@ -3869,7 +3865,9 @@ function renderTrackCalibrator(session, body = {}, options = {}) {
     points: pointList(),
     closed: String(closedSelect?.value || 'true'),
     selectedIndex,
-    checkpoints: checkpointsTextarea?.value || '[]'
+    checkpoints: checkpointsTextarea?.value || '[]',
+    startS: form.elements.startS?.value || '0',
+    finishS: form.elements.finishS?.value || '1'
   });
   const updateHistoryButtons = () => {
     if (undoButton) undoButton.disabled = history.undo.length === 0;
@@ -3885,6 +3883,8 @@ function renderTrackCalibrator(session, body = {}, options = {}) {
     points = (state.points || []).map((point) => ({ x: Number(point.x), y: Number(point.y) })).filter((point) => Number.isFinite(point.x) && Number.isFinite(point.y));
     if (closedSelect) closedSelect.value = state.closed || 'true';
     if (checkpointsTextarea) checkpointsTextarea.value = state.checkpoints || '[]';
+    if (form.elements.startS) form.elements.startS.value = state.startS || '0';
+    if (form.elements.finishS) form.elements.finishS.value = state.finishS || state.startS || '1';
     selectedIndex = Number.isInteger(state.selectedIndex) ? state.selectedIndex : -1;
     dragIndex = -1;
     traceActive = false;
@@ -3970,16 +3970,37 @@ function renderTrackCalibrator(session, body = {}, options = {}) {
     }
     return total ? Math.max(0, Math.min(1, (best.before + best.length * best.ratio) / total)) : 0;
   };
+  const startFinishSamePoint = () => Math.abs(Number(form.elements.startS?.value || 0) - Number(form.elements.finishS?.value || 1)) < 0.0005;
+  const setStartFinishS = (s) => {
+    const value = String(Math.max(0, Math.min(1, Number(s) || 0)).toFixed(4)).replace(/0+$/, '').replace(/\.$/, '');
+    if (form.elements.startS) form.elements.startS.value = value;
+    if (form.elements.finishS) form.elements.finishS.value = value;
+    const checkpoints = readCheckpoints().map((checkpoint) => checkpoint.checkpointId === 'cp-start' ? { ...checkpoint, s: Number(value), label: checkpoint.label || '起终点' } : checkpoint);
+    if (checkpointsTextarea) checkpointsTextarea.value = JSON.stringify(checkpoints, null, 2);
+  };
+  const setCheckpointS = (index, s) => {
+    const checkpoints = readCheckpoints();
+    if (!checkpoints[index]) return;
+    const value = Math.max(0, Math.min(1, Number(s) || 0));
+    checkpoints[index].s = value;
+    if (checkpoints[index].checkpointId === 'cp-start') setStartFinishS(value);
+    else if (checkpointsTextarea) checkpointsTextarea.value = JSON.stringify(checkpoints, null, 2);
+  };
   const renderCheckpoints = () => {
     if (!checkpointsLayer) return;
-    checkpointsLayer.innerHTML = readCheckpoints().map((checkpoint) => {
+    const startPoint = pointAtS(form.elements.startS?.value || 0);
+    const startHandle = '<g class="checkpoint keypoint-safe-handle" style="pointer-events:all;cursor:grab" data-keypoint-handle="start" transform="translate(' + startPoint.x + ' ' + startPoint.y + ')"><circle r="12" fill="#22c55e" stroke="#064e3b" stroke-width="3"/><text x="16" y="5">起终点</text></g>';
+    const checkpointHandles = readCheckpoints().map((checkpoint, index) => {
+      if (checkpoint.checkpointId === 'cp-start') return '';
       const point = pointAtS(checkpoint.s);
-      return '<g class="checkpoint" data-local-checkpoint transform="translate(' + point.x + ' ' + point.y + ')"><circle r="8" fill="#facc15" stroke="#713f12" stroke-width="3"/><text x="12" y="5">' + checkpoint.label.replace(/[<>&]/g, '') + '</text></g>';
+      return '<g class="checkpoint keypoint-safe-handle" style="pointer-events:all;cursor:grab" data-keypoint-handle="checkpoint" data-checkpoint-index="' + index + '" transform="translate(' + point.x + ' ' + point.y + ')"><circle r="8" fill="#facc15" stroke="#713f12" stroke-width="3"/><text x="12" y="5">' + checkpoint.label.replace(/[<>&]/g, '') + '</text></g>';
     }).join('');
+    checkpointsLayer.innerHTML = startHandle + checkpointHandles;
+    checkpointsLayer.style.pointerEvents = currentMode() === 'keypoints' ? 'all' : '';
   };
   const renderControls = () => {
     if (!controlsLayer) return;
-    controlsLayer.innerHTML = points.map((point, index) => '<g class="calibrator-point' + (index === selectedIndex ? ' is-selected' : '') + (index === dragIndex ? ' is-dragging' : '') + '" data-control-point data-index="' + index + '" transform="translate(' + point.x + ' ' + point.y + ')"><circle r="8" fill="#fff" stroke="#1f49d8" stroke-width="3"/><text class="debug-label" x="12" y="5">P' + index + '</text></g>').join('');
+    controlsLayer.innerHTML = currentMode() === 'keypoints' ? '' : points.map((point, index) => '<g class="calibrator-point' + (index === selectedIndex ? ' is-selected' : '') + (index === dragIndex ? ' is-dragging' : '') + '" data-control-point data-index="' + index + '" transform="translate(' + point.x + ' ' + point.y + ')"><circle r="8" fill="#fff" stroke="#1f49d8" stroke-width="3"/><text class="debug-label" x="12" y="5">P' + index + '</text></g>').join('');
   };
   const renderTable = () => {
     if (!tableBody) return;
@@ -4002,8 +4023,9 @@ function renderTrackCalibrator(session, body = {}, options = {}) {
     renderControls();
     renderTable();
     renderCheckpoints();
+    if (currentMode() === 'keypoints' && checkpointsLayer) svg.appendChild(checkpointsLayer);
     updateHistoryButtons();
-    updateStatus(message || '画布操作已开启：中心线可点击和拖拽；描线模式下按住鼠标沿底图采样；支持撤销和重做。');
+    updateStatus(message || (currentMode() === 'keypoints' ? '关键点安全模式：只能移动起终点和检查点，不修改中心线几何。' : '画布操作已开启：中心线可点击和拖拽；描线模式下按住鼠标沿底图采样；支持撤销和重做。'));
     if (typeof window.syncCalibratorInspectorHeight === 'function') window.syncCalibratorInspectorHeight();
   }
   const eventPoint = (event) => {
@@ -4083,6 +4105,17 @@ function renderTrackCalibrator(session, body = {}, options = {}) {
   };
 
   svg.addEventListener('pointerdown', (event) => {
+    if (currentMode() !== 'keypoints') return;
+    const handle = event.target.closest('[data-keypoint-handle]');
+    if (!handle) return;
+    event.preventDefault();
+    keypointDrag = { type: handle.getAttribute('data-keypoint-handle'), index: Number(handle.getAttribute('data-checkpoint-index') || -1) };
+    dragSnapshot = snapshot();
+    try { svg.setPointerCapture(event.pointerId); } catch {}
+    redraw('已选中关键点；拖动只会修改路径进度 s。');
+  });
+  svg.addEventListener('pointerdown', (event) => {
+    if (currentMode() === 'keypoints') return;
     const control = event.target.closest('[data-control-point]');
     if (!control) return;
     event.preventDefault();
@@ -4094,7 +4127,7 @@ function renderTrackCalibrator(session, body = {}, options = {}) {
     redraw('已选中 P' + selectedIndex + '；拖拽可移动点位。');
   });
   svg.addEventListener('pointerdown', (event) => {
-    if (event.target.closest('[data-control-point]')) return;
+    if (event.target.closest('[data-control-point]') || event.target.closest('[data-keypoint-handle]')) return;
     if (currentMode() !== 'trace' && !event.altKey) return;
     beginTrace(event, Boolean(event.altKey));
   });
@@ -4106,6 +4139,16 @@ function renderTrackCalibrator(session, body = {}, options = {}) {
       if (addTracePoint(point)) { traceChanged = true; redraw('正在描线；松开后可撤销、闭合或导出。'); }
       return;
     }
+    if (keypointDrag) {
+      const point = eventPoint(event);
+      if (!point) return;
+      event.preventDefault();
+      const s = nearestS(point);
+      if (keypointDrag.type === 'start') setStartFinishS(s);
+      else setCheckpointS(keypointDrag.index, s);
+      redraw('正在移动关键点；中心线几何未修改。');
+      return;
+    }
     if (dragIndex < 0) return;
     const point = eventPoint(event);
     if (!point) return;
@@ -4115,6 +4158,15 @@ function renderTrackCalibrator(session, body = {}, options = {}) {
     redraw('正在拖拽 P' + dragIndex + '；松开后可撤销。');
   });
   const finishDrag = (event) => {
+    if (keypointDrag) {
+      const label = keypointDrag.type === 'start' ? '起终点' : '检查点';
+      keypointDrag = null;
+      try { svg.releasePointerCapture(event.pointerId); } catch {}
+      if (dragSnapshot) remember(dragSnapshot);
+      dragSnapshot = null;
+      redraw('已移动' + label + '；只更新 s，不修改中心线几何。');
+      return;
+    }
     if (dragIndex < 0) return;
     const finishedIndex = dragIndex;
     dragIndex = -1;
@@ -4130,7 +4182,7 @@ function renderTrackCalibrator(session, body = {}, options = {}) {
   svg.addEventListener('pointerup', (event) => { finishTrace(event); finishDrag(event); });
   svg.addEventListener('pointercancel', (event) => { finishTrace(event); finishDrag(event); });
   svg.addEventListener('click', (event) => {
-    if (suppressNextClick || didDrag || event.target.closest('[data-control-point]') || currentMode() === 'trace') return;
+    if (suppressNextClick || didDrag || event.target.closest('[data-control-point]') || event.target.closest('[data-keypoint-handle]') || currentMode() === 'trace' || currentMode() === 'keypoints') return;
     const point = eventPoint(event);
     if (!point) return;
     event.preventDefault();
@@ -4175,6 +4227,7 @@ function renderTrackCalibrator(session, body = {}, options = {}) {
     selectedIndex = -1;
     redraw('中心线 JSON 已应用到画布；可撤销。');
   });
+  form.elements.calibratorMode?.forEach?.((input) => input.addEventListener('change', () => redraw(currentMode() === 'keypoints' ? '关键点安全模式：只能移动起终点和检查点，不修改中心线几何。' : '已切换编辑模式。')));
   redraw();
 })();
 </script>${demoMode ? renderCalibratorDemoGuide() : ''}<section class="jumbotron-validation" id="calibrator-debug-preview"><div class="eyebrow">P1 调试预览</div><h2>导出调试预览 PNG</h2><p class="muted">调试预览证据用于核对 HTML/SVG 预览、区域叠层和 debug-preview.png 导出状态。</p><div class="cta-row"><a class="button secondary" href="/jumbotron/debug-preview.png">导出调试预览 PNG</a><span class="jumbotron-chip"><span>debug-preview.png</span><strong>已完成</strong></span></div></section>${renderCalibratorDemoGuide()}<section class="jumbotron-validation" data-drag-proof><div class="eyebrow">拖拽状态变化证据</div><h2>zone 坐标变化证据</h2><p class="muted" data-drag-proof-current>before/current/delta 会在拖拽时更新；lastDragProof = buildDragProof('dragging')；lastDragProof = buildDragProof('completed')；dragProof.layer.innerHTML。</p><svg class="calibrator-preview-svg" viewBox="0 0 1200 160" role="img" aria-label="拖拽证明图层"><g data-drag-proof-layer></g></svg></section><section class="jumbotron-validation"><div class="eyebrow">校准证明</div><h2>校准证明</h2><p class="muted">预览复用大屏运行时；进入大屏。</p><div class="cta-row"><a class="button secondary" href="/jumbotron/calibrator?demo=1">打开演示模式</a><a class="button secondary" href="/jumbotron">进入大屏</a></div></section><section class="jumbotron-validation"><div class="eyebrow">JSON 差异预览</div><h2>导入配置到导出候选的差异</h2><p class="muted">只比较 Calibrator 会写入 track.profile.json 的关键字段，用于审阅导入值和冻结候选之间发生了什么变化。</p><table><thead><tr><th>字段</th><th>导入配置</th><th>导出候选</th><th>状态</th></tr></thead><tbody>${renderJsonDiffRows}</tbody></table></section><section class="jumbotron-validation"><div class="eyebrow">Calibrator P1 待办边界</div><h2>P1 功能边界</h2><div class="validation-grid">${workbench.p1Backlog.map(([title, status, note]) => `<article><strong>${escapeHtml(title)} · ${escapeHtml(status)}</strong><p class="muted">${escapeHtml(note)}</p></article>`).join('')}</div></section></section>`;
@@ -4372,9 +4425,10 @@ const keypointInitial = ${payloadJson};
 function renderJumbotronFooter({ trackProfile, raceSnapshot, showReviewTools }) {
   const competition = raceSnapshot.competition;
   const reviewHref = showReviewTools ? '/jumbotron' : '/jumbotron?debug=1';
-  const reviewTools = showReviewTools ? renderJumbotronSideDrawer({ eyebrow: '审阅', title: '调试工具', body: `<div class="cta-row"><a class="button secondary" href="${reviewHref}">返回公开视图</a><a class="button secondary" href="/jumbotron/calibrator">赛道校准器</a></div>` }) : '';
+  const reviewLabel = showReviewTools ? '返回大屏' : '调试审阅';
+  const tools = renderJumbotronSideDrawer({ eyebrow: '工具', title: '审阅和校准', body: `<div class="cta-row"><a class="button secondary" href="${reviewHref}">${reviewLabel}</a><a class="button secondary" href="/jumbotron/calibrator">赛道校准器</a></div>` });
   const statusBody = `<div class="jumbotron-status-lines" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px 22px"><p class="muted" style="margin:0"><strong style="display:block;margin-bottom:5px;color:#344054">主题</strong><span>${escapeHtml(competition.theme)}</span></p><p class="muted" style="margin:0"><strong style="display:block;margin-bottom:5px;color:#344054">主办方</strong><span>${escapeHtml(competition.organizer || 'Organizer')}</span></p><p class="muted" style="margin:0"><strong style="display:block;margin-bottom:5px;color:#344054">阶段</strong><span>${escapeHtml(competition.currentPhase)}</span></p><p class="muted" style="margin:0"><strong style="display:block;margin-bottom:5px;color:#344054">下一步</strong><span>${escapeHtml(competition.nextPhase)}</span></p></div>`;
-  return `<section class="jumbotron-footer">${renderJumbotronSideDrawer({ eyebrow: '赛事状态', title: competition.liveStatus, body: statusBody })}${reviewTools}</section>`;
+  return `<section class="jumbotron-footer">${renderJumbotronSideDrawer({ eyebrow: '赛事状态', title: competition.liveStatus, body: statusBody })}${tools}</section>`;
 }
 
 function renderLogin(error = '', view = '') {
@@ -4394,7 +4448,7 @@ async function renderYard(session) {
   const review = reviewLabel(current, service);
   return page('Race', '/yard', session, `<section class="hero"><div class="panel hero-art public-hero"><div class="eyebrow">Public Yard</div><h1>可参加的 Race</h1>${metricStrip([{ label: 'Race', value: publicRaceCount(disclosures), caption: current ? '公开中' : '等待披露', tone: current ? 'green' : 'amber' }, { label: 'Status', value: current ? stateFor(current.status).label : '未开放', caption: current ? stateFor(current.status).body : '等待 Organizer 披露', tone: current ? stateFor(current.status).tone : 'amber' }, { label: 'Review', value: review.value, caption: review.caption, tone: review.tone }])}</div><aside class="card visual-card"><span class="pill purple">GRS 001</span><h2>证明目标</h2><p>只公开 Race 摘要；Organizer 本地数据服务不可用时评测服务暂停。</p></aside></section>${visible.length ? `<section class="grid">${visible.map((race) => {
     const state = stateFor(race.status);
-    return `<article class="card"><span class="pill ${state.tone}">${escapeHtml(state.label)}</span><h2>${escapeHtml(race.title)}</h2><p>${escapeHtml(race.publicGoal)}</p><p class="muted">${escapeHtml(race.sourceStateLabel)}</p><div class="cta-row"><a class="button" href="${escapeHtml(withSessionView(`/race/${race.raceId}`, session))}">查看 Race</a>${isTeam(session) && canSubmitRace(race) ? `<a class="button secondary" href="${escapeHtml(withSessionView('/team/submit', session))}">提交</a>` : ''}</div></article>`;
+    return `<article class="card"><span class="pill ${state.tone}">${escapeHtml(state.label)}</span><h2>${escapeHtml(race.title)}</h2><p>${escapeHtml(race.publicGoal)}</p><p class="muted">${escapeHtml(race.sourceStateLabel)}</p><div class="cta-row"><a class="button" href="${escapeHtml(withSessionView(`/race/${race.raceId}`, session))}">查看 Race</a><a class="button secondary" href="${escapeHtml(withSessionView('/jumbotron', session))}">进入 Jumbotron</a>${isTeam(session) && canSubmitRace(race) ? `<a class="button secondary" href="${escapeHtml(withSessionView('/team/submit', session))}">提交</a>` : ''}</div></article>`;
   }).join('')}</section>` : '<section class="notice warn"><strong>暂无公开 Race</strong><p>等待 Organizer 披露后，Race 会出现在这里。</p></section>'}`);
 }
 

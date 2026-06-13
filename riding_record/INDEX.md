@@ -18,7 +18,7 @@
 - [session 10](session-10-public-yard-private-source-restructure.md)：按 GRS001 评分标准重构 Public Yard / Private Race Source 主证明链
 - [session 11](session-11-final-prd-swarm-consistency-review.md)：最终 PRD、README、Knowledge 和蜂群反思的一致性审阅
 - [session 11-week2](session-11-week2-jumbotron-framework.md)：Week2 Jumbotron 框架、Race Live View、Calibrator、资产接入、轨道重校准和左右朝向收敛
-- [session 12](session-12-week2-jumbotron-mock-data.md)：Week2 Jumbotron mock-data 迁入、timeline replay、主视觉比例、几何隐藏和底栏工具栏收敛
+- [session 12](session-12-week2-jumbotron-mock-data.md)：Week2 Jumbotron mock-data 迁入、timeline replay、主视觉比例、几何隐藏、底栏工具栏、主页文案和抽屉布局收敛
 
 ## 辅助素材
 
