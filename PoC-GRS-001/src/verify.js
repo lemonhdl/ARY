@@ -499,6 +499,10 @@ try {
   assertIncludes(jumbotron.body, '最近消息：', 'focus detail should prioritize latest message');
   assertIncludes(jumbotron.body, 'jumbotronLowPulse', 'jumbotron should include low-frequency live atmosphere animation');
   assertIncludes(jumbotron.body, '队伍图例', 'jumbotron should show team legend');
+  assertIncludes(jumbotron.body, 'class="jumbotron-focus-source focus-trigger legend-entry"', 'team legend entries should be hoverable focus sources');
+  assertIncludes(jumbotron.body, 'data-legend-entry-id=', 'team legend entries should expose stable entry ids');
+  assertIncludes(jumbotron.body, '.legend-entry .html-tooltip{left:calc(100% + 10px)', 'team legend tooltip should open next to the hovered legend entry');
+  assertIncludes(jumbotron.body, '.jumbotron-focus-source.legend-entry:hover .html-tooltip', 'team legend tooltip hover rule should override generic tooltip placement');
   assertNotIncludes(jumbotron.body, '队伍现场', 'public jumbotron should not show empty team scene action');
   assertNotIncludes(jumbotron.body, '展示边界', 'public jumbotron should not show internal boundary explanation');
   assertNotIncludes(jumbotron.body, '只展示摘要', 'public jumbotron should not explain display boundary in the main view');
@@ -533,6 +537,7 @@ try {
   assertIncludes(jumbotron.body, 'jumbotron-mini-map-drawer', 'mini map drawer should have a dedicated overlay class');
   assertIncludes(jumbotron.body, '.jumbotron-live-layout>aside{grid-column:1;grid-row:1;overflow:visible}', 'live sidebar should allow mini map overlay without clipping');
   assertIncludes(jumbotron.body, '.jumbotron-mini-map-drawer .jumbotron-drawer-body{position:absolute', 'mini map drawer body should overlay instead of increasing sidebar height');
+  assertIncludes(jumbotron.body, 'box-shadow:0 18px 34px rgba(16,24,40,.18);overflow:visible', 'mini map drawer overlay should not clip nearby legend tooltips');
   assertIncludes(jumbotron.body, 'top:100%;z-index:8', 'mini map drawer overlay should open below the header without changing total height');
   assertIncludes(jumbotron.body, 'jumbotron-profile-drawer', 'jumbotron should expose collapsible data profile selector');
   assertIncludes(jumbotron.body, 'jumbotron-profile-drawer:hover .jumbotron-drawer-body', 'profile drawer should have its own expanded height');
