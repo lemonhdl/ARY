@@ -67,6 +67,10 @@ function svgViewBoxBounds(html, fallback = { x: 0, y: 0, width: 1200, height: 62
   return Number.isFinite(width) && Number.isFinite(height) ? { x, y, width, height } : fallback;
 }
 
+function calibratorControlPointCount(html) {
+  return [...html.matchAll(/data-control-point data-index="\d+"/g)].length;
+}
+
 function assertReplayEventBubblesSpatiallySeparated(html, label) {
   const tags = [...html.matchAll(/<g class="message-bubble-anchor jumbotron-replay-event-bubble"[^>]*>/g)].map((match) => match[0]);
   assert(tags.length > 0, `${label} should render replay event bubbles`);
@@ -88,6 +92,10 @@ function assertReplayEventBubblesSpatiallySeparated(html, label) {
     return rect;
   });
   assert(rects.every((rect, index) => rects.slice(index + 1).every((other) => !intersects(rect, other) && rectCenterDistance(rect, other) >= 220)), `${label} replay event bubbles should stay spatially separated`);
+}
+
+function countCalibratorPointLabels(html) {
+  return [...html.matchAll(/>P\d+</g)].length;
 }
 
 function assertSvgMessageBubblesInViewBox(html) {
@@ -146,6 +154,10 @@ function assertSvgMessageBubblesInViewBox(html) {
     assert(visible.length <= 3, 'message bubbles should not exceed three visible bubbles per second');
     assert(visible.every((current, index) => visible.slice(index + 1).every((other) => !intersects(current.rect, other.rect) && rectCenterDistance(current.rect, other.rect) >= 220)), 'simultaneous message bubbles should stay spatially separated');
   }
+}
+
+function assertReplayHasAnyEventKind(html, kinds, label) {
+  assert(kinds.some((kind) => html.includes(`data-replay-event-kind="${kind}"`)), `${label} should render one of replay event kinds: ${kinds.join(', ')}`);
 }
 
 function assertSvgHorseLabelsAvoidBboxes(html) {
@@ -464,12 +476,13 @@ try {
   assertIncludes(jumbotron.body, '赛事大屏', 'jumbotron should show public race live view');
   assertIncludes(jumbotron.body, '实时赛道', 'jumbotron should show main track');
   assertIncludes(jumbotron.body, '/jumbotron/candidate-assets/real-explicit-closed-course/background.webp', 'default jumbotron should render the confirmed second-track background asset');
-  assertIncludes(jumbotron.body, '✓ Real Explicit Closed Course', 'default jumbotron should use the confirmed second track');
+  assertIncludes(jumbotron.body, 'real-explicit-closed-course', 'default jumbotron should use the confirmed second track id');
   assertNotIncludes(jumbotron.body, '当前赛道已确认。', 'public jumbotron main view should not expose asset review confirmation copy');
   assertNotIncludes(jumbotron.body, 'GRS 技术回环赛道', 'jumbotron should not show the removed technical loop track option');
   assertNotIncludes(jumbotron.body, 'track=grs-technical-loop', 'jumbotron should not link to the removed technical loop track');
-  assertIncludes(jumbotron.body, '赛道选择', 'jumbotron should expose concise track switching boundary');
-  assertIncludes(jumbotron.body, 'Real Explicit Closed Course', 'jumbotron should list the human-confirmed second track as a formal switch option');
+  assertNotIncludes(jumbotron.body, '赛道选择', 'public jumbotron should not expose track switching controls');
+  assertNotIncludes(jumbotron.body, '切换赛道', 'public jumbotron should not expose track switching actions');
+  assertNotIncludes(jumbotron.body, '✓ Real Explicit Closed Course', 'public jumbotron should not show review selector active marks');
   assertIncludes(jumbotron.body, 'track-background-image', 'jumbotron should keep track background as its own SVG layer');
   assertIncludes(jumbotron.body, 'horse-rider-sprite', 'jumbotron should render collaborator rider sprites');
   assertNotIncludes(jumbotron.body, '<circle class="horse-body"', 'jumbotron should not render fallback circle when rider sprites exist');
@@ -483,6 +496,9 @@ try {
   assertIncludes(jumbotron.body, 'DevCompass Racing', 'jumbotron should show latest timeline finished runner-up');
   assertIncludes(jumbotron.body, 'Travel AIAR', 'jumbotron should show latest timeline finished third place');
   assertIncludes(jumbotron.body, '最终状态 · 冲线段', 'jumbotron should render the final state from the latest timeline');
+  assertIncludes(jumbotron.body, 'data-track-s="0.3125"', 'final jumbotron should keep finished entries on the confirmed start-finish point');
+  assertIncludes(jumbotron.body, 'data-lane-assignment="center-density-adaptive"', 'jumbotron should mark normal riders with center-first density-adaptive lane assignment');
+  assertIncludes(jumbotron.body, 'data-lane-assignment="exception-outer-priority"', 'jumbotron should mark exception riders that may leave the center-priority lane');
   assertIncludes(jumbotron.body, '异常情况', 'jumbotron should show enriched exception message');
   assertIncludes(jumbotron.body, 'GreenRoute · 47%', 'jumbotron should show entry progress percentage');
   assertIncludes(jumbotron.body, '小地图', 'jumbotron should show mini map');
@@ -499,6 +515,10 @@ try {
   assertIncludes(jumbotron.body, '最近消息：', 'focus detail should prioritize latest message');
   assertIncludes(jumbotron.body, 'jumbotronLowPulse', 'jumbotron should include low-frequency live atmosphere animation');
   assertIncludes(jumbotron.body, '队伍图例', 'jumbotron should show team legend');
+  assertIncludes(jumbotron.body, 'class="jumbotron-focus-source focus-trigger legend-entry"', 'team legend entries should be hoverable focus sources');
+  assertIncludes(jumbotron.body, 'data-legend-entry-id=', 'team legend entries should expose stable entry ids');
+  assertIncludes(jumbotron.body, '.legend-entry .html-tooltip{left:calc(100% + 10px)', 'team legend tooltip should open next to the hovered legend entry');
+  assertIncludes(jumbotron.body, '.jumbotron-focus-source.legend-entry:hover .html-tooltip', 'team legend tooltip hover rule should override generic tooltip placement');
   assertNotIncludes(jumbotron.body, '队伍现场', 'public jumbotron should not show empty team scene action');
   assertNotIncludes(jumbotron.body, '展示边界', 'public jumbotron should not show internal boundary explanation');
   assertNotIncludes(jumbotron.body, '只展示摘要', 'public jumbotron should not explain display boundary in the main view');
@@ -530,20 +550,21 @@ try {
   assertIncludes(jumbotron.body, 'liveAside.scrollTop += currentTop - active.top', 'jumbotron drawers should anchor hovered titles during expansion');
   assertIncludes(jumbotron.body, 'padding-bottom .26s ease', 'jumbotron drawers should expand downward without moving the body upward first');
   assertNotIncludes(jumbotron.body, 'transform:translateY(-4px)', 'jumbotron drawer body should not shift upward during hover expansion');
-  assertIncludes(jumbotron.body, 'jumbotron-profile-drawer', 'jumbotron should expose collapsible data profile selector');
-  assertIncludes(jumbotron.body, 'jumbotron-profile-drawer:hover .jumbotron-drawer-body', 'profile drawer should have its own expanded height');
-  assertIncludes(jumbotron.body, 'max-height:760px', 'profile drawer should fully show data and track options when expanded');
-  assertIncludes(jumbotron.body, '数据视图', 'jumbotron data profile selector should be Chinese');
-  assertIncludes(jumbotron.body, '选择展示范围', 'jumbotron should label profile selector in Chinese');
-  assertIncludes(jumbotron.body, '完整赛况', 'jumbotron should show full profile in Chinese');
-  assertIncludes(jumbotron.body, '全部公开队伍、消息和异常情况', 'jumbotron should show full profile purpose in Chinese');
-  assertIncludes(jumbotron.body, '轻量视图', 'jumbotron should show smoke profile in Chinese');
-  assertIncludes(jumbotron.body, '覆盖视图', 'jumbotron should show coverage profile in Chinese');
+  assertIncludes(jumbotron.body, 'jumbotron-mini-map-drawer', 'mini map drawer should have a dedicated overlay class');
+  assertIncludes(jumbotron.body, '.jumbotron-live-layout>aside{grid-column:1;grid-row:1;overflow:visible}', 'live sidebar should allow mini map overlay without clipping');
+  assertIncludes(jumbotron.body, '.jumbotron-mini-map-drawer .jumbotron-drawer-body{position:absolute', 'mini map drawer body should overlay instead of increasing sidebar height');
+  assertIncludes(jumbotron.body, 'box-shadow:0 18px 34px rgba(16,24,40,.18);overflow:visible', 'mini map drawer overlay should not clip nearby legend tooltips');
+  assertIncludes(jumbotron.body, 'top:100%;z-index:8', 'mini map drawer overlay should open below the header without changing total height');
+  assertNotIncludes(jumbotron.body, '<section class="jumbotron-drawer jumbotron-profile-drawer"', 'public jumbotron should not render the data profile selector drawer');
+  assertNotIncludes(jumbotron.body, '数据视图', 'public jumbotron should not show the data profile selector heading');
+  assertNotIncludes(jumbotron.body, '选择展示范围', 'public jumbotron should not show the profile range selector title');
+  assertNotIncludes(jumbotron.body, '轻量视图', 'public jumbotron should not show alternate profile names');
+  assertNotIncludes(jumbotron.body, '覆盖视图', 'public jumbotron should not show alternate profile names');
+  assertNotIncludes(jumbotron.body, '/jumbotron?profile=smoke-8', 'public jumbotron should not link alternate data profiles');
+  assertNotIncludes(jumbotron.body, '/jumbotron?profile=coverage-9', 'public jumbotron should not link alternate data profiles');
   assertNotIncludes(jumbotron.body, '档位编号：curated-full-12', 'public jumbotron should not expose internal profile IDs');
   assertNotIncludes(jumbotron.body, 'Data Profile', 'public jumbotron should not expose English data profile heading');
   assertNotIncludes(jumbotron.body, 'dataProfileId=', 'public jumbotron should not expose English data profile label');
-  assertIncludes(jumbotron.body, '/jumbotron?profile=smoke-8', 'jumbotron should link smoke-8 profile');
-  assertIncludes(jumbotron.body, '/jumbotron?profile=coverage-9', 'jumbotron should link coverage-9 profile');
   assertIncludes(jumbotron.body, '/api/jumbotron-bubbles?profile=full&track=real-explicit-closed-course', 'jumbotron should poll bubble queue API for the default second track');
   assertIncludes(jumbotron.body, 'id="jumbotron-main-track-card"', 'jumbotron should keep replay inside the main track card');
   assertIncludes(jumbotron.body, 'id="jumbotron-main-track-frame"', 'jumbotron should expose the replaceable main track frame');
@@ -559,12 +580,19 @@ try {
   assertNotIncludes(jumbotron.body, 'stage.innerHTML = data.frameHtml', 'jumbotron replay should not remount the whole SVG for every playback frame');
   assertIncludes(jumbotron.body, 'data-replay-action="start"', 'jumbotron should expose start replay control');
   assertIncludes(jumbotron.body, 'data-replay-action="stop"', 'jumbotron should expose stop replay control');
-  assertIncludes(jumbotron.body, 'data-playback-frame-count="145"', 'jumbotron replay should expose interpolated playback frame count');
+  assertIncludes(jumbotron.body, 'data-playback-frame-count="289"', 'jumbotron replay should expose interpolated playback frame count');
   assertIncludes(jumbotron.body, 'data-key-frame-count="13"', 'jumbotron replay should preserve imported key frame count');
-  assertIncludes(jumbotron.body, 'data-event-hold-frames="10"', 'jumbotron replay controls should expose event bubble hold frames');
-  assertIncludes(jumbotron.body, 'data-final-hold-frames="12"', 'jumbotron replay controls should expose final frame hold frames');
-  assertIncludes(jumbotron.body, 'frameDelayMs * finalHoldFrames', 'jumbotron replay should hold on the final replay frame before restoring');
-  assertIncludes(jumbotron.body, '回放结束，停留最终帧', 'jumbotron replay should show final hold status');
+  assertIncludes(jumbotron.body, 'data-event-hold-frames="40"', 'jumbotron replay controls should expose event bubble hold frames');
+  assertIncludes(jumbotron.body, 'data-final-hold-frames="48"', 'jumbotron replay controls should expose final frame hold frames');
+  assertIncludes(jumbotron.body, 'const miniMapDrawer = document.querySelector(\'.jumbotron-mini-map-drawer\')', 'jumbotron replay should find the mini map drawer');
+  assertIncludes(jumbotron.body, "miniMapDrawer.classList.toggle('is-replay-expanded', Boolean(expanded))", 'jumbotron replay should auto-expand the mini map drawer');
+  assertIncludes(jumbotron.body, 'function syncReplayMiniMap(html)', 'jumbotron replay should update the side mini map for each frame');
+  assertIncludes(jumbotron.body, 'syncReplayMiniMap(data.miniMapHtml)', 'jumbotron replay should sync mini map HTML from replay API frames');
+  assertIncludes(jumbotron.body, '}, 5000);', 'jumbotron replay should collapse the mini map five seconds after replay ends');
+  assertIncludes(jumbotron.body, 'const frameCache = new Map()', 'jumbotron replay should cache fetched frames for fixed-speed playback');
+  assertIncludes(jumbotron.body, 'prefetchFrame(requestedIndex + 1)', 'jumbotron replay should prefetch the next frame instead of waiting inside the timer loop');
+  assertNotIncludes(jumbotron.body, 'const ok = await loadFrame(frameIndex)', 'jumbotron replay should not serialize the frame timer behind each API response');
+  assertIncludes(jumbotron.body, 'timer = window.setTimeout(tick, frameDelayMs)', 'jumbotron replay should keep a fixed frame timer');
   assertIncludes(jumbotron.body, 'data-main-replay-controls', 'jumbotron should expose recent replay controls');
   assertIncludes(jumbotron.body, 'data-geometry-toggle', 'jumbotron should expose a geometry-line visibility toggle');
   assertIncludes(jumbotron.body, 'jumbotron-geometry-hidden .track-band', 'jumbotron should hide the packaged geometry track with the geometry toggle');
@@ -573,7 +601,20 @@ try {
   assertIncludes(jumbotron.body, '/api/jumbotron-replay?profile=full&track=real-explicit-closed-course', 'jumbotron should poll replay API for the default second track');
   assertNotIncludes(jumbotron.body, 'id="jumbotron-replay"', 'jumbotron should not render a separate replay panel');
   assertNotIncludes(jumbotron.body, '随时间变化的数据回放', 'jumbotron should not expose a separate replay view');
+  assertIncludes(jumbotron.body, 'data-topbar', 'jumbotron shell should expose a collapsible global topbar');
+  assertIncludes(jumbotron.body, 'data-topbar-toggle', 'jumbotron shell should render a topbar collapse toggle');
+  assertIncludes(jumbotron.body, '收起顶栏', 'topbar toggle should start with collapse copy');
+  assertIncludes(jumbotron.body, "topbar.classList.toggle('is-collapsed'", 'topbar toggle should collapse the global navigation in place');
+  assertIncludes(jumbotron.body, '.topbar.is-collapsed .brand,.topbar.is-collapsed .nav,.topbar.is-collapsed .identity{display:none}', 'collapsed topbar should hide brand, nav and identity controls');
+  assertIncludes(jumbotron.body, "button.textContent=collapsed?'展开顶栏':'收起顶栏'", 'topbar toggle should switch copy after collapse');
   assertIncludes(jumbotron.body, '现场播报', 'jumbotron should show ticker');
+  assertIncludes(jumbotron.body, '<a class="ticker-item jumbotron-focus-source focus-trigger" href="#focus-message-', 'ticker items should be clickable links to message focus cards');
+  assertIncludes(jumbotron.body, 'document.addEventListener(\'click\'', 'jumbotron should listen for focus-trigger clicks');
+  assertIncludes(jumbotron.body, "activateFocusDetail(link.getAttribute('href'), true)", 'ticker clicks should activate the matching focus detail');
+  assertIncludes(jumbotron.body, "drawer.classList.add('is-focus-open')", 'focus trigger clicks should open the focus detail drawer');
+  assertIncludes(jumbotron.body, "target.classList.add('is-active')", 'focus trigger clicks should highlight the matching focus detail card');
+  assertIncludes(jumbotron.body, '.jumbotron-drawer.is-focus-open .jumbotron-drawer-body', 'focus detail drawer should have an explicit open state');
+  assertIncludes(jumbotron.body, '.focus-detail-list.has-active-focus .focus-detail-card.is-active', 'focus detail list should display active cards after clicks');
   assertIncludes(jumbotron.body, '异常情况', 'jumbotron should show attention section');
   assertIncludes(jumbotron.body, 'attention-item', 'jumbotron should render attention cards');
   assertIncludes(jumbotron.body, '详情摘要', 'jumbotron should expose hover tooltip structure');
@@ -594,21 +635,30 @@ try {
   assert(bubbleApi.body.dataProfileId === 'curated-full-12', 'bubble API should default to full profile');
   assertJumbotronBubbleApi(bubbleApi.body);
   assertNoLeaks(JSON.stringify(bubbleApi.body), 'jumbotron bubble API');
-  const interpolatedReplayApi = await json('/api/jumbotron-replay?frame=1');
+  const replaySegmentSteps = [76, 86, 19, 18, 16, 13, 9, 6, 6, 16, 12, 11];
+  const replayKeyFramePlaybackIndexes = [0, 76, 162, 181, 199, 215, 228, 237, 243, 249, 265, 277, 288];
+  const replayPath = (frame) => `/api/jumbotron-replay?track=real-explicit-closed-course&frame=${frame}`;
+  const interpolatedReplayApi = await json(replayPath(1));
   assert(interpolatedReplayApi.response.status === 200, 'replay API should load an interpolated playback frame');
-  assert(interpolatedReplayApi.body.frameCount === 145, 'replay API should expose interpolated playback frame count');
-  assert(interpolatedReplayApi.body.playbackFrameCount === 145, 'replay API should expose playback frame count explicitly');
+  assert(interpolatedReplayApi.body.frameCount === 289, 'replay API should expose interpolated playback frame count');
+  assert(interpolatedReplayApi.body.playbackFrameCount === 289, 'replay API should expose playback frame count explicitly');
   assert(interpolatedReplayApi.body.keyFrameCount === 13, 'replay API should preserve imported key frame count');
-  assert(interpolatedReplayApi.body.interpolationSteps === 12, 'replay API should expose interpolation density');
-  assert(interpolatedReplayApi.body.eventHoldFrames === 10, 'replay API should expose event bubble hold frames');
-  assert(interpolatedReplayApi.body.finalHoldFrames === 12, 'replay API should expose final replay hold frames');
+  assert(interpolatedReplayApi.body.interpolationSteps === 24, 'replay API should expose interpolation density');
+  assert(interpolatedReplayApi.body.eventHoldFrames === 40, 'replay API should expose event bubble hold frames');
+  assert(interpolatedReplayApi.body.finalHoldFrames === 48, 'replay API should expose final replay hold frames');
   assert(interpolatedReplayApi.body.frameDelayMs === 90, 'replay API should expose replay frame delay');
+  assert(JSON.stringify(interpolatedReplayApi.body.segmentSteps) === JSON.stringify(replaySegmentSteps), 'replay API should expose progress-weighted segment steps from the replay runtime');
+  assert(JSON.stringify(interpolatedReplayApi.body.keyFramePlaybackIndexes) === JSON.stringify(replayKeyFramePlaybackIndexes), 'replay API should expose playback indexes for imported key frames');
+  assert(interpolatedReplayApi.body.currentFrameIndex === 249, 'replay API should map the current key frame to weighted playback index');
+  assert(interpolatedReplayApi.body.finishFrameIndex === 277, 'replay API should map the finish key frame to weighted playback index');
   assert(interpolatedReplayApi.body.frameIndex === 1, 'replay API should clamp and return requested playback index');
   assert(interpolatedReplayApi.body.isInterpolated === true, 'replay API should mark non-key playback frames as interpolated');
   assert(interpolatedReplayApi.body.sourceFrameIndex === 0, 'interpolated replay frame should identify source key frame');
   assert(interpolatedReplayApi.body.nextFrameIndex === 1, 'interpolated replay frame should identify next key frame');
   assert(interpolatedReplayApi.body.interpolationT > 0 && interpolatedReplayApi.body.interpolationT < 1, 'interpolated replay frame should expose interpolation ratio');
   assert(interpolatedReplayApi.body.avgRoundProgress > 13.4, 'interpolated replay frame should advance beyond the first key frame');
+  assertIncludes(interpolatedReplayApi.body.miniMapHtml, 'data-mini-map-mode="replay"', 'replay API should return replay-mode mini map HTML');
+  assertIncludes(interpolatedReplayApi.body.miniMapHtml, 'data-mini-map-frame="1"', 'replay API mini map should expose the current playback frame index');
   assertIncludes(interpolatedReplayApi.body.frameHtml, '<svg class="track-svg"', 'replay API should return main-track-only frame HTML');
   assertIncludes(interpolatedReplayApi.body.frameHtml, 'horse-rider-tint-filter-defs', 'replay API frame should define alpha-based rider tint filters');
   assertIncludes(interpolatedReplayApi.body.frameHtml, 'data-rider-tint-palette-count="12"', 'replay API frame should keep twelve rider tint colors');
@@ -619,34 +669,61 @@ try {
   assertNotIncludes(interpolatedReplayApi.body.frameHtml, 'debug-grid', 'main replay frame should not inject debug grid into the track card');
   assertIncludes(interpolatedReplayApi.body.panelFrameHtml, '平滑插值', 'replay API should render interpolated panel frame copy');
   assertNoLeaks(JSON.stringify(interpolatedReplayApi.body), 'jumbotron interpolated replay API');
-  const overtakeReplayApi = await json('/api/jumbotron-replay?frame=48');
-  assert(overtakeReplayApi.response.status === 200, 'replay API should load an overtake key frame');
-  assertIncludes(overtakeReplayApi.body.frameHtml, 'data-replay-event-kind="overtake"', 'replay API should render overtake event bubbles');
-  assertIncludes(overtakeReplayApi.body.frameHtml, '超越', 'replay event bubbles should label overtake moments');
-  assertReplayEventBubblesSpatiallySeparated(overtakeReplayApi.body.frameHtml, 'overtake replay frame');
-  const heldOvertakeReplayApi = await json('/api/jumbotron-replay?frame=58');
-  assert(heldOvertakeReplayApi.response.status === 200, 'replay API should load an event hold playback frame');
-  assertIncludes(heldOvertakeReplayApi.body.frameHtml, 'data-replay-event-kind="overtake"', 'replay event bubbles should remain visible for several frames after the key event');
-  assertReplayEventBubblesSpatiallySeparated(heldOvertakeReplayApi.body.frameHtml, 'held overtake replay frame');
-  const heldRaceStartReplayApi = await json('/api/jumbotron-replay?frame=10');
+  const quietReplayApi = await json(replayPath(144));
+  assert(quietReplayApi.response.status === 200, 'replay API should load the quiet mid-race playback frame');
+  assertNotIncludes(quietReplayApi.body.frameHtml, 'jumbotron-replay-event-bubble', 'frame 144 should not invent replay event bubbles');
+  const sprintingReplayApi = await json(replayPath(184));
+  assert(sprintingReplayApi.response.status === 200, 'replay API should load a sprinting hold playback frame');
+  assertIncludes(sprintingReplayApi.body.frameHtml, 'data-replay-event-kind="sprinting"', 'front-half replay should derive sprinting bubbles from raw states');
+  assertReplayEventBubblesSpatiallySeparated(sprintingReplayApi.body.frameHtml, 'sprinting replay frame');
+  const heldSprintingReplayApi = await json(replayPath(194));
+  assert(heldSprintingReplayApi.response.status === 200, 'replay API should keep sprinting events through the hold window');
+  assertIncludes(heldSprintingReplayApi.body.frameHtml, 'data-replay-event-kind="sprinting"', 'sprinting replay bubbles should remain visible through the hold window');
+  const heldRaceStartReplayApi = await json(replayPath(40));
   assert(heldRaceStartReplayApi.response.status === 200, 'replay API should load the last held start event frame');
   assertIncludes(heldRaceStartReplayApi.body.frameHtml, 'data-replay-event-kind="race_start"', 'replay event bubbles should stay visible through the hold window');
   assertReplayEventBubblesSpatiallySeparated(heldRaceStartReplayApi.body.frameHtml, 'held race start replay frame');
-  const expiredRaceStartReplayApi = await json('/api/jumbotron-replay?frame=11');
+  const expiredRaceStartReplayApi = await json(replayPath(41));
   assert(expiredRaceStartReplayApi.response.status === 200, 'replay API should load the first frame after event hold expires');
   assertNotIncludes(expiredRaceStartReplayApi.body.frameHtml, 'data-replay-event-kind="race_start"', 'replay event bubbles should disappear after the hold window');
-  assertIncludes(overtakeReplayApi.body.panelFrameHtml, 'TOP3', 'replay API should keep full panel frame separately');
-  const replayApi = await json('/api/jumbotron-replay?frame=144');
+  const earlyAnomalyReplayApi = await json(replayPath(215));
+  assert(earlyAnomalyReplayApi.response.status === 200, 'replay API should load an early anomaly hold frame');
+  assertIncludes(earlyAnomalyReplayApi.body.frameHtml, 'data-replay-event-kind="slowed"', 'early replay should derive slowed bubbles from raw states');
+  assertIncludes(earlyAnomalyReplayApi.body.frameHtml, 'data-replay-event-kind="overtake"', 'early replay should keep rank-change bubbles during the hold window');
+  assertReplayEventBubblesSpatiallySeparated(earlyAnomalyReplayApi.body.frameHtml, 'early anomaly replay frame');
+  const midAnomalyReplayApi = await json(replayPath(228));
+  assert(midAnomalyReplayApi.response.status === 200, 'replay API should load the next anomaly key frame');
+  assertIncludes(midAnomalyReplayApi.body.frameHtml, 'data-replay-event-kind="slowed"', 'mid replay should keep slowed anomaly bubbles');
+  assertIncludes(midAnomalyReplayApi.body.frameHtml, 'data-replay-event-kind="overtake"', 'mid replay should keep overtake bubbles');
+  const rankShuffleReplayApi = await json(replayPath(237));
+  assert(rankShuffleReplayApi.response.status === 200, 'replay API should load the rank shuffle key frame');
+  assertIncludes(rankShuffleReplayApi.body.frameHtml, 'data-replay-event-kind="overtake"', 'rank shuffle replay should render overtake bubbles');
+  assertReplayEventBubblesSpatiallySeparated(rankShuffleReplayApi.body.frameHtml, 'rank shuffle replay frame');
+  const currentAnomalyReplayApi = await json(replayPath(249));
+  assert(currentAnomalyReplayApi.response.status === 200, 'replay API should load the current replay key frame');
+  assertReplayHasAnyEventKind(currentAnomalyReplayApi.body.frameHtml, ['slowed', 'blocked', 'pit_stop', 'takeover', 'stale'], 'current replay anomaly frame');
+  assertIncludes(currentAnomalyReplayApi.body.frameHtml, 'data-replay-event-kind="overtake"', 'current replay should keep overtake bubbles');
+  const lateHeldAnomalyReplayApi = await json(replayPath(255));
+  assert(lateHeldAnomalyReplayApi.response.status === 200, 'replay API should load the late held anomaly frame');
+  assertReplayHasAnyEventKind(lateHeldAnomalyReplayApi.body.frameHtml, ['slowed', 'blocked', 'pit_stop', 'takeover', 'stale'], 'late replay anomaly frame');
+  assertIncludes(lateHeldAnomalyReplayApi.body.frameHtml, 'data-replay-event-kind="overtake"', 'late replay should keep overtake bubbles visible');
+  assertReplayEventBubblesSpatiallySeparated(lateHeldAnomalyReplayApi.body.frameHtml, 'late held anomaly replay frame');
+  assertIncludes(quietReplayApi.body.panelFrameHtml, 'TOP3', 'replay API should keep full panel frame separately');
+  const replayApi = await json(replayPath(288));
   assert(replayApi.response.status === 200, 'replay API should load final playback frame');
-  assert(replayApi.body.frameCount === 145, 'replay API should expose interpolated playback frame count on final frame');
+  assert(replayApi.body.frameCount === 289, 'replay API should expose interpolated playback frame count on final frame');
   assert(replayApi.body.keyFrameCount === 13, 'replay API should keep final frame tied to 13 key frames');
-  assert(replayApi.body.frameIndex === 144, 'replay API should clamp and return requested final playback index');
+  assert(replayApi.body.frameIndex === 288, 'replay API should clamp and return requested final playback index');
   assert(replayApi.body.isInterpolated === false, 'final replay frame should be a key frame');
   assert(replayApi.body.avgRoundProgress === 78.1, 'replay API should normalize final fractional average progress into percent');
+  assertIncludes(replayApi.body.miniMapHtml, 'data-mini-map-mode="replay"', 'final replay API should return replay-mode mini map HTML');
+  assertIncludes(replayApi.body.miniMapHtml, 'data-mini-map-frame="288"', 'final replay API mini map should expose the final playback frame index');
+  assert(interpolatedReplayApi.body.miniMapHtml !== replayApi.body.miniMapHtml, 'replay mini map should update as playback advances');
   assertIncludes(replayApi.body.frameHtml, 'data-replay-event-kind="finish"', 'replay API should render finish event bubbles');
   assertIncludes(replayApi.body.frameHtml, '冲线', 'replay event bubbles should label finish moments');
   assertReplayEventBubblesSpatiallySeparated(replayApi.body.frameHtml, 'finish replay frame');
   assertIncludes(replayApi.body.frameHtml, '完成', 'replay API should render finished state in final frame');
+  assertIncludes(replayApi.body.frameHtml, 'data-track-s="0.3125"', 'final replay frame should keep finished entries on the confirmed start-finish point');
   assertIncludes(replayApi.body.frameHtml, '#1 AI Sudoku · 100%', 'replay API should normalize fractional entry progress into percent');
   assertIncludes(replayApi.body.frameHtml, 'DevCompass Racing', 'replay API should preserve entry display names');
   assertNoLeaks(JSON.stringify(replayApi.body), 'jumbotron replay API');
@@ -681,6 +758,17 @@ try {
   assertIncludes(jumbotronDebug.body, '/jumbotron/calibrator', 'debug jumbotron should link calibrator for review tools');
   assertIncludes(jumbotronDebug.body, 'dataProfileId', 'debug jumbotron should show data profile id field');
   assertIncludes(jumbotronDebug.body, 'curated-full-12', 'debug jumbotron should show canonical full profile id');
+  assertIncludes(jumbotronDebug.body, 'jumbotron-profile-drawer', 'debug jumbotron should expose collapsible data profile selector');
+  assert(jumbotronDebug.body.indexOf('<section class="jumbotron-ticker"') < jumbotronDebug.body.indexOf('<section class="jumbotron-drawer jumbotron-profile-drawer"'), 'debug track selector drawer should sit after the live ticker');
+  assert(jumbotronDebug.body.indexOf('<section class="jumbotron-drawer jumbotron-profile-drawer"') < jumbotronDebug.body.indexOf('<section class="jumbotron-kpis"'), 'debug track selector drawer should sit before the race status chips');
+  assertIncludes(jumbotronDebug.body, '数据视图', 'debug jumbotron data profile selector should be Chinese');
+  assertIncludes(jumbotronDebug.body, '选择展示范围', 'debug jumbotron should label profile selector in Chinese');
+  assertIncludes(jumbotronDebug.body, '完整赛况', 'debug jumbotron should show full profile in Chinese');
+  assertIncludes(jumbotronDebug.body, '全部公开队伍、消息和异常情况', 'debug jumbotron should show full profile purpose in Chinese');
+  assertIncludes(jumbotronDebug.body, '轻量视图', 'debug jumbotron should show smoke profile in Chinese');
+  assertIncludes(jumbotronDebug.body, '覆盖视图', 'debug jumbotron should show coverage profile in Chinese');
+  assertIncludes(jumbotronDebug.body, '/jumbotron?profile=smoke-8&amp;debug=1', 'debug jumbotron should link smoke-8 profile in review mode');
+  assertIncludes(jumbotronDebug.body, '/jumbotron?profile=coverage-9&amp;debug=1', 'debug jumbotron should link coverage-9 profile in review mode');
   assertIncludes(jumbotronDebug.body, 'entryCount / messageCount / attentionItemCount', 'debug jumbotron should show counts');
   assertIncludes(jumbotronDebug.body, 'motionStateCoverage', 'debug jumbotron should show motion coverage');
   assertIncludes(jumbotronDebug.body, 'messageTypeCoverage', 'debug jumbotron should show message coverage');
@@ -688,7 +776,8 @@ try {
   assertIncludes(jumbotronDebug.body, 'validatorStatus', 'debug jumbotron should show validator status');
   assertIncludes(jumbotronDebug.body, 'lastMessage mapping evidence', 'debug jumbotron should show lastMessage mapping table');
   assertIncludes(jumbotronDebug.body, 'lastMessageResolved', 'debug jumbotron should show lastMessage resolved status');
-  assertIncludes(jumbotronDebug.body, 'fallbackUsed', 'debug jumbotron should show lastMessage fallback status');
+  assertIncludes(jumbotronDebug.body, '摘要兜底', 'debug jumbotron should show lastMessage summary fallback status');
+  assertNotIncludes(jumbotronDebug.body, '回退状态', 'debug jumbotron should not use ambiguous fallback-state copy');
   assertIncludes(jumbotronDebug.body, 'lastMessage.type', 'debug jumbotron should show lastMessage type');
   assertIncludes(jumbotronDebug.body, 'lastMessage.displayMode', 'debug jumbotron should show lastMessage display mode');
   assertIncludes(jumbotronDebug.body, 'targetUrlHidden', 'debug jumbotron should hide targetUrl as boolean evidence');
@@ -733,18 +822,25 @@ try {
 
   const jumbotronSmoke = await text('/jumbotron?profile=smoke-8');
   assert(jumbotronSmoke.response.status === 200, 'smoke-8 jumbotron should load');
-  assertIncludes(jumbotronSmoke.body, '轻量视图', 'smoke-8 jumbotron should show public profile name in Chinese');
+  assertNotIncludes(jumbotronSmoke.body, '轻量视图', 'smoke-8 public jumbotron should not show profile selector copy');
+  assertNotIncludes(jumbotronSmoke.body, '数据视图', 'smoke-8 public jumbotron should not show data profile selector');
   assertNotIncludes(jumbotronSmoke.body, '档位编号：smoke-8-visual-low-load', 'smoke-8 public jumbotron should not show canonical profile id');
   assertIncludes(jumbotronSmoke.body, '/api/jumbotron-bubbles?profile=smoke-8', 'smoke-8 jumbotron should poll matching bubble profile');
   assertNotIncludes(jumbotronSmoke.body, 'HorsePose', 'smoke-8 public jumbotron should hide runtime debug output');
   assertNoLeaks(jumbotronSmoke.body, 'smoke-8 jumbotron');
+
+  const jumbotronSmokeDebug = await text('/jumbotron?debug=1&profile=smoke-8');
+  assert(jumbotronSmokeDebug.response.status === 200, 'smoke-8 debug jumbotron should load');
+  assertIncludes(jumbotronSmokeDebug.body, '轻量视图', 'smoke-8 debug jumbotron should show public profile name in Chinese');
+  assertIncludes(jumbotronSmokeDebug.body, 'smoke-8-visual-low-load', 'smoke-8 debug jumbotron should show canonical profile id');
 
   const jumbotronCoverageDebug = await text('/jumbotron?debug=1&profile=coverage-9');
   assert(jumbotronCoverageDebug.response.status === 200, 'coverage-9 debug jumbotron should load');
   assertIncludes(jumbotronCoverageDebug.body, 'coverage-9-enum-complete', 'coverage-9 debug jumbotron should show canonical profile id');
   assertIncludes(jumbotronCoverageDebug.body, 'motionStateCoverage', 'coverage-9 debug jumbotron should show motion coverage');
   assertIncludes(jumbotronCoverageDebug.body, 'complete=true', 'coverage-9 debug jumbotron should show complete coverage evidence');
-  assertIncludes(jumbotronCoverageDebug.body, 'resolvedCount=9/9', 'coverage-9 debug jumbotron should show lastMessage resolved aggregate');
+  assertIncludes(jumbotronCoverageDebug.body, '已解析 9/9', 'coverage-9 debug jumbotron should show lastMessage resolved aggregate');
+  assertIncludes(jumbotronCoverageDebug.body, '摘要兜底 0', 'coverage-9 debug jumbotron should show lastMessage summary fallback aggregate');
   assertNoLeaks(jumbotronCoverageDebug.body, 'coverage-9 jumbotron debug');
 
   const calibrator = await text('/jumbotron/calibrator');
@@ -759,17 +855,22 @@ try {
   assertIncludes(calibrator.body, '/assets/jumbotron/background1.png', 'calibrator should expose extracted track background option');
   assertIncludes(calibrator.body, '/assets/jumbotron/example.png', 'calibrator should expose extracted example background option');
   assertIncludes(calibrator.body, '导入候选配置', 'calibrator should expose candidate profile import');
-  assertIncludes(calibrator.body, '第二赛道候选入口', 'calibrator should expose a visible second-track candidate picker');
-  assertIncludes(calibrator.body, '在校准器中选择第二赛道', 'calibrator should label the second-track picker clearly');
-  assertIncludes(calibrator.body, '候选赛道选择', 'calibrator should expose candidate track selection control');
+  assertIncludes(calibrator.body, '赛道校准入口', 'calibrator should expose the track calibrator entry');
+  assertIncludes(calibrator.body, '第一赛道校准器', 'calibrator should restore the first-track entry');
+  assertIncludes(calibrator.body, '第二赛道校准器', 'calibrator should keep the second-track entry');
   assertIncludes(calibrator.body, '/jumbotron/calibrator?candidate=real-explicit-closed-course', 'calibrator should link directly to the second-track candidate view');
+  assertIncludes(calibrator.body, 'Grandstand Oval', 'calibrator should default to the restored first-track profile');
+  assertIncludes(calibrator.body, 'value="grandstand-oval"', 'calibrator should default trackId to grandstand-oval');
+  assertNotIncludes(calibrator.body, 'name="trackId" value="grs-public-oval"', 'calibrator should not regress to the public oval default');
+  assertNotIncludes(calibrator.body, 'GRS 公开椭圆赛道', 'calibrator should not render the wrong public oval name by default');
+  assertNotIncludes(calibrator.body, 'data-current-track-status', 'calibrator should not restore the removed top status strip');
   assertIncludes(calibrator.body, '校验', 'calibrator should expose validate action');
   assertIncludes(calibrator.body, '预览', 'calibrator should expose preview action');
   assertIncludes(calibrator.body, '导出', 'calibrator should expose export action');
   assertIncludes(calibrator.body, '导出冻结候选配置', 'calibrator should export frozen candidate');
   assertIncludes(calibrator.body, 'data-asset-review-status="confirmed"', 'calibrator should default asset review to confirmed after user review');
   assertIncludes(calibrator.body, '人工确认：已由人工复核通过', 'calibrator should show user-confirmed human review by default');
-  assertIncludes(calibrator.body, '用户人工确认通过', 'calibrator should show the user-confirmed second-track state');
+  assertIncludes(calibrator.body, 'data-asset-review-status="confirmed"', 'calibrator should show the user-confirmed second-track state through review status');
   assertNotIncludes(calibrator.body, 'data-asset-review-status="pending"', 'calibrator default state should not regress to pending after user review');
   assertIncludes(calibrator.body, '人工复核确认</strong>', 'calibrator default state should claim human confirmation after user review');
   assertIncludes(calibrator.body, '正式资产 confirmed', 'calibrator should not claim formal asset confirmation');
@@ -841,14 +942,19 @@ try {
   assertIncludes(calibrator.body, 'AI 候选点导入 · implemented', 'calibrator should implement AI candidate import');
   assertIncludes(calibrator.body, '自动检测尖角 · implemented', 'calibrator should implement corner detection and draft fix');
   assertIncludes(calibrator.body, 'AI 候选点导入：real-explicit-closed-course', 'calibrator should expose grandstand candidate import action');
-  assertIncludes(calibrator.body, 'real-explicit-closed-course candidate asset evidence', 'calibrator should show candidate evidence summary');
-  assertIncludes(calibrator.body, 'validation=pass', 'calibrator should show candidate validation pass summary');
-  assertIncludes(calibrator.body, 'containsPlaceholderAssets=false', 'calibrator should show candidate placeholder-free summary');
-  assertIncludes(calibrator.body, 'centerline=40 点', 'calibrator should show candidate centerline count');
-  assertIncludes(calibrator.body, 'lanes=12', 'calibrator should show candidate lane count');
-  assertIncludes(calibrator.body, 'checkpoints=4', 'calibrator should show candidate checkpoint count');
+  assertNotIncludes(calibrator.body, 'real-explicit-closed-course candidate asset evidence', 'calibrator should not show stale candidate evidence copy in the top entry');
+  assertNotIncludes(calibrator.body, '候选已提升=true', 'calibrator should not show stale promotion debug copy');
+  assertIncludes(calibrator.body, 'calibrator-scrubber-horse', 'calibrator should render the scrubber with the real rider sprite group');
+  assertIncludes(calibrator.body, 'data-multi-horse-preview-layer', 'calibrator should expose a live multi-horse preview layer');
+  assertIncludes(calibrator.body, 'renderMultiHorsePreview', 'calibrator should update multi-horse preview without requiring a submit');
+  assertIncludes(calibrator.body, 'data-scrubber-value', 'calibrator should keep the scrubber value chip synced during range input');
+  assertIncludes(calibrator.body, 'data-scrubber-range', 'calibrator should expose the scrubber range for live input handling');
+  assertIncludes(calibrator.body, 'scrubberValue.textContent', 'calibrator should update the visible scrubber value without submitting');
+  assertIncludes(calibrator.body, 'riderSpriteHrefForState', 'calibrator should keep rider sprite state updates during live preview');
+  assertIncludes(calibrator.body, 'data-entry-stable-number', 'calibrator live multi-horse preview should keep rider tint identity metadata');
+  assertIncludes(calibrator.body, 'data-mask-mode="source-alpha"', 'calibrator live multi-horse preview should preserve alpha tint masks');
+  assertIncludes(calibrator.body, 'horse-rider-sprite', 'calibrator should reuse the Jumbotron rider sprite visuals');
   assertIncludes(calibrator.body, '自动修复候选草稿', 'calibrator should expose auto-fix draft evidence panel');
-  assertIncludes(calibrator.body, '候选已提升=true', 'calibrator should promote the user-confirmed second track into confirmed flow');
   assertIncludes(calibrator.body, 'lane 快捷调整 · implemented', 'calibrator should implement lane quick adjustment');
   assertIncludes(calibrator.body, '导出 debug-preview.png · implemented', 'calibrator should list debug preview export P1 implemented');
   assertIncludes(calibrator.body, 'Week2-Jumbotron/review-ledger/screenshots/2026-06-13-jumbotron-debug-preview-export/debug-preview.png', 'calibrator should expose debug preview PNG evidence path');
@@ -864,8 +970,10 @@ try {
   assertIncludes(secondTrackCalibrator.body, 'real-explicit-closed-course', 'second-track calibrator should load the requested candidate id');
   assertIncludes(secondTrackCalibrator.body, '/jumbotron/candidate-assets/real-explicit-closed-course/background.webp', 'second-track calibrator should use controlled candidate background route');
   assertIncludes(secondTrackCalibrator.body, 'viewBox="0 0 1672 941"', 'second-track calibrator should use candidate viewBox');
-  assertIncludes(secondTrackCalibrator.body, 'centerline=40 点', 'second-track calibrator should show human-traced centerline count');
-  assertIncludes(secondTrackCalibrator.body, '用户人工确认通过', 'second-track calibrator should show the user-confirmed boundary');
+  assertIncludes(secondTrackCalibrator.body, 'data-control-point', 'second-track calibrator should render the human-traced centerline as editable points');
+  assertIncludes(secondTrackCalibrator.body, '验证通过不等于正式资产确认', 'second-track calibrator should show the candidate confirmation boundary');
+  assertIncludes(secondTrackCalibrator.body, 'calibrator-scrubber-horse', 'second-track calibrator should use the real rider sprite scrubber');
+  assertIncludes(secondTrackCalibrator.body, 'data-multi-horse-preview-layer', 'second-track calibrator should expose live multi-horse preview');
   assertIncludes(secondTrackCalibrator.body, 'data-trace-panel', 'second-track calibrator should include trace mode on candidate direct view');
   assertIncludes(secondTrackCalibrator.body, '按住鼠标沿底图道路拖动即可连续采样', 'second-track calibrator should allow tracing on the 1672x941 candidate canvas');
   assertNoLeaks(secondTrackCalibrator.body, 'second-track calibrator direct view');
@@ -883,6 +991,13 @@ try {
   assertIncludes(calibrator.body, '导出调试预览 PNG', 'calibrator should expose debug preview PNG capture entry');
   assertIncludes(calibrator.body, 'debug-preview.png</span><strong>已完成</strong>', 'calibrator should mark png export implemented');
   assertNotIncludes(calibrator.body, 'debug-preview.png 导出仍 pending', 'calibrator should not keep png export pending');
+  assertIncludes(calibrator.body, 'data-trace-toolbar', 'calibrator should expose trace controls beside the main canvas');
+  assertIncludes(calibrator.body, 'data-set-calibrator-mode="trace"', 'calibrator should allow switching to trace mode from the main canvas');
+  assertIncludes(calibrator.body, 'data-trace-clear-next', 'calibrator should expose clear-and-retrace action');
+  assertIncludes(calibrator.body, 'data-trace-reduce', 'calibrator should expose trace point reduction action');
+  assertIncludes(calibrator.body, '减少点数', 'calibrator should provide trace point reduction copy');
+  assertIncludes(calibrator.body, 'reduceTracePoints', 'calibrator should wire trace point reduction logic');
+  assertIncludes(calibrator.body, 'rdpReduce', 'calibrator should use RDP-style point reduction after tracing');
   assertIncludes(calibrator.body, 'data-trace-panel', 'calibrator should expose integrated trace centerline panel');
   assertIncludes(calibrator.body, 'value="trace"', 'calibrator should expose trace centerline mode');
   assertIncludes(calibrator.body, 'value="keypoints"', 'calibrator should expose safe keypoint mode');
@@ -925,13 +1040,19 @@ try {
   assert(candidateJumbotron.response.status === 200, 'candidate track jumbotron should load after explicit switch');
   assertIncludes(candidateJumbotron.body, '实时赛道', 'candidate jumbotron should render race live track');
   assertIncludes(candidateJumbotron.body, '/jumbotron/candidate-assets/real-explicit-closed-course/background.webp', 'candidate jumbotron should render candidate background only after explicit track switch');
-  assertIncludes(candidateJumbotron.body, '✓ Real Explicit Closed Course', 'confirmed second-track jumbotron should show active confirmed track');
+  assertIncludes(candidateJumbotron.body, 'real-explicit-closed-course', 'confirmed second-track jumbotron should use the selected track id');
+  assertNotIncludes(candidateJumbotron.body, '✓ Real Explicit Closed Course', 'confirmed second-track public jumbotron should not show active track selector');
+  assertNotIncludes(candidateJumbotron.body, '赛道选择', 'confirmed second-track public jumbotron should not expose track switching controls');
   assertNotIncludes(candidateJumbotron.body, '当前赛道已确认。', 'confirmed second-track jumbotron should not expose asset review confirmation copy');
   assertSecondTrackPerspectiveRiderScale(candidateJumbotron.body);
   assertIncludes(candidateJumbotron.body, '/api/jumbotron-replay?profile=full&track=real-explicit-closed-course', 'confirmed second-track jumbotron should poll replay API with the selected track');
   assertNotIncludes(candidateJumbotron.body, 'candidate track gate：未进入正式大屏资产流程', 'explicit candidate switch should not render the old gate');
   assertNotIncludes(candidateJumbotron.body, '候选预览：尚未确认', 'confirmed second-track jumbotron should not show pending candidate copy');
   assertNoLeaks(candidateJumbotron.body, 'jumbotron candidate main view');
+  const candidateDebugJumbotron = await text('/jumbotron?debug=1&track=real-explicit-closed-course');
+  assert(candidateDebugJumbotron.response.status === 200, 'candidate track debug jumbotron should load after explicit switch');
+  assertIncludes(candidateDebugJumbotron.body, '✓ Real Explicit Closed Course', 'confirmed second-track debug jumbotron should show active confirmed track');
+  assertIncludes(candidateDebugJumbotron.body, '赛道选择', 'confirmed second-track debug jumbotron should expose track switching controls');
   const candidateReplayApi = await json('/api/jumbotron-replay?track=real-explicit-closed-course&frame=1');
   assert(candidateReplayApi.response.status === 200, 'candidate replay API should load for explicit second track');
   assert(candidateReplayApi.body.trackId === 'real-explicit-closed-course', 'candidate replay API should return selected second track id');
@@ -962,7 +1083,7 @@ try {
   assertIncludes(addPoint.body, '<td>centerline.points</td>', 'add point should produce JSON diff for centerline points');
   assertNoLeaks(addPoint.body, 'track calibrator add point');
   const deletePoint = await postText('/jumbotron/calibrator', { deletePointIndex: '1' });
-  assertNotIncludes(deletePoint.body, '>P8<', 'delete point should reduce visible control point count');
+  assert(calibratorControlPointCount(deletePoint.body) < calibratorControlPointCount(addPoint.body), 'delete point should reduce visible control point count');
   assertNoLeaks(deletePoint.body, 'track calibrator delete point');
   const reverseDirection = await postText('/jumbotron/calibrator', { reverseDirection: '1', direction: 'clockwise' });
   assertIncludes(reverseDirection.body, '<option value="counterclockwise" selected>counterclockwise</option>', 'reverse direction should toggle direction semantics');
@@ -1042,9 +1163,10 @@ try {
   const activeCandidateImport = await postText('/jumbotron/calibrator', { candidateImport: 'active-second-track-ai' });
   assertIncludes(activeCandidateImport.body, 'real-explicit-closed-course', 'AI candidate import should load grandstand track id');
   assertIncludes(activeCandidateImport.body, 'real-explicit-closed-course', 'AI candidate import should load current approved candidate name');
-  assertIncludes(activeCandidateImport.body, '40 点', 'AI candidate import should preserve the current closed candidate centerline for runtime');
+  assertIncludes(activeCandidateImport.body, 'data-control-point', 'AI candidate import should preserve editable candidate centerline points for runtime');
+  assertIncludes(activeCandidateImport.body, 'P39', 'AI candidate import should preserve the full human-traced candidate centerline');
   assertIncludes(activeCandidateImport.body, '12 条泳道', 'AI candidate import should load 12 lanes');
-  assertIncludes(activeCandidateImport.body, 'checkpoints=4', 'AI candidate import should load 4 checkpoints');
+  assertIncludes(activeCandidateImport.body, '4 个检查点', 'AI candidate import should load 4 checkpoints');
   assertIncludes(activeCandidateImport.body, '/jumbotron/candidate-assets/real-explicit-closed-course/background.webp', 'AI candidate import should use controlled candidate background route');
   assertIncludes(activeCandidateImport.body, 'data-asset-review-status="confirmed"', 'AI candidate import should reflect persisted user human review');
   assertNotIncludes(activeCandidateImport.body, 'data-asset-review-status="pending"', 'AI candidate import should not regress persisted human review to pending');

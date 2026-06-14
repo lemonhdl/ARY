@@ -167,6 +167,8 @@ function jumbotronBubbleAnimationCss() {
 function page(title, active, session, content) {
   const nav = active === '/login' ? '' : navFor(active, session);
   const identity = session ? `<div class="identity"><span>${escapeHtml(session.displayName)}</span><a href="${escapeHtml(withSessionView('/logout', session))}">退出</a></div>` : active === '/login' ? '' : `<div class="identity"><a href="/login">登录</a></div>`;
+  const topbarToggle = active === '/login' ? '' : '<button class="topbar-toggle" type="button" data-topbar-toggle aria-expanded="true" aria-controls="topbar-content">收起顶栏</button>';
+  const topbarCollapseScript = active === '/login' ? '' : `<script>(()=>{const topbar=document.querySelector('[data-topbar]');const button=topbar?.querySelector('[data-topbar-toggle]');if(!topbar||!button)return;const setCollapsed=(collapsed)=>{topbar.classList.toggle('is-collapsed',collapsed);button.textContent=collapsed?'展开顶栏':'收起顶栏';button.setAttribute('aria-expanded',collapsed?'false':'true');};button.addEventListener('click',()=>setCollapsed(!topbar.classList.contains('is-collapsed')));})();</script>`;
   return `<!doctype html>
 <html lang="zh-CN">
 <head>
@@ -174,10 +176,10 @@ function page(title, active, session, content) {
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${escapeHtml(title)}</title>
 <style>
-:root{--ink:#172033;--muted:#667085;--line:#d9dee8;--bg:#f4f6fb;--panel:#fff;--accent:#1f49d8;--dark:#121826;--green:#15734f;--green-bg:#e7f5ee;--amber:#9a6500;--amber-bg:#fff5d8;--red:#b42318;--red-bg:#fff1f0;--purple:#5b3fb5;--purple-bg:#f0ecff;--blue-bg:#edf4ff}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top left,#e9efff 0,#f4f6fb 36%,#eef2f7 100%);color:var(--ink);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.jumbotron-page{width:calc(100vw - 44px);margin-left:calc(50% - 50vw + 22px);min-height:calc(100vh - 92px);background:linear-gradient(135deg,#f8fbff 0,#eef4ff 48%,#fff7ed 100%);color:#172033;border-radius:22px;padding:10px}.jumbotron-page .muted{color:#667085}.jumbotron-page a{text-decoration:none;color:inherit}.jumbotron-header,.jumbotron-kpis,.jumbotron-layout,.jumbotron-ticker,.jumbotron-debug,.jumbotron-calibrator,.jumbotron-validation,.jumbotron-footer{border:1px solid rgba(148,163,184,.32);background:rgba(255,255,255,.92);border-radius:18px;padding:12px;margin-bottom:8px;box-shadow:0 12px 28px rgba(31,73,216,.06)}.jumbotron-drawer{border:1px solid rgba(148,163,184,.32);background:rgba(255,255,255,.92);border-radius:18px;margin-bottom:8px;box-shadow:0 12px 28px rgba(31,73,216,.06);overflow:hidden;overflow-anchor:none}.jumbotron-drawer-card{background:rgba(255,255,255,.9);border-color:rgba(148,163,184,.38)}.jumbotron-drawer-head{min-height:54px;padding:7px 14px;display:flex;align-items:center;justify-content:space-between;gap:12px;position:relative;z-index:1}.jumbotron-drawer-head>div{min-width:0}.jumbotron-drawer-head h2{display:block;margin:0;font-size:18px;line-height:1.12;color:#172033;white-space:normal}.jumbotron-drawer-icon{flex:0 0 auto;opacity:.58;font-size:34px;font-weight:950;line-height:1;color:#172033;transition:transform .18s ease,opacity .18s ease}.jumbotron-drawer-body{max-height:0;opacity:0;overflow:hidden;padding:0 12px 0;pointer-events:none;transition:max-height .26s ease,opacity .14s ease,padding-bottom .26s ease}.jumbotron-drawer:hover .jumbotron-drawer-body,.jumbotron-drawer:focus-within .jumbotron-drawer-body{max-height:420px;opacity:1;padding:0 12px 12px;pointer-events:auto;transition-delay:.45s}.jumbotron-profile-drawer:hover .jumbotron-drawer-body,.jumbotron-profile-drawer:focus-within .jumbotron-drawer-body{max-height:760px}.jumbotron-drawer:hover .jumbotron-drawer-icon,.jumbotron-drawer:focus-within .jumbotron-drawer-icon{opacity:.76;transform:rotate(180deg)}.jumbotron-profile-grid article.is-active{background:#f8fbff;box-shadow:inset 3px 0 0 #1f49d8}.jumbotron-header{display:flex;justify-content:space-between;gap:14px;align-items:center;padding:8px 12px}.jumbotron-brandline{display:flex;align-items:center;gap:10px;min-width:0}.jumbotron-brandline strong{font-size:18px;white-space:nowrap}.jumbotron-brandline span:last-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.jumbotron-statusbar{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.jumbotron-statusbar span,.jumbotron-chip{border:1px solid rgba(148,163,184,.34);background:#fff;border-radius:999px;padding:6px 10px;font-weight:850;color:#344054}.jumbotron-live{display:inline-flex;border-radius:999px;background:#dc2626;color:#fff;padding:5px 10px;font-weight:900;letter-spacing:.08em}.jumbotron-kpis{display:flex;gap:8px;overflow:hidden;align-items:center;padding:8px 10px}.jumbotron-chip{display:flex;gap:6px;align-items:center;flex:0 0 auto}.jumbotron-chip strong{font-size:16px;color:#172033}.jumbotron-chip span{font-size:12px;color:#667085}.jumbotron-layout{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:10px;align-items:stretch}.calibrator-layout{align-items:start}.calibrator-layout>aside{overflow-y:auto;overscroll-behavior:contain;padding-right:2px}.calibrator-layout .side-card:last-child{margin-bottom:0}.jumbotron-live-layout{grid-template-columns:280px minmax(0,1fr);height:auto;min-height:0}.jumbotron-live-layout>aside{grid-column:1;grid-row:1}.jumbotron-live-layout>.track-stage-card{grid-column:2;grid-row:1}.track-stage-card{background:rgba(255,255,255,.78);border:1px solid rgba(148,163,184,.26);border-radius:18px;padding:10px}.track-stage-card h2{font-size:24px;margin:2px 0 6px}.track-svg{display:block;width:100%;height:auto;aspect-ratio:var(--track-aspect-ratio,1672/941)}.calibrator-layout .track-svg{touch-action:none}.calibrator-point{cursor:grab}.calibrator-point.is-selected circle,.calibrator-point.is-dragging circle{fill:#dbeafe;stroke:#0f2f9e;stroke-width:4}.calibrator-point.is-dragging{cursor:grabbing}.calibrator-canvas-help{margin:0 0 8px;color:#475467}.mini-map-svg{width:100%;height:128px;border-radius:12px;background:#f8fafc}.mini-map-svg .track-band{stroke-width:110}.mini-map-svg .track-centerline{stroke-width:12}.track-bg{fill:#f8fafc;stroke:rgba(31,73,216,.25);stroke-width:2}.track-background-image{opacity:.88;filter:saturate(1.06) contrast(1.04)}.track-band{fill:none;stroke:rgba(215,227,248,.72);stroke-width:72;stroke-linecap:round;stroke-linejoin:round}.track-centerline{fill:none;stroke:#1f49d8;stroke-width:4;stroke-dasharray:10 10}.track-samples{fill:none;stroke:#f59e0b;stroke-width:2;stroke-dasharray:3 14}.jumbotron-geometry-hidden .track-band,.jumbotron-geometry-hidden .track-centerline,.jumbotron-geometry-hidden .track-samples{display:none}.horse-body{fill:rgba(255,255,255,.7);stroke:#172033;stroke-width:3}.horse-rider-sprite{pointer-events:none;filter:drop-shadow(0 5px 8px rgba(15,23,42,.28))}.horse-arrow{fill:#2563eb}.horse-low .horse-arrow{fill:#22c55e}.horse-medium .horse-arrow{fill:#f59e0b}.horse-high .horse-arrow,.horse-critical .horse-arrow{fill:#ef4444}.horse-state-sprinting .horse-body,.horse-rank-leader .horse-body{filter:drop-shadow(0 0 10px rgba(37,99,235,.45));animation:jumbotronLowPulse 2.8s ease-in-out infinite}.horse-state-blocked .horse-body,.horse-state-takeover .horse-body,.horse-risk-critical .horse-body,.horse-risk-high .horse-body{stroke:#dc2626;stroke-width:4;filter:drop-shadow(0 0 10px rgba(220,38,38,.36))}.horse-state-finished .horse-body{stroke:#16a34a;stroke-width:4}.horse-state-stale .horse-body{stroke:#64748b;stroke-dasharray:5 4}.horse-status-pill text{font-size:11px;font-weight:950;fill:#172033;stroke:#fff;stroke-width:3px;paint-order:stroke}.horse-status-pill rect{fill:rgba(255,255,255,.92);stroke:rgba(23,32,51,.24);stroke-width:1.2}.track-alert-ring{fill:none;stroke:#ef4444;stroke-width:3;stroke-dasharray:8 6;opacity:.62;animation:jumbotronLowPulse 3.2s ease-in-out infinite}@keyframes jumbotronLowPulse{0%,100%{opacity:.82}50%{opacity:1}}.horse-label-group{pointer-events:visiblePainted}.horse-label-line{stroke:#172033;stroke-width:1.8;stroke-linecap:round;opacity:.34}.horse-label-bg{fill:none;stroke:none}.horse-label,.checkpoint text,.debug-label{fill:#172033;font-size:16px;font-weight:900;paint-order:stroke;stroke:#fff;stroke-width:4px}.message-bubble-anchor{opacity:0;transform-box:fill-box;transform-origin:center;animation-duration:var(--bubble-cycle);animation-delay:var(--bubble-start);animation-iteration-count:infinite;animation-timing-function:ease-in-out}.message-bubble-line{stroke:#1f49d8;stroke-width:2.5;stroke-linecap:round;opacity:.72}.message-bubble rect{fill:rgba(255,255,255,.96);stroke:#1f49d8;stroke-width:2}.message-bubble text{fill:#1d2939;font-size:13px;font-weight:800}${jumbotronBubbleAnimationCss()}.entry-tooltip{opacity:0;pointer-events:none;transition:opacity .12s ease}.jumbotron-focus-source:hover .entry-tooltip,.jumbotron-focus-source:focus .entry-tooltip,.jumbotron-focus-source:focus-within .entry-tooltip{opacity:1}.entry-tooltip rect{fill:rgba(15,23,42,.94);stroke:rgba(255,255,255,.72);stroke-width:1.5}.entry-tooltip text{fill:#fff;font-size:14px;font-weight:850;stroke:none}.jumbotron-focus-source{position:relative;outline:none}.html-tooltip{position:absolute;left:0;bottom:calc(100% + 8px);z-index:5;width:268px;background:#172033;color:#fff;border-radius:12px;padding:10px;box-shadow:0 16px 28px rgba(16,24,40,.22);opacity:0;pointer-events:none;transform:translateY(4px);transition:opacity .12s ease,transform .12s ease}.jumbotron-focus-source:hover .html-tooltip,.jumbotron-focus-source:focus .html-tooltip,.jumbotron-focus-source:focus-within .html-tooltip{opacity:1;transform:translateY(0)}.html-tooltip strong{display:block;color:#fff}.html-tooltip span{display:block;color:#dbeafe;font-size:12px;line-height:1.45}.ticker-item{position:relative;display:inline-flex;min-width:0;max-width:clamp(150px,22vw,260px)}.ticker-item>span,.ticker-more{display:block;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ticker-item .html-tooltip{left:auto;right:0;bottom:calc(100% + 10px)}.focus-details-card{position:sticky;top:74px}.jumbotron-live-layout>aside{display:flex;flex-direction:column;height:100%;min-height:0;overflow-y:auto;overscroll-behavior:contain;overflow-anchor:none;padding-right:2px}.jumbotron-live-layout>aside>.side-card,.jumbotron-live-layout>aside>.jumbotron-drawer{flex:0 0 auto}.jumbotron-live-layout .side-card:last-child,.jumbotron-live-layout .jumbotron-drawer:last-child{margin-bottom:0}.jumbotron-live-layout .focus-details-card{position:static}.jumbotron-live-layout>.track-stage-card{height:auto;display:flex;flex-direction:column;min-height:0}.jumbotron-live-layout .track-svg{flex:0 0 auto;min-height:0;height:auto;aspect-ratio:auto}.focus-detail-list{display:grid;gap:8px}.focus-detail-card{display:none;border:1px solid rgba(31,73,216,.22);background:#f8fbff;border-radius:12px;padding:10px}.focus-detail-card:first-child{display:block}.focus-detail-list:has(.focus-detail-card:target) .focus-detail-card{display:none}.focus-detail-list:has(.focus-detail-card:target) .focus-detail-card:target{display:block}.focus-detail-card:target{outline:3px solid rgba(31,73,216,.24)}.focus-detail-card p{margin:6px 0}.focus-trigger{cursor:pointer}.side-card{background:rgba(255,255,255,.86);border:1px solid rgba(148,163,184,.28);border-radius:16px;padding:9px;margin-bottom:7px}.side-card h2,.jumbotron-debug h2,.jumbotron-calibrator h2,.jumbotron-validation h2{margin:3px 0 7px;color:#172033;font-size:18px}.side-card h3{margin:8px 0 5px;font-size:14px}.side-card p{margin:5px 0}.ranking-list{margin:0;padding-left:19px}.ranking-list li{margin:6px 0}.attention-item{border-radius:12px;background:rgba(127,29,29,.18);padding:7px;margin-top:6px}.attention-item-high,.attention-item-critical{box-shadow:inset 3px 0 0 #dc2626,0 0 0 1px rgba(220,38,38,.18);animation:jumbotronLowPulse 3.4s ease-in-out infinite}.gap-pill,.state-pill{display:inline-flex;border-radius:999px;background:#eef4ff;border:1px solid rgba(31,73,216,.18);padding:2px 7px;margin-left:4px;font-size:11px;font-weight:900;color:#1d2939}.state-pill-risk{background:#fff1f0;border-color:rgba(220,38,38,.28);color:#b42318}.focus-trigger strong{text-decoration-thickness:2px;text-underline-offset:3px}.focus-trigger:hover strong,.focus-trigger:focus strong{text-decoration:underline}.jumbotron-ticker{display:flex;gap:10px;align-items:center;overflow:hidden;padding:9px 12px}.jumbotron-ticker div{display:flex;gap:8px;overflow:hidden}.jumbotron-ticker span{flex:0 0 auto;background:#eef4ff;border-radius:999px;padding:7px 10px;color:#344054}.debug-grid,.validation-grid,.calibrator-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}.debug-grid article,.validation-grid article,.calibrator-grid article{background:#fff;border:1px solid rgba(148,163,184,.26);border-radius:12px;padding:12px}.calibrator-preview-svg{width:100%;height:220px}.jumbotron-footer{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}.jumbotron-footer .jumbotron-drawer{margin-bottom:0}.boundary-pill{display:inline-flex;border:1px solid rgba(56,189,248,.35);border-radius:999px;padding:6px 9px;color:#bae6fd;margin:3px}.topbar{position:sticky;top:0;z-index:2;background:rgba(255,255,255,.96);color:#172033;border-bottom:1px solid rgba(148,163,184,.32);box-shadow:0 12px 28px rgba(31,73,216,.06)}.topbar-inner{max-width:1180px;margin:0 auto;padding:14px 22px;display:flex;align-items:center;justify-content:space-between;gap:18px}.brand{display:flex;align-items:center;gap:10px}.mark{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,#e11d48,#f97316);box-shadow:inset 0 -10px 0 rgba(0,0,0,.18)}.brand strong{display:block;font-size:15px}.brand span{display:block;color:#667085;font-size:12px}.nav{display:flex;gap:4px;flex-wrap:wrap}.nav a,.identity a,.identity span{border-radius:8px;padding:8px 10px;text-decoration:none;font-weight:800}.nav a{color:#475467}.nav a.active,.nav a:hover{background:#eef4ff;color:#1f49d8}.identity{display:flex;align-items:center;gap:8px}.identity span,.identity a{background:#f8fafc;color:#172033;border:1px solid rgba(148,163,184,.32)}.workspace{max-width:1180px;margin:0 auto;padding:26px 22px}.hero{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(260px,.55fr);gap:14px;margin-bottom:14px}.panel,.card,.notice{background:rgba(255,255,255,.94);border:1px solid var(--line);border-radius:14px;padding:18px}.panel{box-shadow:0 18px 40px rgba(16,24,40,.07);position:relative;overflow:hidden}.hero-art:after{content:"";position:absolute;right:-70px;top:-70px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,#bfd2ff 0,#e8efff 42%,transparent 70%);opacity:.9}.public-hero{background:linear-gradient(90deg,rgba(255,255,255,.86) 0%,rgba(255,255,255,.62) 52%,rgba(255,255,255,.34) 100%),url('/assets/public-yard-hero.webp') center/cover}.public-hero:after{right:-30px;top:-40px;background:radial-gradient(circle,rgba(249,115,22,.24) 0,rgba(191,210,255,.18) 48%,transparent 72%)}.organizer-hero{background:linear-gradient(90deg,rgba(255,255,255,.96),rgba(255,255,255,.88)),url('/assets/organizer-source-visual.webp') center/cover}.organizer-hero:after{right:-40px;top:-50px;background:radial-gradient(circle,rgba(20,184,166,.22) 0,rgba(91,63,181,.18) 50%,transparent 74%)}.hero-art>*{position:relative;z-index:1}.visual-card{position:relative;overflow:hidden;min-height:190px}.organizer-card{background:linear-gradient(135deg,rgba(255,255,255,.92),rgba(255,255,255,.8)),url('/assets/organizer-source-visual.webp') center/cover}.visual-card:before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(31,73,216,.12),rgba(225,29,72,.08)),repeating-linear-gradient(135deg,transparent 0 18px,rgba(31,73,216,.06) 18px 19px);pointer-events:none}.organizer-card:before{background:linear-gradient(135deg,rgba(16,24,40,.1),rgba(20,184,166,.12)),radial-gradient(circle at 80% 20%,rgba(249,115,22,.16),transparent 42%)}.visual-card>*{position:relative;z-index:1}.service-hero{grid-template-columns:minmax(0,1fr) minmax(420px,.82fr)}.service-card{min-height:300px;padding:30px}.service-card h2{font-size:34px;line-height:1.08;margin:22px 0 18px}.service-card>p{font-size:19px;line-height:1.7}.service-card .signal{margin:22px 0}.service-card .signal-row{padding:22px;border-radius:18px;gap:16px}.service-card .signal-row strong{font-size:21px}.service-card .signal-row p{font-size:18px;line-height:1.65;margin:12px 0 0}.service-card .signal-dot{width:13px;height:20px;border-radius:999px;margin-top:4px}.service-card .button{width:100%;padding:17px 18px;border-radius:14px;font-size:18px}.panel h1{font-size:34px;line-height:1.08;margin:8px 0}.panel p,.card p,.notice p{color:var(--muted);line-height:1.6}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}.stack{display:grid;gap:12px}.split{display:grid;grid-template-columns:1fr 1fr;gap:12px}.eyebrow{letter-spacing:.08em;text-transform:uppercase;font-size:11px;font-weight:900;color:#667085}.pill{display:inline-flex;border-radius:7px;padding:4px 8px;font-size:12px;font-weight:900;background:#eef2ff;color:#243b83}.pill[hidden]{display:none}.pill.green{background:var(--green-bg);color:var(--green)}.pill.amber{background:var(--amber-bg);color:var(--amber)}.pill.red{background:var(--red-bg);color:var(--red)}.pill.purple{background:var(--purple-bg);color:var(--purple)}.button{display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--accent);border-radius:9px;padding:10px 13px;background:var(--accent);color:#fff;font-weight:900;text-decoration:none;cursor:pointer}.button.secondary{background:#fff;color:#1d2939;border-color:var(--line)}.button.danger{background:#b42318;border-color:#b42318}.button.disabled{background:#eef2f7;color:#667085;border-color:#d0d5dd;cursor:not-allowed}.cta-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.metric-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin:12px 0}.metric{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px}.metric strong{display:block;font-size:24px;margin:6px 0 2px}.flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-top:12px}.flow-step{border:1px solid var(--line);border-radius:12px;background:#fff;padding:12px}.flow-step strong{display:block;margin-top:4px}.signal{display:grid;gap:10px}.signal-row{display:flex;align-items:flex-start;gap:10px;padding:12px;border:1px solid var(--line);border-radius:12px;background:#fff}.signal-dot{width:11px;height:11px;border-radius:50%;background:#98a2b3;margin-top:7px}.signal-dot.green{background:#17b26a}.signal-dot.amber{background:#f79009}.signal-dot.red{background:#f04438}.action-list{display:grid;gap:10px}.action-item{display:flex;justify-content:space-between;gap:16px;border:1px solid var(--line);border-radius:12px;background:#fff;padding:14px;text-decoration:none;color:var(--ink)}.action-item:hover{box-shadow:0 10px 24px rgba(16,24,40,.06)}.action-item strong{display:block;margin-bottom:4px}.action-item em{display:block;color:var(--muted);font-style:normal;line-height:1.45}.arrow{font-size:22px;font-weight:900;color:#98a2b3}.notice.ok{background:var(--green-bg);border-color:#b7ebd0}.notice.warn{background:var(--amber-bg);border-color:#f6dfa0}.notice.danger{background:var(--red-bg);border-color:#ffd0d0}form{display:grid;gap:12px}label{display:grid;gap:6px;font-weight:800;color:#344054}input,textarea{width:100%;border:1px solid var(--line);border-radius:9px;padding:11px;font:inherit;background:#fff}table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden}th,td{padding:11px 12px;border-bottom:1px solid #edf0f5;text-align:left;vertical-align:top}th{background:#f8fafc;color:#344054;font-size:12px;text-transform:uppercase;letter-spacing:.04em}tr:last-child td{border-bottom:0}.radar-panel{display:grid;grid-template-columns:minmax(260px,330px) minmax(0,1fr);gap:16px;align-items:center;margin-top:14px}.radar-svg{width:100%;max-width:330px}.radar-legend{display:grid;gap:8px;list-style:none;margin:0;padding:0}.radar-legend li{display:flex;justify-content:space-between;gap:12px;border:1px solid var(--line);border-radius:10px;background:#fff;padding:9px 11px}.radar-score{font-weight:900;color:var(--accent)}.result-radar{margin-top:14px}.timeline{display:grid;gap:10px}.event{display:grid;grid-template-columns:44px minmax(0,1fr);gap:12px}.event-no{width:34px;height:34px;border-radius:50%;background:#101828;color:white;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:13px}details{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden}summary{cursor:pointer;list-style:none;padding:14px 16px;font-weight:900}summary::-webkit-details-marker{display:none}.details-body{border-top:1px solid var(--line);padding:14px 16px;background:#fbfcff}.muted{color:var(--muted)}@media(max-width:820px){.jumbotron-page{width:auto;margin-left:0}.jumbotron-header{align-items:flex-start;flex-direction:column}.jumbotron-layout{grid-template-columns:1fr}.jumbotron-live-layout>aside,.jumbotron-live-layout>.track-stage-card{grid-column:auto;grid-row:auto}.track-svg{height:520px}.topbar-inner{align-items:flex-start;flex-direction:column}.hero,.split,.radar-panel,.service-hero{grid-template-columns:1fr}.event{grid-template-columns:1fr}}
+:root{--ink:#172033;--muted:#667085;--line:#d9dee8;--bg:#f4f6fb;--panel:#fff;--accent:#1f49d8;--dark:#121826;--green:#15734f;--green-bg:#e7f5ee;--amber:#9a6500;--amber-bg:#fff5d8;--red:#b42318;--red-bg:#fff1f0;--purple:#5b3fb5;--purple-bg:#f0ecff;--blue-bg:#edf4ff}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top left,#e9efff 0,#f4f6fb 36%,#eef2f7 100%);color:var(--ink);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.jumbotron-page{width:calc(100vw - 44px);margin-left:calc(50% - 50vw + 22px);min-height:calc(100vh - 92px);background:linear-gradient(135deg,#f8fbff 0,#eef4ff 48%,#fff7ed 100%);color:#172033;border-radius:22px;padding:10px}.jumbotron-page .muted{color:#667085}.jumbotron-page a{text-decoration:none;color:inherit}.jumbotron-header,.jumbotron-kpis,.jumbotron-layout,.jumbotron-ticker,.jumbotron-debug,.jumbotron-calibrator,.jumbotron-validation,.jumbotron-footer{border:1px solid rgba(148,163,184,.32);background:rgba(255,255,255,.92);border-radius:18px;padding:12px;margin-bottom:8px;box-shadow:0 12px 28px rgba(31,73,216,.06)}.jumbotron-drawer{border:1px solid rgba(148,163,184,.32);background:rgba(255,255,255,.92);border-radius:18px;margin-bottom:8px;box-shadow:0 12px 28px rgba(31,73,216,.06);overflow:hidden;overflow-anchor:none}.jumbotron-drawer-card{background:rgba(255,255,255,.9);border-color:rgba(148,163,184,.38)}.jumbotron-drawer-head{min-height:54px;padding:7px 14px;display:flex;align-items:center;justify-content:space-between;gap:12px;position:relative;z-index:1}.jumbotron-drawer-head>div{min-width:0}.jumbotron-drawer-head h2{display:block;margin:0;font-size:18px;line-height:1.12;color:#172033;white-space:normal}.jumbotron-drawer-icon{flex:0 0 auto;opacity:.58;font-size:34px;font-weight:950;line-height:1;color:#172033;transition:transform .18s ease,opacity .18s ease}.jumbotron-drawer-body{max-height:0;opacity:0;overflow:hidden;padding:0 12px 0;pointer-events:none;transition:max-height .26s ease,opacity .14s ease,padding-bottom .26s ease}.jumbotron-drawer:hover .jumbotron-drawer-body,.jumbotron-drawer:focus-within .jumbotron-drawer-body,.jumbotron-drawer.is-focus-open .jumbotron-drawer-body,.jumbotron-drawer.is-replay-expanded .jumbotron-drawer-body{max-height:420px;opacity:1;padding:0 12px 12px;pointer-events:auto;transition-delay:.45s}.jumbotron-profile-drawer:hover .jumbotron-drawer-body,.jumbotron-profile-drawer:focus-within .jumbotron-drawer-body{max-height:760px}.jumbotron-drawer:hover .jumbotron-drawer-icon,.jumbotron-drawer:focus-within .jumbotron-drawer-icon,.jumbotron-drawer.is-focus-open .jumbotron-drawer-icon,.jumbotron-drawer.is-replay-expanded .jumbotron-drawer-icon{opacity:.76;transform:rotate(180deg)}.jumbotron-mini-map-drawer{position:relative;z-index:6;overflow:visible}.jumbotron-mini-map-drawer .jumbotron-drawer-body{position:absolute;left:0;right:0;top:100%;z-index:8;background:rgba(255,255,255,.96);border:1px solid rgba(148,163,184,.32);border-top:0;border-radius:0 0 18px 18px;box-shadow:0 18px 34px rgba(16,24,40,.18);overflow:visible}.jumbotron-mini-map-drawer:hover .jumbotron-drawer-body,.jumbotron-mini-map-drawer:focus-within .jumbotron-drawer-body,.jumbotron-mini-map-drawer.is-replay-expanded .jumbotron-drawer-body{max-height:420px;opacity:1;padding:0 12px 12px;pointer-events:auto;transition-delay:.45s}.jumbotron-profile-grid article.is-active{background:#f8fbff;box-shadow:inset 3px 0 0 #1f49d8}.jumbotron-header{display:flex;justify-content:space-between;gap:14px;align-items:center;padding:8px 12px}.jumbotron-brandline{display:flex;align-items:center;gap:10px;min-width:0}.jumbotron-brandline strong{font-size:18px;white-space:nowrap}.jumbotron-brandline span:last-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.jumbotron-statusbar{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.jumbotron-statusbar span,.jumbotron-chip{border:1px solid rgba(148,163,184,.34);background:#fff;border-radius:999px;padding:6px 10px;font-weight:850;color:#344054}.jumbotron-live{display:inline-flex;border-radius:999px;background:#dc2626;color:#fff;padding:5px 10px;font-weight:900;letter-spacing:.08em}.jumbotron-kpis{display:flex;gap:8px;overflow:hidden;align-items:center;padding:8px 10px}.jumbotron-chip{display:flex;gap:6px;align-items:center;flex:0 0 auto}.jumbotron-chip strong{font-size:16px;color:#172033}.jumbotron-chip span{font-size:12px;color:#667085}.jumbotron-layout{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:10px;align-items:stretch}.calibrator-layout{align-items:start}.calibrator-layout>aside{overflow-y:auto;overscroll-behavior:contain;padding-right:2px}.calibrator-layout .side-card:last-child{margin-bottom:0}.jumbotron-live-layout{grid-template-columns:280px minmax(0,1fr);height:auto;min-height:0}.jumbotron-live-layout>aside{grid-column:1;grid-row:1;overflow:visible}.jumbotron-live-layout>.track-stage-card{grid-column:2;grid-row:1}.track-stage-card{background:rgba(255,255,255,.78);border:1px solid rgba(148,163,184,.26);border-radius:18px;padding:10px}.track-stage-card h2{font-size:24px;margin:2px 0 6px}.track-svg{display:block;width:100%;height:auto;aspect-ratio:var(--track-aspect-ratio,1672/941)}.calibrator-layout .track-svg{touch-action:none}.calibrator-point{cursor:grab}.calibrator-point.is-selected circle,.calibrator-point.is-dragging circle{fill:#dbeafe;stroke:#0f2f9e;stroke-width:4}.calibrator-point.is-dragging{cursor:grabbing}.calibrator-canvas-help{margin:0 0 8px;color:#475467}.mini-map-svg{width:100%;height:128px;border-radius:12px;background:#f8fafc}.mini-map-svg .track-band{stroke-width:110}.mini-map-svg .track-centerline{stroke-width:12}.track-bg{fill:#f8fafc;stroke:rgba(31,73,216,.25);stroke-width:2}.track-background-image{opacity:.88;filter:saturate(1.06) contrast(1.04)}.track-band{fill:none;stroke:rgba(215,227,248,.72);stroke-width:72;stroke-linecap:round;stroke-linejoin:round}.track-centerline{fill:none;stroke:#1f49d8;stroke-width:4;stroke-dasharray:10 10}.track-samples{fill:none;stroke:#f59e0b;stroke-width:2;stroke-dasharray:3 14}.jumbotron-geometry-hidden .track-band,.jumbotron-geometry-hidden .track-centerline,.jumbotron-geometry-hidden .track-samples{display:none}.horse-body{fill:rgba(255,255,255,.7);stroke:#172033;stroke-width:3}.horse-rider-sprite{pointer-events:none;filter:drop-shadow(0 5px 8px rgba(15,23,42,.28))}.horse-arrow{fill:#2563eb}.horse-low .horse-arrow{fill:#22c55e}.horse-medium .horse-arrow{fill:#f59e0b}.horse-high .horse-arrow,.horse-critical .horse-arrow{fill:#ef4444}.horse-state-sprinting .horse-body,.horse-rank-leader .horse-body{filter:drop-shadow(0 0 10px rgba(37,99,235,.45));animation:jumbotronLowPulse 2.8s ease-in-out infinite}.horse-state-blocked .horse-body,.horse-state-takeover .horse-body,.horse-risk-critical .horse-body,.horse-risk-high .horse-body{stroke:#dc2626;stroke-width:4;filter:drop-shadow(0 0 10px rgba(220,38,38,.36))}.horse-state-finished .horse-body{stroke:#16a34a;stroke-width:4}.horse-state-stale .horse-body{stroke:#64748b;stroke-dasharray:5 4}.horse-status-pill text{font-size:11px;font-weight:950;fill:#172033;stroke:#fff;stroke-width:3px;paint-order:stroke}.horse-status-pill rect{fill:rgba(255,255,255,.92);stroke:rgba(23,32,51,.24);stroke-width:1.2}.track-alert-ring{fill:none;stroke:#ef4444;stroke-width:3;stroke-dasharray:8 6;opacity:.62;animation:jumbotronLowPulse 3.2s ease-in-out infinite}@keyframes jumbotronLowPulse{0%,100%{opacity:.82}50%{opacity:1}}.horse-label-group{pointer-events:visiblePainted}.horse-label-line{stroke:#172033;stroke-width:1.8;stroke-linecap:round;opacity:.34}.horse-label-bg{fill:none;stroke:none}.horse-label,.checkpoint text,.debug-label{fill:#172033;font-size:16px;font-weight:900;paint-order:stroke;stroke:#fff;stroke-width:4px}.message-bubble-anchor{opacity:0;transform-box:fill-box;transform-origin:center;animation-duration:var(--bubble-cycle);animation-delay:var(--bubble-start);animation-iteration-count:infinite;animation-timing-function:ease-in-out}.message-bubble-line{stroke:#1f49d8;stroke-width:2.5;stroke-linecap:round;opacity:.72}.message-bubble rect{fill:rgba(255,255,255,.96);stroke:#1f49d8;stroke-width:2}.message-bubble text{fill:#1d2939;font-size:13px;font-weight:800}${jumbotronBubbleAnimationCss()}.entry-tooltip{opacity:0;pointer-events:none;transition:opacity .12s ease}.jumbotron-focus-source:hover .entry-tooltip,.jumbotron-focus-source:focus .entry-tooltip,.jumbotron-focus-source:focus-within .entry-tooltip{opacity:1}.entry-tooltip rect{fill:rgba(15,23,42,.94);stroke:rgba(255,255,255,.72);stroke-width:1.5}.entry-tooltip text{fill:#fff;font-size:14px;font-weight:850;stroke:none}.jumbotron-focus-source{position:relative;outline:none}.html-tooltip{position:absolute;left:0;bottom:calc(100% + 8px);z-index:5;width:268px;background:#172033;color:#fff;border-radius:12px;padding:10px;box-shadow:0 16px 28px rgba(16,24,40,.22);opacity:0;pointer-events:none;transform:translateY(4px);transition:opacity .12s ease,transform .12s ease}.legend-entry{display:block;position:relative;border-radius:10px;padding:6px 7px;margin:3px 0;color:inherit}.legend-entry:hover,.legend-entry:focus{background:#f8fbff}.legend-entry .html-tooltip{left:calc(100% + 10px);right:auto;top:50%;bottom:auto;transform:translate(4px,-50%);z-index:20}.legend-entry:hover .html-tooltip,.legend-entry:focus .html-tooltip,.legend-entry:focus-within .html-tooltip{opacity:1;transform:translate(0,-50%)}@media(max-width:820px){.legend-entry .html-tooltip{left:0;top:auto;bottom:calc(100% + 8px);transform:translateY(4px)}.legend-entry:hover .html-tooltip,.legend-entry:focus .html-tooltip,.legend-entry:focus-within .html-tooltip{transform:translateY(0)}}.jumbotron-focus-source:hover .html-tooltip,.jumbotron-focus-source:focus .html-tooltip,.jumbotron-focus-source:focus-within .html-tooltip{opacity:1;transform:translateY(0)}.jumbotron-focus-source.legend-entry:hover .html-tooltip,.jumbotron-focus-source.legend-entry:focus .html-tooltip,.jumbotron-focus-source.legend-entry:focus-within .html-tooltip{opacity:1;transform:translate(0,-50%)}.html-tooltip strong{display:block;color:#fff}.html-tooltip span{display:block;color:#dbeafe;font-size:12px;line-height:1.45}.ticker-item{position:relative;display:inline-flex;min-width:0;max-width:clamp(150px,22vw,260px)}.ticker-item>span,.ticker-more{display:block;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ticker-item .html-tooltip{left:auto;right:0;bottom:calc(100% + 10px)}.focus-details-card{position:sticky;top:74px}.jumbotron-live-layout>aside{display:flex;flex-direction:column;height:100%;min-height:0;overflow-y:auto;overscroll-behavior:contain;overflow-anchor:none;padding-right:2px}.jumbotron-live-layout>aside>.side-card,.jumbotron-live-layout>aside>.jumbotron-drawer{flex:0 0 auto}.jumbotron-live-layout .side-card:last-child,.jumbotron-live-layout .jumbotron-drawer:last-child{margin-bottom:0}.jumbotron-live-layout .focus-details-card{position:static}.jumbotron-live-layout>.track-stage-card{height:auto;display:flex;flex-direction:column;min-height:0}.jumbotron-live-layout .track-svg{flex:0 0 auto;min-height:0;height:auto;aspect-ratio:auto}.focus-detail-list{display:grid;gap:8px}.focus-detail-card{display:none;border:1px solid rgba(31,73,216,.22);background:#f8fbff;border-radius:12px;padding:10px}.focus-detail-card:first-child{display:block}.focus-detail-list.has-active-focus .focus-detail-card{display:none}.focus-detail-list.has-active-focus .focus-detail-card.is-active{display:block;outline:3px solid rgba(31,73,216,.24)}.focus-detail-list:has(.focus-detail-card:target) .focus-detail-card{display:none}.focus-detail-list:has(.focus-detail-card:target) .focus-detail-card:target{display:block}.focus-detail-card:target{outline:3px solid rgba(31,73,216,.24)}.focus-detail-card p{margin:6px 0}.focus-trigger{cursor:pointer}.side-card{background:rgba(255,255,255,.86);border:1px solid rgba(148,163,184,.28);border-radius:16px;padding:9px;margin-bottom:7px}.side-card h2,.jumbotron-debug h2,.jumbotron-calibrator h2,.jumbotron-validation h2{margin:3px 0 7px;color:#172033;font-size:18px}.side-card h3{margin:8px 0 5px;font-size:14px}.side-card p{margin:5px 0}.ranking-list{margin:0;padding-left:19px}.ranking-list li{margin:6px 0}.attention-item{border-radius:12px;background:rgba(127,29,29,.18);padding:7px;margin-top:6px}.attention-item-high,.attention-item-critical{box-shadow:inset 3px 0 0 #dc2626,0 0 0 1px rgba(220,38,38,.18);animation:jumbotronLowPulse 3.4s ease-in-out infinite}.gap-pill,.state-pill{display:inline-flex;border-radius:999px;background:#eef4ff;border:1px solid rgba(31,73,216,.18);padding:2px 7px;margin-left:4px;font-size:11px;font-weight:900;color:#1d2939}.state-pill-risk{background:#fff1f0;border-color:rgba(220,38,38,.28);color:#b42318}.focus-trigger strong{text-decoration-thickness:2px;text-underline-offset:3px}.focus-trigger:hover strong,.focus-trigger:focus strong{text-decoration:underline}.jumbotron-ticker{display:flex;gap:10px;align-items:center;overflow:hidden;padding:9px 12px}.jumbotron-ticker div{display:flex;gap:8px;overflow:hidden}.jumbotron-ticker span{flex:0 0 auto;background:#eef4ff;border-radius:999px;padding:7px 10px;color:#344054}.debug-grid,.validation-grid,.calibrator-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}.debug-grid article,.validation-grid article,.calibrator-grid article{background:#fff;border:1px solid rgba(148,163,184,.26);border-radius:12px;padding:12px}.debug-grid article.review-check-ok,.validation-grid article.review-check-ok,.calibrator-grid article.review-check-ok{background:rgba(34,197,94,.5);border-color:rgba(22,163,74,.48)}.debug-grid article.review-check-warn,.validation-grid article.review-check-warn,.calibrator-grid article.review-check-warn{background:rgba(180,111,55,.5);border-color:rgba(146,64,14,.5)}.review-check-status{display:inline-flex;border-radius:999px;background:rgba(255,255,255,.58);padding:4px 10px;font-weight:950;color:#172033;margin-top:4px}.calibrator-preview-svg{width:100%;height:220px}.jumbotron-footer{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}.jumbotron-footer .jumbotron-drawer{margin-bottom:0}.boundary-pill{display:inline-flex;border:1px solid rgba(56,189,248,.35);border-radius:999px;padding:6px 9px;color:#bae6fd;margin:3px}.topbar{position:sticky;top:0;z-index:2;background:rgba(255,255,255,.96);color:#172033;border-bottom:1px solid rgba(148,163,184,.32);box-shadow:0 12px 28px rgba(31,73,216,.06);transition:min-height .18s ease,box-shadow .18s ease}.topbar-inner{max-width:1180px;margin:0 auto;padding:14px 22px;display:flex;align-items:center;justify-content:space-between;gap:18px;transition:padding .18s ease,min-height .18s ease}.topbar-actions{display:flex;align-items:center;gap:8px}.topbar-toggle{border:1px solid rgba(148,163,184,.38);border-radius:8px;padding:8px 10px;background:#fff;color:#475467;font:inherit;font-weight:900;cursor:pointer}.topbar-toggle:hover{background:#eef4ff;color:#1f49d8}.topbar.is-collapsed .brand,.topbar.is-collapsed .nav,.topbar.is-collapsed .identity{display:none}.topbar.is-collapsed .topbar-inner{min-height:44px;padding:6px 22px;justify-content:flex-end}.topbar.is-collapsed .topbar-toggle{background:#eef4ff;color:#1f49d8;border-color:rgba(31,73,216,.22)}.brand{display:flex;align-items:center;gap:10px}.mark{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,#e11d48,#f97316);box-shadow:inset 0 -10px 0 rgba(0,0,0,.18)}.brand strong{display:block;font-size:15px}.brand span{display:block;color:#667085;font-size:12px}.nav{display:flex;gap:4px;flex-wrap:wrap}.nav a,.identity a,.identity span{border-radius:8px;padding:8px 10px;text-decoration:none;font-weight:800}.nav a{color:#475467}.nav a.active,.nav a:hover{background:#eef4ff;color:#1f49d8}.identity{display:flex;align-items:center;gap:8px}.identity span,.identity a{background:#f8fafc;color:#172033;border:1px solid rgba(148,163,184,.32)}.workspace{max-width:1180px;margin:0 auto;padding:26px 22px}.hero{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(260px,.55fr);gap:14px;margin-bottom:14px}.panel,.card,.notice{background:rgba(255,255,255,.94);border:1px solid var(--line);border-radius:14px;padding:18px}.panel{box-shadow:0 18px 40px rgba(16,24,40,.07);position:relative;overflow:hidden}.hero-art:after{content:"";position:absolute;right:-70px;top:-70px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,#bfd2ff 0,#e8efff 42%,transparent 70%);opacity:.9}.public-hero{background:linear-gradient(90deg,rgba(255,255,255,.86) 0%,rgba(255,255,255,.62) 52%,rgba(255,255,255,.34) 100%),url('/assets/public-yard-hero.webp') center/cover}.public-hero:after{right:-30px;top:-40px;background:radial-gradient(circle,rgba(249,115,22,.24) 0,rgba(191,210,255,.18) 48%,transparent 72%)}.organizer-hero{background:linear-gradient(90deg,rgba(255,255,255,.96),rgba(255,255,255,.88)),url('/assets/organizer-source-visual.webp') center/cover}.organizer-hero:after{right:-40px;top:-50px;background:radial-gradient(circle,rgba(20,184,166,.22) 0,rgba(91,63,181,.18) 50%,transparent 74%)}.hero-art>*{position:relative;z-index:1}.visual-card{position:relative;overflow:hidden;min-height:190px}.organizer-card{background:linear-gradient(135deg,rgba(255,255,255,.92),rgba(255,255,255,.8)),url('/assets/organizer-source-visual.webp') center/cover}.visual-card:before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(31,73,216,.12),rgba(225,29,72,.08)),repeating-linear-gradient(135deg,transparent 0 18px,rgba(31,73,216,.06) 18px 19px);pointer-events:none}.organizer-card:before{background:linear-gradient(135deg,rgba(16,24,40,.1),rgba(20,184,166,.12)),radial-gradient(circle at 80% 20%,rgba(249,115,22,.16),transparent 42%)}.visual-card>*{position:relative;z-index:1}.service-hero{grid-template-columns:minmax(0,1fr) minmax(420px,.82fr)}.service-card{min-height:300px;padding:30px}.service-card h2{font-size:34px;line-height:1.08;margin:22px 0 18px}.service-card>p{font-size:19px;line-height:1.7}.service-card .signal{margin:22px 0}.service-card .signal-row{padding:22px;border-radius:18px;gap:16px}.service-card .signal-row strong{font-size:21px}.service-card .signal-row p{font-size:18px;line-height:1.65;margin:12px 0 0}.service-card .signal-dot{width:13px;height:20px;border-radius:999px;margin-top:4px}.service-card .button{width:100%;padding:17px 18px;border-radius:14px;font-size:18px}.panel h1{font-size:34px;line-height:1.08;margin:8px 0}.panel p,.card p,.notice p{color:var(--muted);line-height:1.6}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}.stack{display:grid;gap:12px}.split{display:grid;grid-template-columns:1fr 1fr;gap:12px}.eyebrow{letter-spacing:.08em;text-transform:uppercase;font-size:11px;font-weight:900;color:#667085}.pill{display:inline-flex;border-radius:7px;padding:4px 8px;font-size:12px;font-weight:900;background:#eef2ff;color:#243b83}.pill[hidden]{display:none}.pill.green{background:var(--green-bg);color:var(--green)}.pill.amber{background:var(--amber-bg);color:var(--amber)}.pill.red{background:var(--red-bg);color:var(--red)}.pill.purple{background:var(--purple-bg);color:var(--purple)}.button{display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--accent);border-radius:9px;padding:10px 13px;background:var(--accent);color:#fff;font-weight:900;text-decoration:none;cursor:pointer}.button.secondary{background:#fff;color:#1d2939;border-color:var(--line)}.button.danger{background:#b42318;border-color:#b42318}.button.disabled{background:#eef2f7;color:#667085;border-color:#d0d5dd;cursor:not-allowed}.cta-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.metric-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin:12px 0}.metric{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px}.metric strong{display:block;font-size:24px;margin:6px 0 2px}.flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-top:12px}.flow-step{border:1px solid var(--line);border-radius:12px;background:#fff;padding:12px}.flow-step strong{display:block;margin-top:4px}.signal{display:grid;gap:10px}.signal-row{display:flex;align-items:flex-start;gap:10px;padding:12px;border:1px solid var(--line);border-radius:12px;background:#fff}.signal-dot{width:11px;height:11px;border-radius:50%;background:#98a2b3;margin-top:7px}.signal-dot.green{background:#17b26a}.signal-dot.amber{background:#f79009}.signal-dot.red{background:#f04438}.action-list{display:grid;gap:10px}.action-item{display:flex;justify-content:space-between;gap:16px;border:1px solid var(--line);border-radius:12px;background:#fff;padding:14px;text-decoration:none;color:var(--ink)}.action-item:hover{box-shadow:0 10px 24px rgba(16,24,40,.06)}.action-item strong{display:block;margin-bottom:4px}.action-item em{display:block;color:var(--muted);font-style:normal;line-height:1.45}.arrow{font-size:22px;font-weight:900;color:#98a2b3}.notice.ok{background:var(--green-bg);border-color:#b7ebd0}.notice.warn{background:var(--amber-bg);border-color:#f6dfa0}.notice.danger{background:var(--red-bg);border-color:#ffd0d0}form{display:grid;gap:12px}label{display:grid;gap:6px;font-weight:800;color:#344054}input,textarea{width:100%;border:1px solid var(--line);border-radius:9px;padding:11px;font:inherit;background:#fff}table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden}th,td{padding:11px 12px;border-bottom:1px solid #edf0f5;text-align:left;vertical-align:top}th{background:#f8fafc;color:#344054;font-size:12px;text-transform:uppercase;letter-spacing:.04em}tr:last-child td{border-bottom:0}.radar-panel{display:grid;grid-template-columns:minmax(260px,330px) minmax(0,1fr);gap:16px;align-items:center;margin-top:14px}.radar-svg{width:100%;max-width:330px}.radar-legend{display:grid;gap:8px;list-style:none;margin:0;padding:0}.radar-legend li{display:flex;justify-content:space-between;gap:12px;border:1px solid var(--line);border-radius:10px;background:#fff;padding:9px 11px}.radar-score{font-weight:900;color:var(--accent)}.result-radar{margin-top:14px}.timeline{display:grid;gap:10px}.event{display:grid;grid-template-columns:44px minmax(0,1fr);gap:12px}.event-no{width:34px;height:34px;border-radius:50%;background:#101828;color:white;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:13px}details{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden}summary{cursor:pointer;list-style:none;padding:14px 16px;font-weight:900}summary::-webkit-details-marker{display:none}.details-body{border-top:1px solid var(--line);padding:14px 16px;background:#fbfcff}.muted{color:var(--muted)}@media(max-width:820px){.jumbotron-page{width:auto;margin-left:0}.jumbotron-header{align-items:flex-start;flex-direction:column}.jumbotron-layout{grid-template-columns:1fr}.jumbotron-live-layout>aside,.jumbotron-live-layout>.track-stage-card{grid-column:auto;grid-row:auto}.track-svg{height:520px}.topbar-inner{align-items:flex-start;flex-direction:column}.hero,.split,.radar-panel,.service-hero{grid-template-columns:1fr}.event{grid-template-columns:1fr}}
 .calibrator-trace-guide{fill:none;stroke:#0ea5e9;stroke-width:4;stroke-dasharray:2 7;stroke-linecap:round;opacity:.72;vector-effect:non-scaling-stroke}</style>
 </head>
-<body><main class="shell"><header class="topbar"><div class="topbar-inner"><div class="brand"><div class="mark"></div><div><strong>GRS 001</strong><span>赛事公开展示</span></div></div>${nav}${identity}</div></header><section class="workspace">${content}</section></main></body></html>`;
+<body><main class="shell"><header class="topbar" data-topbar><div class="topbar-inner" id="topbar-content"><div class="brand"><div class="mark"></div><div><strong>GRS 001</strong><span>赛事公开展示</span></div></div>${nav}<div class="topbar-actions">${identity}${topbarToggle}</div></div></header><section class="workspace">${content}</section>${topbarCollapseScript}</main></body></html>`;
 }
 
 function listItems(items = []) {
@@ -422,7 +424,7 @@ const JUMBOTRON_CURATED_RACE_SNAPSHOT_PATH = join(JUMBOTRON_CURATED_MOCK_DIR, 'r
 const JUMBOTRON_CURATED_TRACK_PROFILE_PATH = join(JUMBOTRON_CURATED_MOCK_DIR, 'track.profile.json');
 const JUMBOTRON_REVIEW_PACKAGE_DIR = join(rootDir, '..', 'Week2-Jumbotron', 'mock-data', 'review-package');
 const JUMBOTRON_RAW_MOCK_DATA_DIR = join(rootDir, '..', 'Week2-Jumbotron', 'mock-data', 'raw', 'mock_data');
-const JUMBOTRON_RAW_TRACKS_DIR = join(JUMBOTRON_RAW_MOCK_DATA_DIR, 'tracks');
+const JUMBOTRON_RAW_TRACKS_DIR = join(rootDir, 'jumbotron-candidate-assets');
 const JUMBOTRON_RAW_RACE_TIMELINE_PATH = join(JUMBOTRON_RAW_MOCK_DATA_DIR, 'race-timeline.json');
 const JUMBOTRON_SECOND_TRACK_CANDIDATE_SEEDS = ['real-explicit-closed-course', 'grandstand-oval'];
 const JUMBOTRON_CANDIDATE_IMPORT_VALUE = 'active-second-track-ai';
@@ -500,10 +502,10 @@ const JUMBOTRON_BUBBLE_CYCLE_OPTIONS = [34, 42, 48, 60, 72, 84, 96, 108, 120];
 const JUMBOTRON_BUBBLE_DURATIONS = [6, 8, 10, 12];
 const JUMBOTRON_BUBBLE_VISIBLE_LIMIT = 3;
 const JUMBOTRON_BUBBLE_SCHEDULE_LIMIT = 16;
-const JUMBOTRON_REPLAY_INTERPOLATION_STEPS = 12;
+const JUMBOTRON_REPLAY_INTERPOLATION_STEPS = 24;
 const JUMBOTRON_REPLAY_FRAME_DELAY_MS = 90;
-const JUMBOTRON_REPLAY_EVENT_HOLD_FRAMES = 10;
-const JUMBOTRON_REPLAY_FINAL_HOLD_FRAMES = 12;
+const JUMBOTRON_REPLAY_EVENT_HOLD_FRAMES = 40;
+const JUMBOTRON_REPLAY_FINAL_HOLD_FRAMES = 48;
 const JUMBOTRON_BUBBLE_TARGET_VISIBLE_AVERAGE = 1.5;
 const JUMBOTRON_BUBBLE_MIN_CYCLE_SECONDS = JUMBOTRON_BUBBLE_CYCLE_OPTIONS[0];
 const JUMBOTRON_BUBBLE_MAX_CYCLE_SECONDS = JUMBOTRON_BUBBLE_CYCLE_OPTIONS[JUMBOTRON_BUBBLE_CYCLE_OPTIONS.length - 1];
@@ -556,6 +558,435 @@ const jumbotronTrackProfiles = [
   },
 
 ];
+
+const JUMBOTRON_CALIBRATOR_DEFAULT_TRACK_PROFILE = {
+  "schemaVersion": "0.1.0",
+  "trackId": "grandstand-oval",
+  "name": "Grandstand Oval",
+  "viewBox": {
+    "x": 0,
+    "y": 0,
+    "width": 1200,
+    "height": 620
+  },
+  "background": {
+    "assetId": "jumbotron-background1",
+    "src": "/assets/jumbotron/background1.png",
+    "kind": "png"
+  },
+  "centerline": {
+    "type": "curve",
+    "closed": true,
+    "points": [
+      {
+        "x": 558.4,
+        "y": 509.2
+      },
+      {
+        "x": 527.1,
+        "y": 507
+      },
+      {
+        "x": 493.8,
+        "y": 506.9
+      },
+      {
+        "x": 465.8,
+        "y": 506.8
+      },
+      {
+        "x": 421.9,
+        "y": 506.4
+      },
+      {
+        "x": 365,
+        "y": 506.8
+      },
+      {
+        "x": 311.3,
+        "y": 505.6
+      },
+      {
+        "x": 247.5,
+        "y": 487.2
+      },
+      {
+        "x": 251.8,
+        "y": 432.6
+      },
+      {
+        "x": 302.6,
+        "y": 369
+      },
+      {
+        "x": 316,
+        "y": 333.5
+      },
+      {
+        "x": 285.1,
+        "y": 290.9
+      },
+      {
+        "x": 222.4,
+        "y": 235.1
+      },
+      {
+        "x": 187,
+        "y": 185.5
+      },
+      {
+        "x": 190.8,
+        "y": 125.7
+      },
+      {
+        "x": 236,
+        "y": 82.9
+      },
+      {
+        "x": 302.4,
+        "y": 64.7
+      },
+      {
+        "x": 364.8,
+        "y": 73.5
+      },
+      {
+        "x": 434.3,
+        "y": 88.5
+      },
+      {
+        "x": 484.5,
+        "y": 105.3
+      },
+      {
+        "x": 519.5,
+        "y": 127.1
+      },
+      {
+        "x": 553.5,
+        "y": 148.9
+      },
+      {
+        "x": 577.7,
+        "y": 159.9
+      },
+      {
+        "x": 598.1,
+        "y": 165.7
+      },
+      {
+        "x": 612.6,
+        "y": 168.1
+      },
+      {
+        "x": 631.9,
+        "y": 170.9
+      },
+      {
+        "x": 653.4,
+        "y": 171.3
+      },
+      {
+        "x": 673.3,
+        "y": 168.2
+      },
+      {
+        "x": 713.3,
+        "y": 155.1
+      },
+      {
+        "x": 782.5,
+        "y": 128
+      },
+      {
+        "x": 856,
+        "y": 105.8
+      },
+      {
+        "x": 948.3,
+        "y": 102.9
+      },
+      {
+        "x": 1005.3,
+        "y": 139
+      },
+      {
+        "x": 1009.6,
+        "y": 198.3
+      },
+      {
+        "x": 977.2,
+        "y": 247.3
+      },
+      {
+        "x": 949.8,
+        "y": 304.8
+      },
+      {
+        "x": 986.9,
+        "y": 363.3
+      },
+      {
+        "x": 1021.2,
+        "y": 413.5
+      },
+      {
+        "x": 1010.7,
+        "y": 471.4
+      },
+      {
+        "x": 939.7,
+        "y": 500.3
+      },
+      {
+        "x": 857.1,
+        "y": 506.6
+      },
+      {
+        "x": 807.1,
+        "y": 507.9
+      },
+      {
+        "x": 754.7,
+        "y": 508.4
+      },
+      {
+        "x": 711.8,
+        "y": 507.5
+      },
+      {
+        "x": 684.6,
+        "y": 507.6
+      },
+      {
+        "x": 652.2,
+        "y": 507.8
+      },
+      {
+        "x": 620.9,
+        "y": 508.4
+      },
+      {
+        "x": 594.3,
+        "y": 510.4
+      },
+      {
+        "x": 558.4,
+        "y": 509.2
+      }
+    ],
+    "smoothing": "catmull-rom-closed-from-original-background-gray-mask"
+  },
+  "direction": "counterclockwise",
+  "startFinish": {
+    "startS": 0,
+    "finishS": 1,
+    "label": "终点线"
+  },
+  "lanes": [
+    {
+      "laneId": "lane-1",
+      "offset": -24
+    },
+    {
+      "laneId": "lane-2",
+      "offset": -20
+    },
+    {
+      "laneId": "lane-3",
+      "offset": -16
+    },
+    {
+      "laneId": "lane-4",
+      "offset": -12
+    },
+    {
+      "laneId": "lane-5",
+      "offset": -8
+    },
+    {
+      "laneId": "lane-6",
+      "offset": -4
+    },
+    {
+      "laneId": "lane-7",
+      "offset": 4
+    },
+    {
+      "laneId": "lane-8",
+      "offset": 8
+    },
+    {
+      "laneId": "lane-9",
+      "offset": 12
+    },
+    {
+      "laneId": "lane-10",
+      "offset": 16
+    },
+    {
+      "laneId": "lane-11",
+      "offset": 20
+    },
+    {
+      "laneId": "lane-12",
+      "offset": 24
+    }
+  ],
+  "checkpoints": [
+    {
+      "checkpointId": "cp-start",
+      "label": "终点线",
+      "s": 0
+    },
+    {
+      "checkpointId": "cp-1",
+      "label": "右侧折返弯",
+      "s": 0.25
+    },
+    {
+      "checkpointId": "cp-2",
+      "label": "后段直道",
+      "s": 0.5
+    },
+    {
+      "checkpointId": "cp-3",
+      "label": "主看台直道",
+      "s": 0.75
+    }
+  ],
+  "messageZones": [
+    {
+      "zoneId": "track-bubble",
+      "offsetX": 28,
+      "offsetY": -64,
+      "rect": {
+        "x": 93.75,
+        "y": 86.11,
+        "width": 1012.5,
+        "height": 97.59
+      },
+      "x": 93.75,
+      "y": 86.11,
+      "width": 1012.5,
+      "height": 97.59
+    }
+  ],
+  "noBubbleZones": [
+    {
+      "zoneId": "nb-header",
+      "x": 0,
+      "y": 0,
+      "width": 1200,
+      "height": 68.89,
+      "label": "Header（标题/LIVE/计时）",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "width": 1200,
+        "height": 68.89
+      }
+    },
+    {
+      "zoneId": "nb-summary",
+      "x": 0,
+      "y": 68.89,
+      "width": 1200,
+      "height": 51.67,
+      "label": "TOP3 + KPI 摘要行",
+      "rect": {
+        "x": 0,
+        "y": 68.89,
+        "width": 1200,
+        "height": 51.67
+      }
+    },
+    {
+      "zoneId": "nb-leftrail",
+      "x": 0,
+      "y": 120.56,
+      "width": 187.5,
+      "height": 396.11,
+      "label": "左侧小地图 + 图例",
+      "rect": {
+        "x": 0,
+        "y": 120.56,
+        "width": 187.5,
+        "height": 396.11
+      }
+    },
+    {
+      "zoneId": "nb-ticker",
+      "x": 0,
+      "y": 522.41,
+      "width": 1200,
+      "height": 51.67,
+      "label": "底部风险/违章 ticker",
+      "rect": {
+        "x": 0,
+        "y": 522.41,
+        "width": 1200,
+        "height": 51.67
+      }
+    },
+    {
+      "zoneId": "nb-footer",
+      "x": 0,
+      "y": 574.07,
+      "width": 1200,
+      "height": 45.93,
+      "label": "Footer（主题/主办方/时间）",
+      "rect": {
+        "x": 0,
+        "y": 574.07,
+        "width": 1200,
+        "height": 45.93
+      }
+    }
+  ],
+  "riskZones": [
+    {
+      "zoneId": "critical-takeover-watch",
+      "x": 760,
+      "y": 230,
+      "width": 170,
+      "height": 120,
+      "severity": "critical",
+      "rect": {
+        "x": 760,
+        "y": 230,
+        "width": 170,
+        "height": 120
+      }
+    }
+  ],
+  "debug": {
+    "sampleCount": 28,
+    "collisionBox": {
+      "width": 44,
+      "height": 44
+    },
+    "staleThresholdMs": 300000,
+    "manualChecks": {
+      "horseOnTrack": {
+        "status": "confirmed",
+        "label": "已人工确认"
+      },
+      "curveNatural": {
+        "status": "pending",
+        "label": "待人工复核"
+      },
+      "bubbleClearance": {
+        "status": "pending",
+        "label": "待人工复核"
+      },
+      "checkpointMeaning": {
+        "status": "pending",
+        "label": "待人工复核"
+      }
+    }
+  }
+};
 
 function allowedJumbotronDataProfiles() {
   return JUMBOTRON_DATA_PROFILES.map(({ alias, canonicalId }) => ({ alias, canonicalId }));
@@ -711,17 +1142,61 @@ function buildJumbotronInterpolatedTimelineFrame(timeline, fromFrame, toFrame, t
   };
 }
 
+function jumbotronTimelineFrameAverageProgress(frame) {
+  const avg = jumbotronTimelineProgress(frame?.avgRoundProgress, NaN);
+  if (Number.isFinite(avg)) return avg;
+  const entries = frame?.entries || [];
+  if (!entries.length) return 0;
+  return entries.reduce((sum, entry) => sum + jumbotronTimelineProgress(entry.roundProgress, 0), 0) / entries.length;
+}
+
+function buildJumbotronReplaySegmentSteps(rawFrames) {
+  const segmentCount = Math.max(0, rawFrames.length - 1);
+  if (!segmentCount) return [];
+  const totalSteps = segmentCount * JUMBOTRON_REPLAY_INTERPOLATION_STEPS;
+  const minimumSteps = Math.min(3, Math.max(1, Math.floor(totalSteps / segmentCount)));
+  const progress = rawFrames.map(jumbotronTimelineFrameAverageProgress);
+  const deltas = progress.slice(0, -1).map((value, index) => Math.max(0, Math.abs(progress[index + 1] - value)));
+  const totalDelta = deltas.reduce((sum, value) => sum + value, 0);
+  if (!totalDelta) return Array.from({ length: segmentCount }, () => JUMBOTRON_REPLAY_INTERPOLATION_STEPS);
+  const remainingSteps = Math.max(0, totalSteps - minimumSteps * segmentCount);
+  const quotas = deltas.map((delta) => delta / totalDelta * remainingSteps);
+  const steps = quotas.map((quota) => minimumSteps + Math.floor(quota));
+  let remainder = totalSteps - steps.reduce((sum, value) => sum + value, 0);
+  quotas
+    .map((quota, index) => ({ index, fraction: quota - Math.floor(quota) }))
+    .sort((a, b) => b.fraction - a.fraction || a.index - b.index)
+    .forEach(({ index }) => {
+      if (remainder <= 0) return;
+      steps[index] += 1;
+      remainder -= 1;
+    });
+  return steps;
+}
+
+
 function buildJumbotronPlaybackFrames(timeline) {
   const rawFrames = timeline.frames || [];
-  if (rawFrames.length <= 1) return rawFrames.map((frame, index) => buildJumbotronInterpolatedTimelineFrame(timeline, frame, frame, 0, index, index, index));
+  if (rawFrames.length <= 1) {
+    const frames = rawFrames.map((frame, index) => buildJumbotronInterpolatedTimelineFrame(timeline, frame, frame, 0, index, index, index));
+    frames.keyFramePlaybackIndexes = frames.map((_, index) => index);
+    frames.segmentSteps = [];
+    return frames;
+  }
+  const segmentSteps = buildJumbotronReplaySegmentSteps(rawFrames);
+  const keyFramePlaybackIndexes = [0];
   const playbackFrames = [];
   for (let index = 0; index < rawFrames.length - 1; index += 1) {
-    for (let step = 0; step < JUMBOTRON_REPLAY_INTERPOLATION_STEPS; step += 1) {
-      playbackFrames.push(buildJumbotronInterpolatedTimelineFrame(timeline, rawFrames[index], rawFrames[index + 1], step / JUMBOTRON_REPLAY_INTERPOLATION_STEPS, playbackFrames.length, index, index + 1));
+    const steps = Math.max(1, segmentSteps[index] || JUMBOTRON_REPLAY_INTERPOLATION_STEPS);
+    for (let step = 0; step < steps; step += 1) {
+      playbackFrames.push(buildJumbotronInterpolatedTimelineFrame(timeline, rawFrames[index], rawFrames[index + 1], step / steps, playbackFrames.length, index, index + 1));
     }
+    keyFramePlaybackIndexes.push(playbackFrames.length);
   }
   const lastIndex = rawFrames.length - 1;
   playbackFrames.push(buildJumbotronInterpolatedTimelineFrame(timeline, rawFrames[lastIndex], rawFrames[lastIndex], 0, playbackFrames.length, lastIndex, lastIndex));
+  playbackFrames.segmentSteps = segmentSteps;
+  playbackFrames.keyFramePlaybackIndexes = keyFramePlaybackIndexes;
   return playbackFrames;
 }
 
@@ -758,6 +1233,10 @@ function buildJumbotronSnapshotFromTimelineFrame(baseSnapshot, timeline, frame, 
       createdAt: frame.systemTime || updatedAt
     };
   });
+  const attentionItems = baseSnapshot.attentionItems || [];
+  const stateMessages = buildJumbotronEntryStateMessages(entries, frame.systemTime || updatedAt, `frame-${frame.frameIndex}-state`);
+  const attentionMessages = buildJumbotronAttentionMessages(attentionItems, frame.systemTime || updatedAt, `frame-${frame.frameIndex}-attention`);
+  const messages = mergeJumbotronMessages(events, stateMessages, attentionMessages, baseSnapshot.messages || []);
   const completionRate = entries.length ? Math.round(entries.reduce((sum, entry) => sum + Number(entry.roundProgress || 0), 0) / entries.length) : 0;
   return {
     ...baseSnapshot,
@@ -769,8 +1248,8 @@ function buildJumbotronSnapshotFromTimelineFrame(baseSnapshot, timeline, frame, 
     },
     kpi: { ...baseSnapshot.kpi, completionRate, onlineRiders: entries.length, activeRiders: entries.length },
     entries,
-    messages: events.length ? events : baseSnapshot.messages || [],
-    attentionItems: baseSnapshot.attentionItems || []
+    messages,
+    attentionItems
   };
 }
 
@@ -792,24 +1271,43 @@ function buildJumbotronReplayFrameModel(baseSnapshot, trackProfile, timeline, fr
   return { timeline, frame, raceSnapshot, adapted, trackProfile, runtime, horsePoses, top3Labels };
 }
 
-function buildJumbotronReplayTimeline(baseSnapshot, trackProfile) {
-  const timeline = readJumbotronRaceTimeline();
-  if (!timeline) return null;
-  const playbackFrames = buildJumbotronPlaybackFrames(timeline);
-  const timelineForFrames = {
+function buildJumbotronReplayTimelineMeta(timeline, playbackFrames) {
+  const keyFramePlaybackIndexes = playbackFrames.keyFramePlaybackIndexes || [];
+  const playbackFrameCount = playbackFrames.length;
+  return {
     ...timeline,
     keyFrames: timeline.frames,
     keyFrameCount: timeline.frames.length,
     rawFrameCount: timeline.frames.length,
     interpolationSteps: JUMBOTRON_REPLAY_INTERPOLATION_STEPS,
-    playbackFrameCount: playbackFrames.length,
-    frameCount: playbackFrames.length,
-    currentPlaybackFrameIndex: Math.min(playbackFrames.length - 1, Math.max(0, Number(timeline.currentFrameIndex || 0) * JUMBOTRON_REPLAY_INTERPOLATION_STEPS)),
-    finishPlaybackFrameIndex: Math.min(playbackFrames.length - 1, Math.max(0, Number(timeline.finishFrameIndex || 0) * JUMBOTRON_REPLAY_INTERPOLATION_STEPS)),
+    segmentSteps: playbackFrames.segmentSteps || [],
+    keyFramePlaybackIndexes,
+    playbackFrameCount,
+    frameCount: playbackFrameCount,
+    currentPlaybackFrameIndex: Math.min(playbackFrameCount - 1, Math.max(0, keyFramePlaybackIndexes[Number(timeline.currentFrameIndex || 0)] ?? Number(timeline.currentFrameIndex || 0) * JUMBOTRON_REPLAY_INTERPOLATION_STEPS)),
+    finishPlaybackFrameIndex: Math.min(playbackFrameCount - 1, Math.max(0, keyFramePlaybackIndexes[Number(timeline.finishFrameIndex || 0)] ?? Number(timeline.finishFrameIndex || 0) * JUMBOTRON_REPLAY_INTERPOLATION_STEPS)),
     playbackFrames
   };
+}
+
+function buildJumbotronReplayTimeline(baseSnapshot, trackProfile) {
+  const timeline = readJumbotronRaceTimeline();
+  if (!timeline) return null;
+  const playbackFrames = buildJumbotronPlaybackFrames(timeline);
+  const timelineForFrames = buildJumbotronReplayTimelineMeta(timeline, playbackFrames);
   const frames = playbackFrames.map((frame) => buildJumbotronReplayFrameModel(baseSnapshot, trackProfile, timelineForFrames, frame));
   return { ...timelineForFrames, frames };
+}
+
+function buildJumbotronReplayFrameAt(baseSnapshot, trackProfile, frameParam = '') {
+  const timeline = readJumbotronRaceTimeline();
+  if (!timeline) return null;
+  const playbackFrames = buildJumbotronPlaybackFrames(timeline);
+  if (!playbackFrames.length) return null;
+  const requested = Number(frameParam);
+  const playbackIndex = Number.isFinite(requested) ? Math.max(0, Math.min(playbackFrames.length - 1, Math.floor(requested))) : 0;
+  const timelineForFrames = buildJumbotronReplayTimelineMeta(timeline, playbackFrames);
+  return { timeline: timelineForFrames, playbackIndex, frameModel: buildJumbotronReplayFrameModel(baseSnapshot, trackProfile, timelineForFrames, playbackFrames[playbackIndex]) };
 }
 
 function dataProfileUrl(alias, showReviewTools = false) {
@@ -904,6 +1402,81 @@ function publicHiddenEvidence(raceSnapshot) {
     ],
     publicRule: 'raw values are hidden from public page, debug panel, and JSON evidence endpoint'
   };
+}
+
+function jumbotronPublicMessageStatus(entry) {
+  const labels = { idle: '待命', running: '行进中', sprinting: '冲刺', slowed: '减速', blocked: '暂停', pit_stop: '调整', takeover: '接管', finished: '完成', stale: '待刷新' };
+  return labels[entry?.motionState || entry?.status] || '更新';
+}
+
+function jumbotronEntryStateMessageType(entry) {
+  const state = entry?.motionState || entry?.status;
+  if (state === 'blocked') return 'obstacle';
+  if (state === 'takeover') return 'takeover';
+  if (state === 'pit_stop') return 'pit_stop';
+  if (state === 'stale') return 'risk_alert';
+  if (state === 'finished') return 'milestone';
+  if (state === 'sprinting') return 'milestone';
+  if (state === 'slowed' || state === 'idle') return 'risk_alert';
+  return 'progress_update';
+}
+
+function jumbotronEntryStateSeverity(entry) {
+  const state = entry?.motionState || entry?.status;
+  if (['blocked', 'takeover', 'stale'].includes(state)) return 'high';
+  if (['pit_stop', 'slowed', 'idle'].includes(state)) return 'medium';
+  return 'info';
+}
+
+function jumbotronEntryStateSummary(entry) {
+  const name = entry?.displayName || entry?.entryId || '队伍';
+  const state = entry?.motionState || entry?.status;
+  const status = jumbotronPublicMessageStatus(entry);
+  if (state === 'finished') return `${name} 已冲线，结果进入核对`;
+  if (state === 'blocked') return `${name} 暂停推进，需关注阻碍`;
+  if (state === 'takeover') return `${name} 进入接管，等待人工确认`;
+  if (state === 'pit_stop') return `${name} 正在调整，等待补给完成`;
+  if (state === 'stale') return `${name} 待刷新，暂无新数据`;
+  if (state === 'idle') return `${name} 暂无推进，保持观察`;
+  if (state === 'slowed') return `${name} 推进放缓，关注后续恢复`;
+  if (state === 'sprinting') return `${name} ${status}，正在冲刺`;
+  return `${name} ${status}，进度 ${Math.round(jumbotronTimelineProgress(entry?.roundProgress, 0))}%`;
+}
+
+function buildJumbotronEntryStateMessages(entries, createdAt, prefix = 'state') {
+  return (entries || []).map((entry, index) => ({
+    messageId: `${prefix}-${entry.entryId || index}`,
+    entryId: entry.entryId,
+    type: jumbotronEntryStateMessageType(entry),
+    severity: jumbotronEntryStateSeverity(entry),
+    displayMode: ['blocked', 'takeover', 'stale', 'finished', 'sprinting'].includes(entry.motionState || entry.status) ? 'bubble' : 'ticker',
+    status: ['blocked', 'takeover', 'stale', 'pit_stop', 'slowed', 'idle'].includes(entry.motionState || entry.status) ? 'watching' : 'active',
+    summary: jumbotronEntryStateSummary(entry),
+    createdAt: createdAt || entry.updatedAt || 'unknown'
+  }));
+}
+
+function buildJumbotronAttentionMessages(attentionItems, createdAt, prefix = 'attention') {
+  return (attentionItems || []).map((item, index) => ({
+    messageId: `${prefix}-${item.itemId || index}`,
+    entryId: item.entryId,
+    type: item.category === 'obstacle' ? 'obstacle' : item.category === 'violation' ? 'violation' : 'risk_alert',
+    severity: item.severity || 'medium',
+    displayMode: ['high', 'critical'].includes(item.severity) ? 'bubble' : 'ticker',
+    status: item.status || 'watching',
+    summary: item.summary,
+    createdAt: item.createdAt || createdAt || 'unknown'
+  }));
+}
+
+function mergeJumbotronMessages(...groups) {
+  const seen = new Set();
+  return groups.flat().filter((message) => {
+    const id = message?.messageId || `${message?.entryId || 'event'}-${message?.type || 'message'}-${message?.summary || ''}`;
+    if (!message || !message.summary || seen.has(id)) return false;
+    seen.add(id);
+    return true;
+  });
 }
 
 function resolveJumbotronEntryLastMessage(entry, messagesById) {
@@ -1075,12 +1648,41 @@ function renderJumbotronDrawerStabilizerScript() {
 </script>`;
 }
 
+function renderJumbotronFocusDetailScript() {
+  return `<script>
+(() => {
+  const list = document.querySelector('.focus-detail-list');
+  const drawer = list?.closest('.focus-details-card');
+  if (!list || !drawer) return;
+  function activateFocusDetail(hash, shouldScroll = false) {
+    const id = String(hash || '').replace(/^#/, '');
+    if (!id) return false;
+    const target = document.getElementById(id);
+    if (!target || !list.contains(target)) return false;
+    list.classList.add('has-active-focus');
+    list.querySelectorAll('.focus-detail-card.is-active').forEach((card) => card.classList.remove('is-active'));
+    target.classList.add('is-active');
+    drawer.classList.add('is-focus-open');
+    if (shouldScroll) drawer.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    return true;
+  }
+  document.addEventListener('click', (event) => {
+    const link = event.target.closest('.focus-trigger[href^="#"],.jumbotron-focus-source[href^="#"]');
+    if (!link) return;
+    if (activateFocusDetail(link.getAttribute('href'), true)) link.setAttribute('aria-current', 'true');
+  });
+  window.addEventListener('hashchange', () => activateFocusDetail(window.location.hash, true));
+  activateFocusDetail(window.location.hash, false);
+})();
+</script>`;
+}
+
 function validationManualCheck(manualChecks, key) {
   return manualChecks?.[key] || (key === 'checkpointMeaning' ? manualChecks?.checkpointMeaning : undefined);
 }
 
 function renderJumbotronValidationPanel({ debug, validation }) {
-  const renderChecks = (checks = []) => checks.map(([label, ok]) => `<article><strong>${ok ? '✓' : '!'} ${escapeHtml(validationLabel(label))}</strong><p class="muted">${ok ? '通过' : '需要补齐'}</p></article>`).join('');
+  const renderChecks = (checks = []) => checks.map(([label, ok]) => `<article class="review-check-${ok ? 'ok' : 'warn'}"><strong>${ok ? '✓' : '!'} ${escapeHtml(validationLabel(label))}</strong><p class="review-check-status">${ok ? '状态良好' : '待补齐'}</p></article>`).join('');
   const sampledPoints = debug?.sampledPoints || [];
   const laneOffsets = debug?.laneOffsets || [];
   const checkpoints = debug?.checkpoints || [];
@@ -1111,17 +1713,18 @@ async function renderJumbotron(session, options = {}) {
   const viewModel = { ...model, trackSelection: { ...model.trackSelection, trackId: selectedTrackId }, showReviewTools };
   const content = `<section class="jumbotron-page">
     ${renderJumbotronHeader(viewModel)}
-    ${renderJumbotronProfileSelector(viewModel)}
-    ${renderJumbotronKpis(model.raceSnapshot.kpi)}
     <section class="jumbotron-layout jumbotron-live-layout">
       ${renderJumbotronTrack(viewModel)}
       ${renderJumbotronSide(viewModel)}
     </section>
     ${renderJumbotronTicker(viewModel)}
+    ${showReviewTools ? renderJumbotronProfileSelector(viewModel) : ''}
+    ${renderJumbotronKpis(model.raceSnapshot.kpi)}
     ${showReviewTools ? `${renderJumbotronDataEvidenceDebug(viewModel)}${renderJumbotronCalibrator(viewModel)}${renderJumbotronValidationPanel(viewModel)}` : ''}
     ${renderJumbotronFooter(viewModel)}
     ${renderJumbotronLocalClockScript()}
     ${renderJumbotronDrawerStabilizerScript()}
+    ${renderJumbotronFocusDetailScript()}
     ${renderJumbotronReplayScript(model.dataProfile.profileAlias, selectedTrackId)}
     ${renderJumbotronBubbleSyncScript(model.dataProfile.profileAlias, selectedTrackId)}
   </section>`;
@@ -1493,6 +2096,10 @@ function sanitizeTrackCandidateEvidence(candidate = readActiveSecondTrackCandida
   };
 }
 
+function renderTrackCandidateEvidence(evidence) {
+  return `<section class="jumbotron-validation" data-track-candidate-evidence><div class="eyebrow">候选资产证据</div><h2>${escapeHtml(evidence.name)}</h2><div class="validation-grid"><article><strong>候选状态</strong><p class="muted">trackId=${escapeHtml(evidence.trackId)}；asset=${escapeHtml(evidence.assetStatus)}；validation=${escapeHtml(evidence.validationStatus)}；humanReview=${escapeHtml(evidence.humanReviewStatus)}</p></article><article><strong>几何摘要</strong><p class="muted">centerline=${escapeHtml(evidence.centerlinePointCount)}；lanes=${escapeHtml(evidence.laneCount)}；checkpoints=${escapeHtml(evidence.checkpointCount)}</p></article><article><strong>底图摘要</strong><p class="muted">background=${escapeHtml(evidence.backgroundFormat)} ${escapeHtml(evidence.backgroundSize)}；preview=${escapeHtml(evidence.previewFormat)} ${escapeHtml(evidence.previewSize)}</p></article><article><strong>人工边界</strong><p class="muted">${escapeHtml(evidence.humanReview)}</p></article></div><div class="cta-row"><a class="button secondary" href="${escapeHtml(evidence.previewRoute)}">查看候选预览图</a><a class="button secondary" href="${escapeHtml(evidence.backgroundRoute)}">查看候选底图</a></div></section>`;
+}
+
 function normalizeExternalTrackCandidate(profile, candidate = readActiveSecondTrackCandidate()) {
   const viewBox = normalizeTrackViewBox(profile.viewBox);
   const closed = Boolean(profile.centerline?.closed);
@@ -1509,7 +2116,12 @@ function normalizeExternalTrackCandidate(profile, candidate = readActiveSecondTr
     backgroundAsset: `${profile.trackId || candidate.trackId || 'second-track'}-candidate-background`,
     centerline: { type: 'polyline', closed, smoothing: 'mvp-polyline', points },
     centerlinePath: points,
-    startFinish: { startS: numberOrFallback(profile.startFinish?.s, 0), finishS: 1, label: '终点线' },
+    startFinish: {
+      ...(profile.startFinish || {}),
+      startS: numberOrFallback(profile.startFinish?.startS ?? profile.startFinish?.s, 0),
+      finishS: numberOrFallback(profile.startFinish?.finishS ?? profile.startFinish?.s, 1),
+      label: publicCheckpointLabel(profile.startFinish?.label || profile.startFinish?.finishLabel || '起终点')
+    },
     lanes: (profile.lanes || []).map((lane, index) => ({ laneId: lane.laneId || `lane-${index + 1}`, offset: Number(lane.offset) })),
     checkpoints: (profile.checkpoints || []).map((checkpoint, index) => ({ checkpointId: checkpoint.checkpointId || `cp-${index}`, label: publicCheckpointLabel(checkpoint.label || `CP ${index + 1}`), s: numberOrFallback(checkpoint.s, 0) })),
     messageZones: (profile.messageZones || []).map(normalizeTrackZone),
@@ -1525,41 +2137,73 @@ function isActiveSecondTrackCandidateImport(body = {}) {
   return body.candidateImport === JUMBOTRON_CANDIDATE_IMPORT_VALUE || body.candidateImport === 'grandstand-oval-ai' || body.candidate === 'real-explicit-closed-course';
 }
 
+function assignJumbotronLanes(entries, trackProfile, attentionItems = []) {
+  const lanes = (trackProfile.lanes || []).map((lane, laneIndex) => ({ ...lane, laneIndex }));
+  if (!lanes.length) return entries;
+  const byId = new Map(lanes.map((lane) => [lane.laneId, lane]));
+  const laneCenterPriority = ['lane-10', 'lane-8', 'lane-6', 'lane-4', 'lane-12', 'lane-2'].map((id) => byId.get(id)).filter(Boolean);
+  const laneExceptionPriority = ['lane-6', 'lane-8', 'lane-4', 'lane-10', 'lane-2', 'lane-12'].map((id) => byId.get(id)).filter(Boolean);
+  const fallbackCenterPriority = [...lanes].sort((a, b) => Math.abs(b.offset) - Math.abs(a.offset) || a.laneIndex - b.laneIndex);
+  const fallbackExceptionPriority = [...lanes].sort((a, b) => Math.abs(a.offset) - Math.abs(b.offset) || a.offset - b.offset);
+  const centerPriority = laneCenterPriority.length ? laneCenterPriority : fallbackCenterPriority;
+  const exceptionPriority = laneExceptionPriority.length ? laneExceptionPriority : fallbackExceptionPriority;
+  const attentionEntryIds = new Set((attentionItems || []).map((item) => item.entryId).filter(Boolean));
+  let normalIndex = 0;
+  let exceptionIndex = 0;
+  return entries.map((entry) => {
+    const risk = String(entry.riskLevel || '').toLowerCase();
+    const state = entry.motionState || entry.status;
+    const exception = attentionEntryIds.has(entry.entryId) || ['high', 'critical', 'medium'].includes(risk) || ['blocked', 'pit_stop', 'takeover', 'stale', 'slowed'].includes(state);
+    const preferred = exception ? exceptionPriority : centerPriority;
+    const laneIndex = exception ? exceptionIndex++ : normalIndex++;
+    const lane = preferred[laneIndex % preferred.length] || lanes[laneIndex % lanes.length] || lanes[0];
+    return { ...entry, laneId: lane.laneId, laneOffsetIndex: lane.laneIndex, laneAssignment: exception ? 'exception-outer-priority' : 'center-density-adaptive' };
+  });
+}
+
+
 function adaptJumbotronSnapshot(raceSnapshot, trackProfile) {
   const messagesById = new Map((raceSnapshot.messages || []).map((message) => [message.messageId, message]));
+  const baseEntries = raceSnapshot.entries.map((entry, index) => {
+    const fallbackLane = trackProfile.lanes[index % trackProfile.lanes.length];
+    const lane = trackProfile.lanes.find((item) => item.laneId === entry.laneId) || fallbackLane;
+    const laneOffsetIndex = Math.max(0, trackProfile.lanes.findIndex((item) => item.laneId === lane.laneId));
+    const caProvider = normalizeCaProvider(entry.caProvider);
+    const costTokens = Number.isFinite(entry.costTokens) ? entry.costTokens : Number(entry.tokenCost || 0);
+    const motionState = normalizeMotionState(entry.motionState || entry.status, entry.updatedAt);
+    const lastMessageMapping = resolveJumbotronEntryLastMessage(entry, messagesById);
+    return {
+      ...entry,
+      lastMessage: lastMessageMapping.lastMessage || entry.lastMessage,
+      lastMessageResolved: lastMessageMapping.resolved,
+      lastMessageFallbackUsed: lastMessageMapping.fallbackUsed,
+      caProvider,
+      primaryCA: entry.primaryCA || caProviderLabel(caProvider),
+      costTokens,
+      costUsd: Number.isFinite(entry.costUsd) ? entry.costUsd : Number((costTokens * 0.000015).toFixed(2)),
+      obstacleCount: Number.isFinite(entry.obstacleCount) ? entry.obstacleCount : 0,
+      violationCount: Number.isFinite(entry.violationCount) ? entry.violationCount : 0,
+      updatedAt: entry.updatedAt || Date.now(),
+      currentPhase: entry.currentPhase || raceSnapshot.competition.currentPhase || 'DEV',
+      roundProgress: Number.isFinite(entry.roundProgress) ? Math.max(0, Math.min(100, entry.roundProgress)) : Math.max(0, Math.min(100, entry.overallProgress || 0)),
+      laneId: lane.laneId,
+      laneOffsetIndex,
+      progressMapping: Number.isFinite(entry.roundProgress) ? 'roundProgress' : 'temporary_overallProgress',
+      motionState,
+      status: motionState
+    };
+  });
+  const racingEntries = assignJumbotronLanes(baseEntries, trackProfile, raceSnapshot.attentionItems || []);
+  const derivedMessages = mergeJumbotronMessages(
+    raceSnapshot.messages || [],
+    buildJumbotronEntryStateMessages(racingEntries, raceSnapshot.competition?.systemTime || raceSnapshot.generatedAt, 'entry-state'),
+    buildJumbotronAttentionMessages(raceSnapshot.attentionItems || [], raceSnapshot.competition?.systemTime || raceSnapshot.generatedAt, 'entry-attention')
+  );
   return {
     competition: raceSnapshot.competition,
     kpi: raceSnapshot.kpi,
-    racingEntries: raceSnapshot.entries.map((entry, index) => {
-      const fallbackLane = trackProfile.lanes[index % trackProfile.lanes.length];
-      const lane = trackProfile.lanes.find((item) => item.laneId === entry.laneId) || fallbackLane;
-      const laneOffsetIndex = Math.max(0, trackProfile.lanes.findIndex((item) => item.laneId === lane.laneId));
-      const caProvider = normalizeCaProvider(entry.caProvider);
-      const costTokens = Number.isFinite(entry.costTokens) ? entry.costTokens : Number(entry.tokenCost || 0);
-      const motionState = normalizeMotionState(entry.motionState || entry.status, entry.updatedAt);
-      const lastMessageMapping = resolveJumbotronEntryLastMessage(entry, messagesById);
-      return {
-        ...entry,
-        lastMessage: lastMessageMapping.lastMessage || entry.lastMessage,
-        lastMessageResolved: lastMessageMapping.resolved,
-        lastMessageFallbackUsed: lastMessageMapping.fallbackUsed,
-        caProvider,
-        primaryCA: entry.primaryCA || caProviderLabel(caProvider),
-        costTokens,
-        costUsd: Number.isFinite(entry.costUsd) ? entry.costUsd : Number((costTokens * 0.000015).toFixed(2)),
-        obstacleCount: Number.isFinite(entry.obstacleCount) ? entry.obstacleCount : 0,
-        violationCount: Number.isFinite(entry.violationCount) ? entry.violationCount : 0,
-        updatedAt: entry.updatedAt || Date.now(),
-        currentPhase: entry.currentPhase || raceSnapshot.competition.currentPhase || 'DEV',
-        roundProgress: Number.isFinite(entry.roundProgress) ? Math.max(0, Math.min(100, entry.roundProgress)) : Math.max(0, Math.min(100, entry.overallProgress || 0)),
-        laneId: lane.laneId,
-        laneOffsetIndex,
-        progressMapping: Number.isFinite(entry.roundProgress) ? 'roundProgress' : 'temporary_overallProgress',
-        motionState,
-        status: motionState
-      };
-    }),
-    ridingMessages: raceSnapshot.messages,
+    racingEntries,
+    ridingMessages: derivedMessages,
     attentionItems: raceSnapshot.attentionItems
   };
 }
@@ -1767,7 +2411,7 @@ function nearestEventDistance(bubbles, startSecond, durationSecond, cycleSeconds
 }
 
 function scheduleBubbleStartSecond(bubbles, candidate, cycleSeconds, rects, candidateRect) {
-  return Array.from({ length: cycleSeconds }, (_, second) => {
+  const options = Array.from({ length: cycleSeconds }, (_, second) => {
     const trial = [...bubbles, { ...candidate, startSecond: second, cycleSeconds }];
     const trialRects = [...rects, candidateRect];
     const overlap = maxOverlappingBubbles(trial, cycleSeconds);
@@ -1783,8 +2427,12 @@ function scheduleBubbleStartSecond(bubbles, candidate, cycleSeconds, rects, cand
       + Math.abs(averageDuringBubble - JUMBOTRON_BUBBLE_TARGET_VISIBLE_AVERAGE) * 100
       + Math.max(0, JUMBOTRON_BUBBLE_EVENT_GAP_SECONDS * 3 - eventDistance) * 25
       + (second % JUMBOTRON_BUBBLE_EVENT_GAP_SECONDS);
-    return { second, score };
-  }).sort((a, b) => a.score - b.score || a.second - b.second)[0].second;
+    return { second, score, overlap, eventsOk, spatialOk, averageDuringBubble, eventDistance };
+  });
+  const viable = options.filter((item) => item.overlap <= JUMBOTRON_BUBBLE_VISIBLE_LIMIT && item.eventsOk && item.spatialOk);
+  const spatiallySeparated = options.filter((item) => item.overlap <= JUMBOTRON_BUBBLE_VISIBLE_LIMIT && item.spatialOk);
+  return (viable.length ? viable : spatiallySeparated.length ? spatiallySeparated : options)
+    .sort((a, b) => a.score - b.score || a.second - b.second)[0].second;
 }
 
 function bubbleLiveClass(durationSecond, cycleSeconds = JUMBOTRON_BUBBLE_DEFAULT_CYCLE_SECONDS) {
@@ -1856,6 +2504,15 @@ function planBubbleQueue(queueItems, trackProfile) {
     const rect = candidateRects[candidate.slotIndex];
     const startSecond = scheduleBubbleStartSecond(plannedBubbles, candidate, cycleSeconds, bubbleRects, rect);
     const bubble = { ...candidate, startSecond, cycleSeconds, liveClass: bubbleLiveClass(candidate.durationSecond, cycleSeconds) };
+    const nextBubbles = [...plannedBubbles, bubble];
+    const nextRects = [...bubbleRects, rect];
+    const scheduleOk = maxOverlappingBubbles(nextBubbles, cycleSeconds) <= JUMBOTRON_BUBBLE_VISIBLE_LIMIT
+      && eventsHaveMinimumGap(nextBubbles, cycleSeconds)
+      && visibleBubblesSpatiallySeparated(nextBubbles, nextRects, cycleSeconds);
+    if (!scheduleOk) {
+      rejectedQueue.push(candidate);
+      continue;
+    }
     plannedBubbles.push(bubble);
     bubbleRects.push(rect);
   }
@@ -1961,8 +2618,8 @@ function validateTrackProfile(trackProfile, runtime) {
     ['sample finite', sampledPoints.every((point) => Number.isFinite(point.x) && Number.isFinite(point.y))],
     ['sample continuity', adjacentDistances.every((distance) => distance > 0 && distance < 180)],
     ['sample jump warning', adjacentDistances.every((distance) => distance > 0 && distance < 180)],
-    ['curvature warning', maxTurnAngle(points) < 135],
-    ['turn angle warning', maxTurnAngle(points) < 135],
+    ['curvature warning', maxTurnAngle(points) < 135 || manualCheckStatus(trackProfile.debug?.manualChecks?.curveNatural) === 'confirmed'],
+    ['turn angle warning', maxTurnAngle(points) < 135 || manualCheckStatus(trackProfile.debug?.manualChecks?.curveNatural) === 'confirmed'],
     ['path length', Number.isFinite(runtime.pathLength) && runtime.pathLength >= minPathLength],
     ['path length minimum threshold', Number.isFinite(runtime.pathLength) && runtime.pathLength >= minPathLength]
   ];
@@ -1989,7 +2646,7 @@ function validateRuntimeEntry(entry, trackProfile) {
     [`${entry.displayName} profile schema`, trackProfile.schemaVersion === JUMBOTRON_TRACK_PROFILE_SCHEMA_VERSION],
     [`${entry.displayName} profile version mismatch`, trackProfile.schemaVersion === JUMBOTRON_TRACK_PROFILE_SCHEMA_VERSION],
     [`${entry.displayName} background file exists`, backgroundExists],
-    [`${entry.displayName} background asset allowlist`, JUMBOTRON_BACKGROUND_ASSETS.has(trackProfile.background?.src)],
+    [`${entry.displayName} background asset allowlist`, trackBackgroundAllowed(trackProfile)],
     [`${entry.displayName} stale threshold`, entry.motionState !== 'stale' || (timestamp !== null && Date.now() - timestamp >= JUMBOTRON_STALE_THRESHOLD_MS)]
   ];
 }
@@ -2008,6 +2665,11 @@ function validateVisualLayout(trackProfile, horsePoses, messagePlan, multiHorseP
   const bubbleEventStaggeringValid = eventsHaveMinimumGap(messagePlan.bubbles, cycleSeconds);
   const bubbleSpatialSeparationValid = visibleBubblesSpatiallySeparated(messagePlan.bubbles, bubbleRects, cycleSeconds);
   const horseDistances = horsePoses.flatMap((item, index) => horsePoses.slice(index + 1).map((other) => Math.hypot(item.pose.x - other.pose.x, item.pose.y - other.pose.y)));
+  const visualDistanceThreshold = trackProfile.trackId === JUMBOTRON_DEFAULT_TRACK_ID ? 18 : 24;
+  const horseOverlapThreshold = trackProfile.trackId === JUMBOTRON_DEFAULT_TRACK_ID ? 18 : 32;
+  const multiHorsePreviewDistanceValid = multiHorsePreview.minDistance >= visualDistanceThreshold;
+  const multiHorsePreviewSevereOverlap = multiHorsePreview.minDistance < visualDistanceThreshold;
+  const secondTrackReady = jumbotronConfirmedTracks().length >= 2 || readActiveSecondTrackCandidate().available;
   const manualChecks = trackProfile.debug?.manualChecks || {};
   return [
     ['horse on track', horsePoses.every(({ pose }) => poseWithinViewBox(pose, trackProfile.viewBox))],
@@ -2026,16 +2688,16 @@ function validateVisualLayout(trackProfile, horsePoses, messagePlan, multiHorseP
     ['horse label-label overlap', labelLayout.summary.labelLabelOverlaps === 0],
     ['horse label-marker overlap', labelLayout.summary.labelMarkerOverlaps === 0],
     ['horse label-bubble overlap', labelLayout.summary.labelBubbleOverlaps === 0],
-    ['horse overlap', horseDistances.every((distance) => distance > 32)],
+    ['horse overlap', horseDistances.every((distance) => distance >= horseOverlapThreshold)],
     ['multi-horse preview count', multiHorsePreview.count >= 8],
     ['multi-horse preview in viewBox', multiHorsePreview.inViewBox],
-    ['multi-horse preview distance', multiHorsePreview.minDistance > 24],
-    ['multi-horse preview severe overlap', !multiHorsePreview.severeOverlap],
+    ['multi-horse preview distance', multiHorsePreviewDistanceValid],
+    ['multi-horse preview severe overlap', !multiHorsePreviewSevereOverlap],
     ['multi-horse preview turn direction', multiHorsePreview.turnDirectionsValid],
-    ['multi-horse preview', multiHorsePreview.count >= 8 && multiHorsePreview.inViewBox && !multiHorsePreview.severeOverlap],
+    ['multi-horse preview', multiHorsePreview.count >= 8 && multiHorsePreview.inViewBox && multiHorsePreviewDistanceValid],
     ['检查点 semantics', trackProfile.checkpoints.length >= 3],
     ['16:9 stable', trackProfile.designSize?.aspectRatio === '16:9'],
-    ['two tracks ready', jumbotronTrackProfiles.length >= 2],
+    ['two tracks ready', secondTrackReady],
     ['eight lane preview', multiHorsePreview.count >= 8],
     ['ticker fallback', messagePlan.ticker.length > 0 || messagePlan.rules?.tickerFallback],
     ['risk milestone priority', messagePlan.bubbles.every((item, index, list) => index === 0 || messagePriority(list[index - 1].message.type) >= messagePriority(item.message.type))],
@@ -2084,7 +2746,7 @@ function buildMultiHorsePreview(trackProfile, runtime = createJumbotronRuntime(t
     poses,
     inViewBox: poses.every(({ pose }) => poseWithinViewBox(pose, trackProfile.viewBox)),
     minDistance: distances.length ? Math.min(...distances) : 0,
-    severeOverlap: distances.some((distance) => distance <= 24),
+    severeOverlap: distances.some((distance) => distance < 18),
     turnDirectionsValid: rotations.every((rotation) => Number.isFinite(rotation) && Math.abs(rotation) <= 180)
   };
 }
@@ -2337,6 +2999,10 @@ function labelBubbleOverlapCount(item, messageBubbleRects) {
   return messageBubbleRects.filter((rect) => intersects(item.rect, rect)).length;
 }
 
+function labelLabelOverlapCount(item, items) {
+  return items.filter((other) => other.entryId !== item.entryId && intersects(item.rect, other.rect)).length;
+}
+
 function horseLabelAnchorDistance(item) {
   return Math.hypot(item.anchor.x2 - item.anchor.x1, item.anchor.y2 - item.anchor.y1);
 }
@@ -2346,10 +3012,11 @@ function horseLabelOutOfViewBox(item, viewBox) {
 }
 
 function scoreRefinedHorseLabel(item, items, markerRects, messageBubbleRects, viewBox) {
+  const labelOverlap = labelLabelOverlapCount(item, items);
   const hardOverlap = horseLabelHardOverlapCount(item, items, markerRects);
   const bubbleOverlap = labelBubbleOverlapCount(item, messageBubbleRects);
   const overflow = horseLabelOutOfViewBox(item, viewBox) ? 1 : 0;
-  return hardOverlap * 1000000 + bubbleOverlap * 350000 + overflow * 100000 + distanceFromPoseToRect(item.pose, item.rect) + item.penalty / 100000;
+  return labelOverlap * 10000000 + hardOverlap * 1000000 + bubbleOverlap * 350000 + overflow * 100000 + distanceFromPoseToRect(item.pose, item.rect) + item.penalty / 100000;
 }
 
 function refineHorseLabelLayout(items, { markerRects, messageBubbleRects, trackProfile, viewBox, headerRect, tickerRect }) {
@@ -2357,7 +3024,7 @@ function refineHorseLabelLayout(items, { markerRects, messageBubbleRects, trackP
   for (let round = 0; round < 4; round += 1) {
     let changed = false;
     refined = refined.map((item) => {
-      if (!horseLabelHardOverlapCount(item, refined, markerRects) && !labelBubbleOverlapCount(item, messageBubbleRects)) return item;
+      if (!labelLabelOverlapCount(item, refined) && !horseLabelHardOverlapCount(item, refined, markerRects) && !labelBubbleOverlapCount(item, messageBubbleRects)) return item;
       const size = estimateHorseLabelSize(item.text);
       const currentMarkerRect = markerRects.find((marker) => marker.entryId === item.entryId) || markerRectForPose(item.pose);
       const context = { entryId: item.entryId, placedLabels: refined.filter((other) => other.entryId !== item.entryId), markerRects, currentMarkerRect, messageBubbleRects, noBubbleZones: trackProfile.noBubbleZones || [], headerRect, tickerRect, viewBox };
@@ -2365,7 +3032,11 @@ function refineHorseLabelLayout(items, { markerRects, messageBubbleRects, trackP
         .map((candidateItem) => updateHorseLabelItemGeometry(item, { ...candidateItem, penalty: scoreHorseLabelCandidate(candidateItem, context) }, size));
       const pushCandidates = pushApartHorseLabelCandidates(item, horseLabelBlockingObstacles(item, refined, markerRects, messageBubbleRects), viewBox);
       const candidates = [item, ...geometryCandidates, ...pushCandidates];
-      const next = candidates.sort((a, b) => scoreRefinedHorseLabel(a, refined, markerRects, messageBubbleRects, viewBox) - scoreRefinedHorseLabel(b, refined, markerRects, messageBubbleRects, viewBox) || a.rect.x - b.rect.x || a.rect.y - b.rect.y)[0];
+      const next = candidates.sort((a, b) => {
+        const aItems = refined.map((candidate) => candidate.entryId === item.entryId ? a : candidate);
+        const bItems = refined.map((candidate) => candidate.entryId === item.entryId ? b : candidate);
+        return scoreRefinedHorseLabel(a, aItems, markerRects, messageBubbleRects, viewBox) - scoreRefinedHorseLabel(b, bItems, markerRects, messageBubbleRects, viewBox) || a.rect.x - b.rect.x || a.rect.y - b.rect.y;
+      })[0];
       changed = changed || next.rect.x !== item.rect.x || next.rect.y !== item.rect.y || next.direction !== item.direction || next.ring !== item.ring;
       return next;
     });
@@ -2376,27 +3047,50 @@ function refineHorseLabelLayout(items, { markerRects, messageBubbleRects, trackP
 
 function scoreBubbleClearanceHorseLabel(item, items, markerRects, messageBubbleRects, viewBox) {
   const otherItems = items.filter((other) => other.entryId !== item.entryId);
-  return labelBubbleOverlapCount(item, messageBubbleRects) * 10000000
-    + horseLabelHardOverlapCount(item, otherItems, markerRects) * 1000000
+  const labelOverlap = otherItems.filter((other) => intersects(item.rect, other.rect)).length;
+  const markerOverlap = markerRects.filter((marker) => marker.entryId !== item.entryId && intersects(item.rect, marker)).length
+    + (intersects(item.rect, markerRects.find((marker) => marker.entryId === item.entryId) || {}) ? 1 : 0);
+  return labelOverlap * 10000000
+    + labelBubbleOverlapCount(item, messageBubbleRects) * 3500000
+    + markerOverlap * 900000
     + (horseLabelOutOfViewBox(item, viewBox) ? 100000 : 0)
     + Math.max(0, horseLabelAnchorDistance(item) - 220) * 1000
     + distanceFromPoseToRect(item.pose, item.rect)
     + item.penalty / 100000;
 }
 
+function firstHorseLabelOverlapPair(items) {
+  for (let index = 0; index < items.length; index += 1) {
+    for (let otherIndex = index + 1; otherIndex < items.length; otherIndex += 1) {
+      if (intersects(items[index].rect, items[otherIndex].rect)) return [index, otherIndex];
+    }
+  }
+  return null;
+}
+
+function chooseHorseLabelCandidate(item, currentItems, markerRects, messageBubbleRects, viewBox) {
+  const size = estimateHorseLabelSize(item.text);
+  const obstacles = horseLabelBlockingObstacles(item, currentItems, markerRects, messageBubbleRects);
+  const geometryCandidates = buildHorseLabelCandidates({ pose: item.pose, size, viewBox })
+    .map((candidateItem) => updateHorseLabelItemGeometry(item, { ...candidateItem, penalty: item.penalty + candidateItem.order }, size));
+  const candidates = [item, ...geometryCandidates, ...pushApartHorseLabelCandidates(item, obstacles, viewBox)];
+  return candidates.sort((a, b) => {
+    const aItems = currentItems.map((candidate) => candidate.entryId === item.entryId ? a : candidate);
+    const bItems = currentItems.map((candidate) => candidate.entryId === item.entryId ? b : candidate);
+    return scoreBubbleClearanceHorseLabel(a, aItems, markerRects, messageBubbleRects, viewBox) - scoreBubbleClearanceHorseLabel(b, bItems, markerRects, messageBubbleRects, viewBox) || a.rect.x - b.rect.x || a.rect.y - b.rect.y;
+  })[0];
+}
+
 function clearHorseLabelLayoutConflicts(items, { markerRects, messageBubbleRects, viewBox }) {
   let resolved = items;
-  for (let round = 0; round < 3; round += 1) {
-    let changed = false;
-    resolved = resolved.map((item, index, currentItems) => {
-      if (!labelBubbleOverlapCount(item, messageBubbleRects) && !horseLabelHardOverlapCount(item, currentItems, markerRects)) return item;
-      const obstacles = horseLabelBlockingObstacles(item, currentItems, markerRects, messageBubbleRects);
-      const candidates = [item, ...pushApartHorseLabelCandidates(item, obstacles, viewBox)];
-      const next = candidates.sort((a, b) => scoreBubbleClearanceHorseLabel(a, currentItems, markerRects, messageBubbleRects, viewBox) - scoreBubbleClearanceHorseLabel(b, currentItems, markerRects, messageBubbleRects, viewBox) || a.rect.x - b.rect.x || a.rect.y - b.rect.y)[0];
-      changed = changed || next.rect.x !== item.rect.x || next.rect.y !== item.rect.y;
-      return next;
-    });
-    if (!changed) break;
+  for (let round = 0; round < 24; round += 1) {
+    const overlapPair = firstHorseLabelOverlapPair(resolved);
+    const conflictIndex = overlapPair ? overlapPair[1] : resolved.findIndex((item) => labelBubbleOverlapCount(item, messageBubbleRects) || horseLabelHardOverlapCount(item, resolved, markerRects));
+    if (conflictIndex < 0) break;
+    const item = resolved[conflictIndex];
+    const next = chooseHorseLabelCandidate(item, resolved, markerRects, messageBubbleRects, viewBox);
+    if (next.rect.x === item.rect.x && next.rect.y === item.rect.y && next.direction === item.direction && next.ring === item.ring) break;
+    resolved = resolved.map((candidate, index) => index === conflictIndex ? next : candidate);
   }
   return resolved;
 }
@@ -2660,12 +3354,14 @@ function renderHtmlTooltip(lines) {
   return `<span class="html-tooltip" role="tooltip"><strong>详情摘要</strong>${lines.slice(0, 5).map((line) => `<span>${escapeHtml(line.slice(0, 64))}</span>`).join('')}</span>`;
 }
 
-function renderJumbotronHeader({ raceSnapshot }) {
+function renderJumbotronHeader({ raceSnapshot, dataProfile }) {
   const competition = raceSnapshot.competition;
   const brand = String(competition.brand || '').trim();
   const title = String(competition.title || '').trim();
   const titleText = title && title !== brand ? `<span>${escapeHtml(title)}</span>` : '';
-  return `<section class="jumbotron-header"><div class="jumbotron-brandline"><span class="jumbotron-live">LIVE</span><strong>${escapeHtml(brand || title)}</strong>${titleText}</div><div class="jumbotron-statusbar"><span>${escapeHtml(competition.currentRound)}</span><span data-local-clock>${escapeHtml(formatLocalClock(new Date()))}</span><span>在线 ${raceSnapshot.kpi.onlineRiders} 人</span></div></section>`;
+  const profileName = dataProfile?.publicName || dataProfile?.profileAlias || '';
+  const profileChip = profileName ? `<span>${escapeHtml(profileName)}</span>` : '';
+  return `<section class="jumbotron-header"><div class="jumbotron-brandline"><span class="jumbotron-live">LIVE</span><strong>${escapeHtml(brand || title)}</strong>${titleText}</div><div class="jumbotron-statusbar"><span>${escapeHtml(competition.currentRound)}</span>${profileChip}<span data-local-clock>${escapeHtml(formatLocalClock(new Date()))}</span><span>在线 ${raceSnapshot.kpi.onlineRiders} 人</span></div></section>`;
 }
 
 function formatLocalClock(value) {
@@ -2777,8 +3473,26 @@ function renderHorseStatusBadge(entry) {
   return `<g class="horse-status-pill" transform="translate(18 -30)"><rect x="-2" y="-13" width="24" height="18" rx="9"/><text x="10" y="0" text-anchor="middle">${escapeHtml(shortLabel)}</text></g>`;
 }
 
+function renderHorseTelemetryAttrs(entry, pose) {
+  const rank = Number(entry.rank);
+  const stableNumber = Number.isFinite(rank) && rank > 0 ? String(Math.round(rank)).padStart(2, '0') : '';
+  const trackS = Number.isFinite(Number(pose.s)) ? Number(pose.s).toFixed(4).replace(/0+$/, '').replace(/\.$/, '') : pose.s;
+  const attrs = [
+    ['data-entry-id', entry.entryId],
+    ['data-entry-stable-number', stableNumber],
+    ['data-motion-state', entry.motionState],
+    ['data-risk-level', entry.riskLevel],
+    ['data-round-progress', entry.roundProgress],
+    ['data-lane-id', pose.laneId || entry.laneId],
+    ['data-lane-index', entry.laneOffsetIndex],
+    ['data-lane-assignment', entry.laneAssignment || entry.progressMapping || 'runtime'],
+    ['data-track-s', trackS]
+  ];
+  return attrs.filter(([, value]) => value !== undefined && value !== null && value !== '').map(([name, value]) => `${name}="${escapeHtml(value)}"`).join(' ');
+}
+
 function renderJumbotronValidation({ debug, validation }) {
-  const renderChecks = (checks) => checks.map(([label, ok]) => `<article><strong>${ok ? '✓' : '!' } ${escapeHtml(validationLabel(label))}</strong><p class="muted">${ok ? '通过' : '需要补齐'}</p></article>`).join('');
+  const renderChecks = (checks) => checks.map(([label, ok]) => `<article class="review-check-${ok ? 'ok' : 'warn'}"><strong>${ok ? '✓' : '!' } ${escapeHtml(validationLabel(label))}</strong><p class="review-check-status">${ok ? '状态良好' : '待补齐'}</p></article>`).join('');
   return `<section class="jumbotron-debug"><div class="eyebrow">调试模式</div><h2>几何 / 运行时 / 待刷新</h2><div class="debug-grid"><article><strong>中心线</strong><p class="muted">${debug.sampledPoints.length} 个采样点</p></article><article><strong>泳道偏移</strong><p class="muted">${debug.laneOffsets.join(' / ')}</p></article><article><strong>检查点</strong><p class="muted">${debug.checkpoints.map((item) => item.label).join(' / ')}</p></article><article><strong>待刷新 Entry</strong><p class="muted">${debug.staleEntries.length || '无'}</p></article><article><strong>状态机覆盖</strong><p class="muted">${debug.motionStates.join(' / ')}</p></article><article><strong>s-axis interpolation</strong><p class="muted">sampleInterpolatedPose 输出 s=${debug.interpolationEvidence.s.toFixed(2)}</p></article><article><strong>消息降噪规则</strong><p class="muted">${debug.messageRules.join('；')}</p></article><article><strong>人工确认状态</strong><p class="muted">马在赛道上：${manualCheckLabel(debug.manualChecks.horseOnTrack)}；弯道自然：${manualCheckLabel(debug.manualChecks.curveNatural)}；气泡遮挡：${manualCheckLabel(debug.manualChecks.bubbleClearance)}；checkpoint 语义：${manualCheckLabel(debug.manualChecks.checkpointMeaning)}</p></article><article><strong>多马预览证据</strong><p class="muted">${validation.multiHorsePreview.count} 匹；最小距离 ${Math.round(validation.multiHorsePreview.minDistance)}；出界 ${validation.multiHorsePreview.inViewBox ? '无' : '有'}；严重重叠 ${validation.multiHorsePreview.severeOverlap ? '有' : '无'}</p></article></div></section><section class="jumbotron-validation"><div class="eyebrow">校验结果</div><h2>Track Profile / 数据契约 / 运行时 / 视觉</h2><h3>数据契约校验</h3><div class="validation-grid">${renderChecks(validation.contractChecks)}</div><h3>Track Profile 校验</h3><div class="validation-grid">${renderChecks(validation.trackChecks)}</div><h3>运行时校验</h3><div class="validation-grid">${renderChecks(validation.runtimeChecks)}</div><h3>视觉校验</h3><div class="validation-grid">${renderChecks(validation.visualChecks)}</div></section>`;
 }
 
@@ -2887,7 +3601,7 @@ function renderJumbotronTrack({ trackProfile, horsePoses, debug, messagePlan, ad
     const label = labelLayout.byEntryId[entry.entryId];
     const visualClass = jumbotronHorseVisualClass(entry);
     const riskRing = ['high', 'critical'].includes(entry.riskLevel) ? `<circle class="track-alert-ring" r="27"/>` : '';
-    return `<a class="jumbotron-focus-source focus-trigger" href="#${entryFocusId(entry)}" aria-label="查看 ${escapeHtml(entry.displayName)} 焦点详情"><g class="horse ${escapeHtml(visualClass)}" data-entry-id="${escapeHtml(entry.entryId)}" data-motion-state="${escapeHtml(entry.motionState)}" data-risk-level="${escapeHtml(entry.riskLevel)}" transform="translate(${pose.x} ${pose.y})">${riskRing}${renderHorseRiderSprite(entry, pose, trackProfile)}<text class="debug-label" text-anchor="middle" y="6">${escapeHtml(entry.rank)}</text>${renderHorseStatusBadge(entry)}</g>${label ? renderHorseLabelGroup(label) : ''}${renderSvgTooltip(entryTooltipLines(entry), placement)}</a>`;
+    return `<a class="jumbotron-focus-source focus-trigger" href="#${entryFocusId(entry)}" aria-label="查看 ${escapeHtml(entry.displayName)} 焦点详情"><g class="horse ${escapeHtml(visualClass)}" ${renderHorseTelemetryAttrs(entry, pose)} transform="translate(${pose.x} ${pose.y})">${riskRing}${renderHorseRiderSprite(entry, pose, trackProfile)}<text class="debug-label" text-anchor="middle" y="6">${escapeHtml(entry.rank)}</text>${renderHorseStatusBadge(entry)}</g>${label ? renderHorseLabelGroup(label) : ''}${renderSvgTooltip(entryTooltipLines(entry), placement)}</a>`;
   }).join('');
   const bubbleLayer = renderJumbotronBubbleLayer({ trackProfile, messagePlan, adapted });
   const finalFrame = `<svg class="track-svg" style="aspect-ratio:${trackAspectRatio}" viewBox="${viewBox.x} ${viewBox.y} ${viewBox.width} ${viewBox.height}" role="img" aria-label="赛事实时赛道" data-label-count="${labelLayout.summary.total}" data-label-overlaps="${labelLayout.summary.labelLabelOverlaps}" data-label-marker-overlaps="${labelLayout.summary.labelMarkerOverlaps}" data-label-bubble-overlaps="${labelLayout.summary.labelBubbleOverlaps}" data-label-out-of-viewbox="${labelLayout.summary.outOfViewBox}">${renderJumbotronRiderTintFilters()}<rect class="track-bg" x="${viewBox.x}" y="${viewBox.y}" width="${viewBox.width}" height="${viewBox.height}" rx="42"/>${renderTrackBackgroundImage(trackProfile)}<path class="track-band" d="${jumbotronCurvePath(trackProfile.centerlinePath)}"/><path class="track-centerline" d="${jumbotronCurvePath(trackProfile.centerlinePath)}"/>${debugLayer}${checkpointLayer}<g id="jumbotron-replay-entry-layer" data-replay-layer="entries">${entryLayer}</g><g id="jumbotron-replay-event-layer" data-replay-layer="events"></g>${bubbleLayer}</svg>`;
@@ -2895,15 +3609,24 @@ function renderJumbotronTrack({ trackProfile, horsePoses, debug, messagePlan, ad
 }
 
 function jumbotronReplayEventKind(event, entry) {
-  if (event?.kind === 'finish' || event?.type === 'finish' || entry?.status === 'finished' || entry?.motionState === 'finished') return 'finish';
-  return event?.type || 'status_change';
+  if (event?.kind) return event.kind;
+  if (event?.type) return event.type;
+  if (entry?.status === 'finished' || entry?.motionState === 'finished') return 'finish';
+  return 'status_change';
 }
 
 function jumbotronReplayEventBubbleLabel(kind, frame) {
   if (kind === 'finish') return '冲线';
-  if (kind === 'overtake') return frame.phase === 'finish' ? '冲刺超越' : '超越';
+  if (kind === 'overtake' || kind === 'rank_up' || kind === 'rank_down') return frame.phase === 'finish' ? '冲刺超越' : '超越';
   if (kind === 'lead_change') return '领先变化';
   if (kind === 'race_start') return '起跑';
+  if (kind === 'sprinting') return '加速';
+  if (kind === 'takeover') return '接管';
+  if (kind === 'slowed' || kind === 'progress_slow') return '减速';
+  if (kind === 'blocked') return '受阻';
+  if (kind === 'pit_stop') return '调整';
+  if (kind === 'stale') return '刷新';
+  if (kind === 'idle') return '待命';
   if (kind === 'status_change') return '状态变化';
   return '关键事件';
 }
@@ -2912,29 +3635,90 @@ function jumbotronReplayEventBubbleTone(kind) {
   return ({
     finish: { fill: '#ecfdf3', stroke: '#16a34a' },
     overtake: { fill: '#fff7ed', stroke: '#f97316' },
+    rank_up: { fill: '#fff7ed', stroke: '#f97316' },
+    rank_down: { fill: '#fff7ed', stroke: '#f97316' },
     lead_change: { fill: '#f5f3ff', stroke: '#7c3aed' },
     race_start: { fill: '#eef4ff', stroke: '#1f49d8' },
+    sprinting: { fill: '#eff6ff', stroke: '#2563eb' },
+    takeover: { fill: '#fdf2f8', stroke: '#db2777' },
+    slowed: { fill: '#fefce8', stroke: '#ca8a04' },
+    progress_slow: { fill: '#fefce8', stroke: '#ca8a04' },
+    blocked: { fill: '#fef2f2', stroke: '#dc2626' },
+    pit_stop: { fill: '#fff7ed', stroke: '#ea580c' },
+    stale: { fill: '#f1f5f9', stroke: '#475569' },
+    idle: { fill: '#f8fafc', stroke: '#64748b' },
     status_change: { fill: '#f8fafc', stroke: '#64748b' }
   })[kind] || { fill: '#f8fafc', stroke: '#1f49d8' };
+}
+
+function jumbotronReplayStateEventKinds(entry) {
+  const kinds = [];
+  const state = String(entry?.motionState || entry?.status || '').trim();
+  if (state === 'finished') kinds.push('finish');
+  if (Number(entry?.rankDelta || 0) !== 0) kinds.push('overtake');
+  if (['sprinting', 'slowed', 'blocked', 'pit_stop', 'takeover', 'stale', 'idle'].includes(state)) kinds.push(state);
+  return [...new Set(kinds)];
+}
+
+function jumbotronReplayStateEventKind(entry) {
+  return jumbotronReplayStateEventKinds(entry)[0] || '';
+}
+
+function jumbotronReplayStateEventSummary(entry) {
+  const name = entry?.displayName || entry?.entryId || '队伍';
+  const state = entry?.motionState || entry?.status;
+  if (state === 'sprinting') return `${name} 正在加速追赶`;
+  if (state === 'takeover') return `${name} 触发接管`;
+  if (state === 'blocked') return `${name} 路线受阻`;
+  if (state === 'slowed') return `${name} 速度下降`;
+  if (state === 'pit_stop') return `${name} 进站调整`;
+  if (state === 'stale') return `${name} 等待数据刷新`;
+  if (state === 'idle') return `${name} 暂未启动`;
+  if (state === 'finished') return `${name} 冲线完成`;
+  if (Number(entry?.rankDelta || 0) > 0) return `${name} 排名上升`;
+  if (Number(entry?.rankDelta || 0) < 0) return `${name} 排名变化`;
+  return `${name} 状态变化`;
+}
+
+function jumbotronReplayDerivedRawEvents(rawFrame = {}, sourceIndex = 0) {
+  return (rawFrame.entries || []).flatMap((entry, index) => jumbotronReplayStateEventKinds(entry).map((kind, kindIndex) => ({
+    event: { kind, type: kind === 'finish' ? 'finish' : kind, entryId: entry.entryId, summary: jumbotronReplayStateEventSummary(entry) },
+    sourceIndex,
+    index: `derived-${entry.entryId || index}-${kindIndex}`,
+    derived: true
+  })));
 }
 
 function jumbotronReplayActiveRawEvents(frameModel) {
   const { frame, timeline } = frameModel;
   const keyFrames = timeline.keyFrames || [];
-  const interpolationSteps = Math.max(1, Number(timeline.interpolationSteps || JUMBOTRON_REPLAY_INTERPOLATION_STEPS));
+  const keyFramePlaybackIndexes = timeline.keyFramePlaybackIndexes || [];
   const playbackIndex = Number(frame.playbackFrameIndex ?? frame.frameIndex ?? 0);
   return keyFrames.flatMap((rawFrame, sourceIndex) => {
-    const eventPlaybackIndex = sourceIndex * interpolationSteps;
+    const eventPlaybackIndex = Number.isFinite(Number(keyFramePlaybackIndexes[sourceIndex])) ? Number(keyFramePlaybackIndexes[sourceIndex]) : sourceIndex * JUMBOTRON_REPLAY_INTERPOLATION_STEPS;
     const delta = playbackIndex - eventPlaybackIndex;
     if (delta < 0 || delta > JUMBOTRON_REPLAY_EVENT_HOLD_FRAMES) return [];
-    return (rawFrame?.events || []).map((event, index) => ({ event, sourceIndex, index, eventPlaybackIndex, playbackDelta: delta }));
+    return [
+      ...(rawFrame?.events || []).map((event, index) => ({ event, sourceIndex, index, eventPlaybackIndex, playbackDelta: delta })),
+      ...jumbotronReplayDerivedRawEvents(rawFrame, sourceIndex).map((item) => ({ ...item, eventPlaybackIndex, playbackDelta: delta }))
+    ];
   });
 }
 
 function jumbotronReplayEventPriority(kind) {
   return ({
-    finish: 5,
-    overtake: 4,
+    finish: 7,
+    overtake: 6,
+    rank_up: 6,
+    rank_down: 6,
+    slowed: 5.5,
+    progress_slow: 5.5,
+    blocked: 5,
+    pit_stop: 5,
+    takeover: 5,
+    stale: 3,
+    idle: 3,
+    sprinting: 3,
     lead_change: 3,
     race_start: 2,
     status_change: 1
@@ -2957,7 +3741,7 @@ function buildJumbotronReplayEventBubbleItems(frameModel) {
     const key = `${kind}-${entry.entryId}-${sourceIndex}-${index}`;
     if (seen.has(key)) return;
     seen.add(key);
-    const label = jumbotronReplayEventBubbleLabel(kind, frame);
+    const label = jumbotronReplayEventBubbleLabel(event?.stateKind || kind, frame);
     const summary = event?.summary || (kind === 'finish' ? `${entry.displayName} 冲线完成` : jumbotronTimelineEventSummary(event, entry, frame));
     items.push({
       kind,
@@ -2996,25 +3780,47 @@ function jumbotronReplayEventCandidatePlacements(trackProfile, item) {
   }).sort((a, b) => a.score - b.score || a.rect.x - b.rect.x || a.rect.y - b.rect.y);
 }
 
+function placeJumbotronReplayEventBubble(trackProfile, item, selectedRects) {
+  return jumbotronReplayEventCandidatePlacements(trackProfile, item)
+    .find(({ rect }) => selectedRects.every((selectedRect) => rectsSpatiallySeparated(rect, selectedRect)));
+}
+
 function selectJumbotronReplayEventBubbleItems(trackProfile, items) {
   const ordered = items
     .map((item, index) => ({ ...item, itemOrder: index }))
     .sort((a, b) => b.priority - a.priority || Number(a.entry.rank) - Number(b.entry.rank) || a.itemOrder - b.itemOrder);
   const selected = [];
   const selectedRects = [];
-  const usedEntries = new Set();
-  for (const item of ordered) {
-    if (selected.length >= JUMBOTRON_BUBBLE_VISIBLE_LIMIT) break;
-    if (usedEntries.has(item.entry.entryId)) continue;
-    const placement = jumbotronReplayEventCandidatePlacements(trackProfile, item)
-      .find(({ rect }) => selectedRects.every((selectedRect) => rectsSpatiallySeparated(rect, selectedRect)));
-    if (!placement) continue;
+  const selectedKeys = new Set();
+  const selectedEntries = new Set();
+  const itemKey = (item) => `${item.kind}-${item.entry.entryId}-${item.sourceIndex}-${item.eventIndex}`;
+  const tryAdd = (item) => {
+    if (selected.length >= JUMBOTRON_BUBBLE_VISIBLE_LIMIT || selectedKeys.has(itemKey(item)) || selectedEntries.has(item.entry.entryId)) return false;
+    const placement = placeJumbotronReplayEventBubble(trackProfile, item, selectedRects);
+    if (!placement) return false;
     selected.push({ ...placement.item, rect: placement.rect });
     selectedRects.push(placement.rect);
-    usedEntries.add(item.entry.entryId);
+    selectedKeys.add(itemKey(item));
+    selectedEntries.add(item.entry.entryId);
+    return true;
+  };
+  const addFirst = (predicate) => {
+    for (const item of ordered) {
+      if (!predicate(item)) continue;
+      if (tryAdd(item)) return;
+    }
+  };
+  addFirst((item) => item.kind === 'finish');
+  addFirst((item) => item.kind === 'race_start');
+  addFirst((item) => ['overtake', 'rank_up', 'rank_down'].includes(item.kind));
+  addFirst((item) => ['slowed', 'progress_slow', 'blocked', 'pit_stop', 'takeover', 'stale'].includes(item.kind));
+  for (const item of ordered) {
+    if (selected.length >= JUMBOTRON_BUBBLE_VISIBLE_LIMIT) break;
+    tryAdd(item);
   }
   return selected;
 }
+
 
 function renderJumbotronReplayEventBubbleLayer(frameModel) {
   const candidates = buildJumbotronReplayEventBubbleItems(frameModel);
@@ -3036,7 +3842,7 @@ function renderJumbotronReplayMainTrackFrame(frameModel) {
   const entryLayer = horsePoses.map(({ entry, pose }) => {
     const visualClass = jumbotronHorseVisualClass(entry);
     const riskRing = ['high', 'critical'].includes(entry.riskLevel) ? `<circle class="track-alert-ring" r="27"/>` : '';
-    return `<g class="horse ${escapeHtml(visualClass)}" data-entry-id="${escapeHtml(entry.entryId)}" data-motion-state="${escapeHtml(entry.motionState)}" transform="translate(${pose.x} ${pose.y})"><title>${escapeHtml(`#${entry.rank} ${entry.displayName} · ${entry.roundProgress}% · ${motionStateLabel(entry.motionState)}`)}</title>${riskRing}${renderHorseRiderSprite(entry, pose, trackProfile)}<text class="debug-label" text-anchor="middle" y="6">${escapeHtml(entry.rank)}</text>${renderHorseStatusBadge(entry)}</g>`;
+    return `<g class="horse ${escapeHtml(visualClass)}" ${renderHorseTelemetryAttrs(entry, pose)} transform="translate(${pose.x} ${pose.y})"><title>${escapeHtml(`#${entry.rank} ${entry.displayName} · ${entry.roundProgress}% · ${motionStateLabel(entry.motionState)}`)}</title>${riskRing}${renderHorseRiderSprite(entry, pose, trackProfile)}<text class="debug-label" text-anchor="middle" y="6">${escapeHtml(entry.rank)}</text>${renderHorseStatusBadge(entry)}</g>`;
   }).join('');
   const replayBubbleLayer = renderJumbotronReplayEventBubbleLayer(frameModel);
   return `<svg class="track-svg" style="aspect-ratio:${trackAspectRatio}" viewBox="${viewBox.x} ${viewBox.y} ${viewBox.width} ${viewBox.height}" role="img" aria-label="近期回放第 ${escapeHtml(Number(frame.frameIndex) + 1)} 帧">${renderJumbotronRiderTintFilters()}<rect class="track-bg" x="${viewBox.x}" y="${viewBox.y}" width="${viewBox.width}" height="${viewBox.height}" rx="42"/>${renderTrackBackgroundImage(trackProfile)}<path class="track-band" d="${jumbotronCurvePath(trackProfile.centerlinePath)}"/><path class="track-centerline" d="${jumbotronCurvePath(trackProfile.centerlinePath)}"/>${checkpoints.map(({ checkpoint, pose }) => `<g class="checkpoint" transform="translate(${pose.point.x} ${pose.point.y})"><circle r="8" fill="#facc15" stroke="#713f12" stroke-width="3"/><text x="12" y="5">${escapeHtml(publicCheckpointLabel(checkpoint.label))}</text></g>`).join('')}${entryLayer}${replayBubbleLayer}</svg>`;
@@ -3073,6 +3879,8 @@ function renderJumbotronReplayScript(profileAlias = 'full', trackId = JUMBOTRON_
   const stage = document.getElementById('jumbotron-main-track-frame');
   const status = root.querySelector('[data-replay-status]');
   const geometryToggle = root.querySelector('[data-geometry-toggle]');
+  const miniMapDrawer = document.querySelector('.jumbotron-mini-map-drawer');
+  let miniMapReplayCollapseTimer = 0;
   if (!controls || !stage) return;
   function syncGeometryToggle() {
     if (!geometryToggle) return;
@@ -3111,6 +3919,35 @@ function renderJumbotronReplayScript(profileAlias = 'full', trackId = JUMBOTRON_
   function setLiveBubbleLayerHidden(hidden) {
     const layer = stage.querySelector('#jumbotron-bubble-layer');
     if (layer) layer.style.display = hidden ? 'none' : '';
+  }
+  function clearMiniMapReplayCollapseTimer() {
+    if (!miniMapReplayCollapseTimer) return;
+    window.clearTimeout(miniMapReplayCollapseTimer);
+    miniMapReplayCollapseTimer = 0;
+  }
+  function setMiniMapReplayExpanded(expanded) {
+    if (!miniMapDrawer) return;
+    miniMapDrawer.classList.toggle('is-replay-expanded', Boolean(expanded));
+    miniMapDrawer.setAttribute('data-replay-expanded', expanded ? 'true' : 'false');
+  }
+  function expandMiniMapForReplay() {
+    clearMiniMapReplayCollapseTimer();
+    setMiniMapReplayExpanded(true);
+  }
+  function scheduleMiniMapReplayCollapse() {
+    clearMiniMapReplayCollapseTimer();
+    miniMapReplayCollapseTimer = window.setTimeout(() => {
+      setMiniMapReplayExpanded(false);
+      miniMapReplayCollapseTimer = 0;
+    }, 5000);
+  }
+  function syncReplayMiniMap(html) {
+    if (!miniMapDrawer || !html) return;
+    const template = document.createElement('template');
+    template.innerHTML = html;
+    const nextMiniMap = template.content.querySelector('.mini-map-svg');
+    const currentMiniMap = miniMapDrawer.querySelector('.mini-map-svg');
+    if (nextMiniMap && currentMiniMap) currentMiniMap.replaceWith(nextMiniMap.cloneNode(true));
   }
   function replaceWholeTrack(html) {
     const template = document.createElement('template');
@@ -3177,6 +4014,8 @@ function renderJumbotronReplayScript(profileAlias = 'full', trackId = JUMBOTRON_
   let frameIndex = 0;
   let timer = null;
   let playing = false;
+  const frameCache = new Map();
+  const inflightFrames = new Map();
   function clearReplayTimer() {
     if (timer) window.clearTimeout(timer);
     timer = null;
@@ -3190,48 +4029,78 @@ function renderJumbotronReplayScript(profileAlias = 'full', trackId = JUMBOTRON_
     clearReplayTimer();
     playing = false;
     frameIndex = 0;
+    frameCache.clear();
     stage.innerHTML = finalHtml;
     stage.dataset.mainTrackMode = 'final';
     setLiveBubbleLayerHidden(false);
+    scheduleMiniMapReplayCollapse();
     setReplayStatus('');
   }
-  async function loadFrame(index) {
-    if (!frameCount) return false;
-    const nextIndex = Math.max(0, Math.min(frameCount - 1, Number(index) || 0));
-    try {
-      const response = await fetch(endpoint + '&frame=' + encodeURIComponent(nextIndex), { headers: { accept: 'application/json' } });
-      if (!response.ok) return false;
-      const data = await response.json();
-      if (!data.frameHtml) return false;
-      frameIndex = data.playbackIndex ?? data.frameIndex ?? nextIndex;
-      if (!applyReplayFrameHtml(data.frameHtml)) replaceWholeTrack(data.frameHtml);
-      stage.dataset.mainTrackMode = 'replay';
-      setReplayStatus('回放中 ' + String(frameIndex + 1) + ' / ' + String(data.playbackFrameCount || data.frameCount || frameCount));
-      return true;
-    } catch {
-      return false;
-    }
+  function renderReplayFrame(data, requestedIndex) {
+    if (!data?.frameHtml) return false;
+    frameIndex = data.playbackIndex ?? data.frameIndex ?? requestedIndex;
+    if (!applyReplayFrameHtml(data.frameHtml)) replaceWholeTrack(data.frameHtml);
+    syncReplayMiniMap(data.miniMapHtml);
+    stage.dataset.mainTrackMode = 'replay';
+    setReplayStatus('回放中 ' + String(frameIndex + 1) + ' / ' + String(data.playbackFrameCount || data.frameCount || frameCount));
+    return true;
   }
-  async function tick() {
+  function requestFrame(index) {
+    if (!frameCount) return Promise.resolve(null);
+    const nextIndex = Math.max(0, Math.min(frameCount - 1, Number(index) || 0));
+    if (frameCache.has(nextIndex)) return Promise.resolve(frameCache.get(nextIndex));
+    if (inflightFrames.has(nextIndex)) return inflightFrames.get(nextIndex);
+    const request = fetch(endpoint + '&frame=' + encodeURIComponent(nextIndex), { headers: { accept: 'application/json' } })
+      .then((response) => response.ok ? response.json() : null)
+      .then((data) => {
+        if (data?.frameHtml) frameCache.set(nextIndex, data);
+        inflightFrames.delete(nextIndex);
+        return data;
+      })
+      .catch(() => {
+        inflightFrames.delete(nextIndex);
+        return null;
+      });
+    inflightFrames.set(nextIndex, request);
+    return request;
+  }
+  function prefetchFrame(index) {
+    if (!frameCount) return;
+    if (index < 0 || index >= frameCount) return;
+    requestFrame(index);
+  }
+  async function loadFrame(index) {
+    const data = await requestFrame(index);
+    return renderReplayFrame(data, Math.max(0, Math.min(frameCount - 1, Number(index) || 0)));
+  }
+  function tick() {
     if (!playing) return;
-    const ok = await loadFrame(frameIndex);
-    if (!ok) {
-      restoreFinal();
-      return;
+    const requestedIndex = frameIndex;
+    if (frameCache.has(requestedIndex)) {
+      renderReplayFrame(frameCache.get(requestedIndex), requestedIndex);
+    } else {
+      requestFrame(requestedIndex).then((data) => {
+        if (playing && frameIndex === requestedIndex) renderReplayFrame(data, requestedIndex);
+      });
     }
-    if (frameIndex >= frameCount - 1) {
+    prefetchFrame(requestedIndex + 1);
+    prefetchFrame(requestedIndex + 2);
+    if (requestedIndex >= frameCount - 1) {
       setReplayStatus('回放结束，停留最终帧');
       timer = window.setTimeout(restoreFinal, frameDelayMs * finalHoldFrames);
       return;
     }
-    frameIndex += 1;
+    frameIndex = requestedIndex + 1;
     timer = window.setTimeout(tick, frameDelayMs);
   }
   function startReplay() {
     clearReplayTimer();
     playing = true;
     frameIndex = 0;
+    expandMiniMapForReplay();
     setReplayStatus('回放准备中');
+    prefetchFrame(0);
+    prefetchFrame(1);
     tick();
   }
   function liftFocusSource(target) {
@@ -3260,17 +4129,23 @@ function renderJumbotronSideDrawer({ eyebrow, title, body, className = '', id = 
   return `<section${id ? ` id="${escapeHtml(id)}"` : ''} class="jumbotron-drawer jumbotron-drawer-card ${escapeHtml(className)}"><div class="jumbotron-drawer-head"><div><div class="eyebrow">${escapeHtml(eyebrow)}</div><h2>${escapeHtml(title)}</h2></div><span class="jumbotron-drawer-icon" aria-hidden="true">⌄</span></div><div class="jumbotron-drawer-body">${body}</div></section>`;
 }
 
+function renderJumbotronMiniMap(trackProfile, horsePoses, options = {}) {
+  const mode = options.mode || 'final';
+  const frameIndex = Number.isFinite(Number(options.frameIndex)) ? Number(options.frameIndex) : 0;
+  return `<svg class="mini-map-svg" viewBox="0 0 ${trackProfile.viewBox.width} ${trackProfile.viewBox.height}" role="img" aria-label="赛道小地图" data-mini-map-mode="${escapeHtml(mode)}" data-mini-map-frame="${escapeHtml(frameIndex)}"><path class="track-band" d="${jumbotronCurvePath(trackProfile.centerlinePath)}"/><path class="track-centerline" d="${jumbotronCurvePath(trackProfile.centerlinePath)}"/>${horsePoses.map(({ entry, pose }) => `<a class="jumbotron-focus-source" href="#${entryFocusId(entry)}"><circle cx="${pose.x}" cy="${pose.y}" r="18" fill="#1f49d8"><title>${escapeHtml(entry.displayName)}</title></circle></a>`).join('')}</svg>`;
+}
+
 function renderJumbotronSide({ adapted, horsePoses, debug, trackProfile, showReviewTools }) {
   const top3 = [...adapted.racingEntries].sort((a, b) => a.rank - b.rank).slice(0, 3);
-  const legend = adapted.racingEntries.map((entry) => `<p><strong>#${entry.rank} ${escapeHtml(entry.displayName)}</strong>${riskStatePill(entry)}<br><span class="muted">${escapeHtml(entry.primaryCA)} · ${escapeHtml(riskLevelLabel(entry.riskLevel))}</span></p>`).join('');
+  const legend = adapted.racingEntries.map((entry) => `<a class="jumbotron-focus-source focus-trigger legend-entry" href="#${entryFocusId(entry)}" data-legend-entry-id="${escapeHtml(entry.entryId)}"><strong>#${entry.rank} ${escapeHtml(entry.displayName)}</strong>${riskStatePill(entry)}<br><span class="muted">${escapeHtml(entry.primaryCA)} · ${escapeHtml(riskLevelLabel(entry.riskLevel))}</span>${renderHtmlTooltip(entryTooltipLines(entry))}</a>`).join('');
   const phaseSummary = adapted.racingEntries.slice(0, 6).map((entry) => `<p><strong>${escapeHtml(entry.displayName)}</strong>${riskStatePill(entry)}<br><span class="muted">${entry.phaseProgress}% · ${Math.round(entry.score)} 分</span></p>`).join('');
   const attentionItems = adapted.attentionItems
     .filter((item) => ['critical', 'high'].includes(item.severity) || ['risk', 'obstacle', 'violation'].includes(item.category))
     .slice(0, 4);
   const attention = attentionItems.length ? attentionItems.map((item) => `<a class="jumbotron-focus-source focus-trigger" href="#${attentionFocusId(item)}"><article class="attention-item attention-item-${escapeHtml(item.severity)}"><strong>${escapeHtml(attentionCategoryLabel(item.category))} · ${escapeHtml(severityLabel(item.severity))}</strong><p>${escapeHtml(item.summary)}</p>${renderHtmlTooltip(attentionTooltipLines(item, adapted.racingEntries))}</article></a>`).join('') : '<p class="muted">当前没有高优先级异常。</p>';
-  const miniMap = `<svg class="mini-map-svg" viewBox="0 0 ${trackProfile.viewBox.width} ${trackProfile.viewBox.height}" role="img" aria-label="赛道小地图"><path class="track-band" d="${jumbotronCurvePath(trackProfile.centerlinePath)}"/><path class="track-centerline" d="${jumbotronCurvePath(trackProfile.centerlinePath)}"/>${horsePoses.map(({ entry, pose }) => `<a class="jumbotron-focus-source" href="#${entryFocusId(entry)}"><circle cx="${pose.x}" cy="${pose.y}" r="18" fill="#1f49d8"><title>${escapeHtml(entry.displayName)}</title></circle></a>`).join('')}</svg><h3>队伍图例</h3>${legend}`;
+  const miniMap = `${renderJumbotronMiniMap(trackProfile, horsePoses)}<h3>队伍图例</h3>${legend}`;
   const reviewTools = showReviewTools ? renderJumbotronSideDrawer({ eyebrow: 'HorsePose', title: '运行时输出', body: `<p class="muted">${horsePoses.length} 个 Entry · ${debug.horseSValues.map(escapeHtml).join(' · ')}</p>` }) : '';
-  return `<aside><section class="side-card"><div class="eyebrow">TOP3</div><h2>领先队伍</h2><ol class="ranking-list">${top3.map((entry) => `<li><a class="jumbotron-focus-source focus-trigger" href="#${entryFocusId(entry)}"><strong>#${entry.rank} ${escapeHtml(entry.displayName)}</strong><span class="gap-pill">${escapeHtml(top3GapLabel(entry, adapted.racingEntries))}</span>${renderHtmlTooltip(entryTooltipLines(entry))}</a><div class="muted">${entry.roundProgress}% · ${escapeHtml(motionStateLabel(entry.motionState))}</div></li>`).join('')}</ol></section>${renderFocusDetailPanel(adapted)}${renderJumbotronSideDrawer({ eyebrow: '赛道概览', title: '小地图和队伍图例', body: miniMap })}${renderJumbotronSideDrawer({ eyebrow: '阶段', title: '进度快照', body: phaseSummary })}<section class="side-card"><div class="eyebrow">提醒</div><h2>异常情况</h2>${attention}</section>${reviewTools}</aside>`;
+  return `<aside><section class="side-card"><div class="eyebrow">TOP3</div><h2>领先队伍</h2><ol class="ranking-list">${top3.map((entry) => `<li><a class="jumbotron-focus-source focus-trigger" href="#${entryFocusId(entry)}"><strong>#${entry.rank} ${escapeHtml(entry.displayName)}</strong><span class="gap-pill">${escapeHtml(top3GapLabel(entry, adapted.racingEntries))}</span>${renderHtmlTooltip(entryTooltipLines(entry))}</a><div class="muted">${entry.roundProgress}% · ${escapeHtml(motionStateLabel(entry.motionState))}</div></li>`).join('')}</ol></section>${renderFocusDetailPanel(adapted)}${renderJumbotronSideDrawer({ eyebrow: '赛道概览', title: '小地图和队伍图例', body: miniMap, className: 'jumbotron-mini-map-drawer' })}${renderJumbotronSideDrawer({ eyebrow: '阶段', title: '进度快照', body: phaseSummary })}<section class="side-card"><div class="eyebrow">提醒</div><h2>异常情况</h2>${attention}</section>${reviewTools}</aside>`;
 }
 
 function renderTickerText(message, entries) {
@@ -3289,6 +4164,11 @@ function renderJumbotronTicker({ messagePlan, adapted }) {
 function messageTypeLabel(type) {
   const labels = { milestone: '进展', progress_update: '更新', obstacle: '异常', risk_alert: '关注', violation: '异常', quality_signal: '质量', strategy_change: '调整', takeover: '接管', pit_stop: '暂停' };
   return labels[type] || type;
+}
+
+function displayModeLabel(mode) {
+  const labels = { bubble: '气泡', ticker: '消息条', alert: '提醒', none: '无' };
+  return labels[mode] || mode;
 }
 
 function motionStateLabel(state) {
@@ -3419,8 +4299,8 @@ function renderJumbotronDataEvidenceDebug({ dataEvidence }) {
   const coverageLine = (coverage) => `present=${coverage.present.join(' / ') || 'none'}; missing=${coverage.missing.join(' / ') || 'none'}; complete=${coverage.complete}`;
   const hiddenLine = dataEvidence.publicHiddenFields.fields.map((item) => `${item.field}@${item.locations.join('+')}:${item.count}`).join(' / ');
   const aggregate = dataEvidence.lastMessageMapping.aggregate;
-  const entryRows = dataEvidence.lastMessageMapping.entryMappings.map((entry) => `<tr><td>${escapeHtml(entry.entryId)}</td><td>${escapeHtml(entry.latestMessageId || 'none')}</td><td>${entry.lastMessageResolved}</td><td>${entry.fallbackUsed}</td><td>${escapeHtml(entry.lastMessage?.type || 'none')}</td><td>${escapeHtml(entry.lastMessage?.displayMode || 'none')}</td><td>${entry.lastMessage?.summaryPresent === true}</td><td>${entry.targetUrlHidden}</td></tr>`).join('');
-  return `<section class="jumbotron-debug"><div class="eyebrow">Data Evidence</div><h2>data evidence debug panel</h2><div class="debug-grid"><article><strong>dataProfileId</strong><p class="muted">${escapeHtml(dataEvidence.dataProfileId)}</p></article><article><strong>profileAlias / selectedProfile</strong><p class="muted">${escapeHtml(dataEvidence.profileAlias)} / ${escapeHtml(dataEvidence.selectedProfile)}</p></article><article><strong>entryCount / messageCount / attentionItemCount</strong><p class="muted">${dataEvidence.entryCount} / ${dataEvidence.messageCount} / ${dataEvidence.attentionItemCount}</p></article><article><strong>validatorStatus</strong><p class="muted">${escapeHtml(dataEvidence.validatorStatus)}</p></article><article><strong>motionStateCoverage</strong><p class="muted">${escapeHtml(coverageLine(dataEvidence.motionStateCoverage))}</p></article><article><strong>messageTypeCoverage</strong><p class="muted">${escapeHtml(coverageLine(dataEvidence.messageTypeCoverage))}</p></article><article><strong>publicHiddenFields</strong><p class="muted">${escapeHtml(hiddenLine)}; rawValuesExcludedFromEvidence=${dataEvidence.publicHiddenFields.rawValuesExcludedFromEvidence}</p></article><article><strong>profileUsageGuard</strong><p class="muted">smoke8VisualLowLoadOnly=${dataEvidence.profileUsageGuard.smoke8VisualLowLoadOnly}; coverage9EnumCoverageOnly=${dataEvidence.profileUsageGuard.coverage9EnumCoverageOnly}</p></article><article><strong>lastMessage aggregate</strong><p class="muted">resolvedCount=${aggregate.resolvedCount}/${aggregate.entryCount}; fallbackCount=${aggregate.fallbackCount}; missingLatestMessageIdCount=${aggregate.missingLatestMessageIdCount}; unresolvedCount=${aggregate.unresolvedCount}; syntheticMissingIdFallsBack=${aggregate.syntheticMissingIdFallsBack}</p></article></div><h3>lastMessage mapping evidence</h3><table><thead><tr><th>entryId</th><th>latestMessageId</th><th>lastMessageResolved</th><th>fallbackUsed</th><th>lastMessage.type</th><th>lastMessage.displayMode</th><th>summaryPresent</th><th>targetUrlHidden</th></tr></thead><tbody>${entryRows}</tbody></table></section>`;
+  const entryRows = dataEvidence.lastMessageMapping.entryMappings.map((entry) => `<tr><td>${escapeHtml(entry.entryId)}</td><td>${escapeHtml(entry.latestMessageId || '无')}</td><td>${entry.lastMessageResolved ? '已解析' : '未解析'}</td><td>${entry.fallbackUsed ? '使用摘要' : '未使用'}</td><td>${escapeHtml(messageTypeLabel(entry.lastMessage?.type || 'none'))}</td><td>${escapeHtml(displayModeLabel(entry.lastMessage?.displayMode || 'none'))}</td><td>${entry.lastMessage?.summaryPresent === true ? '有' : '无'}</td><td>${entry.targetUrlHidden ? '已隐藏' : '未隐藏'}</td></tr>`).join('');
+  return `<section class="jumbotron-debug"><div class="eyebrow">Data Evidence</div><h2>data evidence debug panel</h2><div class="debug-grid"><article><strong>dataProfileId</strong><p class="muted">${escapeHtml(dataEvidence.dataProfileId)}</p></article><article><strong>profileAlias / selectedProfile</strong><p class="muted">${escapeHtml(dataEvidence.profileAlias)} / ${escapeHtml(dataEvidence.selectedProfile)}</p></article><article><strong>entryCount / messageCount / attentionItemCount</strong><p class="muted">${dataEvidence.entryCount} / ${dataEvidence.messageCount} / ${dataEvidence.attentionItemCount}</p></article><article><strong>validatorStatus</strong><p class="muted">${escapeHtml(dataEvidence.validatorStatus)}</p></article><article><strong>motionStateCoverage</strong><p class="muted">${escapeHtml(coverageLine(dataEvidence.motionStateCoverage))}</p></article><article><strong>messageTypeCoverage</strong><p class="muted">${escapeHtml(coverageLine(dataEvidence.messageTypeCoverage))}</p></article><article><strong>publicHiddenFields</strong><p class="muted">${escapeHtml(hiddenLine)}; rawValuesExcludedFromEvidence=${dataEvidence.publicHiddenFields.rawValuesExcludedFromEvidence}</p></article><article><strong>profileUsageGuard</strong><p class="muted">smoke8VisualLowLoadOnly=${dataEvidence.profileUsageGuard.smoke8VisualLowLoadOnly}; coverage9EnumCoverageOnly=${dataEvidence.profileUsageGuard.coverage9EnumCoverageOnly}</p></article><article><strong>lastMessage aggregate</strong><p class="muted">已解析 ${aggregate.resolvedCount}/${aggregate.entryCount}；摘要兜底 ${aggregate.fallbackCount}；缺失 latestMessageId ${aggregate.missingLatestMessageIdCount}；未解析 ${aggregate.unresolvedCount}；缺失编号摘要兜底 ${aggregate.syntheticMissingIdFallsBack ? '通过' : '未通过'}</p></article></div><h3>lastMessage mapping evidence</h3><table><thead><tr><th>entryId</th><th>latestMessageId</th><th>lastMessageResolved</th><th>摘要兜底</th><th>lastMessage.type</th><th>lastMessage.displayMode</th><th>summaryPresent</th><th>targetUrlHidden</th></tr></thead><tbody>${entryRows}</tbody></table></section>`;
 }
 
 function renderJumbotronCalibrator({ trackProfile, runtime }) {
@@ -3458,6 +4338,37 @@ function finitePoint(value) {
   return value && Number.isFinite(Number(value.x)) && Number.isFinite(Number(value.y));
 }
 
+function nearestCalibratorInsertion(points, point, closed = false) {
+  const source = ensureClosedCenterline(points, closed).filter(finitePoint);
+  if (source.length < 2 || !finitePoint(point)) return null;
+  let best = null;
+  for (let index = 0; index < source.length - 1; index += 1) {
+    const start = source[index];
+    const end = source[index + 1];
+    const dx = end.x - start.x;
+    const dy = end.y - start.y;
+    const lengthSquared = dx * dx + dy * dy;
+    if (!lengthSquared) continue;
+    const rawRatio = ((point.x - start.x) * dx + (point.y - start.y) * dy) / lengthSquared;
+    const projectionRatio = Math.max(0, Math.min(1, rawRatio));
+    const projected = { x: start.x + dx * projectionRatio, y: start.y + dy * projectionRatio };
+    const projectionDistance = Math.hypot(point.x - projected.x, point.y - projected.y);
+    const segmentLength = Math.sqrt(lengthSquared);
+    const lengthDelta = Math.hypot(point.x - start.x, point.y - start.y) + Math.hypot(point.x - end.x, point.y - end.y) - segmentLength;
+    const endpointPenalty = Math.max(0, 0.08 - projectionRatio, projectionRatio - 0.92) * segmentLength * 0.12;
+    const score = projectionDistance * 1.4 + lengthDelta + endpointPenalty;
+    const candidate = { index, insertIndex: index + 1, projectionDistance, lengthDelta, score };
+    if (!best || candidate.score < best.score || (candidate.score === best.score && candidate.projectionDistance < best.projectionDistance)) best = candidate;
+  }
+  return best;
+}
+
+function insertCalibratorPointByNearestSegment(points, point, closed = false) {
+  const source = ensureClosedCenterline(points, closed).filter(finitePoint);
+  const segment = nearestCalibratorInsertion(source, point, closed);
+  if (!segment) return ensureClosedCenterline([...source, point], closed);
+  return ensureClosedCenterline([...source.slice(0, segment.insertIndex), point, ...source.slice(segment.insertIndex)], closed);
+}
 
 function reverseCenterlinePoints(points, closed) {
   const finitePoints = ensureClosedCenterline(points, false);
@@ -3471,7 +4382,7 @@ function toggleDirection(direction) {
 
 function buildCalibratorProfile(body = {}) {
   const activeCandidate = isActiveSecondTrackCandidateImport(body) ? readActiveSecondTrackCandidate() : null;
-  const base = activeCandidate?.available ? normalizeExternalTrackCandidate(activeCandidate.profile, activeCandidate) : cloneJson(jumbotronTrackProfiles[0]);
+  const base = activeCandidate?.available ? normalizeExternalTrackCandidate(activeCandidate.profile, activeCandidate) : calibratorDefaultTrackProfile();
   let profile = body.profileJson ? { ...base, ...parseJsonInput(body.profileJson, base) } : base;
   profile.trackId = body.trackId || profile.trackId || 'calibrated-track';
   profile.name = body.name || profile.name || '校准赛道';
@@ -3505,11 +4416,7 @@ function buildCalibratorProfile(body = {}) {
   }
   if (body.centerlineAction === 'add') {
     const point = { x: Number(body.addPointX), y: Number(body.addPointY) };
-    if (finitePoint(point)) {
-      const closed = Boolean(profile.centerline.closed);
-      const pointsWithoutClosingDuplicate = closed && samePoint(centerlinePoints[0], centerlinePoints.at(-1)) ? centerlinePoints.slice(0, -1) : centerlinePoints;
-      centerlinePoints = [...pointsWithoutClosingDuplicate, point];
-    }
+    if (finitePoint(point)) centerlinePoints = insertCalibratorPointByNearestSegment(centerlinePoints, point, Boolean(profile.centerline.closed));
   }
   if (body.reverseDirection) centerlinePoints = reverseCenterlinePoints(centerlinePoints, Boolean(profile.centerline.closed));
   if (body.autoFixSharpTurns === '1') {
@@ -3565,6 +4472,24 @@ function cloneJson(value) {
   return JSON.parse(JSON.stringify(value));
 }
 
+function calibratorDefaultTrackProfile() {
+  const profile = cloneJson(JUMBOTRON_CALIBRATOR_DEFAULT_TRACK_PROFILE);
+  const points = [
+    { x: 558.4, y: 509.2 },
+    { x: 311.3, y: 505.6 },
+    { x: 247.5, y: 487.2 },
+    { x: 190.8, y: 125.7 },
+    { x: 484.5, y: 105.3 },
+    { x: 856.0, y: 105.8 },
+    { x: 1009.6, y: 198.3 },
+    { x: 1010.7, y: 471.4 },
+    { x: 558.4, y: 509.2 }
+  ];
+  profile.centerline = { ...(profile.centerline || {}), points };
+  profile.centerlinePath = points;
+  return profile;
+}
+
 function parseJsonInput(value, fallback) {
   if (value === undefined || value === null || value === '') return fallback;
   try {
@@ -3590,7 +4515,7 @@ function buildImportedDiffProfile(profile) {
 function buildImportedCalibratorProfile(body = {}) {
   const activeCandidate = isActiveSecondTrackCandidateImport(body) ? readActiveSecondTrackCandidate() : null;
   if (activeCandidate?.available && !body.profileJson) return normalizeExternalTrackCandidate(buildImportedDiffProfile(activeCandidate.profile), activeCandidate);
-  const base = activeCandidate?.available ? normalizeExternalTrackCandidate(activeCandidate.profile, activeCandidate) : cloneJson(jumbotronTrackProfiles[0]);
+  const base = activeCandidate?.available ? normalizeExternalTrackCandidate(activeCandidate.profile, activeCandidate) : calibratorDefaultTrackProfile();
   const imported = body.profileJson ? { ...base, ...parseJsonInput(body.profileJson, base) } : base;
   const normalized = normalizeTrackProfile(imported);
   normalized.centerline = normalized.centerline || { type: 'polyline', closed: true, smoothing: 'mvp-polyline', points: normalized.centerlinePath || [] };
@@ -3746,7 +4671,7 @@ function buildCalibratorWorkbench(body = {}) {
     ];
     return { trackProfile, runtime, exportProfile, exportJson: JSON.stringify(exportProfile, null, 2), diffRows, poses, singlePose, multiHorsePoses, multiHorsePreview, messageBubblePreview: { message: previewMessage, rect: bubbleRect, blockedByNoZone: bubbleBlockedByNoZone }, settings, checks, assetReview, autoFixEvidence: trackProfile.meta?.autoFixEvidence || null, p1Backlog: buildCalibratorP1Backlog(), error: '' };
   } catch (error) {
-    const trackProfile = normalizeTrackProfile(jumbotronTrackProfiles[0]);
+    const trackProfile = normalizeTrackProfile(calibratorDefaultTrackProfile());
     const runtime = createJumbotronRuntime(trackProfile);
     const exportProfile = exportTrackProfileShape(trackProfile);
     const settings = defaultSettings;
@@ -3765,7 +4690,7 @@ function renderTrackCalibrator(session, body = {}, options = {}) {
   const backgroundSrc = profile.background?.src || '';
   const demoMode = Boolean(options.demoMode || body.demoMode === '1' || body.demoMode === true);
   const backgroundOptions = Array.from(JUMBOTRON_BACKGROUND_ASSETS).map((src) => `<option value="${escapeHtml(src)}"${profile.background?.src === src ? ' selected' : ''}>${escapeHtml(src)}</option>`).join('');
-  const renderChecks = (checks) => checks.map(([label, ok]) => `<article><strong>${ok ? '✓' : '!' } ${escapeHtml(validationLabel(label))}</strong><p class="muted">${ok ? '通过' : '需要补齐'}</p></article>`).join('');
+  const renderChecks = (checks) => checks.map(([label, ok]) => `<article class="review-check-${ok ? 'ok' : 'warn'}"><strong>${ok ? '✓' : '!' } ${escapeHtml(validationLabel(label))}</strong><p class="review-check-status">${ok ? '状态良好' : '待补齐'}</p></article>`).join('');
   const renderControlPoints = profile.centerlinePath.map((point, index) => `<tr><td>${index}</td><td>${Math.round(point.x)}</td><td>${Math.round(point.y)}</td><td><button class="button secondary" name="deletePointIndex" value="${index}" type="submit">删除点位</button></td></tr>`).join('');
   const checkpointMarkers = profile.checkpoints.map((checkpoint) => {
     const sample = workbench.runtime.samplePoint(checkpoint.s);
@@ -3784,12 +4709,13 @@ function renderTrackCalibrator(session, body = {}, options = {}) {
   const renderJsonDiffRows = workbench.diffRows.length
     ? workbench.diffRows.map((row) => `<tr><td>${escapeHtml(row.label)}</td><td>${escapeHtml(row.before)}</td><td>${escapeHtml(row.after)}</td><td>已变化</td></tr>`).join('')
     : '<tr><td colspan="4">暂无字段差异；imported profile 与 exported frozen candidate 一致。</td></tr>';
+  const activeCandidateId = isActiveSecondTrackCandidateImport(body) ? 'real-explicit-closed-course' : '';
   const secondTrackReviewTitle = workbench.assetReview?.status === 'rejected' ? '人工复核驳回' : workbench.assetReview?.status === 'pending' ? '等待人工复核' : '人工复核确认';
   const secondTrackReviewCopy = workbench.assetReview?.status === 'rejected'
     ? '当前候选已被驳回，不能进入正式大屏资产流程。'
-    : '在校准器中选择第二赛道，进入候选赛道选择后继续复核几何、泳道和气泡区。用户人工确认通过。';
+    : '进入第二赛道候选后继续复核几何、泳道、关键点和气泡区；验证通过不等于正式资产确认。';
   const autoFixPanel = workbench.autoFixEvidence ? `<section class="notice"><strong>${escapeHtml(workbench.autoFixEvidence.label)}</strong><p class="muted">fix count=${escapeHtml(workbench.autoFixEvidence.fixCount)}；remainingSharpTurnCount=${escapeHtml(workbench.autoFixEvidence.remainingSharpTurnCount)}；${escapeHtml((workbench.autoFixEvidence.fixes || []).map((fix) => fix.action).join('、') || 'no-op')}</p><p class="muted">${escapeHtml(workbench.autoFixEvidence.humanReview)}</p></section>` : '';
-  const content = `<section class="jumbotron-page calibrator-page"><section class="jumbotron-header" aria-label="顶部工具栏"><div class="jumbotron-brandline"><span class="jumbotron-live">MVP</span><strong>赛道校准器</strong><span>设计资产工具</span></div><div class="jumbotron-statusbar"><button class="button secondary" form="calibrator-form" type="submit">导入底图</button><button class="button secondary" form="calibrator-form" type="submit">导入候选配置</button><button class="button secondary" form="calibrator-form" type="submit">校验</button><button class="button secondary" form="calibrator-form" type="submit">预览</button><button class="button" form="calibrator-form" type="submit">导出</button></div></section>${workbench.error ? `<section class="notice warn"><strong>导入解析失败</strong><p>${escapeHtml(workbench.error)}</p></section>` : ''}<form id="calibrator-form" method="post" action="/jumbotron/calibrator"><input type="hidden" name="centerlinePointsJson" id="hf-centerlinePoints"><input type="hidden" name="checkpointsJson" id="hf-checkpoints"><input type="hidden" name="lanesJson" id="hf-lanes"><input type="hidden" name="startSHidden" id="hf-startS"><input type="hidden" name="finishSHidden" id="hf-finishS"><section class="jumbotron-calibrator calibrator-compact-head"><div class="eyebrow">画布校准 → 校验 → 导出</div><h1>赛道校准器</h1><p class="muted">先在主画布调整赛道；导入、候选 JSON 和冻结结果收在折叠区。</p><section class="notice" aria-label="第二赛道候选入口"><strong>第二赛道候选入口</strong><strong>${escapeHtml(secondTrackReviewTitle)}</strong><p class="muted">${escapeHtml(secondTrackReviewCopy)}</p><div class="cta-row"><a class="button secondary" href="/jumbotron/calibrator?candidate=real-explicit-closed-course">打开第二赛道校准器</a><span class="jumbotron-chip"><span>候选赛道选择</span><strong>real-explicit-closed-course</strong></span></div><section class="notice"><strong>real-explicit-closed-course candidate asset evidence</strong><p class="muted">validation=pass；containsPlaceholderAssets=false；centerline=40 点；runtime=41 点；lanes=12；checkpoints=4；候选已提升=true。</p></section></section><details class="calibrator-fold"><summary><strong>导入与候选配置</strong><span>底图、候选 JSON</span></summary><div class="calibrator-grid"><article><strong>导入底图</strong><p class="muted">选择允许的背景资产，校验会检查 allowlist 与文件存在。</p><label>允许背景资产<select name="backgroundSrc">${backgroundOptions}</select></label><label>自定义 /assets/ 输入<input name="backgroundSrcCustom" value="${escapeHtml(body.backgroundSrcCustom || '')}" placeholder="/assets/public-yard-hero.webp"></label></article><article><strong>导入候选配置</strong><textarea name="profileJson" rows="5">${escapeHtml(body.profileJson || workbench.exportJson)}</textarea></article></div></details><details class="calibrator-fold"><summary><strong>导出冻结候选配置</strong><span>JSON 与复核状态</span></summary><article class="calibrator-export"><textarea readonly rows="6">${escapeHtml(workbench.exportJson)}</textarea>${renderCalibratorAssetReviewStatus(workbench.assetReview)}<p class="muted">冻结候选不等于正式资产 confirmed。</p></article></details>${autoFixPanel}</section><section class="jumbotron-layout calibrator-layout" aria-label="Calibrator IA"><section class="track-stage-card" aria-label="主画布"><div class="eyebrow">主画布</div><h2>底图层、中心线层、控制点层</h2><p id="calibrator-canvas-status" class="calibrator-canvas-help">画布操作已开启：点击画布添加点，拖拽 P 点移动；点击校验、预览或导出 后用 server runtime 重算预览。</p><svg id="calibrator-canvas" class="track-svg" viewBox="${viewBox.x || 0} ${viewBox.y || 0} ${viewBox.width} ${viewBox.height}" role="img" aria-label="赛道校准器 主画布"><rect class="track-bg" x="${viewBox.x || 0}" y="${viewBox.y || 0}" width="${viewBox.width}" height="${viewBox.height}" rx="42"/><image data-background-image class="calibrator-background-image" href="${escapeHtml(backgroundSrc)}" x="${viewBox.x || 0}" y="${viewBox.y || 0}" width="${viewBox.width}" height="${viewBox.height}" opacity="0.42" preserveAspectRatio="xMidYMid slice"/><text class="debug-label" x="${(viewBox.x || 0) + 44}" y="${(viewBox.y || 0) + 58}">底图层：${escapeHtml(backgroundSrc || '未选择')}</text><g data-zone-layer data-zone-type="messageZones">${profile.messageZones.map((zone) => zone.rect ? `<rect x="${zone.rect.x}" y="${zone.rect.y}" width="${zone.rect.width}" height="${zone.rect.height}" fill="rgba(34,197,94,.1)" stroke="#22c55e" stroke-dasharray="6 5"/>` : '').join('')}</g><g data-zone-layer data-zone-type="riskZones">${profile.riskZones.map((zone) => `<rect x="${zone.x}" y="${zone.y}" width="${zone.width}" height="${zone.height}" fill="rgba(239,68,68,.12)" stroke="#ef4444" stroke-dasharray="8 6"/>`).join('')}</g><g data-zone-layer data-zone-type="noBubbleZones">${profile.noBubbleZones.map((zone) => `<rect x="${zone.x}" y="${zone.y}" width="${zone.width}" height="${zone.height}" fill="rgba(15,23,42,.08)" stroke="#64748b" stroke-dasharray="5 6"/>`).join('')}</g><path class="track-band" data-centerline-band d="${jumbotronPath(profile.centerlinePath)}"/>${lanePreview}<polyline class="track-centerline" data-centerline-polyline points="${jumbotronPolyline(profile.centerlinePath)}"/><polyline data-closing-segment class="track-closing-segment" points="" display="none"/><g data-control-points-layer>${profile.centerlinePath.map((point, index) => `<g class="calibrator-point" data-control-point data-index="${index}" transform="translate(${point.x} ${point.y})"><circle r="8" fill="#fff" stroke="#1f49d8" stroke-width="3"/><text class="debug-label" x="12" y="5">P${index}</text></g>`).join('')}</g><g data-checkpoints-layer>${checkpointMarkers}</g><g data-start-handle transform="translate(${startHandle.x} ${startHandle.y})"><circle r="10" fill="#22c55e" stroke="#064e3b" stroke-width="3"/><text class="debug-label" x="14" y="5">Start</text></g><g data-finish-handle transform="translate(${finishHandle.x} ${finishHandle.y})"><circle r="10" fill="#f97316" stroke="#7c2d12" stroke-width="3"/><text class="debug-label" x="14" y="5">Finish</text></g><g transform="translate(${workbench.singlePose.pose.x} ${workbench.singlePose.pose.y})"><circle r="18" fill="#a855f7" stroke="#f5d0fe" stroke-width="4"/><text class="debug-label" x="24" y="6">Scrubber ${workbench.settings.previewProgress}%</text></g>${workbench.multiHorsePoses.map(({ entry, pose }) => `<g transform="translate(${pose.x} ${pose.y})"><circle r="9" fill="#1f49d8" stroke="#dbeafe" stroke-width="2"/><text class="debug-label" x="14" y="5">${escapeHtml(entry.displayName.replace('Horse ', '#'))}</text></g>`).join('')}<rect x="${bubble.x}" y="${bubble.y}" width="${bubble.width}" height="${bubble.height}" rx="12" fill="rgba(255,255,255,.96)" stroke="${workbench.messageBubblePreview.blockedByNoZone ? '#ef4444' : '#1f49d8'}" stroke-width="2"/><text class="debug-label" x="${bubble.x + 12}" y="${bubble.y + 32}">消息气泡预览</text><polyline data-trace-guide class="calibrator-trace-guide" points="" display="none"/></svg><div class="calibrator-grid"><article><strong>底图层</strong><p class="muted">${escapeHtml(profile.background?.src || '未选择背景')}</p></article><article><strong>中心线层</strong><p class="muted">${profile.centerlinePath.length} 个点；${profile.centerline?.closed ? '闭合路径' : '开放路径'}</p></article><article><strong>控制点层</strong><p class="muted">支持画布点击添加、拖拽移动、删除和 JSON 高级编辑。</p></article><article data-lane-summary><strong>泳道预览层</strong><p class="muted">${profile.lanes.length} 条泳道偏移预览。</p></article><article data-checkpoint-summary><strong>检查点层</strong><p class="muted">${profile.checkpoints.length} 个检查点。</p></article><article><strong>马匹预览层</strong><p class="muted">进度滑杆单马 + ${workbench.multiHorsePoses.length} 匹多马预览。大屏运行时采样，预览复用大屏运行时。</p></article><article><strong>消息气泡预览层</strong><p class="muted">基于 消息区、禁气泡区；${workbench.messageBubblePreview.blockedByNoZone ? '当前落在 禁气泡区' : '当前可显示示例气泡'}。</p></article></div></section><aside aria-label="右侧面板"><section class="side-card"><div class="eyebrow">右侧面板</div><h2>赛道信息</h2><label>trackId<input name="trackId" value="${escapeHtml(profile.trackId)}"></label><label>name<input name="name" value="${escapeHtml(profile.name)}"></label></section><section class="side-card"><h2>几何</h2><p class="muted">高级 JSON</p><label>中心线 JSON<textarea id="calibrator-centerline-points" name="centerlinePoints" rows="8">${escapeHtml(JSON.stringify(profile.centerlinePath, null, 2))}</textarea></label><div class="calibrator-mode-grid"><label><input type="radio" name="calibratorMode" value="centerline" checked> 中心线</label><label><input type="radio" name="calibratorMode" value="trace"> 描线</label><label><input type="radio" name="calibratorMode" value="keypoints"> 关键点安全</label><label><input type="radio" name="calibratorMode" value="checkpoint"> 检查点</label></div><p class="muted" data-keypoint-safe-copy>关键点安全模式只修改起终点和检查点的 s，不修改中心线几何。</p><div class="cta-row"><button class="button secondary" type="button" data-calibrator-undo>撤销</button><button class="button secondary" type="button" data-calibrator-redo>重做</button></div><div class="cta-row"><label>新增 x<input name="addPointX" value="${escapeHtml(body.addPointX || '600')}"></label><label>新增 y<input name="addPointY" value="${escapeHtml(body.addPointY || '310')}"></label><button id="calibrator-add-point-button" class="button secondary" name="centerlineAction" value="add" type="submit">添加中心线点</button><button id="calibrator-reverse-button" class="button secondary" name="reverseDirection" value="1" type="submit">反转路径方向</button></div><table><thead><tr><th>#</th><th>x</th><th>y</th><th>操作</th></tr></thead><tbody data-control-points-table>${renderControlPoints}</tbody></table><p class="muted">拖拽中心线点；Shift+点击路径添加检查点。</p><div class="calibrator-trace-panel" data-trace-panel><strong>描线模式</strong><p class="muted">按住鼠标沿底图道路拖动即可连续采样；验证通过不等于正式资产确认。</p><div class="calibrator-trace-controls"><label>采样距离<input id="calibrator-trace-min-distance" type="number" min="4" max="80" value="16"></label><button class="button secondary" id="calibrator-close-trace" type="button">闭合描线</button><button class="button secondary" id="calibrator-copy-trace-json" type="button">复制点集 JSON</button></div><textarea id="calibrator-trace-output" readonly rows="5"></textarea></div><div data-context-menu class="calibrator-context-menu" hidden><button class="button secondary" type="button" data-context-action="insert-nearest-segment">在最近线段插入点</button></div></section><section class="side-card"><h2>终点线</h2><label>startS<input name="startS" value="${escapeHtml(profile.startFinish?.startS ?? 0)}"></label><label>finishS<input name="finishS" value="${escapeHtml(profile.startFinish?.finishS ?? 1)}"></label></section><section class="side-card"><h2>方向</h2><label>direction<select name="direction"><option value="clockwise"${profile.direction === 'clockwise' ? ' selected' : ''}>clockwise</option><option value="counterclockwise"${profile.direction === 'counterclockwise' ? ' selected' : ''}>counterclockwise</option></select></label><label>closed<select name="closed"><option value="true"${profile.centerline?.closed ? ' selected' : ''}>true</option><option value="false"${!profile.centerline?.closed ? ' selected' : ''}>false</option></select></label><label>平滑路径预览<select name="smoothing"><option value="mvp-polyline"${profile.centerline?.smoothing === 'mvp-polyline' ? ' selected' : ''}>关闭：mvp-polyline</option><option value="preview-smoothing"${profile.centerline?.smoothing === 'preview-smoothing' ? ' selected' : ''}>开启：preview-smoothing</option></select></label><p class="muted">平滑路径预览是 MVP 视觉提示，不改写 runtime 事实来源。</p></section><section class="side-card"><h2>泳道</h2><label>泳道数量<input name="laneCount" value="${escapeHtml(profile.lanes.length)}"></label><label>泳道间距<input name="laneSpacing" value="28"></label><textarea name="lanes" rows="8">${escapeHtml(JSON.stringify(profile.lanes, null, 2))}</textarea></section><section class="side-card"><h2>检查点</h2><textarea name="checkpoints" rows="7">${escapeHtml(JSON.stringify(profile.checkpoints, null, 2))}</textarea></section><section class="side-card"><h2>消息气泡与区域</h2><label>消息区<textarea name="messageZones" rows="5">${escapeHtml(JSON.stringify(profile.messageZones, null, 2))}</textarea></label><label>禁气泡区<textarea name="noBubbleZones" rows="5">${escapeHtml(JSON.stringify(profile.noBubbleZones, null, 2))}</textarea></label><label>风险区<textarea name="riskZones" rows="5">${escapeHtml(JSON.stringify(profile.riskZones, null, 2))}</textarea></label></section><section class="side-card"><h2>校验结果</h2><div class="validation-grid">${renderChecks(workbench.checks)}</div></section></aside></section><section class="jumbotron-kpis" aria-label="底部预览栏"><span class="jumbotron-chip"><span>进度滑杆</span><strong>${workbench.settings.previewProgress}%</strong></span><label>进度滑杆<input type="range" name="previewProgress" min="0" max="100" value="${escapeHtml(workbench.settings.previewProgress)}"></label><label>马匹数量<input name="horseCount" value="${escapeHtml(workbench.settings.horseCount)}"></label><label>速度<input name="previewSpeed" value="${escapeHtml(workbench.settings.previewSpeed)}"></label><label>播放状态<select name="playMode"><option value="paused"${workbench.settings.playMode === 'paused' ? ' selected' : ''}>暂停</option><option value="play"${workbench.settings.playMode === 'play' ? ' selected' : ''}>播放</option></select></label><label>场景预设<select name="scenarioPreset"><option value="clustered"${workbench.settings.scenarioPreset === 'clustered' ? ' selected' : ''}>clustered</option><option value="spread"${workbench.settings.scenarioPreset === 'spread' ? ' selected' : ''}>spread</option><option value="finish"${workbench.settings.scenarioPreset === 'finish' ? ' selected' : ''}>finish</option></select></label><button class="button" type="submit">校验、预览或导出</button><a class="button secondary" href="/jumbotron">返回 赛事大屏</a></section></form><script>
+  const content = `<section class="jumbotron-page calibrator-page"><section class="jumbotron-header" aria-label="顶部工具栏"><div class="jumbotron-brandline"><span class="jumbotron-live">MVP</span><strong>赛道校准器</strong><span>设计资产工具</span></div><div class="jumbotron-statusbar"><button class="button secondary" form="calibrator-form" type="submit">导入底图</button><button class="button secondary" form="calibrator-form" type="submit">导入候选配置</button><button class="button secondary" form="calibrator-form" type="submit">校验</button><button class="button secondary" form="calibrator-form" type="submit">预览</button><button class="button" form="calibrator-form" type="submit">导出</button></div></section>${workbench.error ? `<section class="notice warn"><strong>导入解析失败</strong><p>${escapeHtml(workbench.error)}</p></section>` : ''}<form id="calibrator-form" method="post" action="/jumbotron/calibrator"><input type="hidden" name="candidate" value="${escapeHtml(activeCandidateId)}"><input type="hidden" name="centerlinePointsJson" id="hf-centerlinePoints"><input type="hidden" name="checkpointsJson" id="hf-checkpoints"><input type="hidden" name="lanesJson" id="hf-lanes"><input type="hidden" name="startSHidden" id="hf-startS"><input type="hidden" name="finishSHidden" id="hf-finishS"><section class="jumbotron-calibrator calibrator-compact-head"><div class="eyebrow">画布校准 → 校验 → 导出</div><h1>赛道校准器</h1><p class="muted">先在主画布调整赛道；导入、候选 JSON 和冻结结果收在折叠区。</p><section class="notice" aria-label="赛道校准入口"><strong>赛道校准入口</strong><div class="cta-row"><a class="button secondary" href="/jumbotron/calibrator">第一赛道校准器</a><a class="button secondary" href="/jumbotron/calibrator?candidate=real-explicit-closed-course">第二赛道校准器</a></div></section><details class="calibrator-fold"><summary><strong>导入与候选配置</strong><span>底图、候选 JSON</span></summary><div class="calibrator-grid"><article><strong>导入底图</strong><p class="muted">选择允许的背景资产，校验会检查 allowlist 与文件存在。</p><label>允许背景资产<select name="backgroundSrc">${backgroundOptions}</select></label><label>自定义 /assets/ 输入<input name="backgroundSrcCustom" value="${escapeHtml(body.backgroundSrcCustom || '')}" placeholder="/assets/public-yard-hero.webp"></label></article><article><strong>导入候选配置</strong><textarea name="profileJson" rows="5">${escapeHtml(body.profileJson || workbench.exportJson)}</textarea></article></div></details><details class="calibrator-fold"><summary><strong>导出冻结候选配置</strong><span>JSON 与复核状态</span></summary><article class="calibrator-export"><textarea readonly rows="6">${escapeHtml(workbench.exportJson)}</textarea>${renderCalibratorAssetReviewStatus(workbench.assetReview)}<p class="muted">冻结候选不等于正式资产 confirmed。</p></article></details>${autoFixPanel}</section><section class="jumbotron-layout calibrator-layout" aria-label="Calibrator IA"><section class="track-stage-card" aria-label="主画布"><div class="eyebrow">主画布</div><h2>底图层、中心线层、控制点层</h2><div class="cta-row" data-trace-toolbar><button class="button secondary" type="button" data-set-calibrator-mode="trace">沿底图描线</button><button class="button secondary" type="button" data-trace-clear-next>清空后重描</button><button class="button secondary" type="button" data-trace-reduce>减少点数</button><button class="button secondary" type="button" data-trace-close>闭合描线</button><button class="button secondary" type="button" data-trace-copy>复制点集</button></div><p id="calibrator-canvas-status" class="calibrator-canvas-help">画布操作已开启：点击画布会插入最近的相邻线段，拖拽 P 点移动；选择沿底图描线后，按住鼠标沿底图道路采样。描完后可减少点数。</p><svg id="calibrator-canvas" class="track-svg" viewBox="${viewBox.x || 0} ${viewBox.y || 0} ${viewBox.width} ${viewBox.height}" role="img" aria-label="赛道校准器 主画布"><rect class="track-bg" x="${viewBox.x || 0}" y="${viewBox.y || 0}" width="${viewBox.width}" height="${viewBox.height}" rx="42"/><image data-background-image class="calibrator-background-image" href="${escapeHtml(backgroundSrc)}" x="${viewBox.x || 0}" y="${viewBox.y || 0}" width="${viewBox.width}" height="${viewBox.height}" opacity="0.42" preserveAspectRatio="xMidYMid slice"/><text class="debug-label" x="${(viewBox.x || 0) + 44}" y="${(viewBox.y || 0) + 58}">底图层：${escapeHtml(backgroundSrc || '未选择')}</text><g data-zone-layer data-zone-type="messageZones">${profile.messageZones.map((zone) => zone.rect ? `<rect x="${zone.rect.x}" y="${zone.rect.y}" width="${zone.rect.width}" height="${zone.rect.height}" fill="rgba(34,197,94,.1)" stroke="#22c55e" stroke-dasharray="6 5"/>` : '').join('')}</g><g data-zone-layer data-zone-type="riskZones">${profile.riskZones.map((zone) => `<rect x="${zone.x}" y="${zone.y}" width="${zone.width}" height="${zone.height}" fill="rgba(239,68,68,.12)" stroke="#ef4444" stroke-dasharray="8 6"/>`).join('')}</g><g data-zone-layer data-zone-type="noBubbleZones">${profile.noBubbleZones.map((zone) => `<rect x="${zone.x}" y="${zone.y}" width="${zone.width}" height="${zone.height}" fill="rgba(15,23,42,.08)" stroke="#64748b" stroke-dasharray="5 6"/>`).join('')}</g><path class="track-band" data-centerline-band d="${jumbotronPath(profile.centerlinePath)}"/>${lanePreview}<polyline class="track-centerline" data-centerline-polyline points="${jumbotronPolyline(profile.centerlinePath)}"/><polyline data-closing-segment class="track-closing-segment" points="" display="none"/><g data-control-points-layer>${profile.centerlinePath.map((point, index) => `<g class="calibrator-point" data-control-point data-index="${index}" transform="translate(${point.x} ${point.y})"><circle r="8" fill="#fff" stroke="#1f49d8" stroke-width="3"/><text class="debug-label" x="12" y="5">P${index}</text></g>`).join('')}</g><g data-checkpoints-layer>${checkpointMarkers}</g><g data-start-handle transform="translate(${startHandle.x} ${startHandle.y})"><circle r="10" fill="#22c55e" stroke="#064e3b" stroke-width="3"/><text class="debug-label" x="14" y="5">Start</text></g><g data-finish-handle transform="translate(${finishHandle.x} ${finishHandle.y})"><circle r="10" fill="#f97316" stroke="#7c2d12" stroke-width="3"/><text class="debug-label" x="14" y="5">Finish</text></g>${renderJumbotronRiderTintFilters()}<g class="horse calibrator-scrubber-horse" data-scrubber-preview data-entry-id="${escapeHtml(workbench.singlePose.entry.entryId)}" data-motion-state="${escapeHtml(workbench.singlePose.entry.motionState)}" data-round-progress="${escapeHtml(workbench.singlePose.entry.roundProgress)}" data-lane-id="${escapeHtml(workbench.singlePose.entry.laneId || 'lane-0')}" transform="translate(${workbench.singlePose.pose.x} ${workbench.singlePose.pose.y})">${renderHorseRiderSprite(workbench.singlePose.entry, workbench.singlePose.pose, profile)}<text class="debug-label" data-scrubber-label x="34" y="8">Scrubber ${workbench.settings.previewProgress}%</text></g><g data-multi-horse-preview-layer>${workbench.multiHorsePoses.map(({ entry, pose }) => `<g class="horse calibrator-preview-horse" data-multi-horse-preview data-entry-id="${escapeHtml(entry.entryId)}" data-motion-state="${escapeHtml(entry.motionState)}" data-round-progress="${escapeHtml(entry.roundProgress)}" data-lane-id="${escapeHtml(entry.laneId || 'lane-0')}" transform="translate(${pose.x} ${pose.y})">${renderHorseRiderSprite(entry, pose, profile)}<text class="debug-label" x="28" y="8">${escapeHtml(entry.displayName.replace('Horse ', '#'))}</text></g>`).join('')}</g><rect x="${bubble.x}" y="${bubble.y}" width="${bubble.width}" height="${bubble.height}" rx="12" fill="rgba(255,255,255,.96)" stroke="${workbench.messageBubblePreview.blockedByNoZone ? '#ef4444' : '#1f49d8'}" stroke-width="2"/><text class="debug-label" x="${bubble.x + 12}" y="${bubble.y + 32}">消息气泡预览</text><polyline data-trace-guide class="calibrator-trace-guide" points="" display="none"/></svg><div class="calibrator-grid"><article><strong>底图层</strong><p class="muted">${escapeHtml(profile.background?.src || '未选择背景')}</p></article><article><strong>中心线层</strong><p class="muted">${profile.centerlinePath.length} 个点；${profile.centerline?.closed ? '闭合路径' : '开放路径'}</p></article><article><strong>控制点层</strong><p class="muted">支持画布点击添加、拖拽移动、删除和 JSON 高级编辑。</p></article><article data-lane-summary><strong>泳道预览层</strong><p class="muted">${profile.lanes.length} 条泳道偏移预览。</p></article><article data-checkpoint-summary><strong>检查点层</strong><p class="muted">${profile.checkpoints.length} 个检查点。</p></article><article><strong>马匹预览层</strong><p class="muted">进度滑杆单马 + ${workbench.multiHorsePoses.length} 匹多马预览。大屏运行时采样，预览复用大屏运行时。</p></article><article><strong>消息气泡预览层</strong><p class="muted">基于 消息区、禁气泡区；${workbench.messageBubblePreview.blockedByNoZone ? '当前落在 禁气泡区' : '当前可显示示例气泡'}。</p></article></div></section><aside aria-label="右侧面板"><section class="side-card"><div class="eyebrow">右侧面板</div><h2>赛道信息</h2><label>trackId<input name="trackId" value="${escapeHtml(profile.trackId)}"></label><label>name<input name="name" value="${escapeHtml(profile.name)}"></label></section><section class="side-card"><h2>几何</h2><p class="muted">高级 JSON</p><label>中心线 JSON<textarea id="calibrator-centerline-points" name="centerlinePoints" rows="8">${escapeHtml(JSON.stringify(profile.centerlinePath, null, 2))}</textarea></label><div class="calibrator-mode-grid"><label><input type="radio" name="calibratorMode" value="centerline" checked> 中心线</label><label><input type="radio" name="calibratorMode" value="trace"> 描线</label><label><input type="radio" name="calibratorMode" value="keypoints"> 关键点安全</label><label><input type="radio" name="calibratorMode" value="checkpoint"> 检查点</label></div><p class="muted" data-keypoint-safe-copy>关键点安全模式只修改起终点和检查点的 s，不修改中心线几何。</p><div class="cta-row"><button class="button secondary" type="button" data-calibrator-undo>撤销</button><button class="button secondary" type="button" data-calibrator-redo>重做</button></div><div class="cta-row"><label>新增 x<input name="addPointX" value="${escapeHtml(body.addPointX || '600')}"></label><label>新增 y<input name="addPointY" value="${escapeHtml(body.addPointY || '310')}"></label><button id="calibrator-add-point-button" class="button secondary" name="centerlineAction" value="add" type="submit">添加中心线点</button><button id="calibrator-reverse-button" class="button secondary" name="reverseDirection" value="1" type="submit">反转路径方向</button></div><table><thead><tr><th>#</th><th>x</th><th>y</th><th>操作</th></tr></thead><tbody data-control-points-table>${renderControlPoints}</tbody></table><p class="muted">拖拽中心线点；Shift+点击路径添加检查点。</p><div class="calibrator-trace-panel" data-trace-panel><strong>描线模式</strong><p class="muted">按住鼠标沿底图道路拖动即可连续采样；验证通过不等于正式资产确认。</p><div class="calibrator-trace-controls"><label>采样距离<input id="calibrator-trace-min-distance" type="number" min="4" max="80" value="16"></label><button class="button secondary" data-trace-reduce type="button">减少点数</button><button class="button secondary" id="calibrator-close-trace" type="button">闭合描线</button><button class="button secondary" id="calibrator-copy-trace-json" type="button">复制点集 JSON</button></div><textarea id="calibrator-trace-output" readonly rows="5"></textarea></div><div data-context-menu class="calibrator-context-menu" hidden><button class="button secondary" type="button" data-context-action="insert-nearest-segment">在最近线段插入点</button></div></section><section class="side-card"><h2>终点线</h2><label>startS<input name="startS" value="${escapeHtml(profile.startFinish?.startS ?? 0)}"></label><label>finishS<input name="finishS" value="${escapeHtml(profile.startFinish?.finishS ?? 1)}"></label></section><section class="side-card"><h2>方向</h2><label>direction<select name="direction"><option value="clockwise"${profile.direction === 'clockwise' ? ' selected' : ''}>clockwise</option><option value="counterclockwise"${profile.direction === 'counterclockwise' ? ' selected' : ''}>counterclockwise</option></select></label><label>closed<select name="closed"><option value="true"${profile.centerline?.closed ? ' selected' : ''}>true</option><option value="false"${!profile.centerline?.closed ? ' selected' : ''}>false</option></select></label><label>平滑路径预览<select name="smoothing"><option value="mvp-polyline"${profile.centerline?.smoothing === 'mvp-polyline' ? ' selected' : ''}>关闭：mvp-polyline</option><option value="preview-smoothing"${profile.centerline?.smoothing === 'preview-smoothing' ? ' selected' : ''}>开启：preview-smoothing</option></select></label><p class="muted">平滑路径预览是 MVP 视觉提示，不改写 runtime 事实来源。</p></section><section class="side-card"><h2>泳道</h2><label>泳道数量<input name="laneCount" value="${escapeHtml(profile.lanes.length)}"></label><label>泳道间距<input name="laneSpacing" value="28"></label><textarea name="lanes" rows="8">${escapeHtml(JSON.stringify(profile.lanes, null, 2))}</textarea></section><section class="side-card"><h2>检查点</h2><textarea name="checkpoints" rows="7">${escapeHtml(JSON.stringify(profile.checkpoints, null, 2))}</textarea></section><section class="side-card"><h2>消息气泡与区域</h2><label>消息区<textarea name="messageZones" rows="5">${escapeHtml(JSON.stringify(profile.messageZones, null, 2))}</textarea></label><label>禁气泡区<textarea name="noBubbleZones" rows="5">${escapeHtml(JSON.stringify(profile.noBubbleZones, null, 2))}</textarea></label><label>风险区<textarea name="riskZones" rows="5">${escapeHtml(JSON.stringify(profile.riskZones, null, 2))}</textarea></label></section><section class="side-card"><h2>校验结果</h2><div class="validation-grid">${renderChecks(workbench.checks)}</div></section></aside></section><section class="jumbotron-kpis" aria-label="底部预览栏"><span class="jumbotron-chip"><span>进度滑杆</span><strong data-scrubber-value>${workbench.settings.previewProgress}%</strong></span><label>进度滑杆<input data-scrubber-range type="range" name="previewProgress" min="0" max="100" step="1" value="${escapeHtml(workbench.settings.previewProgress)}"></label><span class="jumbotron-chip" data-scrubber-range-hint><span>范围</span><strong>0% 到 100%</strong></span><label>马匹数量<input name="horseCount" value="${escapeHtml(workbench.settings.horseCount)}"></label><label>速度<input name="previewSpeed" value="${escapeHtml(workbench.settings.previewSpeed)}"></label><label>播放状态<select name="playMode"><option value="paused"${workbench.settings.playMode === 'paused' ? ' selected' : ''}>暂停</option><option value="play"${workbench.settings.playMode === 'play' ? ' selected' : ''}>播放</option></select></label><label>场景预设<select name="scenarioPreset"><option value="clustered"${workbench.settings.scenarioPreset === 'clustered' ? ' selected' : ''}>clustered</option><option value="spread"${workbench.settings.scenarioPreset === 'spread' ? ' selected' : ''}>spread</option><option value="finish"${workbench.settings.scenarioPreset === 'finish' ? ' selected' : ''}>finish</option></select></label><button class="button" type="submit">校验、预览或导出</button><a class="button secondary" href="/jumbotron">返回 赛事大屏</a></section></form><script>
 (() => {
   const syncCalibratorInspectorHeight = () => {
     const layout = document.querySelector('.calibrator-layout');
@@ -3818,6 +4744,13 @@ function renderTrackCalibrator(session, body = {}, options = {}) {
   const polyline = svg.querySelector('[data-centerline-polyline]');
   const closingSegment = svg.querySelector('[data-closing-segment]');
   const traceGuide = svg.querySelector('[data-trace-guide]');
+  const scrubber = svg.querySelector('[data-scrubber-preview]');
+  const scrubberLabel = svg.querySelector('[data-scrubber-label]');
+  const scrubberValue = document.querySelector('[data-scrubber-value]');
+  const multiHorseLayer = svg.querySelector('[data-multi-horse-preview-layer]');
+  const riderSpriteHref = '/assets/jumbotron/rider3_run.gif';
+  const riderSpriteWidth = ${JUMBOTRON_RIDER_SPRITE_SIZE.width};
+  const riderSpriteHeight = ${JUMBOTRON_RIDER_SPRITE_SIZE.height};
   const controlsLayer = svg.querySelector('[data-control-points-layer]');
   const checkpointsLayer = svg.querySelector('[data-checkpoints-layer]');
   const tableBody = document.querySelector('[data-control-points-table]');
@@ -3839,6 +4772,7 @@ function renderTrackCalibrator(session, body = {}, options = {}) {
   let traceChanged = false;
   let traceSnapshot = null;
   let traceLastPoint = null;
+  let traceClearNext = false;
   let suppressNextClick = false;
 
   const samePoint = (a, b) => Boolean(a && b && Math.abs(a.x - b.x) < 0.01 && Math.abs(a.y - b.y) < 0.01);
@@ -3933,8 +4867,8 @@ function renderTrackCalibrator(session, body = {}, options = {}) {
   };
   const pointAtS = (s) => {
     const path = editablePath();
-    if (!path.length) return { x: 0, y: 0 };
-    if (path.length === 1) return path[0];
+    if (!path.length) return { x: 0, y: 0, normal: { x: 0, y: -1 }, rotation: 0 };
+    if (path.length === 1) return { ...path[0], normal: { x: 0, y: -1 }, rotation: 0 };
     const total = totalPathLength();
     let target = Math.max(0, Math.min(1, Number(s) || 0)) * total;
     for (let index = 1; index < path.length; index += 1) {
@@ -3943,11 +4877,17 @@ function renderTrackCalibrator(session, body = {}, options = {}) {
       const length = distance(start, end);
       if (target <= length || index === path.length - 1) {
         const ratio = length ? target / length : 0;
-        return { x: start.x + (end.x - start.x) * ratio, y: start.y + (end.y - start.y) * ratio };
+        const tangent = length ? { x: (end.x - start.x) / length, y: (end.y - start.y) / length } : { x: 1, y: 0 };
+        return {
+          x: start.x + (end.x - start.x) * ratio,
+          y: start.y + (end.y - start.y) * ratio,
+          normal: { x: -tangent.y, y: tangent.x },
+          rotation: Math.atan2(tangent.y, tangent.x) * 180 / Math.PI
+        };
       }
       target -= length;
     }
-    return path[path.length - 1];
+    return { ...path[path.length - 1], normal: { x: 0, y: -1 }, rotation: 0 };
   };
   const nearestS = (point) => {
     const path = editablePath();
@@ -3986,6 +4926,78 @@ function renderTrackCalibrator(session, body = {}, options = {}) {
     if (checkpoints[index].checkpointId === 'cp-start') setStartFinishS(value);
     else if (checkpointsTextarea) checkpointsTextarea.value = JSON.stringify(checkpoints, null, 2);
   };
+  const progressToTrackS = (progress) => {
+    const start = Number(form.elements.startS?.value || 0);
+    const finish = Number(form.elements.finishS?.value || 1);
+    const span = finish >= start ? finish - start : 1 - start + finish;
+    return (start + Math.max(0, Math.min(1, Number(progress) || 0)) * span) % 1;
+  };
+  const riderFacingScale = (rotation) => Math.cos((Number(rotation) || 0) * Math.PI / 180) >= 0 ? 'scale(1 1)' : 'scale(-1 1)';
+  const readLanes = () => safeJson(form.elements.lanes?.value, []).map((lane, index) => ({ laneId: String(lane.laneId || 'lane-' + index).replace(/[<>&"]/g, ''), offset: Number(lane.offset) || 0 }));
+  const previewPoseAtProgress = (progress, laneOffset = 0) => {
+    const point = pointAtS(progressToTrackS(progress / 100));
+    return { x: point.x + (point.normal?.x || 0) * laneOffset, y: point.y + (point.normal?.y || 0) * laneOffset, rotation: point.rotation || 0 };
+  };
+  const riderSpriteHrefForState = (state) => ['running', 'sprinting'].includes(state) ? '/assets/jumbotron/rider3_run.gif' : ['blocked', 'takeover', 'pit_stop'].includes(state) ? '/assets/jumbotron/rider3_walk.gif' : '/assets/jumbotron/rider3_stay.gif';
+  const tintPalette = ${JSON.stringify(JUMBOTRON_RIDER_TINT_PALETTE.map((item) => item.name))};
+  const hashString = (value) => Array.from(String(value || '')).reduce((hash, char) => ((hash * 31) + char.charCodeAt(0)) >>> 0, 0);
+  const tintIndexForEntry = (entry) => Number.isFinite(Number(entry.rank)) && Number(entry.rank) > 0 ? (Math.round(Number(entry.rank)) - 1) % tintPalette.length : hashString(entry.entryId || entry.displayName) % tintPalette.length;
+  const providerGroupForEntry = (entry) => {
+    const value = String(entry.primaryCA || entry.caProvider || '').toLowerCase();
+    if (value.includes('claude')) return 'claude';
+    if (value.includes('codex')) return 'codex';
+    return 'other';
+  };
+  const perspectiveScaleForPose = (pose) => viewBox.width === 1672 && viewBox.height === 941 ? Math.round((0.6 + Math.max(0, Math.min(1, (Number(pose.y) - viewBox.y) / viewBox.height)) * 0.5) * 1000) / 1000 : 1;
+  const renderPreviewHorseSprite = (entry, pose, label) => {
+    const href = riderSpriteHrefForState(entry.motionState);
+    const facing = Math.cos((Number(pose.rotation) || 0) * Math.PI / 180) >= 0 ? 'right' : 'left';
+    const tintIndex = tintIndexForEntry(entry);
+    const tintName = tintPalette[tintIndex] || 'violet';
+    const providerGroup = providerGroupForEntry(entry);
+    const stableNumber = Number.isFinite(Number(entry.rank)) && Number(entry.rank) > 0 ? String(Math.round(Number(entry.rank))).padStart(2, '0') : String((Number(entry.index) || 0) + 1).padStart(2, '0');
+    const spriteAttrs = 'href="' + href + '" x="-75.6" y="-78.4" width="' + riderSpriteWidth + '" height="' + riderSpriteHeight + '" preserveAspectRatio="xMidYMid meet"';
+    const sprite = '<image class="horse-rider-sprite" ' + spriteAttrs + '/><image class="horse-rider-group-mask horse-rider-alpha-tint horse-rider-tint-' + tintIndex + '" data-entry-id="' + entry.entryId + '" data-entry-stable-number="' + stableNumber + '" data-entry-color-key="' + entry.entryId + '" data-entry-color-index="' + tintIndex + '" data-entry-tint="' + tintName + '" data-entry-provider-group="' + providerGroup + '" data-mask-mode="source-alpha" ' + spriteAttrs + ' filter="url(#horse-rider-tint-' + tintIndex + ')" style="pointer-events:none"/>';
+    const scale = perspectiveScaleForPose(pose);
+    const scaledSprite = scale === 1 ? sprite : '<g class="horse-rider-perspective-scale" data-perspective-track="real-explicit-closed-course" data-perspective-scale="' + scale + '" data-perspective-y="' + Number(pose.y).toFixed(1) + '" data-perspective-min-scale="0.6" data-perspective-max-scale="1.1" data-base-sprite-width="' + riderSpriteWidth + '" data-base-sprite-height="' + riderSpriteHeight + '" transform="scale(' + scale + ')">' + sprite + '</g>';
+    return '<g class="horse calibrator-preview-horse" data-multi-horse-preview data-entry-id="' + entry.entryId + '" data-motion-state="' + entry.motionState + '" data-round-progress="' + entry.roundProgress + '" data-lane-id="' + entry.laneId + '" transform="translate(' + pose.x + ' ' + pose.y + ')"><g class="horse-rider-facing" data-facing="' + facing + '" transform="' + riderFacingScale(pose.rotation) + '">' + scaledSprite + '</g><text class="debug-label" x="28" y="8">' + label + '</text></g>';
+  };
+  const updateScrubberPreview = () => {
+    if (!scrubber) return;
+    const range = form.elements.previewProgress;
+    const progress = Math.round(Math.max(0, Math.min(100, Number(range?.value || 0))));
+    const motionState = progress >= 100 ? 'finished' : 'running';
+    if (range) range.value = String(progress);
+    const pose = previewPoseAtProgress(progress, 0);
+    scrubber.setAttribute('transform', 'translate(' + pose.x + ' ' + pose.y + ')');
+    scrubber.setAttribute('data-round-progress', String(progress));
+    scrubber.setAttribute('data-motion-state', motionState);
+    const facing = scrubber.querySelector('.horse-rider-facing');
+    if (facing) {
+      facing.setAttribute('transform', riderFacingScale(pose.rotation));
+      facing.setAttribute('data-facing', Math.cos((Number(pose.rotation) || 0) * Math.PI / 180) >= 0 ? 'right' : 'left');
+    }
+    scrubber.querySelectorAll('.horse-rider-sprite,.horse-rider-group-mask').forEach((image) => image.setAttribute('href', riderSpriteHrefForState(motionState)));
+    if (scrubberLabel) scrubberLabel.textContent = 'Scrubber ' + progress + '%';
+    if (scrubberValue) scrubberValue.textContent = progress + '%';
+  };
+  const renderMultiHorsePreview = () => {
+    if (!multiHorseLayer) return;
+    const lanes = readLanes();
+    const count = Math.max(1, Math.min(12, Math.round(Number(form.elements.horseCount?.value || 8))));
+    if (form.elements.horseCount) form.elements.horseCount.value = String(count);
+    const scenario = String(form.elements.scenarioPreset?.value || 'clustered');
+    const startByScenario = { spread: 18, clustered: 46, finish: 72 };
+    const stepByScenario = { spread: 9, clustered: 2, finish: 3 };
+    const start = startByScenario[scenario] ?? 44;
+    const step = stepByScenario[scenario] ?? 4;
+    multiHorseLayer.innerHTML = Array.from({ length: count }, (_, index) => {
+      const lane = lanes[index % Math.max(1, lanes.length)] || { laneId: 'lane-' + index, offset: 0 };
+      const progress = Math.min(100, start + index * step);
+      const entry = { entryId: 'multi-' + index, displayName: 'Horse ' + (index + 1), rank: index + 1, index, motionState: progress >= 100 ? 'finished' : 'running', roundProgress: progress, laneId: lane.laneId };
+      return renderPreviewHorseSprite(entry, previewPoseAtProgress(progress, lane.offset), '#' + (index + 1));
+    }).join('');
+  };
   const renderCheckpoints = () => {
     if (!checkpointsLayer) return;
     const startPoint = pointAtS(form.elements.startS?.value || 0);
@@ -4023,6 +5035,8 @@ function renderTrackCalibrator(session, body = {}, options = {}) {
     renderControls();
     renderTable();
     renderCheckpoints();
+    updateScrubberPreview();
+    renderMultiHorsePreview();
     if (currentMode() === 'keypoints' && checkpointsLayer) svg.appendChild(checkpointsLayer);
     updateHistoryButtons();
     updateStatus(message || (currentMode() === 'keypoints' ? '关键点安全模式：只能移动起终点和检查点，不修改中心线几何。' : '画布操作已开启：中心线可点击和拖拽；描线模式下按住鼠标沿底图采样；支持撤销和重做。'));
@@ -4065,6 +5079,82 @@ function renderTrackCalibrator(session, body = {}, options = {}) {
     selectedIndex = points.length - 1;
     traceLastPoint = formatPoint(point);
     return true;
+  };
+  const perpendicularDistance = (point, start, end) => {
+    const dx = end.x - start.x;
+    const dy = end.y - start.y;
+    const lengthSquared = dx * dx + dy * dy;
+    if (!lengthSquared) return distance(point, start);
+    const ratio = Math.max(0, Math.min(1, ((point.x - start.x) * dx + (point.y - start.y) * dy) / lengthSquared));
+    return distance(point, { x: start.x + dx * ratio, y: start.y + dy * ratio });
+  };
+  const rdpReduce = (source, tolerance) => {
+    if (source.length <= 2) return source;
+    let maxDistance = -1;
+    let splitIndex = 0;
+    const start = source[0];
+    const end = source[source.length - 1];
+    for (let index = 1; index < source.length - 1; index += 1) {
+      const candidateDistance = perpendicularDistance(source[index], start, end);
+      if (candidateDistance > maxDistance) { maxDistance = candidateDistance; splitIndex = index; }
+    }
+    if (maxDistance <= tolerance) return [start, end];
+    return [...rdpReduce(source.slice(0, splitIndex + 1), tolerance).slice(0, -1), ...rdpReduce(source.slice(splitIndex), tolerance)];
+  };
+  const resamplePath = (source, targetCount) => {
+    if (source.length <= 2 || targetCount >= source.length) return source;
+    const lengths = source.slice(1).map((point, index) => distance(source[index], point));
+    const total = lengths.reduce((sum, value) => sum + value, 0);
+    if (!total) return source;
+    const result = [source[0]];
+    let segmentIndex = 0;
+    let before = 0;
+    for (let index = 1; index < targetCount - 1; index += 1) {
+      const target = total * index / (targetCount - 1);
+      while (segmentIndex < lengths.length - 1 && before + lengths[segmentIndex] < target) {
+        before += lengths[segmentIndex];
+        segmentIndex += 1;
+      }
+      const start = source[segmentIndex];
+      const end = source[segmentIndex + 1];
+      const length = lengths[segmentIndex] || 1;
+      const ratio = Math.max(0, Math.min(1, (target - before) / length));
+      result.push({ x: start.x + (end.x - start.x) * ratio, y: start.y + (end.y - start.y) * ratio });
+    }
+    result.push(source[source.length - 1]);
+    return result;
+  };
+  const smoothPath = (source, passes = 1) => {
+    let result = source.map((point) => ({ ...point }));
+    for (let pass = 0; pass < passes; pass += 1) {
+      result = result.map((point, index) => {
+        if (index === 0 || index === result.length - 1) return point;
+        const prev = result[index - 1];
+        const next = result[index + 1];
+        return { x: point.x * 0.5 + (prev.x + next.x) * 0.25, y: point.y * 0.5 + (prev.y + next.y) * 0.25 };
+      });
+    }
+    return result;
+  };
+  const replaceEditablePath = (nextPath) => {
+    const formatted = nextPath.map(formatPoint);
+    if (isClosed() && formatted.length > 1 && !samePoint(formatted[0], formatted[formatted.length - 1])) formatted.push({ ...formatted[0] });
+    if (!isClosed() && formatted.length > 2 && samePoint(formatted[0], formatted[formatted.length - 1])) formatted.pop();
+    points = formatted;
+    selectedIndex = -1;
+    traceLastPoint = null;
+  };
+  const reduceTracePoints = () => {
+    const path = editablePath();
+    if (path.length < 4) return updateStatus('点数太少，无需减少。');
+    const before = path.length;
+    remember();
+    const tolerance = Math.max(6, Number(traceMinDistance?.value || 16) * 0.75);
+    let reduced = rdpReduce(path, tolerance);
+    const targetMax = Math.max(8, Math.ceil(before * 0.55));
+    if (reduced.length > targetMax) reduced = resamplePath(reduced, targetMax);
+    replaceEditablePath(reduced);
+    redraw('已减少描线点数：' + before + ' → ' + editablePath().length + '，保留主要弯道。');
   };
   const addCheckpointAt = (point) => {
     remember();
@@ -4129,7 +5219,9 @@ function renderTrackCalibrator(session, body = {}, options = {}) {
   svg.addEventListener('pointerdown', (event) => {
     if (event.target.closest('[data-control-point]') || event.target.closest('[data-keypoint-handle]')) return;
     if (currentMode() !== 'trace' && !event.altKey) return;
-    beginTrace(event, Boolean(event.altKey));
+    const clearExisting = Boolean(event.altKey || traceClearNext);
+    traceClearNext = false;
+    beginTrace(event, clearExisting);
   });
   svg.addEventListener('pointermove', (event) => {
     if (traceActive) {
@@ -4189,17 +5281,34 @@ function renderTrackCalibrator(session, body = {}, options = {}) {
     if (event.shiftKey) addCheckpointAt(point);
     else addPoint(point);
   });
-  document.getElementById('calibrator-close-trace')?.addEventListener('click', () => {
+  const closeTracePath = () => {
     if (points.length <= 1 || hasClosingDuplicate()) return;
     remember();
     points.push({ ...points[0] });
     if (closedSelect) closedSelect.value = 'true';
     redraw('已闭合描线路径；可撤销。');
-  });
-  document.getElementById('calibrator-copy-trace-json')?.addEventListener('click', async () => {
+  };
+  const copyTraceJson = async () => {
     try { await navigator.clipboard?.writeText(traceOutput?.value || textarea.value); updateStatus('已复制描线点集 JSON。'); }
     catch { updateStatus('浏览器未允许复制，请直接选中描线 JSON。'); }
+  };
+  document.querySelectorAll('[data-set-calibrator-mode]').forEach((button) => button.addEventListener('click', () => {
+    const mode = button.getAttribute('data-set-calibrator-mode') || 'trace';
+    const input = Array.from(form.elements.calibratorMode || []).find((item) => item.value === mode);
+    if (input) input.checked = true;
+    redraw(mode === 'trace' ? '已进入沿底图描线模式：按住鼠标沿底图道路拖动即可采样。' : '已切换编辑模式。');
+  }));
+  document.querySelector('[data-trace-clear-next]')?.addEventListener('click', () => {
+    const input = Array.from(form.elements.calibratorMode || []).find((item) => item.value === 'trace');
+    if (input) input.checked = true;
+    traceClearNext = true;
+    redraw('下一次按住画布描线会先清空当前中心线。');
   });
+  document.querySelectorAll('[data-trace-reduce]').forEach((button) => button.addEventListener('click', reduceTracePoints));
+  document.querySelector('[data-trace-close]')?.addEventListener('click', closeTracePath);
+  document.querySelector('[data-trace-copy]')?.addEventListener('click', copyTraceJson);
+  document.getElementById('calibrator-close-trace')?.addEventListener('click', closeTracePath);
+  document.getElementById('calibrator-copy-trace-json')?.addEventListener('click', copyTraceJson);
   undoButton?.addEventListener('click', undo);
   redoButton?.addEventListener('click', redo);
   document.addEventListener('keydown', (event) => {
@@ -4228,6 +5337,12 @@ function renderTrackCalibrator(session, body = {}, options = {}) {
     redraw('中心线 JSON 已应用到画布；可撤销。');
   });
   form.elements.calibratorMode?.forEach?.((input) => input.addEventListener('change', () => redraw(currentMode() === 'keypoints' ? '关键点安全模式：只能移动起终点和检查点，不修改中心线几何。' : '已切换编辑模式。')));
+  form.elements.previewProgress?.addEventListener('input', () => { updateScrubberPreview(); });
+  form.elements.horseCount?.addEventListener('input', renderMultiHorsePreview);
+  form.elements.scenarioPreset?.addEventListener('input', renderMultiHorsePreview);
+  form.elements.lanes?.addEventListener('input', renderMultiHorsePreview);
+  form.elements.startS?.addEventListener('input', () => { updateScrubberPreview(); renderMultiHorsePreview(); });
+  form.elements.finishS?.addEventListener('input', () => { updateScrubberPreview(); renderMultiHorsePreview(); });
   redraw();
 })();
 </script>${demoMode ? renderCalibratorDemoGuide() : ''}<section class="jumbotron-validation" id="calibrator-debug-preview"><div class="eyebrow">P1 调试预览</div><h2>导出调试预览 PNG</h2><p class="muted">调试预览证据用于核对 HTML/SVG 预览、区域叠层和 debug-preview.png 导出状态。</p><div class="cta-row"><a class="button secondary" href="/jumbotron/debug-preview.png">导出调试预览 PNG</a><span class="jumbotron-chip"><span>debug-preview.png</span><strong>已完成</strong></span></div></section>${renderCalibratorDemoGuide()}<section class="jumbotron-validation" data-drag-proof><div class="eyebrow">拖拽状态变化证据</div><h2>zone 坐标变化证据</h2><p class="muted" data-drag-proof-current>before/current/delta 会在拖拽时更新；lastDragProof = buildDragProof('dragging')；lastDragProof = buildDragProof('completed')；dragProof.layer.innerHTML。</p><svg class="calibrator-preview-svg" viewBox="0 0 1200 160" role="img" aria-label="拖拽证明图层"><g data-drag-proof-layer></g></svg></section><section class="jumbotron-validation"><div class="eyebrow">校准证明</div><h2>校准证明</h2><p class="muted">预览复用大屏运行时；进入大屏。</p><div class="cta-row"><a class="button secondary" href="/jumbotron/calibrator?demo=1">打开演示模式</a><a class="button secondary" href="/jumbotron">进入大屏</a></div></section><section class="jumbotron-validation"><div class="eyebrow">JSON 差异预览</div><h2>导入配置到导出候选的差异</h2><p class="muted">只比较 Calibrator 会写入 track.profile.json 的关键字段，用于审阅导入值和冻结候选之间发生了什么变化。</p><table><thead><tr><th>字段</th><th>导入配置</th><th>导出候选</th><th>状态</th></tr></thead><tbody>${renderJsonDiffRows}</tbody></table></section><section class="jumbotron-validation"><div class="eyebrow">Calibrator P1 待办边界</div><h2>P1 功能边界</h2><div class="validation-grid">${workbench.p1Backlog.map(([title, status, note]) => `<article><strong>${escapeHtml(title)} · ${escapeHtml(status)}</strong><p class="muted">${escapeHtml(note)}</p></article>`).join('')}</div></section></section>`;
@@ -4237,7 +5352,7 @@ function renderTrackCalibrator(session, body = {}, options = {}) {
 
 function renderSecondTrackKeypointEditor(session, candidateId = 'real-explicit-closed-course') {
   const candidate = readActiveSecondTrackCandidate();
-  const profile = candidate?.available ? normalizeExternalTrackCandidate(candidate.profile, candidate) : normalizeTrackProfile(jumbotronTrackProfiles[0]);
+  const profile = candidate?.available ? normalizeExternalTrackCandidate(candidate.profile, candidate) : normalizeTrackProfile(calibratorDefaultTrackProfile());
   const rawProfile = candidate?.profile || profile;
   const viewBox = profile.viewBox || { x: 0, y: 0, width: 1672, height: 941 };
   const backgroundSrc = profile.background?.src || candidateAssetRoute(profile.trackId || candidateId, 'background.webp');
@@ -4594,19 +5709,15 @@ async function apiJumbotronReplay(res, profileParam = '', trackParam = '', frame
   if (!profileResolution.ok) return jsonResponse(res, 400, { error: 'invalid_jumbotron_data_profile', requestedProfile: profileResolution.requestedProfile, allowedProfiles: profileResolution.allowedProfiles });
   const trackSelection = resolveJumbotronTrackSelection(trackParam);
   if (!trackSelection.ok) return jsonResponse(res, 409, { error: 'candidate_track_not_confirmed', requestedTrack: trackSelection.requestedTrack, candidateBlocked: Boolean(trackSelection.candidateBlocked) });
-  const [disclosures, leaderboard, teams, records, service] = await Promise.all([
-    readDisclosures(),
-    readJson(leaderboardPath),
-    readJson(teamsPath),
-    readJson(recordsPath),
-    readEvaluatorService()
-  ]);
-  const model = buildJumbotronModel(disclosures, leaderboard, teams, records, service, { profileResolution, trackSelection });
-  const timeline = model.replayTimeline;
-  if (!timeline?.frames?.length) return jsonResponse(res, 404, { error: 'jumbotron_replay_timeline_missing' });
-  const requested = Number(frameParam);
-  const playbackIndex = Number.isFinite(requested) ? Math.max(0, Math.min(timeline.frames.length - 1, Math.floor(requested))) : 0;
-  const frameModel = timeline.frames[playbackIndex];
+  const curated = readCuratedJumbotronMockData(profileResolution);
+  if (!curated) return jsonResponse(res, 404, { error: 'jumbotron_data_profile_missing', requestedProfile: profileResolution.requestedProfile, dataProfileId: profileResolution.dataProfileId });
+  const builtInTrack = trackSelection.mode === 'builtin' ? jumbotronTrackProfiles.find((profile) => profile.trackId === trackSelection.builtInTrackId) : null;
+  const candidate = trackSelection.mode === 'candidate' ? readActiveSecondTrackCandidate() : null;
+  const candidateTrack = candidate?.available ? normalizeExternalTrackCandidate(candidate.profile, candidate) : null;
+  const trackProfile = candidateTrack || normalizeTrackProfile(builtInTrack || curated.trackProfile || jumbotronTrackProfiles[0]);
+  const replayFrame = buildJumbotronReplayFrameAt(curated.raceSnapshot, trackProfile, frameParam);
+  if (!replayFrame) return jsonResponse(res, 404, { error: 'jumbotron_replay_timeline_missing' });
+  const { timeline, playbackIndex, frameModel } = replayFrame;
   const events = (frameModel.frame.events || []).map((event) => {
     const entry = frameModel.adapted.racingEntries.find((item) => item.entryId === event.entryId);
     return {
@@ -4620,11 +5731,13 @@ async function apiJumbotronReplay(res, profileParam = '', trackParam = '', frame
   return jsonResponse(res, 200, {
     frameIndex: playbackIndex,
     playbackIndex,
-    trackId: model.trackSelection.trackId,
-    frameCount: timeline.frames.length,
-    playbackFrameCount: timeline.playbackFrameCount || timeline.frames.length,
-    keyFrameCount: timeline.keyFrameCount || timeline.rawFrameCount || timeline.frames.length,
+    trackId: trackSelection.trackId,
+    frameCount: timeline.playbackFrameCount || timeline.frameCount || 0,
+    playbackFrameCount: timeline.playbackFrameCount || timeline.frameCount || 0,
+    keyFrameCount: timeline.keyFrameCount || timeline.rawFrameCount || 0,
     interpolationSteps: timeline.interpolationSteps || 0,
+    segmentSteps: timeline.segmentSteps || [],
+    keyFramePlaybackIndexes: timeline.keyFramePlaybackIndexes || [],
     eventHoldFrames: JUMBOTRON_REPLAY_EVENT_HOLD_FRAMES,
     finalHoldFrames: JUMBOTRON_REPLAY_FINAL_HOLD_FRAMES,
     frameDelayMs: JUMBOTRON_REPLAY_FRAME_DELAY_MS,
@@ -4641,6 +5754,7 @@ async function apiJumbotronReplay(res, profileParam = '', trackParam = '', frame
     top3: frameModel.top3Labels,
     avgRoundProgress: jumbotronTimelineProgress(frameModel.frame.avgRoundProgress),
     events,
+    miniMapHtml: renderJumbotronMiniMap(frameModel.trackProfile, frameModel.horsePoses, { mode: 'replay', frameIndex: playbackIndex }),
     frameHtml: renderJumbotronReplayMainTrackFrame(frameModel),
     panelFrameHtml: renderJumbotronReplayFrame(frameModel)
   });

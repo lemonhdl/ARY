@@ -1,0 +1,624 @@
+{
+  "name": "ice-blue-bubble-border-kit",
+  "generatedAt": "2026-06-14",
+  "source": {
+    "file": "source.png",
+    "originalPath": "Week2-Jumbotron/assets/generated/bubble-border-kit/bubble-border-kit.png",
+    "size": {
+      "width": 1254,
+      "height": 1254
+    },
+    "mode": "RGB"
+  },
+  "runtimeBaseUrl": "/assets/jumbotron/bubble-border-kit/",
+  "style": "ice-blue futuristic glassmorphism border kit for ARY Jumbotron",
+  "sets": {
+    "event": {
+      "borderImage": "event-border.png",
+      "borderImageSlice": {
+        "top": 150,
+        "right": 240,
+        "bottom": 150,
+        "left": 240,
+        "fill": true
+      },
+      "intendedSurface": "赛道氛围事件气泡"
+    },
+    "submenu": {
+      "borderImage": "submenu-border.png",
+      "borderImageSlice": {
+        "top": 92,
+        "right": 170,
+        "bottom": 92,
+        "left": 170,
+        "fill": true
+      },
+      "intendedSurface": "队伍 hover 二级菜单"
+    }
+  },
+  "assets": [
+    {
+      "id": "source-sheet",
+      "file": "source.png",
+      "url": "/assets/jumbotron/bubble-border-kit/source.png",
+      "role": "original-generated-sheet",
+      "outputSize": {
+        "width": 1254,
+        "height": 1254
+      },
+      "alphaPolicy": "original-rgb-source-no-alpha",
+      "recommendedUse": "Only use as provenance or for re-slicing; runtime overlays should prefer the generated-alpha slice assets."
+    },
+    {
+      "id": "event-border",
+      "file": "event-border.png",
+      "url": "/assets/jumbotron/bubble-border-kit/event-border.png",
+      "role": "event-bubble-border-image-source",
+      "outputSize": {
+        "width": 1130,
+        "height": 542
+      },
+      "alphaPolicy": "generated-alpha-from-rgb-luminance-and-cyan-edge-mask",
+      "recommendedUse": "Use as a CSS border-image source for adaptive panels.",
+      "sourceRect": {
+        "x": 62,
+        "y": 24,
+        "width": 1130,
+        "height": 542
+      },
+      "borderImageSlice": {
+        "top": 150,
+        "right": 240,
+        "bottom": 150,
+        "left": 240,
+        "fill": true
+      }
+    },
+    {
+      "id": "event-corner-tl",
+      "file": "event-corner-tl.png",
+      "url": "/assets/jumbotron/bubble-border-kit/event-corner-tl.png",
+      "role": "event-bubble-9slice-corner-tl",
+      "outputSize": {
+        "width": 240,
+        "height": 150
+      },
+      "alphaPolicy": "generated-alpha-from-rgb-luminance-and-cyan-edge-mask",
+      "recommendedUse": "Use in 9-slice event-bubble composition.",
+      "sourceRect": {
+        "x": 62,
+        "y": 24,
+        "width": 240,
+        "height": 150
+      }
+    },
+    {
+      "id": "event-edge-top",
+      "file": "event-edge-top.png",
+      "url": "/assets/jumbotron/bubble-border-kit/event-edge-top.png",
+      "role": "event-bubble-9slice-edge-top",
+      "outputSize": {
+        "width": 650,
+        "height": 150
+      },
+      "alphaPolicy": "generated-alpha-from-rgb-luminance-and-cyan-edge-mask",
+      "recommendedUse": "Use in 9-slice event-bubble composition.",
+      "sourceRect": {
+        "x": 302,
+        "y": 24,
+        "width": 650,
+        "height": 150
+      },
+      "cssRepeat": "repeat-x"
+    },
+    {
+      "id": "event-corner-tr",
+      "file": "event-corner-tr.png",
+      "url": "/assets/jumbotron/bubble-border-kit/event-corner-tr.png",
+      "role": "event-bubble-9slice-corner-tr",
+      "outputSize": {
+        "width": 240,
+        "height": 150
+      },
+      "alphaPolicy": "generated-alpha-from-rgb-luminance-and-cyan-edge-mask",
+      "recommendedUse": "Use in 9-slice event-bubble composition.",
+      "sourceRect": {
+        "x": 952,
+        "y": 24,
+        "width": 240,
+        "height": 150
+      }
+    },
+    {
+      "id": "event-edge-left",
+      "file": "event-edge-left.png",
+      "url": "/assets/jumbotron/bubble-border-kit/event-edge-left.png",
+      "role": "event-bubble-9slice-edge-left",
+      "outputSize": {
+        "width": 240,
+        "height": 242
+      },
+      "alphaPolicy": "generated-alpha-from-rgb-luminance-and-cyan-edge-mask",
+      "recommendedUse": "Use in 9-slice event-bubble composition.",
+      "sourceRect": {
+        "x": 62,
+        "y": 174,
+        "width": 240,
+        "height": 242
+      },
+      "cssRepeat": "repeat-y"
+    },
+    {
+      "id": "event-center",
+      "file": "event-center.png",
+      "url": "/assets/jumbotron/bubble-border-kit/event-center.png",
+      "role": "event-bubble-9slice-center",
+      "outputSize": {
+        "width": 650,
+        "height": 242
+      },
+      "alphaPolicy": "generated-alpha-from-rgb-luminance-and-cyan-edge-mask",
+      "recommendedUse": "Use in 9-slice event-bubble composition.",
+      "sourceRect": {
+        "x": 302,
+        "y": 174,
+        "width": 650,
+        "height": 242
+      }
+    },
+    {
+      "id": "event-edge-right",
+      "file": "event-edge-right.png",
+      "url": "/assets/jumbotron/bubble-border-kit/event-edge-right.png",
+      "role": "event-bubble-9slice-edge-right",
+      "outputSize": {
+        "width": 240,
+        "height": 242
+      },
+      "alphaPolicy": "generated-alpha-from-rgb-luminance-and-cyan-edge-mask",
+      "recommendedUse": "Use in 9-slice event-bubble composition.",
+      "sourceRect": {
+        "x": 952,
+        "y": 174,
+        "width": 240,
+        "height": 242
+      },
+      "cssRepeat": "repeat-y"
+    },
+    {
+      "id": "event-corner-bl",
+      "file": "event-corner-bl.png",
+      "url": "/assets/jumbotron/bubble-border-kit/event-corner-bl.png",
+      "role": "event-bubble-9slice-corner-bl",
+      "outputSize": {
+        "width": 240,
+        "height": 150
+      },
+      "alphaPolicy": "generated-alpha-from-rgb-luminance-and-cyan-edge-mask",
+      "recommendedUse": "Use in 9-slice event-bubble composition.",
+      "sourceRect": {
+        "x": 62,
+        "y": 416,
+        "width": 240,
+        "height": 150
+      }
+    },
+    {
+      "id": "event-edge-bottom",
+      "file": "event-edge-bottom.png",
+      "url": "/assets/jumbotron/bubble-border-kit/event-edge-bottom.png",
+      "role": "event-bubble-9slice-edge-bottom",
+      "outputSize": {
+        "width": 650,
+        "height": 150
+      },
+      "alphaPolicy": "generated-alpha-from-rgb-luminance-and-cyan-edge-mask",
+      "recommendedUse": "Use in 9-slice event-bubble composition.",
+      "sourceRect": {
+        "x": 302,
+        "y": 416,
+        "width": 650,
+        "height": 150
+      },
+      "cssRepeat": "repeat-x"
+    },
+    {
+      "id": "event-corner-br",
+      "file": "event-corner-br.png",
+      "url": "/assets/jumbotron/bubble-border-kit/event-corner-br.png",
+      "role": "event-bubble-9slice-corner-br",
+      "outputSize": {
+        "width": 240,
+        "height": 150
+      },
+      "alphaPolicy": "generated-alpha-from-rgb-luminance-and-cyan-edge-mask",
+      "recommendedUse": "Use in 9-slice event-bubble composition.",
+      "sourceRect": {
+        "x": 952,
+        "y": 416,
+        "width": 240,
+        "height": 150
+      }
+    },
+    {
+      "id": "submenu-border",
+      "file": "submenu-border.png",
+      "url": "/assets/jumbotron/bubble-border-kit/submenu-border.png",
+      "role": "hover-submenu-border-image-source",
+      "outputSize": {
+        "width": 1010,
+        "height": 334
+      },
+      "alphaPolicy": "generated-alpha-from-rgb-luminance-and-cyan-edge-mask",
+      "recommendedUse": "Use as a CSS border-image source for adaptive panels.",
+      "sourceRect": {
+        "x": 122,
+        "y": 596,
+        "width": 1010,
+        "height": 334
+      },
+      "borderImageSlice": {
+        "top": 92,
+        "right": 170,
+        "bottom": 92,
+        "left": 170,
+        "fill": true
+      }
+    },
+    {
+      "id": "submenu-corner-tl",
+      "file": "submenu-corner-tl.png",
+      "url": "/assets/jumbotron/bubble-border-kit/submenu-corner-tl.png",
+      "role": "hover-submenu-9slice-corner-tl",
+      "outputSize": {
+        "width": 170,
+        "height": 92
+      },
+      "alphaPolicy": "generated-alpha-from-rgb-luminance-and-cyan-edge-mask",
+      "recommendedUse": "Use in 9-slice hover-submenu composition.",
+      "sourceRect": {
+        "x": 122,
+        "y": 596,
+        "width": 170,
+        "height": 92
+      }
+    },
+    {
+      "id": "submenu-edge-top",
+      "file": "submenu-edge-top.png",
+      "url": "/assets/jumbotron/bubble-border-kit/submenu-edge-top.png",
+      "role": "hover-submenu-9slice-edge-top",
+      "outputSize": {
+        "width": 670,
+        "height": 92
+      },
+      "alphaPolicy": "generated-alpha-from-rgb-luminance-and-cyan-edge-mask",
+      "recommendedUse": "Use in 9-slice hover-submenu composition.",
+      "sourceRect": {
+        "x": 292,
+        "y": 596,
+        "width": 670,
+        "height": 92
+      },
+      "cssRepeat": "repeat-x"
+    },
+    {
+      "id": "submenu-corner-tr",
+      "file": "submenu-corner-tr.png",
+      "url": "/assets/jumbotron/bubble-border-kit/submenu-corner-tr.png",
+      "role": "hover-submenu-9slice-corner-tr",
+      "outputSize": {
+        "width": 170,
+        "height": 92
+      },
+      "alphaPolicy": "generated-alpha-from-rgb-luminance-and-cyan-edge-mask",
+      "recommendedUse": "Use in 9-slice hover-submenu composition.",
+      "sourceRect": {
+        "x": 962,
+        "y": 596,
+        "width": 170,
+        "height": 92
+      }
+    },
+    {
+      "id": "submenu-edge-left",
+      "file": "submenu-edge-left.png",
+      "url": "/assets/jumbotron/bubble-border-kit/submenu-edge-left.png",
+      "role": "hover-submenu-9slice-edge-left",
+      "outputSize": {
+        "width": 170,
+        "height": 150
+      },
+      "alphaPolicy": "generated-alpha-from-rgb-luminance-and-cyan-edge-mask",
+      "recommendedUse": "Use in 9-slice hover-submenu composition.",
+      "sourceRect": {
+        "x": 122,
+        "y": 688,
+        "width": 170,
+        "height": 150
+      },
+      "cssRepeat": "repeat-y"
+    },
+    {
+      "id": "submenu-center",
+      "file": "submenu-center.png",
+      "url": "/assets/jumbotron/bubble-border-kit/submenu-center.png",
+      "role": "hover-submenu-9slice-center",
+      "outputSize": {
+        "width": 670,
+        "height": 150
+      },
+      "alphaPolicy": "generated-alpha-from-rgb-luminance-and-cyan-edge-mask",
+      "recommendedUse": "Use in 9-slice hover-submenu composition.",
+      "sourceRect": {
+        "x": 292,
+        "y": 688,
+        "width": 670,
+        "height": 150
+      }
+    },
+    {
+      "id": "submenu-edge-right",
+      "file": "submenu-edge-right.png",
+      "url": "/assets/jumbotron/bubble-border-kit/submenu-edge-right.png",
+      "role": "hover-submenu-9slice-edge-right",
+      "outputSize": {
+        "width": 170,
+        "height": 150
+      },
+      "alphaPolicy": "generated-alpha-from-rgb-luminance-and-cyan-edge-mask",
+      "recommendedUse": "Use in 9-slice hover-submenu composition.",
+      "sourceRect": {
+        "x": 962,
+        "y": 688,
+        "width": 170,
+        "height": 150
+      },
+      "cssRepeat": "repeat-y"
+    },
+    {
+      "id": "submenu-corner-bl",
+      "file": "submenu-corner-bl.png",
+      "url": "/assets/jumbotron/bubble-border-kit/submenu-corner-bl.png",
+      "role": "hover-submenu-9slice-corner-bl",
+      "outputSize": {
+        "width": 170,
+        "height": 92
+      },
+      "alphaPolicy": "generated-alpha-from-rgb-luminance-and-cyan-edge-mask",
+      "recommendedUse": "Use in 9-slice hover-submenu composition.",
+      "sourceRect": {
+        "x": 122,
+        "y": 838,
+        "width": 170,
+        "height": 92
+      }
+    },
+    {
+      "id": "submenu-edge-bottom",
+      "file": "submenu-edge-bottom.png",
+      "url": "/assets/jumbotron/bubble-border-kit/submenu-edge-bottom.png",
+      "role": "hover-submenu-9slice-edge-bottom",
+      "outputSize": {
+        "width": 670,
+        "height": 92
+      },
+      "alphaPolicy": "generated-alpha-from-rgb-luminance-and-cyan-edge-mask",
+      "recommendedUse": "Use in 9-slice hover-submenu composition.",
+      "sourceRect": {
+        "x": 292,
+        "y": 838,
+        "width": 670,
+        "height": 92
+      },
+      "cssRepeat": "repeat-x"
+    },
+    {
+      "id": "submenu-corner-br",
+      "file": "submenu-corner-br.png",
+      "url": "/assets/jumbotron/bubble-border-kit/submenu-corner-br.png",
+      "role": "hover-submenu-9slice-corner-br",
+      "outputSize": {
+        "width": 170,
+        "height": 92
+      },
+      "alphaPolicy": "generated-alpha-from-rgb-luminance-and-cyan-edge-mask",
+      "recommendedUse": "Use in 9-slice hover-submenu composition.",
+      "sourceRect": {
+        "x": 962,
+        "y": 838,
+        "width": 170,
+        "height": 92
+      }
+    },
+    {
+      "id": "ornament-spark-01",
+      "file": "ornament-spark-01.png",
+      "url": "/assets/jumbotron/bubble-border-kit/ornament-spark-01.png",
+      "role": "repeatable-corner-spark",
+      "outputSize": {
+        "width": 178,
+        "height": 96
+      },
+      "alphaPolicy": "generated-alpha-from-rgb-luminance-and-cyan-edge-mask",
+      "recommendedUse": "Place near event bubble corners or tails as an accent.",
+      "sourceRect": {
+        "x": 42,
+        "y": 956,
+        "width": 178,
+        "height": 96
+      }
+    },
+    {
+      "id": "ornament-circuit-01",
+      "file": "ornament-circuit-01.png",
+      "url": "/assets/jumbotron/bubble-border-kit/ornament-circuit-01.png",
+      "role": "repeatable-circuit-tick",
+      "outputSize": {
+        "width": 168,
+        "height": 94
+      },
+      "alphaPolicy": "generated-alpha-from-rgb-luminance-and-cyan-edge-mask",
+      "recommendedUse": "Repeat along a thin edge as a short electric tick.",
+      "sourceRect": {
+        "x": 224,
+        "y": 956,
+        "width": 168,
+        "height": 94
+      }
+    },
+    {
+      "id": "ornament-chevron-01",
+      "file": "ornament-chevron-01.png",
+      "url": "/assets/jumbotron/bubble-border-kit/ornament-chevron-01.png",
+      "role": "repeatable-micro-chevron",
+      "outputSize": {
+        "width": 188,
+        "height": 96
+      },
+      "alphaPolicy": "generated-alpha-from-rgb-luminance-and-cyan-edge-mask",
+      "recommendedUse": "Use as a subtle directional glyph near moving race events.",
+      "sourceRect": {
+        "x": 416,
+        "y": 950,
+        "width": 188,
+        "height": 96
+      }
+    },
+    {
+      "id": "ornament-separator-01",
+      "file": "ornament-separator-01.png",
+      "url": "/assets/jumbotron/bubble-border-kit/ornament-separator-01.png",
+      "role": "menu-separator-ornament",
+      "outputSize": {
+        "width": 200,
+        "height": 96
+      },
+      "alphaPolicy": "generated-alpha-from-rgb-luminance-and-cyan-edge-mask",
+      "recommendedUse": "Use around hover submenu separators.",
+      "sourceRect": {
+        "x": 636,
+        "y": 950,
+        "width": 200,
+        "height": 96
+      }
+    },
+    {
+      "id": "ornament-crystal-01",
+      "file": "ornament-crystal-01.png",
+      "url": "/assets/jumbotron/bubble-border-kit/ornament-crystal-01.png",
+      "role": "crystal-flare-ornament",
+      "outputSize": {
+        "width": 178,
+        "height": 96
+      },
+      "alphaPolicy": "generated-alpha-from-rgb-luminance-and-cyan-edge-mask",
+      "recommendedUse": "Use as a luminous corner flare.",
+      "sourceRect": {
+        "x": 870,
+        "y": 956,
+        "width": 178,
+        "height": 96
+      }
+    },
+    {
+      "id": "ornament-flare-01",
+      "file": "ornament-flare-01.png",
+      "url": "/assets/jumbotron/bubble-border-kit/ornament-flare-01.png",
+      "role": "wide-flare-ornament",
+      "outputSize": {
+        "width": 185,
+        "height": 108
+      },
+      "alphaPolicy": "generated-alpha-from-rgb-luminance-and-cyan-edge-mask",
+      "recommendedUse": "Use at long panel ends or event bubble tails.",
+      "sourceRect": {
+        "x": 1030,
+        "y": 950,
+        "width": 185,
+        "height": 108
+      }
+    },
+    {
+      "id": "ornament-rail-01",
+      "file": "ornament-rail-01.png",
+      "url": "/assets/jumbotron/bubble-border-kit/ornament-rail-01.png",
+      "role": "repeat-x-rail-ornament",
+      "outputSize": {
+        "width": 490,
+        "height": 70
+      },
+      "alphaPolicy": "generated-alpha-from-rgb-luminance-and-cyan-edge-mask",
+      "recommendedUse": "Repeat horizontally as a fine ice-blue rail.",
+      "sourceRect": {
+        "x": 70,
+        "y": 1050,
+        "width": 490,
+        "height": 70
+      },
+      "cssRepeat": "repeat-x"
+    },
+    {
+      "id": "ornament-rail-02",
+      "file": "ornament-rail-02.png",
+      "url": "/assets/jumbotron/bubble-border-kit/ornament-rail-02.png",
+      "role": "repeat-x-rail-ornament",
+      "outputSize": {
+        "width": 575,
+        "height": 70
+      },
+      "alphaPolicy": "generated-alpha-from-rgb-luminance-and-cyan-edge-mask",
+      "recommendedUse": "Repeat horizontally as a denser hover-menu rail.",
+      "sourceRect": {
+        "x": 620,
+        "y": 1050,
+        "width": 575,
+        "height": 70
+      },
+      "cssRepeat": "repeat-x"
+    },
+    {
+      "id": "ribbon-event-top",
+      "file": "ribbon-event-top.png",
+      "url": "/assets/jumbotron/bubble-border-kit/ribbon-event-top.png",
+      "role": "event-bubble-long-ribbon",
+      "outputSize": {
+        "width": 546,
+        "height": 112
+      },
+      "alphaPolicy": "generated-alpha-from-rgb-luminance-and-cyan-edge-mask",
+      "recommendedUse": "Use as an extra glow strip above or below event bubbles.",
+      "sourceRect": {
+        "x": 66,
+        "y": 1124,
+        "width": 546,
+        "height": 112
+      },
+      "cssRepeat": "repeat-x"
+    },
+    {
+      "id": "ribbon-submenu-bottom",
+      "file": "ribbon-submenu-bottom.png",
+      "url": "/assets/jumbotron/bubble-border-kit/ribbon-submenu-bottom.png",
+      "role": "hover-submenu-long-ribbon",
+      "outputSize": {
+        "width": 578,
+        "height": 112
+      },
+      "alphaPolicy": "generated-alpha-from-rgb-luminance-and-cyan-edge-mask",
+      "recommendedUse": "Use as a thin lower accent for hover submenu popovers.",
+      "sourceRect": {
+        "x": 636,
+        "y": 1124,
+        "width": 578,
+        "height": 112
+      },
+      "cssRepeat": "repeat-x"
+    }
+  ],
+  "notes": [
+    "原始生成图为 RGB PNG；运行时分件已用亮度、cyan 色差和边缘信息生成 alpha。",
+    "如后续需要更干净的透明边缘，可基于 source.png 重新抠 alpha，或再生成一版透明背景分件。",
+    "event-border.png 与 submenu-border.png 可直接作为 border-image 源；单独角块和边条用于 SVG/Canvas 九宫格拼装。"
+  ]
+}

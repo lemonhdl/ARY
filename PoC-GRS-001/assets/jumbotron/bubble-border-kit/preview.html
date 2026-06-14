@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>冰蓝气泡边框切片预览</title>
+  <style>
+    :root { color-scheme: dark; --bg:#06111f; --panel:rgba(10,25,46,.82); --line:rgba(110,231,255,.34); --ink:#eaf8ff; --muted:#9fc5d8; --cyan:#5ce5ff; }
+    * { box-sizing:border-box; }
+    body { margin:0; font-family:Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background:radial-gradient(circle at top left,#143858 0,#06111f 42%,#030916 100%); color:var(--ink); }
+    main { max-width:1180px; margin:0 auto; padding:28px 20px 44px; }
+    h1 { margin:0 0 10px; font-size:30px; }
+    p { color:var(--muted); line-height:1.65; }
+    section { border:1px solid var(--line); background:var(--panel); border-radius:18px; padding:16px; margin-top:14px; box-shadow:0 18px 50px rgba(0,0,0,.25); }
+    .source { width:100%; border-radius:14px; background:#fff; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; }
+    .asset { min-height:120px; border:1px solid rgba(255,255,255,.13); border-radius:14px; padding:10px; background:linear-gradient(45deg,rgba(255,255,255,.08) 25%,transparent 25% 75%,rgba(255,255,255,.08) 75%),linear-gradient(45deg,rgba(255,255,255,.08) 25%,transparent 25% 75%,rgba(255,255,255,.08) 75%); background-size:22px 22px; background-position:0 0,11px 11px; display:grid; align-items:center; }
+    .asset img { max-width:100%; max-height:150px; margin:auto; display:block; filter:drop-shadow(0 0 12px rgba(92,229,255,.4)); }
+    .asset span { margin-top:8px; color:var(--muted); font-size:12px; word-break:break-all; }
+    .border-demo { min-height:150px; border:32px solid transparent; border-radius:28px; display:grid; place-items:center; color:#dff9ff; background:rgba(5,18,32,.42); }
+    .event-demo { border-image:url('event-border.png') 150 240 150 240 fill stretch; }
+    .submenu-demo { border-image:url('submenu-border.png') 92 170 92 170 fill stretch; }
+    code { color:#d9fbff; background:rgba(92,229,255,.12); border:1px solid rgba(92,229,255,.25); border-radius:6px; padding:2px 6px; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>冰蓝气泡边框切片预览</h1>
+  <p>这组资产从生成图集中切出，用于赛道氛围事件气泡和队伍 hover 二级菜单。运行时优先使用带 alpha 的 PNG 分件；原始 RGB 图保留为 source.png。</p>
+  <section>
+    <h2>border-image 接入预览</h2>
+    <div class="grid">
+      <div class="border-demo event-demo">事件气泡边框</div>
+      <div class="border-demo submenu-demo">hover 二级菜单边框</div>
+    </div>
+    <p>事件气泡：<code>border-image: url('/assets/jumbotron/bubble-border-kit/event-border.png') 150 240 150 240 fill stretch;</code></p>
+    <p>hover 菜单：<code>border-image: url('/assets/jumbotron/bubble-border-kit/submenu-border.png') 92 170 92 170 fill stretch;</code></p>
+  </section>
+  <section>
+    <h2>关键分件</h2>
+    <div class="grid">
+      <figure class="asset"><img src="event-border.png" alt="event-border.png"><span>event-border.png</span></figure>
+<figure class="asset"><img src="event-corner-tl.png" alt="event-corner-tl.png"><span>event-corner-tl.png</span></figure>
+<figure class="asset"><img src="event-edge-top.png" alt="event-edge-top.png"><span>event-edge-top.png</span></figure>
+<figure class="asset"><img src="event-corner-br.png" alt="event-corner-br.png"><span>event-corner-br.png</span></figure>
+<figure class="asset"><img src="submenu-border.png" alt="submenu-border.png"><span>submenu-border.png</span></figure>
+<figure class="asset"><img src="submenu-corner-tl.png" alt="submenu-corner-tl.png"><span>submenu-corner-tl.png</span></figure>
+<figure class="asset"><img src="submenu-edge-bottom.png" alt="submenu-edge-bottom.png"><span>submenu-edge-bottom.png</span></figure>
+<figure class="asset"><img src="submenu-corner-br.png" alt="submenu-corner-br.png"><span>submenu-corner-br.png</span></figure>
+<figure class="asset"><img src="ornament-spark-01.png" alt="ornament-spark-01.png"><span>ornament-spark-01.png</span></figure>
+<figure class="asset"><img src="ornament-circuit-01.png" alt="ornament-circuit-01.png"><span>ornament-circuit-01.png</span></figure>
+<figure class="asset"><img src="ornament-chevron-01.png" alt="ornament-chevron-01.png"><span>ornament-chevron-01.png</span></figure>
+<figure class="asset"><img src="ornament-separator-01.png" alt="ornament-separator-01.png"><span>ornament-separator-01.png</span></figure>
+<figure class="asset"><img src="ornament-crystal-01.png" alt="ornament-crystal-01.png"><span>ornament-crystal-01.png</span></figure>
+<figure class="asset"><img src="ornament-flare-01.png" alt="ornament-flare-01.png"><span>ornament-flare-01.png</span></figure>
+<figure class="asset"><img src="ribbon-event-top.png" alt="ribbon-event-top.png"><span>ribbon-event-top.png</span></figure>
+<figure class="asset"><img src="ribbon-submenu-bottom.png" alt="ribbon-submenu-bottom.png"><span>ribbon-submenu-bottom.png</span></figure>
+    </div>
+  </section>
+  <section>
+    <h2>原始图集</h2>
+    <img class="source" src="source.png" alt="原始冰蓝气泡边框资产图集">
+  </section>
+</main>
+</body>
+</html>
