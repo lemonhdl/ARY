@@ -530,6 +530,10 @@ try {
   assertIncludes(jumbotron.body, 'liveAside.scrollTop += currentTop - active.top', 'jumbotron drawers should anchor hovered titles during expansion');
   assertIncludes(jumbotron.body, 'padding-bottom .26s ease', 'jumbotron drawers should expand downward without moving the body upward first');
   assertNotIncludes(jumbotron.body, 'transform:translateY(-4px)', 'jumbotron drawer body should not shift upward during hover expansion');
+  assertIncludes(jumbotron.body, 'jumbotron-mini-map-drawer', 'mini map drawer should have a dedicated overlay class');
+  assertIncludes(jumbotron.body, '.jumbotron-live-layout>aside{grid-column:1;grid-row:1;overflow:visible}', 'live sidebar should allow mini map overlay without clipping');
+  assertIncludes(jumbotron.body, '.jumbotron-mini-map-drawer .jumbotron-drawer-body{position:absolute', 'mini map drawer body should overlay instead of increasing sidebar height');
+  assertIncludes(jumbotron.body, 'top:100%;z-index:8', 'mini map drawer overlay should open below the header without changing total height');
   assertIncludes(jumbotron.body, 'jumbotron-profile-drawer', 'jumbotron should expose collapsible data profile selector');
   assertIncludes(jumbotron.body, 'jumbotron-profile-drawer:hover .jumbotron-drawer-body', 'profile drawer should have its own expanded height');
   assertIncludes(jumbotron.body, 'max-height:760px', 'profile drawer should fully show data and track options when expanded');
@@ -563,8 +567,10 @@ try {
   assertIncludes(jumbotron.body, 'data-key-frame-count="13"', 'jumbotron replay should preserve imported key frame count');
   assertIncludes(jumbotron.body, 'data-event-hold-frames="10"', 'jumbotron replay controls should expose event bubble hold frames');
   assertIncludes(jumbotron.body, 'data-final-hold-frames="12"', 'jumbotron replay controls should expose final frame hold frames');
-  assertIncludes(jumbotron.body, 'frameDelayMs * finalHoldFrames', 'jumbotron replay should hold on the final replay frame before restoring');
-  assertIncludes(jumbotron.body, '回放结束，停留最终帧', 'jumbotron replay should show final hold status');
+  assertIncludes(jumbotron.body, 'const frameCache = new Map()', 'jumbotron replay should cache fetched frames for fixed-speed playback');
+  assertIncludes(jumbotron.body, 'prefetchFrame(requestedIndex + 1)', 'jumbotron replay should prefetch the next frame instead of waiting inside the timer loop');
+  assertNotIncludes(jumbotron.body, 'const ok = await loadFrame(frameIndex)', 'jumbotron replay should not serialize the frame timer behind each API response');
+  assertIncludes(jumbotron.body, 'timer = window.setTimeout(tick, frameDelayMs)', 'jumbotron replay should keep a fixed frame timer');
   assertIncludes(jumbotron.body, 'data-main-replay-controls', 'jumbotron should expose recent replay controls');
   assertIncludes(jumbotron.body, 'data-geometry-toggle', 'jumbotron should expose a geometry-line visibility toggle');
   assertIncludes(jumbotron.body, 'jumbotron-geometry-hidden .track-band', 'jumbotron should hide the packaged geometry track with the geometry toggle');
@@ -573,6 +579,12 @@ try {
   assertIncludes(jumbotron.body, '/api/jumbotron-replay?profile=full&track=real-explicit-closed-course', 'jumbotron should poll replay API for the default second track');
   assertNotIncludes(jumbotron.body, 'id="jumbotron-replay"', 'jumbotron should not render a separate replay panel');
   assertNotIncludes(jumbotron.body, '随时间变化的数据回放', 'jumbotron should not expose a separate replay view');
+  assertIncludes(jumbotron.body, 'data-topbar', 'jumbotron shell should expose a collapsible global topbar');
+  assertIncludes(jumbotron.body, 'data-topbar-toggle', 'jumbotron shell should render a topbar collapse toggle');
+  assertIncludes(jumbotron.body, '收起顶栏', 'topbar toggle should start with collapse copy');
+  assertIncludes(jumbotron.body, "topbar.classList.toggle('is-collapsed'", 'topbar toggle should collapse the global navigation in place');
+  assertIncludes(jumbotron.body, '.topbar.is-collapsed .brand,.topbar.is-collapsed .nav,.topbar.is-collapsed .identity{display:none}', 'collapsed topbar should hide brand, nav and identity controls');
+  assertIncludes(jumbotron.body, "button.textContent=collapsed?'展开顶栏':'收起顶栏'", 'topbar toggle should switch copy after collapse');
   assertIncludes(jumbotron.body, '现场播报', 'jumbotron should show ticker');
   assertIncludes(jumbotron.body, '异常情况', 'jumbotron should show attention section');
   assertIncludes(jumbotron.body, 'attention-item', 'jumbotron should render attention cards');
