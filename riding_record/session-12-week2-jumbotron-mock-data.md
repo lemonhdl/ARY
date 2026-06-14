@@ -506,3 +506,33 @@ VERIFY_PASS GRS001 creation disclosure lifecycle riding evidence result radar ho
 - 本轮只记录 Jumbotron 公开页 UI 文案和抽屉布局收敛，不代表 Calibrator、录制入口或其他页面已完成同等级视觉审阅。
 - `targetUrl`、`remoteCockpitUrl`、本地绝对路径、raw session log 和完整内部日志仍不进入 public Jumbotron 页面。
 
+## 队伍图例悬停菜单贴近展开修复
+
+2026-06-14，用户指出鼠标悬停后的二级菜单没有尽可能在队伍图例最近位置展开。
+
+### 修复记录
+
+- 将“小地图和队伍图例”抽屉中的每一条队伍图例从普通文本改为 `legend-entry` 焦点源。
+- 每个图例项现在带有稳定的 `data-legend-entry-id`，并复用 entry tooltip 信息。
+- 新增 `.legend-entry .html-tooltip` 定位规则：桌面端优先在当前图例项右侧 `calc(100% + 10px)` 贴近展开。
+- 新增 `.jumbotron-focus-source.legend-entry:hover .html-tooltip` 高优先级规则，避免通用 tooltip hover 规则把图例菜单重新拉回上方。
+- 小地图抽屉 body 增加 `overflow:visible`，避免右侧贴近展开的图例菜单被抽屉裁剪。
+
+### 验证
+
+```text
+LEGEND_TOOLTIP_CHECK pass
+legendEntries=12
+legendIds=12
+nearCss=true
+overrideCss=true
+visibleDrawer=true
+VERIFY_PASS GRS001 creation disclosure lifecycle riding evidence result radar holds
+```
+
+固定入口需重启到本轮代码：
+
+```text
+http://127.0.0.1:4330/jumbotron
+```
+
