@@ -1,0 +1,39 @@
+{
+  "group": "a-rider",
+  "version": "0.1.0",
+  "contractVersion": "0.1.0",
+  "dependsOn": [],
+  "artifacts": [
+    {
+      "name": "riding-events.sample.json",
+      "path": "deliverables/a-rider/riding-events.sample.json",
+      "required": true,
+      "type": "sample-data"
+    },
+    {
+      "name": "ca-status.sample.json",
+      "path": "deliverables/a-rider/ca-status.sample.json",
+      "required": true,
+      "type": "sample-data"
+    },
+    {
+      "name": "signature-samples.json",
+      "path": "deliverables/a-rider/signature-samples.json",
+      "required": true,
+      "type": "sample-data"
+    },
+    {
+      "name": "error-codes.md",
+      "path": "deliverables/a-rider/error-codes.md",
+      "required": true,
+      "type": "documentation"
+    },
+    {
+      "name": "replay-readme.md",
+      "path": "deliverables/a-rider/replay-readme.md",
+      "required": true,
+      "type": "documentation"
+    }
+  ],
+  "notes": "Copy this template to handoff.manifest.json and keep artifact paths aligned with real deliverables."
+}

@@ -1,0 +1,39 @@
+{
+  "group": "b-admin",
+  "version": "0.1.0",
+  "contractVersion": "0.1.0",
+  "dependsOn": [],
+  "artifacts": [
+    {
+      "name": "dashboard-overview.sample.json",
+      "path": "deliverables/b-admin/dashboard-overview.sample.json",
+      "required": true,
+      "type": "sample-data"
+    },
+    {
+      "name": "projection-status.sample.json",
+      "path": "deliverables/b-admin/projection-status.sample.json",
+      "required": true,
+      "type": "sample-data"
+    },
+    {
+      "name": "published-artifacts.sample.json",
+      "path": "deliverables/b-admin/published-artifacts.sample.json",
+      "required": true,
+      "type": "sample-data"
+    },
+    {
+      "name": "audit-log.sample.json",
+      "path": "deliverables/b-admin/audit-log.sample.json",
+      "required": true,
+      "type": "sample-data"
+    },
+    {
+      "name": "admin-read-models.md",
+      "path": "deliverables/b-admin/admin-read-models.md",
+      "required": true,
+      "type": "documentation"
+    }
+  ],
+  "notes": "Copy this template to handoff.manifest.json and keep publication and visibility samples aligned with shared contracts."
+}

@@ -1,0 +1,56 @@
+{
+  "group": "e-integration",
+  "version": "0.1.0",
+  "contractVersion": "0.1.0",
+  "dependsOn": [
+    "a-rider",
+    "b-admin",
+    "c-frontend",
+    "d-data"
+  ],
+  "artifacts": [
+    {
+      "name": "integration-readme.md",
+      "path": "deliverables/e-integration/integration-readme.md",
+      "required": true,
+      "type": "documentation"
+    },
+    {
+      "name": "assembly-plan.md",
+      "path": "deliverables/e-integration/assembly-plan.md",
+      "required": true,
+      "type": "documentation"
+    },
+    {
+      "name": "compatibility-report.md",
+      "path": "deliverables/e-integration/compatibility-report.md",
+      "required": true,
+      "type": "documentation"
+    },
+    {
+      "name": "fallback-report.md",
+      "path": "deliverables/e-integration/fallback-report.md",
+      "required": true,
+      "type": "documentation"
+    },
+    {
+      "name": "acceptance-checklist.md",
+      "path": "deliverables/e-integration/acceptance-checklist.md",
+      "required": true,
+      "type": "documentation"
+    },
+    {
+      "name": "assembly",
+      "path": "deliverables/e-integration/assembly",
+      "required": false,
+      "type": "directory"
+    },
+    {
+      "name": "artifacts",
+      "path": "deliverables/e-integration/artifacts",
+      "required": false,
+      "type": "directory"
+    }
+  ],
+  "notes": "Copy this template to handoff.manifest.json and keep reports synchronized with the auto-integration skeleton in todos/15-Auto-Integration-Skeleton.md."
+}

@@ -1,4 +1,3 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/j5hsaebf)
 # ARY 文档索引
 
 本文用于帮助 Agent 和开发者快速找到当前权威文档。根目录 `PLAN.md` 负责近期任务窗口，根目录 `STATUS.md` 负责任务瞬时看板。
@@ -26,50 +25,3 @@
 * 页面和体验问题：读 `ary-mvp.ia.md` 与 `ux-hifi.taskbook.md`，必要时参考 `../design-prototype/`。
 * 项目推进问题：读 `ary.plan.md`，再看根目录 `PLAN.md`。
 * 验收和上线问题：读 `ary-qa-plan.md` 与 `ary-release-ops-plan.md`。
-
-## 当前工程骨架
-
-仓库已新增一个最小可运行的单机 Node.js Web 骨架，用于承接后续真实实现：
-
-1. `package.json`
-2. `app/server/`
-3. `app/web/`
-4. `app/adapter/`
-5. `scripts/`
-6. `runtime-data/`
-
-最小命令：
-
-```bash
-npm run setup
-npm run assemble
-npm run start
-```
-
-当前仓库已预置初始 `runtime-data/*.json`，因此在具备 Node.js 环境时也可以直接尝试：
-
-```bash
-npm run start
-```
-
-Windows 下也可以直接使用：
-
-```bat
-start-web-app.bat
-stop-web-app.bat
-```
-
-说明：
-
-1. `start-web-app.bat` 会先执行一次 `scripts/assemble.js`，再后台启动 Web 服务。
-2. `stop-web-app.bat` 会读取 `runtime-data/web-app.pid` 并停止对应进程。
-3. 运行日志默认写入 `runtime-data/web-app.log` 和 `runtime-data/web-app.error.log`。
-
-## 当前协作约定
-
-为了减少 monorepo 下的文件冲突，当前默认采用 handoff-first 目录 ownership：
-
-1. A、B、C、D 先只改各自 `deliverables/<group>/` 目录。
-2. 需要交付代码时，也优先放在各自目录子树内，例如 `deliverables/b-admin/admin-shell/`、`deliverables/c-frontend/app-shell/`。
-3. `app/`、`scripts/`、`runtime-data/` 默认由 E 负责接线和装配，不作为 1 到 4 人的日常并行开发目录。
-4. 如需新增跨组规则，先更新 `todos/` 下的公共契约文档，再由 E 接入运行壳。

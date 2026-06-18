@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ARY Single-Machine Web App</title>
+    <link rel="stylesheet" href="/shared/styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="hero">
+        <p class="eyebrow">ARY / Single-Machine Monorepo</p>
+        <h1>ARY 最小可运行骨架</h1>
+        <p class="lede">单进程 Node.js Web 应用，统一托管 Public、Admin、Live、Screen 页面，并从 runtime-data 读取运行态数据。</p>
+      </section>
+      <section class="grid">
+        <a class="card" href="/public/"><h2>Public</h2><p>公开端入口和主路径占位。</p></a>
+        <a class="card" href="/admin/"><h2>Admin</h2><p>管理端入口和 dashboard 占位。</p></a>
+        <a class="card" href="/live/"><h2>Live Hall</h2><p>Live Hall 和 Projection 占位。</p></a>
+        <a class="card" href="/screen/"><h2>Screen</h2><p>大屏展示入口和占位。</p></a>
+      </section>
+      <section class="panel">
+        <h2>Runtime Endpoints</h2>
+        <ul>
+          <li><a href="/api/health">/api/health</a></li>
+          <li><a href="/api/runtime/authority-mock">/api/runtime/authority-mock</a></li>
+          <li><a href="/api/runtime/assembled-view">/api/runtime/assembled-view</a></li>
+          <li><a href="/api/runtime/compatibility-report">/api/runtime/compatibility-report</a></li>
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>

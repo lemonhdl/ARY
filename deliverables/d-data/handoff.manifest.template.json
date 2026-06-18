@@ -1,0 +1,42 @@
+{
+  "group": "d-data",
+  "version": "0.1.0",
+  "contractVersion": "0.1.0",
+  "dependsOn": [
+    "a-rider",
+    "b-admin"
+  ],
+  "artifacts": [
+    {
+      "name": "authority-mock.json",
+      "path": "deliverables/d-data/authority-mock.json",
+      "required": true,
+      "type": "sample-data"
+    },
+    {
+      "name": "authority-mock.schema.md",
+      "path": "deliverables/d-data/authority-mock.schema.md",
+      "required": true,
+      "type": "documentation"
+    },
+    {
+      "name": "data-coverage-report.md",
+      "path": "deliverables/d-data/data-coverage-report.md",
+      "required": true,
+      "type": "documentation"
+    },
+    {
+      "name": "data-mapping-notes.md",
+      "path": "deliverables/d-data/data-mapping-notes.md",
+      "required": true,
+      "type": "documentation"
+    },
+    {
+      "name": "source",
+      "path": "deliverables/d-data/source",
+      "required": false,
+      "type": "directory"
+    }
+  ],
+  "notes": "Copy this template to handoff.manifest.json and keep authority-mock.json as the only first-round source of truth for product data."
+}

@@ -1,0 +1,14 @@
+* { box-sizing: border-box; }
+body { margin: 0; font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; background: linear-gradient(180deg, #eef5ff 0%, #f9fbff 100%); color: #14314f; }
+a { color: inherit; }
+.shell, .page-shell { max-width: 1080px; margin: 0 auto; padding: 40px 24px 64px; }
+.hero { padding: 24px 0 8px; }
+.eyebrow { margin: 0 0 8px; color: #3d6d99; letter-spacing: 0.08em; text-transform: uppercase; font-size: 12px; }
+.hero h1, .page-shell h1 { margin: 0 0 12px; font-size: 40px; line-height: 1.1; }
+.lede, .page-shell p { max-width: 720px; font-size: 16px; line-height: 1.7; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin: 32px 0; }
+.card, .panel { background: rgba(255,255,255,0.85); border: 1px solid rgba(49,103,152,0.16); border-radius: 20px; padding: 20px; text-decoration: none; box-shadow: 0 16px 48px rgba(31,74,116,0.08); }
+.card h2, .panel h2 { margin: 0 0 8px; font-size: 20px; }
+.back-link { display: inline-block; margin-bottom: 24px; color: #2d5f94; text-decoration: none; }
+.panel ul { margin: 12px 0 0; padding-left: 20px; }
+.panel li { margin: 8px 0; }

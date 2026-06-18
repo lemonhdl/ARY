@@ -1,0 +1,15 @@
+{
+  "generatedAt": "2026-06-18T19:33:55.116Z",
+  "ok": false,
+  "warnings": [
+    "Missing manifest for a-rider: C:\\sandbox\\sinba\\ary-grs-003-sinbawang\\deliverables\\a-rider\\handoff.manifest.json",
+    "Missing manifest for b-admin: C:\\sandbox\\sinba\\ary-grs-003-sinbawang\\deliverables\\b-admin\\handoff.manifest.json",
+    "Missing manifest for c-frontend: C:\\sandbox\\sinba\\ary-grs-003-sinbawang\\deliverables\\c-frontend\\handoff.manifest.json",
+    "Missing manifest for d-data: C:\\sandbox\\sinba\\ary-grs-003-sinbawang\\deliverables\\d-data\\handoff.manifest.json"
+  ],
+  "manifestCount": 0,
+  "runtimeFiles": {
+    "authorityMockPath": "C:\\sandbox\\sinba\\ary-grs-003-sinbawang\\runtime-data\\authority-mock.json",
+    "assembledViewPath": "C:\\sandbox\\sinba\\ary-grs-003-sinbawang\\runtime-data\\assembled-view.json"
+  }
+}

@@ -1,9 +1,0 @@
-{
-  "trackId": "bright-complex-closed-course",
-  "status": "withdrawn",
-  "checks": {
-    "doNotUse": true,
-    "reason": "user judged it still does not read as a closed course",
-    "replacementCandidate": "../explicit-closed-complex-course/"
-  }
-}

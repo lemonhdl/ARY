@@ -1,0 +1,16 @@
+{
+  "name": "ary-single-machine-web",
+  "version": "0.1.0",
+  "private": true,
+  "description": "ARY monorepo single-machine web app scaffold",
+  "scripts": {
+    "setup": "node scripts/setup-runtime.js",
+    "validate": "node scripts/validate-handoffs.js",
+    "assemble": "node scripts/assemble.js",
+    "dev": "node scripts/assemble.js && node app/server/index.js",
+    "start": "node app/server/index.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

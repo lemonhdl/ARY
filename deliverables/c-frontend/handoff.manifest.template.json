@@ -1,0 +1,47 @@
+{
+  "group": "c-frontend",
+  "version": "0.1.0",
+  "contractVersion": "0.1.0",
+  "dependsOn": [
+    "d-data"
+  ],
+  "artifacts": [
+    {
+      "name": "route-map.json",
+      "path": "deliverables/c-frontend/route-map.json",
+      "required": true,
+      "type": "config"
+    },
+    {
+      "name": "page-dependencies.json",
+      "path": "deliverables/c-frontend/page-dependencies.json",
+      "required": true,
+      "type": "config"
+    },
+    {
+      "name": "adapter-contract.md",
+      "path": "deliverables/c-frontend/adapter-contract.md",
+      "required": true,
+      "type": "documentation"
+    },
+    {
+      "name": "fallback-rules.md",
+      "path": "deliverables/c-frontend/fallback-rules.md",
+      "required": true,
+      "type": "documentation"
+    },
+    {
+      "name": "shell-readme.md",
+      "path": "deliverables/c-frontend/shell-readme.md",
+      "required": true,
+      "type": "documentation"
+    },
+    {
+      "name": "app-shell",
+      "path": "deliverables/c-frontend/app-shell",
+      "required": false,
+      "type": "directory"
+    }
+  ],
+  "notes": "Copy this template to handoff.manifest.json and ensure adapter outputs align with shared field dictionary."
+}
