@@ -22,7 +22,7 @@
 
 # 2. 原型覆盖
 
-当前原型改为按 IA 组织的 10 个高保真页面：
+当前原型按 IA 与原型直达走查需求组织为 11 个高保真页面：
 
 | 页面 | 目的 |
 | --- | --- |
@@ -34,7 +34,8 @@
 | Review | 表达赛事复盘、评审总结和公开 Evidence。 |
 | Rider Profile | 表达 Rider 能力资产、作品、奖项和标签。 |
 | Cooperation | 表达报名、办赛、赞助和合作转化入口。 |
-| Race Console | 展示 Organizer / Rider / Judge / Admin 入口和高密度办赛控制台。 |
+| Login / Role Entry | 表达 GitHub 登录、资料补全和多角色入口的公开边界，不实现真实登录。 |
+| Race Console | 展示 Organizer / Rider / Judge / Admin / Screen Console 入口和高密度办赛控制台。 |
 | Screen Display | 展示大屏输出，并把 Screen Console 控制面分开。 |
 
 # 2.1 样例数据
@@ -54,7 +55,7 @@ design-prototype/data/sample-races.js
 * 评审中赛事：`自媒体运营 Agent`。
 * 已完成赛事：`创世骑行挑战赛`、`政务办事导航 Agent`。
 * 即将开放赛事：`医疗随访助手`。
-* Rider、Work、Live Projection、Award、Review、Profile、Console Task 样例。
+* Rider、Work、Live Projection、Award、Review、Profile、Console Task、CAConnection、Review Readiness、Judge Rubric、Ops Status、Screen Fallback 样例。
 
 当前主要页面已接入样例数据渲染，用于支撑 IA 页面中的赛事状态差异、作品资产、赛果、复盘、Rider Profile、控制台任务和 Screen Display 指标。
 
@@ -63,8 +64,9 @@ design-prototype/data/sample-races.js
 ```text
 Home / Race Gallery
 → Race Page / Live Hall
-→ Work / Results / Rider 资产入口
-→ Screen Display
+→ Works / Work Detail / Results / Review / Rider 资产入口
+→ Login / Console
+→ Screen Display 多模式输出
 ```
 
 辅助路径：
