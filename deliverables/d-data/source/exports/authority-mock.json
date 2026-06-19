@@ -1,0 +1,1374 @@
+{
+  "metadata": {
+    "source": "ary-d-data-generator",
+    "dataVersion": "0.1.0",
+    "contractVersion": "0.1.0",
+    "generatedAt": "2026-06-14T06:00:00.000Z",
+    "deterministic": true,
+    "seed": 20260614,
+    "note": "唯一权威 mock;第一轮单机 Web 运行时主入口。公开端必须按 11-Publication-Visibility-Rules 过滤。"
+  },
+  "races": [
+    {
+      "id": "bay-area-happy-trip",
+      "slug": "bay-area-happy-trip",
+      "title": "湾区开心游",
+      "domain": "travel-local-life",
+      "status": "running",
+      "stageLabel": "进行中 / Live",
+      "summary": "构建大湾区旅行、游玩伴随 Agent,像你身边手头的旅行达人和本地精英,让用户无所不知、玩得尽兴。",
+      "challenge": "让 Agent 能理解用户偏好、实时位置、预算、交通、天气和本地文化,生成可信、好玩、可执行的旅行陪伴方案。",
+      "primaryCta": "进入 Live Hall",
+      "secondaryCta": "查看参赛作品",
+      "heroUse": "Home featured race / Live Hall / Screen Display",
+      "schedule": {
+        "registration": "已结束",
+        "race": "进行中",
+        "submission": "开放中",
+        "judging": "排队中",
+        "results": "未发布"
+      },
+      "metrics": {
+        "riders": 36,
+        "activeRiders": 27,
+        "sessions": 188,
+        "submittedWorks": 14,
+        "publicWorks": 0,
+        "reports": 0,
+        "evidenceRefs": 206
+      },
+      "awards": [
+        "最佳旅行体验",
+        "最佳本地洞察",
+        "最佳实时规划",
+        "最佳游玩复盘"
+      ],
+      "live": {
+        "ridingSignal": 82,
+        "submitLeft": "02:18:44",
+        "totalCost": "$512.70",
+        "riskSignals": 5,
+        "costWatchRiders": 3
+      },
+      "featured": true,
+      "publicWorkCount": 0
+    },
+    {
+      "id": "smart-investment-analyst",
+      "slug": "smart-investment-analyst",
+      "title": "智能投研助理",
+      "domain": "finance",
+      "status": "running",
+      "stageLabel": "进行中 / Live",
+      "summary": "面向个人投资学习者的资料整理、术语解释、公司信息摘要和风险提示 Agent。",
+      "challenge": "构建能帮助用户理解金融材料、整理风险点和形成学习笔记的投研辅助 Agent,不替代专业投资建议。",
+      "primaryCta": "进入 Live Hall",
+      "secondaryCta": "查看风险提示样例",
+      "heroUse": "Hero live switcher secondary race / Risk-heavy Live Hall variant",
+      "schedule": {
+        "registration": "已结束",
+        "race": "进行中",
+        "submission": "开放中",
+        "judging": "排队中",
+        "results": "未发布"
+      },
+      "metrics": {
+        "riders": 28,
+        "activeRiders": 21,
+        "sessions": 164,
+        "submittedWorks": 9,
+        "publicWorks": 0,
+        "reports": 0,
+        "evidenceRefs": 171
+      },
+      "awards": [
+        "最佳风险表达",
+        "最佳资料整理",
+        "最佳学习笔记"
+      ],
+      "live": {
+        "ridingSignal": 76,
+        "submitLeft": "03:02:10",
+        "totalCost": "$438.20",
+        "riskSignals": 8,
+        "costWatchRiders": 2
+      },
+      "safetyNotes": [
+        "只做信息整理、术语解释和风险提示;不输出直接买卖建议。"
+      ],
+      "safetySensitive": true,
+      "publicWorkCount": 0
+    },
+    {
+      "id": "media-ops-agent",
+      "slug": "media-ops-agent",
+      "title": "自媒体运营 Agent",
+      "domain": "content-ops",
+      "status": "judging",
+      "stageLabel": "评审中",
+      "summary": "开发一款可帮助主人规划选题、生成内容、发布排期、复盘数据和维护品牌语气的自媒体运营 Agent。",
+      "challenge": "让 Agent 像运营助理一样持续协助内容生产和复盘,而不是只生成一次文案。",
+      "primaryCta": "查看评审进度",
+      "secondaryCta": "查看提交作品",
+      "heroUse": "Judge View / Works / Review draft",
+      "schedule": {
+        "registration": "已结束",
+        "race": "已完成",
+        "submission": "已锁定",
+        "judging": "进行中",
+        "results": "待发布"
+      },
+      "metrics": {
+        "riders": 32,
+        "activeRiders": 0,
+        "sessions": 219,
+        "submittedWorks": 27,
+        "publicWorks": 0,
+        "reports": 0,
+        "evidenceRefs": 238
+      },
+      "awards": [
+        "最佳运营闭环",
+        "最佳品牌语气",
+        "最佳数据复盘"
+      ],
+      "publicWorkCount": 0
+    },
+    {
+      "id": "merchant-copilot",
+      "slug": "merchant-copilot",
+      "title": "网商经营 Copilot",
+      "domain": "e-commerce",
+      "status": "registration",
+      "stageLabel": "报名中",
+      "summary": "帮助小商家做选品、上架、客服、促销、复盘和库存提醒的网商经营 Agent。",
+      "challenge": "让 Agent 成为小店主的运营副驾,能把商品、客户、内容和经营指标串起来。",
+      "primaryCta": "立即报名",
+      "secondaryCta": "查看赛题",
+      "heroUse": "Registration Open / Home CTA",
+      "schedule": {
+        "registration": "开放中",
+        "race": "未开始",
+        "submission": "未开始",
+        "judging": "未开始",
+        "results": "未发布"
+      },
+      "metrics": {
+        "riders": 0,
+        "applicants": 41,
+        "capacity": 60,
+        "sessions": 0,
+        "submittedWorks": 0
+      },
+      "awards": [
+        "最佳经营闭环",
+        "最佳客服体验",
+        "最佳上架自动化"
+      ],
+      "publicWorkCount": 0
+    },
+    {
+      "id": "health-habit-coach",
+      "slug": "health-habit-coach",
+      "title": "健康习惯教练",
+      "domain": "health",
+      "status": "registration",
+      "stageLabel": "报名中",
+      "summary": "帮助用户制定运动、睡眠、饮食和复盘计划的健康习惯陪伴 Agent。",
+      "challenge": "构建一个长期陪伴型 Agent,帮助用户记录目标、跟踪习惯、生成反馈,但不提供医疗诊断。",
+      "primaryCta": "立即报名",
+      "secondaryCta": "查看安全边界",
+      "heroUse": "Registration Open / Public conversion",
+      "schedule": {
+        "registration": "开放中",
+        "race": "未开始",
+        "submission": "未开始",
+        "judging": "未开始",
+        "results": "未发布"
+      },
+      "metrics": {
+        "riders": 0,
+        "applicants": 33,
+        "capacity": 50,
+        "sessions": 0,
+        "submittedWorks": 0
+      },
+      "safetyNotes": [
+        "只做习惯记录、计划建议和反馈提醒;不做诊断或治疗建议。"
+      ],
+      "safetySensitive": true,
+      "publicWorkCount": 0
+    },
+    {
+      "id": "gov-service-navigator",
+      "slug": "gov-service-navigator",
+      "title": "政务办事导航 Agent",
+      "domain": "e-government",
+      "status": "completed",
+      "stageLabel": "已结束 / 赛果已发布",
+      "summary": "帮助居民理解办事流程、材料清单、办理条件和进度提醒的政务流程导航 Agent。",
+      "challenge": "把复杂政策流程转成清晰、可信、可执行的办事导航,不代办敏感事项。",
+      "primaryCta": "查看赛果",
+      "secondaryCta": "查看 Review",
+      "heroUse": "Latest Results / Serious-domain case",
+      "schedule": {
+        "registration": "已结束",
+        "race": "已完成",
+        "submission": "已锁定",
+        "judging": "已完成",
+        "results": "已发布"
+      },
+      "metrics": {
+        "riders": 24,
+        "activeRiders": 0,
+        "sessions": 137,
+        "submittedWorks": 19,
+        "publicWorks": 12,
+        "reports": 24,
+        "evidenceRefs": 148
+      },
+      "awards": [
+        "最佳可信流程",
+        "最佳材料清单",
+        "最佳进度提醒"
+      ],
+      "safetyNotes": [
+        "只做流程导航和材料清单辅助;不替代官方办理和最终审核。"
+      ],
+      "safetySensitive": true,
+      "publicWorkCount": 2
+    },
+    {
+      "id": "genesis-dogfood-race",
+      "slug": "genesis-dogfood-race",
+      "title": "创世骑行挑战赛",
+      "domain": "self-dogfood",
+      "status": "archived",
+      "stageLabel": "创世案例 / 已归档",
+      "summary": "参赛者骑行 Coding Agent 打造 ARY 的第一场创世赛,从混乱起跑到作品冲线,形成平台自己的开场故事;现已归档为创世资产。",
+      "challenge": "用 Agent 协作开发 ARY 自身,让平台从第一场 self-dogfood Race 中诞生。",
+      "primaryCta": "查看创世复盘",
+      "secondaryCta": "查看优秀作品",
+      "heroUse": "Archived genesis asset / Results / Review / Rider Profile",
+      "schedule": {
+        "registration": "已结束",
+        "race": "已完成",
+        "submission": "已锁定",
+        "judging": "已完成",
+        "results": "已发布(已归档)"
+      },
+      "metrics": {
+        "riders": 18,
+        "activeRiders": 0,
+        "sessions": 143,
+        "submittedWorks": 12,
+        "publicWorks": 8,
+        "reports": 18,
+        "evidenceRefs": 164
+      },
+      "awards": [
+        "最佳自举作品",
+        "最佳领域拆解",
+        "最佳复盘"
+      ],
+      "notes": [
+        "归档赛事,仍保留已发布的公开资产;不作为 running 主赛事。"
+      ],
+      "archivedAt": "2026-05-30T12:00:00+08:00",
+      "publicWorkCount": 2
+    },
+    {
+      "id": "medical-followup-assistant",
+      "slug": "medical-followup-assistant",
+      "title": "医疗随访助手",
+      "domain": "medical",
+      "status": "upcoming",
+      "stageLabel": "即将开放 / 高敏边界",
+      "summary": "帮助患者整理随访问题、用药提醒、复诊材料和健康记录的医疗随访辅助 Agent。",
+      "challenge": "在高敏场景中训练 Agent 的解释边界、记录能力和低风险辅助,不做诊断。",
+      "primaryCta": "订阅开放提醒",
+      "secondaryCta": "查看安全说明",
+      "heroUse": "Upcoming / Safety-boundary example / Empty-riding sample",
+      "schedule": {
+        "registration": "即将开放",
+        "race": "未开始",
+        "submission": "未开始",
+        "judging": "未开始",
+        "results": "未发布"
+      },
+      "metrics": {
+        "riders": 0,
+        "watchers": 96,
+        "capacity": 40,
+        "sessions": 0,
+        "submittedWorks": 0
+      },
+      "safetyNotes": [
+        "不做诊断;不替代医生;只做随访准备、提醒和记录整理。"
+      ],
+      "safetySensitive": true,
+      "emptyRidingSample": true,
+      "publicWorkCount": 0
+    }
+  ],
+  "liveProjections": [
+    {
+      "raceId": "bay-area-happy-trip",
+      "updatedAt": "2026-06-14T13:53:00+08:00",
+      "status": "healthy",
+      "headlineMetrics": {
+        "ridingSignal": 82,
+        "activeRiders": 27,
+        "sessions": 188,
+        "submittedWorks": 14,
+        "totalCost": "$512.70",
+        "riskSignals": 5
+      },
+      "processLeaderboard": [
+        {
+          "rank": 1,
+          "riderId": "rider-mira",
+          "name": "Mira Chen",
+          "score": 86.5,
+          "label": "route planning"
+        },
+        {
+          "rank": 2,
+          "riderId": "rider-ana",
+          "name": "Ana Ruiz",
+          "score": 83.1,
+          "label": "prompt debugging"
+        },
+        {
+          "rank": 3,
+          "riderId": "rider-jun",
+          "name": "Jun Park",
+          "score": 73.6,
+          "label": "itinerary planning"
+        },
+        {
+          "rank": 4,
+          "riderId": "rider-rae",
+          "name": "Rae Stone",
+          "score": 64.9,
+          "label": "local reasoning"
+        }
+      ],
+      "eventStream": [
+        {
+          "time": "10:42",
+          "type": "session_summary",
+          "text": "Mira 完成偏好建模和路线生成 checkpoint。"
+        },
+        {
+          "time": "11:16",
+          "type": "risk",
+          "text": "Jun 进入 cost watch,但仍保持 active。"
+        },
+        {
+          "time": "11:28",
+          "type": "work",
+          "text": "LocalJoy Agent 提交第一版 Demo。"
+        },
+        {
+          "time": "11:47",
+          "type": "idle",
+          "text": "Rae 42 分钟无新 Session Summary。"
+        }
+      ]
+    },
+    {
+      "raceId": "smart-investment-analyst",
+      "updatedAt": "2026-06-14T13:53:00+08:00",
+      "status": "degraded",
+      "headlineMetrics": {
+        "ridingSignal": 76,
+        "activeRiders": 21,
+        "sessions": 164,
+        "submittedWorks": 9,
+        "totalCost": "$438.20",
+        "riskSignals": 8
+      },
+      "processLeaderboard": [
+        {
+          "rank": 1,
+          "riderId": "rider-owen",
+          "name": "Owen Xu",
+          "score": 84.7,
+          "label": "risk explanation"
+        },
+        {
+          "rank": 2,
+          "riderId": "rider-nina",
+          "name": "Nina Cho",
+          "score": 74.4,
+          "label": "retrieval"
+        },
+        {
+          "rank": 3,
+          "riderId": "rider-leo",
+          "name": "Leo Wang",
+          "score": 66.0,
+          "label": "summary clarity"
+        }
+      ],
+      "eventStream": [
+        {
+          "time": "10:31",
+          "type": "safety",
+          "text": "系统提示:不得输出直接买卖建议。"
+        },
+        {
+          "time": "11:08",
+          "type": "session_summary",
+          "text": "Owen 完成财报摘要和风险点解释。"
+        }
+      ]
+    }
+  ],
+  "works": [
+    {
+      "id": "work-bay-area-happy-trip-001",
+      "raceId": "bay-area-happy-trip",
+      "riderId": "rider-mira",
+      "title": "GBA WanderMate",
+      "status": "draft",
+      "visibility": "private",
+      "published": false,
+      "publishedAt": null,
+      "summary": "三条湾区路线已经上墙:早茶、海岸、夜景,预算和交通都标清。",
+      "demo": "mock://demo/work-bay-area-happy-trip-001",
+      "repo": "mock://repo/work-bay-area-happy-trip-001",
+      "isPublic": false
+    },
+    {
+      "id": "work-bay-area-happy-trip-002",
+      "raceId": "bay-area-happy-trip",
+      "riderId": "rider-ana",
+      "title": "LocalJoy Agent",
+      "status": "submitted",
+      "visibility": "review",
+      "published": false,
+      "publishedAt": null,
+      "summary": "周末短途游作品,节奏轻快,适合第一次来湾区的朋友。",
+      "demo": "mock://demo/work-bay-area-happy-trip-002",
+      "repo": "mock://repo/work-bay-area-happy-trip-002",
+      "isPublic": false
+    },
+    {
+      "id": "work-bay-area-happy-trip-003",
+      "raceId": "bay-area-happy-trip",
+      "riderId": "rider-jun",
+      "title": "RouteCost Planner",
+      "status": "draft",
+      "visibility": "private",
+      "published": false,
+      "publishedAt": null,
+      "summary": "参赛作品摘要。",
+      "demo": "mock://demo/work-bay-area-happy-trip-003",
+      "repo": "mock://repo/work-bay-area-happy-trip-003",
+      "isPublic": false
+    },
+    {
+      "id": "work-bay-area-happy-trip-004",
+      "raceId": "bay-area-happy-trip",
+      "riderId": "rider-rae",
+      "title": "QuietTrip Draft",
+      "status": "draft",
+      "visibility": "hidden",
+      "published": false,
+      "publishedAt": null,
+      "summary": "保持私有草稿:作者主动隐藏,不进入公开端。",
+      "demo": "mock://demo/work-bay-area-happy-trip-004",
+      "repo": "mock://repo/work-bay-area-happy-trip-004",
+      "isPublic": false
+    },
+    {
+      "id": "work-smart-investment-analyst-005",
+      "raceId": "smart-investment-analyst",
+      "riderId": "rider-owen",
+      "title": "RiskLens Analyst",
+      "status": "submitted",
+      "visibility": "review",
+      "published": false,
+      "publishedAt": null,
+      "summary": "参赛作品摘要。",
+      "demo": "mock://demo/work-smart-investment-analyst-005",
+      "repo": "mock://repo/work-smart-investment-analyst-005",
+      "isPublic": false
+    },
+    {
+      "id": "work-smart-investment-analyst-006",
+      "raceId": "smart-investment-analyst",
+      "riderId": "rider-nina",
+      "title": "FinNote Reader",
+      "status": "draft",
+      "visibility": "private",
+      "published": false,
+      "publishedAt": null,
+      "summary": "参赛作品摘要。",
+      "demo": "mock://demo/work-smart-investment-analyst-006",
+      "repo": "mock://repo/work-smart-investment-analyst-006",
+      "isPublic": false
+    },
+    {
+      "id": "work-smart-investment-analyst-007",
+      "raceId": "smart-investment-analyst",
+      "riderId": "rider-leo",
+      "title": "TermClarity Agent",
+      "status": "draft",
+      "visibility": "private",
+      "published": false,
+      "publishedAt": null,
+      "summary": "参赛作品摘要。",
+      "demo": "mock://demo/work-smart-investment-analyst-007",
+      "repo": "mock://repo/work-smart-investment-analyst-007",
+      "isPublic": false
+    },
+    {
+      "id": "work-media-ops-agent-008",
+      "raceId": "media-ops-agent",
+      "riderId": "rider-sara",
+      "title": "Media Loop Pilot",
+      "status": "submitted",
+      "visibility": "review",
+      "published": false,
+      "publishedAt": null,
+      "summary": "参赛作品摘要。",
+      "demo": "mock://demo/work-media-ops-agent-008",
+      "repo": "mock://repo/work-media-ops-agent-008",
+      "isPublic": false
+    },
+    {
+      "id": "work-media-ops-agent-009",
+      "raceId": "media-ops-agent",
+      "riderId": "rider-iris",
+      "title": "BrandVoice Keeper",
+      "status": "submitted",
+      "visibility": "review",
+      "published": false,
+      "publishedAt": null,
+      "summary": "CA 连接失败但仍手工提交作品,等待人工复核与重连。",
+      "demo": "mock://demo/work-media-ops-agent-009",
+      "repo": "mock://repo/work-media-ops-agent-009",
+      "isPublic": false
+    },
+    {
+      "id": "work-gov-service-navigator-010",
+      "raceId": "gov-service-navigator",
+      "riderId": "rider-owen",
+      "title": "Civic Path Navigator",
+      "status": "published",
+      "visibility": "public",
+      "published": true,
+      "publishedAt": "2026-06-13T13:58:00+08:00",
+      "summary": "政务材料清单与流程解释 Agent,突出可信来源和官方入口回链。",
+      "demo": "mock://demo/work-gov-service-navigator-010",
+      "repo": "mock://repo/work-gov-service-navigator-010",
+      "isPublic": true
+    },
+    {
+      "id": "work-gov-service-navigator-011",
+      "raceId": "gov-service-navigator",
+      "riderId": "rider-leo",
+      "title": "DocChecklist Agent",
+      "status": "published",
+      "visibility": "public",
+      "published": true,
+      "publishedAt": "2026-06-13T13:58:00+08:00",
+      "summary": "参赛作品摘要。",
+      "demo": "mock://demo/work-gov-service-navigator-011",
+      "repo": "mock://repo/work-gov-service-navigator-011",
+      "isPublic": true
+    },
+    {
+      "id": "work-genesis-dogfood-race-012",
+      "raceId": "genesis-dogfood-race",
+      "riderId": "rider-sara",
+      "title": "ARY Forge Console",
+      "status": "published",
+      "visibility": "public",
+      "published": true,
+      "publishedAt": "2026-06-13T13:58:00+08:00",
+      "summary": "第一场创世赛的指挥席作品,把赛道节奏、作品上墙和赛后播报放在同一块大屏里。",
+      "demo": "mock://demo/work-genesis-dogfood-race-012",
+      "repo": "mock://repo/work-genesis-dogfood-race-012",
+      "isPublic": true
+    },
+    {
+      "id": "work-genesis-dogfood-race-013",
+      "raceId": "genesis-dogfood-race",
+      "riderId": "rider-mira",
+      "title": "Genesis Recap Studio",
+      "status": "published",
+      "visibility": "public",
+      "published": true,
+      "publishedAt": "2026-06-13T13:58:00+08:00",
+      "summary": "参赛作品摘要。",
+      "demo": "mock://demo/work-genesis-dogfood-race-013",
+      "repo": "mock://repo/work-genesis-dogfood-race-013",
+      "isPublic": true
+    }
+  ],
+  "results": [
+    {
+      "raceId": "gov-service-navigator",
+      "title": "政务办事导航 Agent",
+      "status": "completed",
+      "published": true,
+      "publicationStatus": "published",
+      "awards": [
+        {
+          "id": "award-gov-service-navigator-001",
+          "raceId": "gov-service-navigator",
+          "name": "最佳可信流程",
+          "rank": 1,
+          "workId": "work-gov-service-navigator-010",
+          "riderName": "Owen Xu",
+          "reason": "以官方来源回链、流程解释和材料清单降低政务办事理解成本。"
+        }
+      ],
+      "leaderboard": [
+        {
+          "rank": 1,
+          "riderId": "rider-owen",
+          "name": "Owen Xu",
+          "score": 113.4,
+          "label": "trusted sourcing"
+        },
+        {
+          "rank": 2,
+          "riderId": "rider-leo",
+          "name": "Leo Wang",
+          "score": 110.2,
+          "label": "material checklist"
+        }
+      ]
+    },
+    {
+      "raceId": "genesis-dogfood-race",
+      "title": "创世骑行挑战赛",
+      "status": "archived",
+      "published": true,
+      "publicationStatus": "published",
+      "awards": [
+        {
+          "id": "award-genesis-dogfood-race-002",
+          "raceId": "genesis-dogfood-race",
+          "name": "最佳自举作品",
+          "rank": 1,
+          "workId": "work-genesis-dogfood-race-012",
+          "riderName": "Sara Li",
+          "reason": "第一场创世赛跑出了平台自己的起点,也留下了可以反复观看的冲线样本。"
+        }
+      ],
+      "leaderboard": [
+        {
+          "rank": 1,
+          "riderId": "rider-sara",
+          "name": "Sara Li",
+          "score": 113.9,
+          "label": "design systems"
+        },
+        {
+          "rank": 2,
+          "riderId": "rider-mira",
+          "name": "Mira Chen",
+          "score": 110.7,
+          "label": "tool orchestration"
+        }
+      ]
+    }
+  ],
+  "awards": [
+    {
+      "id": "award-gov-service-navigator-001",
+      "raceId": "gov-service-navigator",
+      "name": "最佳可信流程",
+      "rank": 1,
+      "workId": "work-gov-service-navigator-010",
+      "riderName": "Owen Xu",
+      "reason": "以官方来源回链、流程解释和材料清单降低政务办事理解成本。"
+    },
+    {
+      "id": "award-genesis-dogfood-race-002",
+      "raceId": "genesis-dogfood-race",
+      "name": "最佳自举作品",
+      "rank": 1,
+      "workId": "work-genesis-dogfood-race-012",
+      "riderName": "Sara Li",
+      "reason": "第一场创世赛跑出了平台自己的起点,也留下了可以反复观看的冲线样本。"
+    }
+  ],
+  "reviews": [
+    {
+      "raceId": "gov-service-navigator",
+      "status": "published",
+      "published": true,
+      "summary": "政务办事导航 Agent 展示了 ARY 在严肃流程场景中的价值:流程拆解、可信引用和风险边界表达。",
+      "featuredCases": [
+        "Civic Path Navigator",
+        "DocChecklist Agent"
+      ],
+      "judgeComments": [
+        "优秀作品没有试图代替官方办理,而是把流程理解和材料准备做得更清楚。",
+        "可信来源回链和材料清单显著降低了政务办事的理解成本。"
+      ]
+    },
+    {
+      "raceId": "genesis-dogfood-race",
+      "status": "published",
+      "published": true,
+      "summary": "创世骑行挑战赛从混乱起跑到作品冲线,留下了第一批可以被观看、被讲述、被继续追赶的赛场片段,现已归档为创世资产。",
+      "featuredCases": [
+        "ARY Forge Console",
+        "Genesis Recap Studio"
+      ],
+      "judgeComments": [
+        "最有价值的是把混乱起跑跑成了能被观看、被追赶、被继续讲述的赛场作品。",
+        "ARY 自己成为第一批作品,这是创世赛最好的开场。"
+      ]
+    }
+  ],
+  "profiles": [
+    {
+      "riderId": "rider-sara",
+      "displayName": "Sara Li",
+      "headline": "Agent Rider / Product systems builder",
+      "featuredRaceIds": [
+        "genesis-dogfood-race",
+        "media-ops-agent"
+      ],
+      "featuredWorkIds": [
+        "work-genesis-dogfood-race-012"
+      ],
+      "skillTags": [
+        "race shaping",
+        "design systems",
+        "tool orchestration",
+        "review writing"
+      ],
+      "stats": {
+        "projects": 12,
+        "sessions": 41,
+        "completion": "95%",
+        "ranking": "Top 8%"
+      },
+      "isPublic": true
+    },
+    {
+      "riderId": "rider-mira",
+      "displayName": "Mira Chen",
+      "headline": "Agent Rider / Local-life builder",
+      "featuredRaceIds": [
+        "bay-area-happy-trip",
+        "genesis-dogfood-race"
+      ],
+      "featuredWorkIds": [
+        "work-genesis-dogfood-race-013"
+      ],
+      "skillTags": [
+        "local reasoning",
+        "route planning",
+        "prompt debugging",
+        "itinerary planning"
+      ],
+      "stats": {
+        "projects": 8,
+        "sessions": 26,
+        "completion": "92%",
+        "ranking": "Top 15%"
+      },
+      "isPublic": true
+    },
+    {
+      "riderId": "rider-owen",
+      "displayName": "Owen Xu",
+      "headline": "Agent Rider / Trust & risk explainer",
+      "featuredRaceIds": [
+        "gov-service-navigator"
+      ],
+      "featuredWorkIds": [
+        "work-gov-service-navigator-010"
+      ],
+      "skillTags": [
+        "process decomposition",
+        "trusted sourcing",
+        "material checklist",
+        "progress reminder"
+      ],
+      "stats": {
+        "projects": 6,
+        "sessions": 18,
+        "completion": "90%",
+        "ranking": "Top 20%"
+      },
+      "isPublic": true
+    }
+  ],
+  "dashboard": {
+    "totalUsers": 17,
+    "totalRaces": 8,
+    "activeRaces": 3,
+    "runningRaces": 2,
+    "registrationOpenRaces": 2,
+    "totalRiders": 12,
+    "totalWorks": 13,
+    "publishedWorks": 4,
+    "hiddenWorks": 1,
+    "totalAwards": 2,
+    "pendingJudgements": 1,
+    "riskSignals": 6,
+    "caFailed": 1,
+    "projectionHealth": {
+      "bay-area-happy-trip": "healthy",
+      "smart-investment-analyst": "degraded",
+      "media-ops-agent": "failed",
+      "gov-service-navigator": "healthy",
+      "genesis-dogfood-race": "stale"
+    },
+    "systemHealth": "healthy"
+  },
+  "caStatuses": [
+    {
+      "raceId": "bay-area-happy-trip",
+      "riderId": "rider-mira",
+      "riderName": "Mira Chen",
+      "provider": "ary-ca",
+      "health": "active",
+      "lastSignalAt": "2026-06-14T11:58:00+08:00",
+      "riskNote": null
+    },
+    {
+      "raceId": "bay-area-happy-trip",
+      "riderId": "rider-ana",
+      "riderName": "Ana Ruiz",
+      "provider": "ary-ca",
+      "health": "active",
+      "lastSignalAt": "2026-06-14T12:05:00+08:00",
+      "riskNote": null
+    },
+    {
+      "raceId": "bay-area-happy-trip",
+      "riderId": "rider-jun",
+      "riderName": "Jun Park",
+      "provider": "ary-ca",
+      "health": "active",
+      "lastSignalAt": "2026-06-14T12:12:00+08:00",
+      "riskNote": "成本超阈值,进入 cost watch"
+    },
+    {
+      "raceId": "bay-area-happy-trip",
+      "riderId": "rider-rae",
+      "riderName": "Rae Stone",
+      "provider": "ary-ca",
+      "health": "handshaken",
+      "lastSignalAt": null,
+      "riskNote": "长时间无新 Session,空闲风险"
+    },
+    {
+      "raceId": "smart-investment-analyst",
+      "riderId": "rider-owen",
+      "riderName": "Owen Xu",
+      "provider": "ary-ca",
+      "health": "active",
+      "lastSignalAt": "2026-06-14T11:58:00+08:00",
+      "riskNote": "高敏边界:仅信息整理,禁止越界输出"
+    },
+    {
+      "raceId": "smart-investment-analyst",
+      "riderId": "rider-nina",
+      "riderName": "Nina Cho",
+      "provider": "ary-ca",
+      "health": "active",
+      "lastSignalAt": "2026-06-14T12:05:00+08:00",
+      "riskNote": null
+    },
+    {
+      "raceId": "smart-investment-analyst",
+      "riderId": "rider-leo",
+      "riderName": "Leo Wang",
+      "provider": "ary-ca",
+      "health": "handshaken",
+      "lastSignalAt": null,
+      "riskNote": null
+    },
+    {
+      "raceId": "media-ops-agent",
+      "riderId": "rider-sara",
+      "riderName": "Sara Li",
+      "provider": "ary-ca",
+      "health": "active",
+      "lastSignalAt": "2026-06-14T11:58:00+08:00",
+      "riskNote": null
+    },
+    {
+      "raceId": "media-ops-agent",
+      "riderId": "rider-iris",
+      "riderName": "Iris Tan",
+      "provider": "ary-ca",
+      "health": "failed",
+      "lastSignalAt": null,
+      "riskNote": "CA failed:连接失败但仍提交作品,需人工复核"
+    },
+    {
+      "raceId": "merchant-copilot",
+      "riderId": "rider-tom",
+      "riderName": "Tom Ho",
+      "provider": "ary-ca",
+      "health": "not_configured",
+      "lastSignalAt": null,
+      "riskNote": "报名待审核,尚未配置 CA"
+    },
+    {
+      "raceId": "health-habit-coach",
+      "riderId": "rider-kai",
+      "riderName": "Kai Zhou",
+      "provider": "ary-ca",
+      "health": "not_configured",
+      "lastSignalAt": null,
+      "riskNote": "报名待审核,尚未配置 CA"
+    },
+    {
+      "raceId": "gov-service-navigator",
+      "riderId": "rider-owen",
+      "riderName": "Owen Xu",
+      "provider": "ary-ca",
+      "health": "active",
+      "lastSignalAt": "2026-06-14T11:58:00+08:00",
+      "riskNote": null
+    },
+    {
+      "raceId": "gov-service-navigator",
+      "riderId": "rider-leo",
+      "riderName": "Leo Wang",
+      "provider": "ary-ca",
+      "health": "active",
+      "lastSignalAt": "2026-06-14T12:05:00+08:00",
+      "riskNote": null
+    },
+    {
+      "raceId": "genesis-dogfood-race",
+      "riderId": "rider-sara",
+      "riderName": "Sara Li",
+      "provider": "ary-ca",
+      "health": "active",
+      "lastSignalAt": "2026-06-14T11:58:00+08:00",
+      "riskNote": null
+    },
+    {
+      "raceId": "genesis-dogfood-race",
+      "riderId": "rider-mira",
+      "riderName": "Mira Chen",
+      "provider": "ary-ca",
+      "health": "active",
+      "lastSignalAt": "2026-06-14T12:05:00+08:00",
+      "riskNote": null
+    }
+  ],
+  "projectionStatuses": [
+    {
+      "raceId": "bay-area-happy-trip",
+      "health": "healthy",
+      "lastUpdate": "2026-06-14T13:53:00+08:00",
+      "note": "实时投影正常"
+    },
+    {
+      "raceId": "smart-investment-analyst",
+      "health": "degraded",
+      "lastUpdate": "2026-06-14T13:53:00+08:00",
+      "note": "部分指标延迟,过程展示降级"
+    },
+    {
+      "raceId": "media-ops-agent",
+      "health": "failed",
+      "lastUpdate": "2026-06-14T13:53:00+08:00",
+      "note": "投影失败,不影响事实数据与评审"
+    },
+    {
+      "raceId": "gov-service-navigator",
+      "health": "healthy",
+      "lastUpdate": "2026-06-14T13:53:00+08:00",
+      "note": "实时投影正常"
+    },
+    {
+      "raceId": "genesis-dogfood-race",
+      "health": "stale",
+      "lastUpdate": "2026-06-14T13:53:00+08:00",
+      "note": "赛事已结束,投影为归档快照"
+    }
+  ],
+  "publishedArtifacts": [
+    {
+      "id": "pa-bay-area-happy-trip-w-016",
+      "raceId": "bay-area-happy-trip",
+      "type": "work",
+      "refId": "work-bay-area-happy-trip-001",
+      "status": "draft",
+      "published": false,
+      "publishedAt": null
+    },
+    {
+      "id": "pa-bay-area-happy-trip-w-029",
+      "raceId": "bay-area-happy-trip",
+      "type": "work",
+      "refId": "work-bay-area-happy-trip-002",
+      "status": "submitted",
+      "published": false,
+      "publishedAt": null
+    },
+    {
+      "id": "pa-bay-area-happy-trip-w-048",
+      "raceId": "bay-area-happy-trip",
+      "type": "work",
+      "refId": "work-bay-area-happy-trip-003",
+      "status": "draft",
+      "published": false,
+      "publishedAt": null
+    },
+    {
+      "id": "pa-bay-area-happy-trip-w-052",
+      "raceId": "bay-area-happy-trip",
+      "type": "work",
+      "refId": "work-bay-area-happy-trip-004",
+      "status": "draft",
+      "published": false,
+      "publishedAt": null
+    },
+    {
+      "id": "pa-smart-investment-analyst-w-068",
+      "raceId": "smart-investment-analyst",
+      "type": "work",
+      "refId": "work-smart-investment-analyst-005",
+      "status": "submitted",
+      "published": false,
+      "publishedAt": null
+    },
+    {
+      "id": "pa-smart-investment-analyst-w-081",
+      "raceId": "smart-investment-analyst",
+      "type": "work",
+      "refId": "work-smart-investment-analyst-006",
+      "status": "draft",
+      "published": false,
+      "publishedAt": null
+    },
+    {
+      "id": "pa-smart-investment-analyst-w-091",
+      "raceId": "smart-investment-analyst",
+      "type": "work",
+      "refId": "work-smart-investment-analyst-007",
+      "status": "draft",
+      "published": false,
+      "publishedAt": null
+    },
+    {
+      "id": "pa-media-ops-agent-w-110",
+      "raceId": "media-ops-agent",
+      "type": "work",
+      "refId": "work-media-ops-agent-008",
+      "status": "submitted",
+      "published": false,
+      "publishedAt": null
+    },
+    {
+      "id": "pa-media-ops-agent-w-111",
+      "raceId": "media-ops-agent",
+      "type": "work",
+      "refId": "work-media-ops-agent-009",
+      "status": "submitted",
+      "published": false,
+      "publishedAt": null
+    },
+    {
+      "id": "pa-gov-service-navigator-w-127",
+      "raceId": "gov-service-navigator",
+      "type": "work",
+      "refId": "work-gov-service-navigator-010",
+      "status": "published",
+      "published": true,
+      "publishedAt": "2026-06-13T13:58:00+08:00"
+    },
+    {
+      "id": "pa-gov-service-navigator-r-128",
+      "raceId": "gov-service-navigator",
+      "type": "report",
+      "refId": "reg-gov-service-navigator-012",
+      "status": "published",
+      "published": true,
+      "publishedAt": "2026-06-13T19:58:00+08:00"
+    },
+    {
+      "id": "pa-gov-service-navigator-w-141",
+      "raceId": "gov-service-navigator",
+      "type": "work",
+      "refId": "work-gov-service-navigator-011",
+      "status": "published",
+      "published": true,
+      "publishedAt": "2026-06-13T13:58:00+08:00"
+    },
+    {
+      "id": "pa-gov-service-navigator-r-142",
+      "raceId": "gov-service-navigator",
+      "type": "report",
+      "refId": "reg-gov-service-navigator-013",
+      "status": "published",
+      "published": true,
+      "publishedAt": "2026-06-13T19:58:00+08:00"
+    },
+    {
+      "id": "pa-genesis-dogfood-race-w-161",
+      "raceId": "genesis-dogfood-race",
+      "type": "work",
+      "refId": "work-genesis-dogfood-race-012",
+      "status": "published",
+      "published": true,
+      "publishedAt": "2026-06-13T13:58:00+08:00"
+    },
+    {
+      "id": "pa-genesis-dogfood-race-r-162",
+      "raceId": "genesis-dogfood-race",
+      "type": "report",
+      "refId": "reg-genesis-dogfood-race-014",
+      "status": "published",
+      "published": true,
+      "publishedAt": "2026-06-13T19:58:00+08:00"
+    },
+    {
+      "id": "pa-genesis-dogfood-race-w-178",
+      "raceId": "genesis-dogfood-race",
+      "type": "work",
+      "refId": "work-genesis-dogfood-race-013",
+      "status": "published",
+      "published": true,
+      "publishedAt": "2026-06-13T13:58:00+08:00"
+    },
+    {
+      "id": "pa-genesis-dogfood-race-r-179",
+      "raceId": "genesis-dogfood-race",
+      "type": "report",
+      "refId": "reg-genesis-dogfood-race-015",
+      "status": "published",
+      "published": true,
+      "publishedAt": "2026-06-13T19:58:00+08:00"
+    },
+    {
+      "id": "pa-bay-area-happy-trip-result",
+      "raceId": "bay-area-happy-trip",
+      "type": "result",
+      "refId": "result-bay-area-happy-trip",
+      "status": "draft",
+      "published": false,
+      "publishedAt": null
+    },
+    {
+      "id": "pa-bay-area-happy-trip-review",
+      "raceId": "bay-area-happy-trip",
+      "type": "review",
+      "refId": "review-bay-area-happy-trip",
+      "status": "draft",
+      "published": false,
+      "publishedAt": null
+    },
+    {
+      "id": "pa-smart-investment-analyst-result",
+      "raceId": "smart-investment-analyst",
+      "type": "result",
+      "refId": "result-smart-investment-analyst",
+      "status": "draft",
+      "published": false,
+      "publishedAt": null
+    },
+    {
+      "id": "pa-smart-investment-analyst-review",
+      "raceId": "smart-investment-analyst",
+      "type": "review",
+      "refId": "review-smart-investment-analyst",
+      "status": "draft",
+      "published": false,
+      "publishedAt": null
+    },
+    {
+      "id": "pa-media-ops-agent-result",
+      "raceId": "media-ops-agent",
+      "type": "result",
+      "refId": "result-media-ops-agent",
+      "status": "review",
+      "published": false,
+      "publishedAt": null
+    },
+    {
+      "id": "pa-media-ops-agent-review",
+      "raceId": "media-ops-agent",
+      "type": "review",
+      "refId": "review-media-ops-agent",
+      "status": "review",
+      "published": false,
+      "publishedAt": null
+    },
+    {
+      "id": "pa-merchant-copilot-result",
+      "raceId": "merchant-copilot",
+      "type": "result",
+      "refId": "result-merchant-copilot",
+      "status": "draft",
+      "published": false,
+      "publishedAt": null
+    },
+    {
+      "id": "pa-merchant-copilot-review",
+      "raceId": "merchant-copilot",
+      "type": "review",
+      "refId": "review-merchant-copilot",
+      "status": "draft",
+      "published": false,
+      "publishedAt": null
+    },
+    {
+      "id": "pa-health-habit-coach-result",
+      "raceId": "health-habit-coach",
+      "type": "result",
+      "refId": "result-health-habit-coach",
+      "status": "draft",
+      "published": false,
+      "publishedAt": null
+    },
+    {
+      "id": "pa-health-habit-coach-review",
+      "raceId": "health-habit-coach",
+      "type": "review",
+      "refId": "review-health-habit-coach",
+      "status": "draft",
+      "published": false,
+      "publishedAt": null
+    },
+    {
+      "id": "pa-gov-service-navigator-result",
+      "raceId": "gov-service-navigator",
+      "type": "result",
+      "refId": "result-gov-service-navigator",
+      "status": "published",
+      "published": true,
+      "publishedAt": "2026-06-13T18:58:00+08:00"
+    },
+    {
+      "id": "pa-gov-service-navigator-review",
+      "raceId": "gov-service-navigator",
+      "type": "review",
+      "refId": "review-gov-service-navigator",
+      "status": "published",
+      "published": true,
+      "publishedAt": "2026-06-13T19:58:00+08:00"
+    },
+    {
+      "id": "pa-genesis-dogfood-race-result",
+      "raceId": "genesis-dogfood-race",
+      "type": "result",
+      "refId": "result-genesis-dogfood-race",
+      "status": "published",
+      "published": true,
+      "publishedAt": "2026-06-13T18:58:00+08:00"
+    },
+    {
+      "id": "pa-genesis-dogfood-race-review",
+      "raceId": "genesis-dogfood-race",
+      "type": "review",
+      "refId": "review-genesis-dogfood-race",
+      "status": "published",
+      "published": true,
+      "publishedAt": "2026-06-13T19:58:00+08:00"
+    },
+    {
+      "id": "pa-medical-followup-assistant-result",
+      "raceId": "medical-followup-assistant",
+      "type": "result",
+      "refId": "result-medical-followup-assistant",
+      "status": "draft",
+      "published": false,
+      "publishedAt": null
+    },
+    {
+      "id": "pa-medical-followup-assistant-review",
+      "raceId": "medical-followup-assistant",
+      "type": "review",
+      "refId": "review-medical-followup-assistant",
+      "status": "draft",
+      "published": false,
+      "publishedAt": null
+    }
+  ],
+  "auditLogs": [
+    {
+      "id": "audit-001",
+      "at": "2026-05-15T13:58:00+08:00",
+      "actor": "ARY 系统管理员",
+      "action": "grant_role",
+      "target": "rider-mira:rider",
+      "severity": "info",
+      "detail": "授予 rider 角色"
+    },
+    {
+      "id": "audit-002",
+      "at": "2026-06-12T13:58:00+08:00",
+      "actor": "ARY 赛事运营官",
+      "action": "publish_result",
+      "target": "gov-service-navigator",
+      "severity": "notice",
+      "detail": "发布政务赛赛果"
+    },
+    {
+      "id": "audit-003",
+      "at": "2026-06-13T13:58:00+08:00",
+      "actor": "ARY 赛事运营官",
+      "action": "publish_review",
+      "target": "genesis-dogfood-race",
+      "severity": "notice",
+      "detail": "发布创世赛复盘并归档"
+    },
+    {
+      "id": "audit-004",
+      "at": "2026-06-14T07:58:00+08:00",
+      "actor": "ARY 系统管理员",
+      "action": "set_visibility",
+      "target": "work-bay-area-happy-trip-004:hidden",
+      "severity": "warning",
+      "detail": "作者将作品设为 hidden,不进入公开端"
+    },
+    {
+      "id": "audit-005",
+      "at": "2026-06-14T10:58:00+08:00",
+      "actor": "system",
+      "action": "ca_failed",
+      "target": "rider-iris@media-ops-agent",
+      "severity": "danger",
+      "detail": "CA 连接失败,作品仍提交,触发人工复核"
+    },
+    {
+      "id": "audit-006",
+      "at": "2026-06-14T11:58:00+08:00",
+      "actor": "system",
+      "action": "risk_flag",
+      "target": "rider-jun@bay-area-happy-trip",
+      "severity": "warning",
+      "detail": "成本进入 cost watch"
+    },
+    {
+      "id": "audit-007",
+      "at": "2026-06-14T11:58:00+08:00",
+      "actor": "system",
+      "action": "risk_flag",
+      "target": "rider-owen@smart-investment-analyst",
+      "severity": "warning",
+      "detail": "安全敏感域边界提示"
+    },
+    {
+      "id": "audit-008",
+      "at": "2026-06-14T12:58:00+08:00",
+      "actor": "ARY 系统管理员",
+      "action": "maintenance",
+      "target": "projection:media-ops-agent",
+      "severity": "notice",
+      "detail": "投影失败,事实数据未受影响"
+    }
+  ]
+}
