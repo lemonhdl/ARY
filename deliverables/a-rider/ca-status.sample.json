@@ -1,0 +1,86 @@
+{
+  "__GENERATION_NOTE__": {
+    "generatedAt": "2026-06-19T14:37:55.523Z",
+    "source": "本地 Claude Code 数据",
+    "identityStatus": "身份字段（race.*, rider.*, ca.caConnectionId）使用假数据，标注 __MOCK__。服务端 API 就绪后替换。",
+    "schemaVersion": "ary.ca.riding_signal.v0.1"
+  },
+  "description": "CAConnection 状态样例，覆盖全部 5 种状态。",
+  "statuses": [
+    {
+      "caConnectionId": "__MOCK__conn_claude_code_001",
+      "caType": "claude_code",
+      "connectorId": "__MOCK__dcr_desktop_v0.1",
+      "connectorVersion": "0.1.0",
+      "caProjectId": "__MOCK__unknown_project",
+      "caSessionId": "__MOCK__unknown_session",
+      "ingestionStatus": "not_configured",
+      "registeredAt": null,
+      "handshakenAt": null,
+      "lastActiveAt": null,
+      "failedAt": null,
+      "statusReason": null,
+      "__NOTE__": "身份字段使用本地假数据。raceId/registrationId/raceProjectId 等服务端就绪后替换。"
+    },
+    {
+      "caConnectionId": "__MOCK__conn_claude_code_001",
+      "caType": "claude_code",
+      "connectorId": "__MOCK__dcr_desktop_v0.1",
+      "connectorVersion": "0.1.0",
+      "caProjectId": "C:\\Users\\ROG\\Desktop\\se\\ARY",
+      "caSessionId": "a5e351aa-813f-4e15-9e77-6bad6205b227",
+      "ingestionStatus": "registered",
+      "registeredAt": "2026-06-18T14:37:55.535Z",
+      "handshakenAt": null,
+      "lastActiveAt": null,
+      "failedAt": null,
+      "statusReason": null,
+      "__NOTE__": "身份字段使用本地假数据。raceId/registrationId/raceProjectId 等服务端就绪后替换。"
+    },
+    {
+      "caConnectionId": "__MOCK__conn_claude_code_001",
+      "caType": "claude_code",
+      "connectorId": "__MOCK__dcr_desktop_v0.1",
+      "connectorVersion": "0.1.0",
+      "caProjectId": "C:\\Users\\ROG\\Desktop\\se\\ARY",
+      "caSessionId": "a5e351aa-813f-4e15-9e77-6bad6205b227",
+      "ingestionStatus": "handshaken",
+      "registeredAt": "2026-06-18T14:37:55.536Z",
+      "handshakenAt": "2026-06-19T13:37:55.536Z",
+      "lastActiveAt": null,
+      "failedAt": null,
+      "statusReason": null,
+      "__NOTE__": "身份字段使用本地假数据。raceId/registrationId/raceProjectId 等服务端就绪后替换。"
+    },
+    {
+      "caConnectionId": "__MOCK__conn_claude_code_001",
+      "caType": "claude_code",
+      "connectorId": "__MOCK__dcr_desktop_v0.1",
+      "connectorVersion": "0.1.0",
+      "caProjectId": "C:\\Users\\ROG\\Desktop\\se\\ARY",
+      "caSessionId": "a5e351aa-813f-4e15-9e77-6bad6205b227",
+      "ingestionStatus": "active",
+      "registeredAt": "2026-06-18T14:37:55.536Z",
+      "handshakenAt": "2026-06-19T13:37:55.536Z",
+      "lastActiveAt": "2026-06-19T14:37:55.536Z",
+      "failedAt": null,
+      "statusReason": null,
+      "__NOTE__": "身份字段使用本地假数据。raceId/registrationId/raceProjectId 等服务端就绪后替换。"
+    },
+    {
+      "caConnectionId": "__MOCK__conn_claude_code_001",
+      "caType": "claude_code",
+      "connectorId": "__MOCK__dcr_desktop_v0.1",
+      "connectorVersion": "0.1.0",
+      "caProjectId": "C:\\Users\\ROG\\Desktop\\se\\ARY",
+      "caSessionId": "a5e351aa-813f-4e15-9e77-6bad6205b227",
+      "ingestionStatus": "failed",
+      "registeredAt": "2026-06-18T14:37:55.536Z",
+      "handshakenAt": "2026-06-19T13:37:55.536Z",
+      "lastActiveAt": null,
+      "failedAt": "2026-06-19T14:37:55.536Z",
+      "statusReason": "ca_session_permission_denied",
+      "__NOTE__": "身份字段使用本地假数据。raceId/registrationId/raceProjectId 等服务端就绪后替换。"
+    }
+  ]
+}
