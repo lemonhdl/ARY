@@ -1,0 +1,19 @@
+[
+  {
+    "username": "Organizer_001",
+    "role": "organizer",
+    "displayName": "组织方 001"
+  },
+  {
+    "username": "team_001",
+    "role": "team",
+    "teamId": "team_001",
+    "displayName": "Team 001"
+  },
+  {
+    "username": "team_002",
+    "role": "team",
+    "teamId": "team_002",
+    "displayName": "Team 002"
+  }
+]
