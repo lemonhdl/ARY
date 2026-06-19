@@ -1,0 +1,125 @@
+{
+  "meta": {
+    "model": "ProfileCompletionView",
+    "sharedContract": "todos/10-Shared-Field-Dictionary.md",
+    "generatedAt": "2026-06-19T12:00:00Z",
+    "source": "deliverables/b-admin/profile-completion.sample.json",
+    "coverage": "覆盖已补全、部分补全、未补全三种状态，含全局统计"
+  },
+  "globalStats": {
+    "totalUsers": 287,
+    "completedCount": 231,
+    "incompleteCount": 56,
+    "completionRate": 0.805
+  },
+  "users": [
+    {
+      "userId": "user_admin_01",
+      "displayName": "ARY Root Admin",
+      "displayNameFilled": true,
+      "organizationFilled": true,
+      "contactFilled": true,
+      "profileCompleted": true,
+      "completedAt": "2026-05-01T08:05:00Z"
+    },
+    {
+      "userId": "user_admin_02",
+      "displayName": "ARY Ops Admin",
+      "displayNameFilled": true,
+      "organizationFilled": true,
+      "contactFilled": true,
+      "profileCompleted": true,
+      "completedAt": "2026-05-01T09:05:00Z"
+    },
+    {
+      "userId": "user_rider_01",
+      "displayName": "Mira Chen",
+      "displayNameFilled": true,
+      "organizationFilled": true,
+      "contactFilled": true,
+      "profileCompleted": true,
+      "completedAt": "2026-06-01T08:10:00Z"
+    },
+    {
+      "userId": "user_rider_02",
+      "displayName": "Ana Ruiz",
+      "displayNameFilled": true,
+      "organizationFilled": true,
+      "contactFilled": false,
+      "profileCompleted": false,
+      "completedAt": null
+    },
+    {
+      "userId": "user_rider_03",
+      "displayName": "Jun Park",
+      "displayNameFilled": true,
+      "organizationFilled": true,
+      "contactFilled": true,
+      "profileCompleted": true,
+      "completedAt": "2026-06-02T10:15:00Z"
+    },
+    {
+      "userId": "user_rider_04",
+      "displayName": "Rae Stone",
+      "displayNameFilled": true,
+      "organizationFilled": true,
+      "contactFilled": false,
+      "profileCompleted": false,
+      "completedAt": null
+    },
+    {
+      "userId": "user_rider_05",
+      "displayName": "New Judge User",
+      "displayNameFilled": true,
+      "organizationFilled": true,
+      "contactFilled": true,
+      "profileCompleted": true,
+      "completedAt": "2026-06-05T12:10:00Z"
+    },
+    {
+      "userId": "user_no_role_01",
+      "displayName": "",
+      "displayNameFilled": false,
+      "organizationFilled": false,
+      "contactFilled": false,
+      "profileCompleted": false,
+      "completedAt": null
+    },
+    {
+      "userId": "user_no_role_02",
+      "displayName": "",
+      "displayNameFilled": false,
+      "organizationFilled": false,
+      "contactFilled": false,
+      "profileCompleted": false,
+      "completedAt": null
+    },
+    {
+      "userId": "user_organizer_02",
+      "displayName": "Bob Zhang",
+      "displayNameFilled": true,
+      "organizationFilled": false,
+      "contactFilled": true,
+      "profileCompleted": false,
+      "completedAt": null
+    },
+    {
+      "userId": "user_judge_01",
+      "displayName": "Carol Liu",
+      "displayNameFilled": true,
+      "organizationFilled": true,
+      "contactFilled": false,
+      "profileCompleted": false,
+      "completedAt": null
+    },
+    {
+      "userId": "user_judge_02",
+      "displayName": "David Tan",
+      "displayNameFilled": true,
+      "organizationFilled": true,
+      "contactFilled": true,
+      "profileCompleted": true,
+      "completedAt": "2026-06-12T15:10:00Z"
+    }
+  ]
+}

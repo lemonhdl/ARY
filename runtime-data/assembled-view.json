@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-18T19:33:55.116Z",
+  "generatedAt": "2026-06-19T07:05:58.800Z",
   "source": "scripts/assemble.js",
   "races": [
     {
@@ -25,5 +25,77 @@
     "activeRaces": 1,
     "systemHealth": "bootstrap"
   },
-  "manifests": []
+  "manifests": [
+    {
+      "group": "b-admin",
+      "version": "0.2.0",
+      "contractVersion": "0.1.0",
+      "dependsOn": [
+        "d-data"
+      ],
+      "artifacts": [
+        {
+          "name": "dashboard-overview.sample.json",
+          "path": "deliverables/b-admin/dashboard-overview.sample.json",
+          "required": true,
+          "type": "sample-data"
+        },
+        {
+          "name": "projection-status.sample.json",
+          "path": "deliverables/b-admin/projection-status.sample.json",
+          "required": true,
+          "type": "sample-data"
+        },
+        {
+          "name": "published-artifacts.sample.json",
+          "path": "deliverables/b-admin/published-artifacts.sample.json",
+          "required": true,
+          "type": "sample-data"
+        },
+        {
+          "name": "audit-log.sample.json",
+          "path": "deliverables/b-admin/audit-log.sample.json",
+          "required": true,
+          "type": "sample-data"
+        },
+        {
+          "name": "admin-read-models.md",
+          "path": "deliverables/b-admin/admin-read-models.md",
+          "required": true,
+          "type": "documentation"
+        },
+        {
+          "name": "user-roles.sample.json",
+          "path": "deliverables/b-admin/user-roles.sample.json",
+          "required": true,
+          "type": "sample-data"
+        },
+        {
+          "name": "profile-completion.sample.json",
+          "path": "deliverables/b-admin/profile-completion.sample.json",
+          "required": true,
+          "type": "sample-data"
+        },
+        {
+          "name": "system-config.sample.json",
+          "path": "deliverables/b-admin/system-config.sample.json",
+          "required": true,
+          "type": "sample-data"
+        },
+        {
+          "name": "maintenance-ops.md",
+          "path": "deliverables/b-admin/maintenance-ops.md",
+          "required": true,
+          "type": "documentation"
+        },
+        {
+          "name": "admin-shell",
+          "path": "deliverables/b-admin/admin-shell/",
+          "required": false,
+          "type": "shell-pages"
+        }
+      ],
+      "notes": "B 组管理系统交付。所有样例遵守 todos/10-Shared-Field-Dictionary.md 和 todos/11-Publication-Visibility-Rules.md 的共享契约。published-artifacts.sample.json 必须覆盖 Results、Review、Report 的发布态和撤回态。"
+    }
+  ]
 }

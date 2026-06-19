@@ -1,0 +1,69 @@
+{
+  "meta": {
+    "model": "DashboardOverview",
+    "sharedContract": "todos/10-Shared-Field-Dictionary.md",
+    "generatedAt": "2026-06-19T12:00:00Z",
+    "source": "deliverables/b-admin/dashboard-overview.sample.json"
+  },
+  "overview": {
+    "totalUsers": 287,
+    "activeRaces": 2,
+    "totalRegistrations": 156,
+    "caIngestionRate": 0.72,
+    "workSubmissionRate": 0.58,
+    "systemHealth": "healthy"
+  },
+  "raceStatusDistribution": {
+    "draft": 1,
+    "published": 0,
+    "registration": 2,
+    "running": 2,
+    "judging": 1,
+    "completed": 2,
+    "archived": 0,
+    "upcoming": 1
+  },
+  "caHealth": {
+    "totalRegistrations": 156,
+    "configured": 124,
+    "active": 89,
+    "failed": 12,
+    "notConfigured": 32
+  },
+  "performance": {
+    "publicPageMs": 342,
+    "liveHallRefreshMs": 1240,
+    "screenPageMs": 287,
+    "loginSuccessRate": 0.993,
+    "concurrentUsers": 87
+  },
+  "topRaces": [
+    {
+      "raceId": "bay-area-happy-trip",
+      "title": "湾区开心游",
+      "status": "running",
+      "registrations": 36,
+      "activeRiders": 27,
+      "submittedWorks": 14,
+      "caActiveRate": 0.81
+    },
+    {
+      "raceId": "smart-investment-analyst",
+      "title": "智能投研助理",
+      "status": "running",
+      "registrations": 28,
+      "activeRiders": 21,
+      "submittedWorks": 9,
+      "caActiveRate": 0.75
+    },
+    {
+      "raceId": "media-ops-agent",
+      "title": "自媒体运营 Agent",
+      "status": "judging",
+      "registrations": 32,
+      "activeRiders": 0,
+      "submittedWorks": 27,
+      "caActiveRate": 0.68
+    }
+  ]
+}

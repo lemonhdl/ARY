@@ -1,0 +1,128 @@
+{
+  "meta": {
+    "model": "SystemConfigView",
+    "sharedContract": "todos/10-Shared-Field-Dictionary.md",
+    "generatedAt": "2026-06-19T12:00:00Z",
+    "source": "deliverables/b-admin/system-config.sample.json",
+    "coverage": "覆盖 CA Connector、功能开关、系统参数三类配置"
+  },
+  "configs": [
+    {
+      "configKey": "supported_ca_types",
+      "configValue": ["codex", "claude_code"],
+      "defaultValue": ["codex", "claude_code"],
+      "description": "平台当前支持的 CA 类型列表。other 类型默认允许但标记为未验证。",
+      "category": "ca_connector",
+      "updatedAt": "2026-06-15T10:00:00Z",
+      "updatedBy": "ary-root-admin"
+    },
+    {
+      "configKey": "connector.codex.version",
+      "configValue": "0.1.0",
+      "defaultValue": "0.1.0",
+      "description": "Codex connector 当前版本号",
+      "category": "ca_connector",
+      "updatedAt": null,
+      "updatedBy": null
+    },
+    {
+      "configKey": "connector.claude_code.version",
+      "configValue": "0.1.0",
+      "defaultValue": "0.1.0",
+      "description": "Claude Code connector 当前版本号",
+      "category": "ca_connector",
+      "updatedAt": null,
+      "updatedBy": null
+    },
+    {
+      "configKey": "connector.codex.endpoint",
+      "configValue": "https://connector.codex.ary.internal",
+      "defaultValue": "",
+      "description": "Codex connector HTTP 端点地址",
+      "category": "ca_connector",
+      "updatedAt": "2026-06-15T10:00:00Z",
+      "updatedBy": "ary-root-admin"
+    },
+    {
+      "configKey": "connector.claude_code.endpoint",
+      "configValue": "https://connector.claude.ary.internal",
+      "defaultValue": "",
+      "description": "Claude Code connector HTTP 端点地址",
+      "category": "ca_connector",
+      "updatedAt": "2026-06-15T10:00:00Z",
+      "updatedBy": "ary-root-admin"
+    },
+    {
+      "configKey": "public_registration_enabled",
+      "configValue": true,
+      "defaultValue": true,
+      "description": "是否允许新用户通过 GitHub 登录并注册 ARY 账号",
+      "category": "feature_flag",
+      "updatedAt": null,
+      "updatedBy": null
+    },
+    {
+      "configKey": "race_registration_enabled",
+      "configValue": true,
+      "defaultValue": true,
+      "description": "全局报名开关。设为 false 时所有赛事均不接受新报名。",
+      "category": "feature_flag",
+      "updatedAt": "2026-06-10T08:00:00Z",
+      "updatedBy": "ary-root-admin"
+    },
+    {
+      "configKey": "maintenance_mode",
+      "configValue": false,
+      "defaultValue": false,
+      "description": "维护模式。开启后全站显示维护页面，仅 Admin 可访问后台。",
+      "category": "feature_flag",
+      "updatedAt": "2026-06-19T06:00:00Z",
+      "updatedBy": "ary-ops-admin"
+    },
+    {
+      "configKey": "projection.default_refresh_interval_seconds",
+      "configValue": 120,
+      "defaultValue": 120,
+      "description": "Projection 默认自动刷新间隔（秒）。影响 Live Hall 和 Screen Console 数据更新频率。",
+      "category": "system_param",
+      "updatedAt": "2026-06-15T10:00:00Z",
+      "updatedBy": "ary-root-admin"
+    },
+    {
+      "configKey": "session.data_retention_days",
+      "configValue": 90,
+      "defaultValue": 90,
+      "description": "原始 CA Session 数据保留天数。超过此天数可被清理，但 Session Summary 和 Evidence 保留。",
+      "category": "system_param",
+      "updatedAt": null,
+      "updatedBy": null
+    },
+    {
+      "configKey": "ca_connection.max_per_race_project",
+      "configValue": 5,
+      "defaultValue": 5,
+      "description": "单个 RaceProject 允许的最大 CAConnection 数量",
+      "category": "system_param",
+      "updatedAt": null,
+      "updatedBy": null
+    },
+    {
+      "configKey": "projection.rebuild_min_interval_seconds",
+      "configValue": 60,
+      "defaultValue": 60,
+      "description": "同一 Race 同一 Projection 类型两次手动重算的最小间隔（秒）",
+      "category": "system_param",
+      "updatedAt": "2026-06-15T10:00:00Z",
+      "updatedBy": "ary-root-admin"
+    },
+    {
+      "configKey": "audit_log.retention_days",
+      "configValue": 365,
+      "defaultValue": 365,
+      "description": "审计日志保留天数",
+      "category": "system_param",
+      "updatedAt": null,
+      "updatedBy": null
+    }
+  ]
+}

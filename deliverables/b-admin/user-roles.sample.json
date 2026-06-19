@@ -1,0 +1,185 @@
+{
+  "meta": {
+    "model": "UserRolesView",
+    "sharedContract": "todos/10-Shared-Field-Dictionary.md",
+    "generatedAt": "2026-06-19T12:00:00Z",
+    "source": "deliverables/b-admin/user-roles.sample.json",
+    "coverage": "覆盖所有四种角色组合，包含多角色用户、无角色用户、未补全用户"
+  },
+  "users": [
+    {
+      "userId": "user_admin_01",
+      "githubAccount": "ary-root-admin",
+      "displayName": "ARY Root Admin",
+      "avatarUrl": "https://avatars.githubusercontent.com/u/admin01",
+      "profileCompleted": true,
+      "roles": ["admin", "organizer"],
+      "registeredAt": "2026-05-01T08:00:00Z",
+      "lastSignInAt": "2026-06-19T11:30:00Z",
+      "raceCount": 0
+    },
+    {
+      "userId": "user_admin_02",
+      "githubAccount": "ary-ops-admin",
+      "displayName": "ARY Ops Admin",
+      "avatarUrl": "https://avatars.githubusercontent.com/u/admin02",
+      "profileCompleted": true,
+      "roles": ["admin"],
+      "registeredAt": "2026-05-01T09:00:00Z",
+      "lastSignInAt": "2026-06-19T10:45:00Z",
+      "raceCount": 0
+    },
+    {
+      "userId": "user_organizer_01",
+      "githubAccount": "organizer-alice",
+      "displayName": "Alice Wang",
+      "avatarUrl": "https://avatars.githubusercontent.com/u/org01",
+      "profileCompleted": true,
+      "roles": ["organizer", "rider"],
+      "registeredAt": "2026-05-15T10:00:00Z",
+      "lastSignInAt": "2026-06-19T11:00:00Z",
+      "raceCount": 3
+    },
+    {
+      "userId": "user_organizer_02",
+      "githubAccount": "organizer-bob",
+      "displayName": "Bob Zhang",
+      "avatarUrl": "https://avatars.githubusercontent.com/u/org02",
+      "profileCompleted": true,
+      "roles": ["organizer"],
+      "registeredAt": "2026-05-20T14:00:00Z",
+      "lastSignInAt": "2026-06-19T10:00:00Z",
+      "raceCount": 2
+    },
+    {
+      "userId": "user_organizer_03",
+      "githubAccount": "new-organizer",
+      "displayName": "New Organizer",
+      "avatarUrl": "https://avatars.githubusercontent.com/u/org03",
+      "profileCompleted": true,
+      "roles": ["rider", "organizer"],
+      "registeredAt": "2026-06-01T16:00:00Z",
+      "lastSignInAt": "2026-06-19T05:00:00Z",
+      "raceCount": 1
+    },
+    {
+      "userId": "user_rider_01",
+      "githubAccount": "mira-chen",
+      "displayName": "Mira Chen",
+      "avatarUrl": "https://avatars.githubusercontent.com/u/rider01",
+      "profileCompleted": true,
+      "roles": ["rider"],
+      "registeredAt": "2026-06-01T08:00:00Z",
+      "lastSignInAt": "2026-06-19T11:40:00Z",
+      "raceCount": 1
+    },
+    {
+      "userId": "user_rider_02",
+      "githubAccount": "ana-ruiz",
+      "displayName": "Ana Ruiz",
+      "avatarUrl": "https://avatars.githubusercontent.com/u/rider02",
+      "profileCompleted": true,
+      "roles": ["rider"],
+      "registeredAt": "2026-06-01T09:00:00Z",
+      "lastSignInAt": "2026-06-19T11:20:00Z",
+      "raceCount": 1
+    },
+    {
+      "userId": "user_rider_03",
+      "githubAccount": "jun-park",
+      "displayName": "Jun Park",
+      "avatarUrl": "https://avatars.githubusercontent.com/u/rider03",
+      "profileCompleted": true,
+      "roles": ["rider"],
+      "registeredAt": "2026-06-02T10:00:00Z",
+      "lastSignInAt": "2026-06-19T11:10:00Z",
+      "raceCount": 1
+    },
+    {
+      "userId": "user_rider_04",
+      "githubAccount": "rae-stone",
+      "displayName": "Rae Stone",
+      "avatarUrl": "https://avatars.githubusercontent.com/u/rider04",
+      "profileCompleted": false,
+      "roles": ["rider"],
+      "registeredAt": "2026-06-03T11:00:00Z",
+      "lastSignInAt": "2026-06-18T09:00:00Z",
+      "raceCount": 1
+    },
+    {
+      "userId": "user_rider_05",
+      "githubAccount": "new-judge-user",
+      "displayName": "New Judge User",
+      "avatarUrl": "https://avatars.githubusercontent.com/u/judge01",
+      "profileCompleted": true,
+      "roles": ["rider", "judge"],
+      "registeredAt": "2026-06-05T12:00:00Z",
+      "lastSignInAt": "2026-06-19T11:15:00Z",
+      "raceCount": 2
+    },
+    {
+      "userId": "user_judge_01",
+      "githubAccount": "judge-carol",
+      "displayName": "Carol Liu",
+      "avatarUrl": "https://avatars.githubusercontent.com/u/judge02",
+      "profileCompleted": true,
+      "roles": ["judge"],
+      "registeredAt": "2026-06-10T13:00:00Z",
+      "lastSignInAt": "2026-06-19T10:30:00Z",
+      "raceCount": 0
+    },
+    {
+      "userId": "user_judge_02",
+      "githubAccount": "judge-david",
+      "displayName": "David Tan",
+      "avatarUrl": "https://avatars.githubusercontent.com/u/judge03",
+      "profileCompleted": true,
+      "roles": ["judge", "rider"],
+      "registeredAt": "2026-06-12T15:00:00Z",
+      "lastSignInAt": "2026-06-19T09:30:00Z",
+      "raceCount": 1
+    },
+    {
+      "userId": "user_no_role_01",
+      "githubAccount": "new-github-user",
+      "displayName": "",
+      "avatarUrl": "https://avatars.githubusercontent.com/u/norole01",
+      "profileCompleted": false,
+      "roles": [],
+      "registeredAt": "2026-06-18T08:00:00Z",
+      "lastSignInAt": "2026-06-18T08:00:00Z",
+      "raceCount": 0
+    },
+    {
+      "userId": "user_no_role_02",
+      "githubAccount": "just-signed-up",
+      "displayName": "",
+      "avatarUrl": "https://avatars.githubusercontent.com/u/norole02",
+      "profileCompleted": false,
+      "roles": [],
+      "registeredAt": "2026-06-19T10:00:00Z",
+      "lastSignInAt": "2026-06-19T10:00:00Z",
+      "raceCount": 0
+    },
+    {
+      "userId": "user_admin_03",
+      "githubAccount": "ary-super-admin",
+      "displayName": "ARY Super Admin",
+      "avatarUrl": "https://avatars.githubusercontent.com/u/admin03",
+      "profileCompleted": true,
+      "roles": ["admin", "organizer", "judge", "rider"],
+      "registeredAt": "2026-05-01T07:00:00Z",
+      "lastSignInAt": "2026-06-19T11:55:00Z",
+      "raceCount": 5
+    }
+  ],
+  "roleStatistics": {
+    "totalUsers": 287,
+    "adminCount": 3,
+    "organizerCount": 5,
+    "judgeCount": 8,
+    "riderCount": 245,
+    "noRoleCount": 42,
+    "multiRoleCount": 16
+  }
+}

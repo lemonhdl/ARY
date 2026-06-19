@@ -1,0 +1,188 @@
+{
+  "meta": {
+    "model": "AuditLogEntry",
+    "sharedContract": "todos/10-Shared-Field-Dictionary.md",
+    "generatedAt": "2026-06-19T12:00:00Z",
+    "source": "deliverables/b-admin/audit-log.sample.json",
+    "coverage": "覆盖 8 类操作类型：role_change / admin_login / projection_rebuild / report_regenerate / work_visibility_change / profile_visibility_change / config_update / access_denied"
+  },
+  "logs": [
+    {
+      "logId": "log_001",
+      "timestamp": "2026-06-19T11:58:00Z",
+      "actorUserId": "user_admin_01",
+      "actorGithubAccount": "ary-root-admin",
+      "actionType": "projection_rebuild",
+      "targetResourceType": "Projection",
+      "targetResourceId": "bay-area-happy-trip:screen_feed",
+      "detail": {
+        "raceId": "bay-area-happy-trip",
+        "projectionTypes": ["screen_feed"],
+        "reason": "screen_feed 数据延迟，手动触发重算",
+        "result": "success",
+        "rebuildDurationMs": 2340
+      },
+      "ip": "192.168.1.100",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/130.0",
+      "result": "success"
+    },
+    {
+      "logId": "log_002",
+      "timestamp": "2026-06-19T11:30:00Z",
+      "actorUserId": "user_admin_01",
+      "actorGithubAccount": "ary-root-admin",
+      "actionType": "work_visibility_change",
+      "targetResourceType": "Work",
+      "targetResourceId": "work-hidden-sample",
+      "detail": {
+        "previousVisibility": "public",
+        "newVisibility": "hidden",
+        "reason": "作品包含不当内容，经审核后从公开端移除"
+      },
+      "ip": "192.168.1.100",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/130.0",
+      "result": "success"
+    },
+    {
+      "logId": "log_003",
+      "timestamp": "2026-06-19T11:30:00Z",
+      "actorUserId": "user_admin_01",
+      "actorGithubAccount": "ary-root-admin",
+      "actionType": "config_update",
+      "targetResourceType": "Config",
+      "targetResourceId": "result-media-ops-agent-withdraw",
+      "detail": {
+        "artifactType": "result",
+        "artifactId": "result-media-ops-agent",
+        "action": "withdraw",
+        "previousStatus": "published",
+        "newStatus": "withdrawn",
+        "reason": "评委发现评分数据异常，需重新核对后发布"
+      },
+      "ip": "192.168.1.100",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/130.0",
+      "result": "success"
+    },
+    {
+      "logId": "log_004",
+      "timestamp": "2026-06-19T11:15:00Z",
+      "actorUserId": "user_admin_02",
+      "actorGithubAccount": "ary-ops-admin",
+      "actionType": "role_change",
+      "targetResourceType": "User",
+      "targetResourceId": "user_rider_05",
+      "detail": {
+        "targetGithubAccount": "new-judge-user",
+        "previousRoles": ["rider"],
+        "newRoles": ["rider", "judge"],
+        "reason": "被指定为自媒体运营 Agent 赛事的评委"
+      },
+      "ip": "192.168.1.101",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Chrome/130.0",
+      "result": "success"
+    },
+    {
+      "logId": "log_005",
+      "timestamp": "2026-06-19T10:45:00Z",
+      "actorUserId": "user_admin_02",
+      "actorGithubAccount": "ary-ops-admin",
+      "actionType": "report_regenerate",
+      "targetResourceType": "Report",
+      "targetResourceId": "rider-report-rider-mira",
+      "detail": {
+        "raceId": "bay-area-happy-trip",
+        "reportType": "rider_report",
+        "subjectRegistrationId": "reg_mira_001",
+        "reason": "选手骑行数据更新后重新生成报告",
+        "result": "success"
+      },
+      "ip": "192.168.1.101",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Chrome/130.0",
+      "result": "success"
+    },
+    {
+      "logId": "log_006",
+      "timestamp": "2026-06-19T09:00:00Z",
+      "actorUserId": "user_admin_02",
+      "actorGithubAccount": "ary-ops-admin",
+      "actionType": "admin_login",
+      "targetResourceType": "System",
+      "targetResourceId": "admin_console",
+      "detail": {
+        "loginMethod": "github_oauth"
+      },
+      "ip": "192.168.1.101",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Chrome/130.0",
+      "result": "success"
+    },
+    {
+      "logId": "log_007",
+      "timestamp": "2026-06-19T08:30:00Z",
+      "actorUserId": "user_admin_01",
+      "actorGithubAccount": "ary-root-admin",
+      "actionType": "profile_visibility_change",
+      "targetResourceType": "RiderProfile",
+      "targetResourceId": "profile-rider-hidden",
+      "detail": {
+        "previousVisibility": "public",
+        "newVisibility": "hidden",
+        "reason": "用户请求隐藏个人档案"
+      },
+      "ip": "192.168.1.100",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/130.0",
+      "result": "success"
+    },
+    {
+      "logId": "log_008",
+      "timestamp": "2026-06-19T07:15:00Z",
+      "actorUserId": "user_rider_99",
+      "actorGithubAccount": "suspicious-user",
+      "actionType": "access_denied",
+      "targetResourceType": "AdminConsole",
+      "targetResourceId": "/console/admin/users",
+      "detail": {
+        "attemptedAction": "view_all_users",
+        "reason": "用户无 admin role，尝试访问管理端用户列表"
+      },
+      "ip": "203.0.113.42",
+      "userAgent": "curl/8.4.0",
+      "result": "denied"
+    },
+    {
+      "logId": "log_009",
+      "timestamp": "2026-06-19T06:00:00Z",
+      "actorUserId": "user_admin_02",
+      "actorGithubAccount": "ary-ops-admin",
+      "actionType": "config_update",
+      "targetResourceType": "Config",
+      "targetResourceId": "maintenance_mode",
+      "detail": {
+        "configKey": "maintenance_mode",
+        "previousValue": false,
+        "newValue": true,
+        "reason": "赛前系统维护，暂时开启维护模式"
+      },
+      "ip": "192.168.1.101",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Chrome/130.0",
+      "result": "success"
+    },
+    {
+      "logId": "log_010",
+      "timestamp": "2026-06-19T05:30:00Z",
+      "actorUserId": "user_admin_01",
+      "actorGithubAccount": "ary-root-admin",
+      "actionType": "role_change",
+      "targetResourceType": "User",
+      "targetResourceId": "user_organizer_03",
+      "detail": {
+        "targetGithubAccount": "new-organizer",
+        "previousRoles": ["rider"],
+        "newRoles": ["rider", "organizer"],
+        "reason": "指定为湾区开心游赛事主办方"
+      },
+      "ip": "192.168.1.100",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/130.0",
+      "result": "success"
+    }
+  ]
+}

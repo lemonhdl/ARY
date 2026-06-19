@@ -1,0 +1,131 @@
+{
+  "meta": {
+    "model": "ProjectionStatus",
+    "sharedContract": "todos/10-Shared-Field-Dictionary.md",
+    "generatedAt": "2026-06-19T12:00:00Z",
+    "source": "deliverables/b-admin/projection-status.sample.json"
+  },
+  "projections": [
+    {
+      "raceId": "bay-area-happy-trip",
+      "raceTitle": "湾区开心游",
+      "projectionType": "race_progress",
+      "health": "healthy",
+      "lastRebuiltAt": "2026-06-19T11:58:00Z",
+      "lastFailedAt": null,
+      "failureReason": null,
+      "rebuildCount": 24,
+      "staleThresholdSeconds": 300
+    },
+    {
+      "raceId": "bay-area-happy-trip",
+      "raceTitle": "湾区开心游",
+      "projectionType": "cost",
+      "health": "healthy",
+      "lastRebuiltAt": "2026-06-19T11:58:00Z",
+      "lastFailedAt": null,
+      "failureReason": null,
+      "rebuildCount": 24,
+      "staleThresholdSeconds": 300
+    },
+    {
+      "raceId": "bay-area-happy-trip",
+      "raceTitle": "湾区开心游",
+      "projectionType": "risk",
+      "health": "degraded",
+      "lastRebuiltAt": "2026-06-19T11:55:00Z",
+      "lastFailedAt": null,
+      "failureReason": "部分 CAConnection 接入延迟，风险数据延迟约5分钟",
+      "rebuildCount": 22,
+      "staleThresholdSeconds": 300
+    },
+    {
+      "raceId": "bay-area-happy-trip",
+      "raceTitle": "湾区开心游",
+      "projectionType": "screen_feed",
+      "health": "healthy",
+      "lastRebuiltAt": "2026-06-19T11:58:00Z",
+      "lastFailedAt": null,
+      "failureReason": null,
+      "rebuildCount": 24,
+      "staleThresholdSeconds": 300
+    },
+    {
+      "raceId": "bay-area-happy-trip",
+      "raceTitle": "湾区开心游",
+      "projectionType": "current_leaderboard",
+      "health": "healthy",
+      "lastRebuiltAt": "2026-06-19T11:58:00Z",
+      "lastFailedAt": null,
+      "failureReason": null,
+      "rebuildCount": 24,
+      "staleThresholdSeconds": 300
+    },
+    {
+      "raceId": "smart-investment-analyst",
+      "raceTitle": "智能投研助理",
+      "projectionType": "race_progress",
+      "health": "healthy",
+      "lastRebuiltAt": "2026-06-19T11:57:00Z",
+      "lastFailedAt": null,
+      "failureReason": null,
+      "rebuildCount": 19,
+      "staleThresholdSeconds": 300
+    },
+    {
+      "raceId": "smart-investment-analyst",
+      "raceTitle": "智能投研助理",
+      "projectionType": "risk",
+      "health": "healthy",
+      "lastRebuiltAt": "2026-06-19T11:57:00Z",
+      "lastFailedAt": null,
+      "failureReason": null,
+      "rebuildCount": 19,
+      "staleThresholdSeconds": 300
+    },
+    {
+      "raceId": "smart-investment-analyst",
+      "raceTitle": "智能投研助理",
+      "projectionType": "screen_feed",
+      "health": "stale",
+      "lastRebuiltAt": "2026-06-19T10:21:00Z",
+      "lastFailedAt": "2026-06-19T11:57:00Z",
+      "failureReason": "Screen feed projection 生成超时",
+      "rebuildCount": 17,
+      "staleThresholdSeconds": 300
+    },
+    {
+      "raceId": "media-ops-agent",
+      "raceTitle": "自媒体运营 Agent",
+      "projectionType": "judging",
+      "health": "healthy",
+      "lastRebuiltAt": "2026-06-19T11:56:00Z",
+      "lastFailedAt": null,
+      "failureReason": null,
+      "rebuildCount": 8,
+      "staleThresholdSeconds": 600
+    },
+    {
+      "raceId": "genesis-dogfood-race",
+      "raceTitle": "创世骑行挑战赛",
+      "projectionType": "race_progress",
+      "health": "healthy",
+      "lastRebuiltAt": "2026-06-18T22:00:00Z",
+      "lastFailedAt": null,
+      "failureReason": null,
+      "rebuildCount": 42,
+      "staleThresholdSeconds": 86400
+    },
+    {
+      "raceId": "media-ops-agent",
+      "raceTitle": "自媒体运营 Agent",
+      "projectionType": "submission",
+      "health": "failed",
+      "lastRebuiltAt": "2026-06-19T10:12:00Z",
+      "lastFailedAt": "2026-06-19T11:56:00Z",
+      "failureReason": "部分 Work 状态数据不完整，提交投影生成失败",
+      "rebuildCount": 6,
+      "staleThresholdSeconds": 600
+    }
+  ]
+}
