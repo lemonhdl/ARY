@@ -30,4 +30,4 @@ deliverables/
 
 ## 3. 当前状态
 
-当前仅创建目录骨架和模板文件，供后续各组填充真实实现产物。
+目录骨架仍作为统一交付入口保留，但当前仓库已不再只是模板阶段：A-Rider、B-Admin、C-Frontend、D-Data 均已存在正式 `handoff.manifest.json` 与对应交付物，E 侧也已基于这些目录完成运行态装配与 app 集成。

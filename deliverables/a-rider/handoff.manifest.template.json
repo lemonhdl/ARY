@@ -33,6 +33,24 @@
       "path": "deliverables/a-rider/replay-readme.md",
       "required": true,
       "type": "documentation"
+    },
+    {
+      "name": "client-source/",
+      "path": "deliverables/a-rider/client-source/",
+      "required": true,
+      "type": "source-code"
+    },
+    {
+      "name": "proxy-source/",
+      "path": "deliverables/a-rider/proxy-source/",
+      "required": true,
+      "type": "source-code"
+    },
+    {
+      "name": "one-api-source/",
+      "path": "deliverables/a-rider/one-api-source/",
+      "required": true,
+      "type": "source-code"
     }
   ],
   "notes": "Copy this template to handoff.manifest.json and keep artifact paths aligned with real deliverables."

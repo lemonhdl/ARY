@@ -153,6 +153,46 @@ const aRiderSessionFetch = safeLoadJson(path.join(aRiderDir, 'session-fetch.cont
 const aRiderProtocolSummary = safeLoadText(path.join(aRiderDir, 'protocol-summary.md'));
 const aRiderReplayReadme = safeLoadText(path.join(aRiderDir, 'replay-readme.md'));
 const aRiderErrorCodes = safeLoadText(path.join(aRiderDir, 'error-codes.md'));
+const aRiderOneApiIntegration = safeLoadText(path.join(aRiderDir, 'proxy-source', 'one-api-integration.md'));
+
+function summarizeDirectory(filePath) {
+  if (!fs.existsSync(filePath)) return null;
+
+  const summary = {
+    exists: true,
+    fileCount: 0,
+    directoryCount: 0,
+    topLevelEntries: []
+  };
+
+  const stack = [filePath];
+  while (stack.length) {
+    const currentPath = stack.pop();
+    const entries = fs.readdirSync(currentPath, { withFileTypes: true });
+
+    if (currentPath === filePath) {
+      summary.topLevelEntries = entries
+        .map((entry) => entry.name + (entry.isDirectory() ? '/' : ''))
+        .sort();
+    }
+
+    for (const entry of entries) {
+      const entryPath = path.join(currentPath, entry.name);
+      if (entry.isDirectory()) {
+        summary.directoryCount += 1;
+        stack.push(entryPath);
+      } else {
+        summary.fileCount += 1;
+      }
+    }
+  }
+
+  return summary;
+}
+
+const aRiderClientSourceSummary = summarizeDirectory(path.join(aRiderDir, 'client-source'));
+const aRiderProxySourceSummary = summarizeDirectory(path.join(aRiderDir, 'proxy-source'));
+const aRiderOneApiSourceSummary = summarizeDirectory(path.join(aRiderDir, 'one-api-source'));
 
 const aRiderEventSamples = {
   normal: Array.isArray(aRiderRidingEvents?.normal) ? aRiderRidingEvents.normal : [],
@@ -169,7 +209,13 @@ const aRiderSummary = {
   fetchPath: aRiderSessionFetch?.endpoint?.path || null,
   supportedCaType: aRiderSessionFetch?.response?.schema?.ca?.caType || aRiderRegisterHandshake?.request?.body?.caType || null,
   snapshotTaskStatus: aRiderSessionSnapshot?.snapshot?.task?.taskStatus || null,
-  snapshotProgressPercent: aRiderSessionSnapshot?.snapshot?.task?.progressPercent || null
+  snapshotProgressPercent: aRiderSessionSnapshot?.snapshot?.task?.progressPercent || null,
+  hasOneApiIntegrationDoc: Boolean(aRiderOneApiIntegration),
+  sourceBundles: {
+    clientSource: aRiderClientSourceSummary,
+    proxySource: aRiderProxySourceSummary,
+    oneApiSource: aRiderOneApiSourceSummary
+  }
 };
 
 const dashboard = {
@@ -217,7 +263,8 @@ const assembledView = {
     docs: {
       protocolSummary: aRiderProtocolSummary,
       replayReadme: aRiderReplayReadme,
-      errorCodes: aRiderErrorCodes
+      errorCodes: aRiderErrorCodes,
+      oneApiIntegration: aRiderOneApiIntegration
     }
   },
   manifests

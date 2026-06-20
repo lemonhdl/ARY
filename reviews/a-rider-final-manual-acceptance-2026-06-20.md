@@ -6,11 +6,11 @@
 
 - 本机单机应用：`http://127.0.0.1:3000`
 - 验收方式：运行中 app 的 HTTP/API 实测 + 管理端渲染实测
-- 验收范围：A-Rider runtime summary、contract 切片、Admin 维护页接线区块
+- 验收范围：A-Rider runtime summary、contract 切片、ca-status/docs/source-bundles 切片，以及 Admin 维护页接线区块
 
 ## 验收结论
 
-本轮人工验收通过。A-Rider 当前已具备完整的 app 内集成面：运行时摘要、事件样例、contract 切片、快照信息和管理端联调入口均可从运行中单机应用访问。当前可将 A-Rider 作为“已集成且已具备人工收工证据”的交付看待。
+本轮人工验收通过。A-Rider 当前已具备完整的 app 内集成面：运行时摘要、事件样例、contract 切片、ca-status/docs/source-bundles 切片、快照信息和管理端联调入口均可从运行中单机应用访问。当前可将 A-Rider 作为“已集成且已具备人工收工证据”的交付看待。
 
 ## 实测记录
 
@@ -23,14 +23,16 @@
   - `CA Status Samples = 5`
   - `Snapshot Progress = 95% / in_progress`
   - `Signing = Ed25519`
+  - `Source Bundles = 3`（client / proxy / one-api）
 - 结论：通过。
 
-### 2. Admin 区块 contract 摘要已渲染
+### 2. Admin 区块 contract / 集成说明摘要已渲染
 
 - 路由：`/admin/maintenance.html#a-rider-replay`
-- 观察结果：A-Rider 区块中已渲染 2 行 contract 摘要，分别对应：
+- 观察结果：A-Rider 区块中已渲染 3 行摘要，分别对应：
   - `Register / Handshake`
   - `Session Snapshot Fetch`
+  - `One API Integration`
 - 结论：通过。
 
 ### 3. Admin 区块事件样例表已渲染
@@ -39,7 +41,16 @@
 - 观察结果：A-Rider 区块中事件样例表已渲染 `6` 行样例事件，可作为集成侧回放和联调入口。
 - 结论：通过。
 
-### 4. A-Rider runtime summary API 可访问
+### 4. Admin 区块状态样例 / 文档 / 源码包摘要已渲染
+
+- 路由：`/admin/maintenance.html#a-rider-replay`
+- 观察结果：
+  - A-Rider 状态样例表已渲染 `5` 行，覆盖 `not_configured / registered / handshaken / active / failed`
+  - 文档摘要表已渲染 `4` 行，对应 `protocol-summary.md`、`replay-readme.md`、`error-codes.md`、`one-api-integration.md`
+  - 源码包摘要表已渲染 `3` 行，对应 `client-source/`、`proxy-source/`、`one-api-source/`
+- 结论：通过。
+
+### 5. A-Rider runtime summary API 可访问
 
 - 路由：`/api/runtime/a-rider`
 - 观察结果：返回 `200`；可读到：
@@ -52,7 +63,7 @@
   - `snapshotProgressPercent = 95`
 - 结论：通过。
 
-### 5. A-Rider contracts API 可访问且边界正确
+### 6. A-Rider contracts API 可访问且边界正确
 
 - 路由：`/api/runtime/a-rider/contracts`
 - 观察结果：返回 `200`；register-handshake 与 session-fetch 两套 contract 均可读取；其中：
@@ -64,8 +75,18 @@
   - `registerHandshake.keyManagement.keyGeneration = ARY 服务端在握手时生成密钥对`
 - 结论：通过。
 
+### 7. A-Rider 其余 runtime 切片可访问
+
+- 路由：`/api/runtime/a-rider/ca-status`
+  - 观察结果：返回 `200`；包含 `statuses`，可覆盖 5 种 A-Rider CA 接入状态样例。
+- 路由：`/api/runtime/a-rider/docs`
+  - 观察结果：返回 `200`；包含 `protocolSummary`、`replayReadme`、`errorCodes`、`oneApiIntegration`。
+- 路由：`/api/runtime/a-rider/source-bundles`
+  - 观察结果：返回 `200`；包含 `clientSource`、`proxySource`、`oneApiSource` 三个源码包摘要。
+- 结论：通过。
+
 ## 最终判断
 
 - A-Rider 已完成本轮最终人工验收留痕。
-- 当前可将其作为“已完成 review、已接入 app、且已具备人工收工证据”的交付处理。
+- 当前可将其作为“已完成 review、已接入 app、且全部任务包交付项都已进入 app 可访问面”的交付处理。
 - 后续如果还要继续处理，已经不是主阻塞，只剩增量演进或可选的补充留痕。

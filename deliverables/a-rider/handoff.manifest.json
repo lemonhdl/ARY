@@ -65,7 +65,21 @@
       "path": "deliverables/a-rider/client-source/",
       "required": true,
       "type": "source-code",
-      "description": "DCR Desktop App 核心源码：消息构造、签名、哈希链、中转代理、用户端"
+      "description": "DCR Desktop App 骑手端源码：消息构造、签名、哈希链、本地样例生成与用户端 UI"
+    },
+    {
+      "name": "proxy-source/",
+      "path": "deliverables/a-rider/proxy-source/",
+      "required": true,
+      "type": "source-code",
+      "description": "DCR 透明中转站源码：格式检测、格式转换、哈希链、多用户隔离与 One API 启动编排"
+    },
+    {
+      "name": "one-api-source/",
+      "path": "deliverables/a-rider/one-api-source/",
+      "required": true,
+      "type": "source-code",
+      "description": "One API 上游格式网关源码快照，供本地编译、能力继承和协议对齐使用"
     }
   ],
   "notes": "身份字段（race.*, rider.*, ca.caConnectionId）当前使用 __MOCK__ 占位，等待 ARY 服务端 API 就绪后替换。中转站和用户端当前部署于骑手本机，后续中转站迁移至云端时仅需修改 ANTHROPIC_BASE_URL 指向。"

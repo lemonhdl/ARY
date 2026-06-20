@@ -82,10 +82,13 @@
         <div id="ca-status-container">加载中...</div>
 
         <h2 class="section-title" id="a-rider-replay">A-Rider 回放与接入验收</h2>
-        <div class="alert alert-info">此区块展示 A-Rider 最新交付已装配到 app 的样例事件、握手 / 快照 contract 与验签样例摘要，作为集成与联调入口。</div>
+        <div class="alert alert-info">此区块展示 A-Rider 最新交付已装配到 app 的样例事件、状态样例、握手 / 快照 contract、文档与源码摘要，作为集成与联调入口。</div>
         <div id="a-rider-summary">加载中...</div>
         <div class="table-wrap"><table><thead><tr><th>契约</th><th>方法</th><th>路径</th><th>关键信息</th></tr></thead><tbody id="a-rider-contract-table"></tbody></table></div>
         <div class="table-wrap"><table><thead><tr><th>时间</th><th>信号</th><th>Phase</th><th>Progress</th><th>Risk</th><th>摘要</th></tr></thead><tbody id="a-rider-events-table"></tbody></table></div>
+        <div class="table-wrap"><table><thead><tr><th>接入状态</th><th>CA Type</th><th>连接器</th><th>注册 / 握手</th><th>最近活跃 / 失败</th><th>原因</th></tr></thead><tbody id="a-rider-status-table"></tbody></table></div>
+        <div class="table-wrap"><table><thead><tr><th>文档</th><th>摘要</th><th>关键覆盖</th><th>运行时切片</th></tr></thead><tbody id="a-rider-docs-table"></tbody></table></div>
+        <div class="table-wrap"><table><thead><tr><th>源码包</th><th>文件数</th><th>目录数</th><th>顶层内容</th></tr></thead><tbody id="a-rider-source-table"></tbody></table></div>
 
         <h2 class="section-title">Projection 状态与重算</h2>
         <div class="alert alert-info">Projection 是过程展示数据，重算不影响核心事实数据。重算期间 Live Hall 和 Screen Console 回退到上一稳定版本。</div>
@@ -152,6 +155,15 @@
         return Number.isNaN(date.getTime()) ? '--' : date.toLocaleString('zh-CN');
       }
 
+      function summarizeDoc(text) {
+        if (!text) return { title: '--', summary: '--', coverage: '--' };
+        const lines = String(text).split(/\r?\n/).map((line) => line.trim()).filter(Boolean);
+        const title = lines.find((line) => line.startsWith('#'))?.replace(/^#+\s*/, '') || lines[0] || '--';
+        const summary = lines.find((line) => !line.startsWith('#') && !line.startsWith('|') && !line.startsWith('```')) || '--';
+        const coverage = lines.find((line) => line.includes('W1') || line.includes('W3') || line.includes('W4') || line.includes('W5') || line.includes('W8') || line.includes('W9') || line.includes('One API')) || '--';
+        return { title, summary, coverage };
+      }
+
       async function load() {
         try {
           const resp = await fetch('/api/runtime/assembled-view');
@@ -191,10 +203,23 @@
           if (aRider) {
             const summary = aRider.summary || {};
             const ridingEvents = aRider.samples?.ridingEvents || {};
+            const statusSamples = aRider.samples?.caStatuses?.statuses || [];
+            const docs = aRider.docs || {};
             const eventRows = (ridingEvents.normal || []).concat(ridingEvents.failure || []).slice(0, 8);
             const handshake = aRider.contracts?.registerHandshake || {};
             const sessionFetch = aRider.contracts?.sessionFetch || {};
             const signing = aRider.samples?.signatureSamples?.__GENERATION_NOTE__?.decisions || {};
+            const protocolDoc = summarizeDoc(docs.protocolSummary);
+            const replayDoc = summarizeDoc(docs.replayReadme);
+            const errorDoc = summarizeDoc(docs.errorCodes);
+            const oneApiDoc = summarizeDoc(docs.oneApiIntegration);
+
+            const sourceBundles = summary.sourceBundles || {};
+            const sourceBundleText = [
+              sourceBundles.clientSource ? `client ${sourceBundles.clientSource.fileCount} files` : null,
+              sourceBundles.proxySource ? `proxy ${sourceBundles.proxySource.fileCount} files` : null,
+              sourceBundles.oneApiSource ? `one-api ${sourceBundles.oneApiSource.fileCount} files` : null
+            ].filter(Boolean).join(' · ');
 
             document.getElementById('a-rider-summary').innerHTML = `
               <div class="summary-grid">
@@ -202,6 +227,7 @@
                 <div class="summary-card"><h3>CA Status Samples</h3><strong>${summary.statusSampleCount || 0}</strong><p>覆盖 registered / handshaken / active / failed / not_configured</p></div>
                 <div class="summary-card"><h3>Snapshot Progress</h3><strong>${summary.snapshotProgressPercent ?? '--'}%</strong><p>${summary.snapshotTaskStatus || '--'}</p></div>
                 <div class="summary-card"><h3>Signing</h3><strong>${summary.signingAlgorithm || '--'}</strong><p>握手与验签链路已装配到 runtime API</p></div>
+                <div class="summary-card"><h3>Source Bundles</h3><strong>${summary.hasOneApiIntegrationDoc ? '3' : '2'}</strong><p>${sourceBundleText || '源码目录摘要未生成'}</p></div>
               </div>`;
 
             document.getElementById('a-rider-contract-table').innerHTML = `
@@ -216,6 +242,12 @@
                 <td>${sessionFetch.endpoint?.method || '--'}</td>
                 <td class="mono">${sessionFetch.endpoint?.path || '--'}</td>
                 <td>supported caType: ${sessionFetch.response?.schema?.ca?.caType || '--'} · signer: ${signing.signer || '--'}</td>
+              </tr>
+              <tr>
+                <td><strong>One API Integration</strong></td>
+                <td>DOC</td>
+                <td class="mono">deliverables/a-rider/proxy-source/one-api-integration.md</td>
+                <td>${summary.hasOneApiIntegrationDoc ? '已装配 One API 集成说明，可联动 proxy-source / one-api-source' : '未发现 One API 集成说明'}</td>
               </tr>`;
 
             document.getElementById('a-rider-events-table').innerHTML = eventRows.length ? eventRows.map((event) => `
@@ -228,10 +260,51 @@
                 <td>${event.summary?.latestActivity || event.summary?.currentGoal || '--'}</td>
               </tr>
             `).join('') : `<tr><td colspan="6" style="text-align:center;color:#94a3b8;padding:40px;">暂无 A-Rider 事件样例。</td></tr>`;
+
+            document.getElementById('a-rider-status-table').innerHTML = statusSamples.length ? statusSamples.map((status) => `
+              <tr>
+                <td><span class="badge badge-${status.ingestionStatus === 'active' ? 'healthy' : (status.ingestionStatus === 'handshaken' || status.ingestionStatus === 'registered') ? 'degraded' : status.ingestionStatus === 'failed' ? 'failed' : 'stale'}">${status.ingestionStatus || '--'}</span></td>
+                <td>${status.caType || '--'}</td>
+                <td>${status.connectorId || '--'}<br/><span style="font-size:12px;color:#5a7a9a;">${status.connectorVersion || '--'}</span></td>
+                <td style="font-size:12px;">${formatDateTime(status.registeredAt)}<br/>${formatDateTime(status.handshakenAt)}</td>
+                <td style="font-size:12px;">${formatDateTime(status.lastActiveAt)}<br/>${formatDateTime(status.failedAt)}</td>
+                <td style="font-size:12px;color:${status.statusReason ? '#dc2626' : '#5a7a9a'};">${status.statusReason || '--'}</td>
+              </tr>
+            `).join('') : `<tr><td colspan="6" style="text-align:center;color:#94a3b8;padding:40px;">暂无 A-Rider 状态样例。</td></tr>`;
+
+            document.getElementById('a-rider-docs-table').innerHTML = [
+              { name: 'protocol-summary.md', doc: protocolDoc, slice: '/api/runtime/a-rider/docs' },
+              { name: 'replay-readme.md', doc: replayDoc, slice: '/api/runtime/a-rider/docs' },
+              { name: 'error-codes.md', doc: errorDoc, slice: '/api/runtime/a-rider/docs' },
+              { name: 'one-api-integration.md', doc: oneApiDoc, slice: '/api/runtime/a-rider/docs' }
+            ].map((item) => `
+              <tr>
+                <td><strong>${item.name}</strong><br/><span style="font-size:12px;color:#5a7a9a;">${item.doc.title}</span></td>
+                <td style="font-size:12px;">${item.doc.summary}</td>
+                <td style="font-size:12px;">${item.doc.coverage}</td>
+                <td class="mono">${item.slice}</td>
+              </tr>
+            `).join('');
+
+            document.getElementById('a-rider-source-table').innerHTML = [
+              { name: 'client-source/', bundle: sourceBundles.clientSource },
+              { name: 'proxy-source/', bundle: sourceBundles.proxySource },
+              { name: 'one-api-source/', bundle: sourceBundles.oneApiSource }
+            ].map((item) => `
+              <tr>
+                <td><strong>${item.name}</strong></td>
+                <td>${item.bundle?.fileCount ?? '--'}</td>
+                <td>${item.bundle?.directoryCount ?? '--'}</td>
+                <td class="mono">${(item.bundle?.topLevelEntries || []).slice(0, 8).join(', ') || '--'}</td>
+              </tr>
+            `).join('');
           } else {
             document.getElementById('a-rider-summary').innerHTML = '<div class="alert alert-warning">A-Rider 尚未装配进 runtime-data/assembled-view.json。</div>';
             document.getElementById('a-rider-contract-table').innerHTML = '<tr><td colspan="4" style="text-align:center;color:#94a3b8;padding:40px;">暂无 A-Rider contract 数据。</td></tr>';
             document.getElementById('a-rider-events-table').innerHTML = '<tr><td colspan="6" style="text-align:center;color:#94a3b8;padding:40px;">暂无 A-Rider 事件样例。</td></tr>';
+            document.getElementById('a-rider-status-table').innerHTML = '<tr><td colspan="6" style="text-align:center;color:#94a3b8;padding:40px;">暂无 A-Rider 状态样例。</td></tr>';
+            document.getElementById('a-rider-docs-table').innerHTML = '<tr><td colspan="4" style="text-align:center;color:#94a3b8;padding:40px;">暂无 A-Rider 文档切片。</td></tr>';
+            document.getElementById('a-rider-source-table').innerHTML = '<tr><td colspan="4" style="text-align:center;color:#94a3b8;padding:40px;">暂无 A-Rider 源码包摘要。</td></tr>';
           }
 
           // Projections

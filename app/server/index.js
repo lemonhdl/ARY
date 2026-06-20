@@ -870,6 +870,11 @@ const server = http.createServer((req, res) => {
     return;
   }
 
+  if (pathname === '/api/runtime/a-rider/ca-status') {
+    serveAssembledViewSlice(res, 'aRider.samples.caStatuses', (assembledView) => assembledView.aRider?.samples?.caStatuses);
+    return;
+  }
+
   if (pathname === '/api/runtime/a-rider/session-snapshot') {
     serveAssembledViewSlice(res, 'aRider.samples.sessionSnapshot', (assembledView) => assembledView.aRider?.samples?.sessionSnapshot);
     return;
@@ -882,6 +887,16 @@ const server = http.createServer((req, res) => {
 
   if (pathname === '/api/runtime/a-rider/contracts') {
     serveAssembledViewSlice(res, 'aRider.contracts', (assembledView) => assembledView.aRider?.contracts);
+    return;
+  }
+
+  if (pathname === '/api/runtime/a-rider/docs') {
+    serveAssembledViewSlice(res, 'aRider.docs', (assembledView) => assembledView.aRider?.docs);
+    return;
+  }
+
+  if (pathname === '/api/runtime/a-rider/source-bundles') {
+    serveAssembledViewSlice(res, 'aRider.summary.sourceBundles', (assembledView) => assembledView.aRider?.summary?.sourceBundles);
     return;
   }
 
