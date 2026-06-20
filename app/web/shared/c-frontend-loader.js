@@ -39,8 +39,7 @@
     const patchedScript = 'window.ARY_DISABLE_GRS002_RUNTIME = true;\n' + originalScript
       .replaceAll('./assets/', '/c-frontend-prototype/assets/')
       .replaceAll('./data/', '/c-frontend-prototype/data/')
-      .replace('initGrs002Runtime();', 'if (!window.ARY_DISABLE_GRS002_RUNTIME) initGrs002Runtime();')
-      .concat(`\nwindow.ARY_ROUTE_CONTEXT = window.ARY_ROUTE_CONTEXT || { currentWorkId: null, currentRiderId: null, pinnedHomeRaceId: null };\nwindow.ARY_PROTOTYPE_STATE = {\n  getCurrentRaceId: () => currentRaceId,\n  getCurrentResultsRaceId: () => currentResultsRaceId,\n  getCurrentScreenMode: () => currentScreenMode,\n  getCurrentWorkFilter: () => currentWorkFilter,\n  getCurrentWorkId: () => window.ARY_ROUTE_CONTEXT.currentWorkId,\n  getCurrentRiderId: () => window.ARY_ROUTE_CONTEXT.currentRiderId,\n};\nconst __aryRenderHomeRace = renderHomeRace;\nrenderHomeRace = function(raceId) {\n  return __aryRenderHomeRace.apply(this, arguments);\n};\nconst __aryRenderPublicRaceContext = renderPublicRaceContext;\nrenderPublicRaceContext = function(raceId) {\n  const result = __aryRenderPublicRaceContext.apply(this, arguments);\n  if (window.ARY_ROUTE_CONTEXT.pinnedHomeRaceId && document.querySelector('.page-home.active')) {\n    history.replaceState(null, '', '/public/?raceId=' + encodeURIComponent(raceId) + '#home');\n  }\n  return result;\n};\nconst __aryRotateHomeLiveRace = rotateHomeLiveRace;\nrotateHomeLiveRace = function() {\n  if (window.ARY_ROUTE_CONTEXT.pinnedHomeRaceId) return;\n  return __aryRotateHomeLiveRace.apply(this, arguments);\n};\nconst __aryRestartHomeRaceCarousel = restartHomeRaceCarousel;\nrestartHomeRaceCarousel = function() {\n  if (window.ARY_ROUTE_CONTEXT.pinnedHomeRaceId) {\n    window.clearInterval(homeRaceCarouselTimer);\n    return;\n  }\n  return __aryRestartHomeRaceCarousel.apply(this, arguments);\n};\nconst __aryRenderRiderProfile = renderRiderProfile;\nrenderRiderProfile = function(profile) {\n  window.ARY_ROUTE_CONTEXT.currentRiderId = profile?.riderId || null;\n  return __aryRenderRiderProfile.apply(this, arguments);\n};\nconst __aryRenderWorkDetail = renderWorkDetail;\nrenderWorkDetail = function(workId) {\n  window.ARY_ROUTE_CONTEXT.currentWorkId = workId || null;\n  return __aryRenderWorkDetail.apply(this, arguments);\n};\nconst __aryHideWorkDetail = hideWorkDetail;\nhideWorkDetail = function() {\n  window.ARY_ROUTE_CONTEXT.currentWorkId = null;\n  return __aryHideWorkDetail.apply(this, arguments);\n};\n`);
+      .replace('initGrs002Runtime();', 'if (!window.ARY_DISABLE_GRS002_RUNTIME) initGrs002Runtime();');
 
     const script = document.createElement('script');
     script.text = patchedScript;
@@ -76,35 +75,16 @@
       entry: inferEntry(),
       raceId: params.get('raceId') || null,
       filter: params.get('filter') || null,
-      screenMode: params.get('screenMode') || null,
+      screenMode: params.get('mode') || params.get('screenMode') || null,
     };
-  }
-
-  function getInitialPage(entry) {
-    const hashPage = location.hash.replace(/^#/, '');
-    if (hashPage) return hashPage;
-    if (entry === 'live') return 'live';
-    if (entry === 'screen') return 'screen';
-    return 'home';
-  }
-
-  function activatePage(pageName) {
-    const button = document.querySelector(`[data-page="${pageName}"]`);
-    button?.click();
-  }
-
-  function activateScreenMode(modeName) {
-    const button = document.querySelector(`[data-screen-mode="${modeName}"]`);
-    button?.click();
   }
 
   function getSampleData() {
     return window.ARY_SAMPLE_DATA || {};
   }
 
-  function setPinnedHomeRaceId(raceId) {
-    window.ARY_ROUTE_CONTEXT = window.ARY_ROUTE_CONTEXT || {};
-    window.ARY_ROUTE_CONTEXT.pinnedHomeRaceId = raceId || null;
+  function getCFrontendApi() {
+    return window.ARY_C_FRONTEND || null;
   }
 
   function getProfileById(riderId) {
@@ -118,50 +98,6 @@
   function getPreferredResultRaceId() {
     const sampleData = getSampleData();
     return sampleData.raceGroups?.completedRaceIds?.[0] || sampleData.results?.[0]?.raceId || null;
-  }
-
-  function getPrototypeState() {
-    return window.ARY_PROTOTYPE_STATE || {};
-  }
-
-  function getCurrentRaceId(routeState = parseRouteState()) {
-    const state = getPrototypeState();
-    return state.getCurrentRaceId?.() || routeState.raceId || routeState.resourceId || getSampleData().raceGroups?.featuredRaceId || null;
-  }
-
-  function getCurrentResultsRaceId(routeState = parseRouteState()) {
-    const state = getPrototypeState();
-    return state.getCurrentResultsRaceId?.() || routeState.resourceId || getPreferredResultRaceId();
-  }
-
-  function getCurrentWorkId() {
-    return getPrototypeState().getCurrentWorkId?.() || null;
-  }
-
-  function getCurrentRiderId() {
-    return getPrototypeState().getCurrentRiderId?.() || null;
-  }
-
-  function getFallbackRiderIdForRace(raceId) {
-    if (!raceId) return null;
-    const profile = (getSampleData().profiles || []).find((item) => (item.featuredRaceIds || []).includes(raceId));
-    return profile?.riderId || null;
-  }
-
-  function getRepresentativeRiderIdForRace(raceId) {
-    if (!raceId) return null;
-    return getFallbackRiderIdForRace(raceId)
-      || (getSampleData().riders || []).find((rider) => rider.raceId === raceId)?.id
-      || (getSampleData().works || []).find((work) => work.raceId === raceId)?.riderId
-      || null;
-  }
-
-  function getVisibleHomeRiderId() {
-    const riderName = document.querySelector('.benefit-row article:nth-of-type(2) h2')?.textContent?.trim();
-    if (!riderName) return null;
-    return (getSampleData().profiles || []).find((profile) => profile.displayName === riderName)?.riderId
-      || (getSampleData().riders || []).find((rider) => rider.name === riderName)?.id
-      || null;
   }
 
   function renderUnavailableRiderProfile(riderId) {
@@ -188,199 +124,99 @@
     }
   }
 
-  function getCurrentScreenMode() {
-    return getPrototypeState().getCurrentScreenMode?.() || 'live';
+  function getFeaturedRaceId() {
+    return getSampleData().raceGroups?.featuredRaceId || null;
   }
 
-  function getPathForPage(pageName, routeState = parseRouteState()) {
-    const raceId = getCurrentRaceId(routeState);
-    const resultsRaceId = getCurrentResultsRaceId(routeState);
-    const currentWorkId = getCurrentWorkId();
-    const currentRiderId = getCurrentRiderId();
-    const params = new URLSearchParams();
+  function setShellEntry(routeState) {
+    const entry = routeState.routeKind === 'live'
+      ? 'live'
+      : routeState.routeKind === 'screen'
+        ? 'screen'
+        : 'public';
+    document.body.dataset.shellEntry = entry;
+  }
 
-    switch (pageName) {
-      case 'home':
-        return '/public/#home';
+  function buildRouteInput(routeState) {
+    const featuredRaceId = getFeaturedRaceId();
+    const work = routeState.resourceId ? getWorkById(routeState.resourceId) : null;
+    const preferredResultRaceId = getPreferredResultRaceId();
+    const baseState = {
+      workId: null,
+      riderId: null,
+      resultsRaceId: preferredResultRaceId,
+      workFilter: 'public',
+      screenMode: 'live',
+      homeRacePinned: true,
+    };
+
+    switch (routeState.routeKind) {
       case 'race':
-        return raceId ? `/race/${encodeURIComponent(raceId)}` : '/race/';
-      case 'live':
-        return raceId ? `/live/${encodeURIComponent(raceId)}` : '/live/';
+        return { ...baseState, page: 'race', raceId: routeState.resourceId || featuredRaceId };
       case 'works':
-        if (raceId) params.set('raceId', raceId);
-        if (getPrototypeState().getCurrentWorkFilter?.()) params.set('filter', getPrototypeState().getCurrentWorkFilter());
-        return `/works${params.toString() ? `?${params.toString()}` : ''}`;
+        return {
+          ...baseState,
+          page: 'works',
+          raceId: routeState.raceId || work?.raceId || featuredRaceId,
+          workId: routeState.resourceId || null,
+          workFilter: routeState.filter || 'public',
+        };
       case 'results':
-        return resultsRaceId ? `/results/${encodeURIComponent(resultsRaceId)}` : '/results/';
+        return {
+          ...baseState,
+          page: 'results',
+          raceId: routeState.resourceId || preferredResultRaceId,
+          resultsRaceId: routeState.resourceId || preferredResultRaceId,
+        };
       case 'review':
-        return resultsRaceId ? `/review/${encodeURIComponent(resultsRaceId)}` : '/review/';
-      case 'rider':
-        return currentRiderId
-          ? `/riders/${encodeURIComponent(currentRiderId)}`
-          : getVisibleHomeRiderId()
-            ? `/riders/${encodeURIComponent(getVisibleHomeRiderId())}`
-            : getRepresentativeRiderIdForRace(raceId)
-              ? `/riders/${encodeURIComponent(getRepresentativeRiderIdForRace(raceId))}`
-              : '/riders/';
+        return {
+          ...baseState,
+          page: 'review',
+          raceId: routeState.resourceId || preferredResultRaceId,
+          resultsRaceId: routeState.resourceId || preferredResultRaceId,
+        };
+      case 'riders':
+        return {
+          ...baseState,
+          page: 'rider',
+          raceId: getProfileById(routeState.resourceId || (getSampleData().profiles || [])[0]?.riderId || null)?.featuredRaceIds?.[0] || featuredRaceId,
+          riderId: routeState.resourceId || (getSampleData().profiles || [])[0]?.riderId || null,
+        };
       case 'cooperation':
-        return '/cooperation';
-      case 'screen': {
-        if (raceId) params.set('screenMode', getCurrentScreenMode());
-        const query = params.toString() ? `?${params.toString()}` : '';
-        return raceId ? `/screen/${encodeURIComponent(raceId)}${query}` : '/screen/';
-      }
+        return { ...baseState, page: 'cooperation', raceId: featuredRaceId };
+      case 'live':
+        return { ...baseState, page: 'live', raceId: routeState.resourceId || featuredRaceId };
+      case 'screen':
+        return { ...baseState, page: 'screen', raceId: routeState.resourceId || featuredRaceId, screenMode: routeState.screenMode || 'live' };
+      case 'public':
       default:
-        return null;
+        return { ...baseState, page: 'home', raceId: routeState.raceId || featuredRaceId, homeRacePinned: Boolean(routeState.raceId) };
     }
   }
 
-  function updateUrl(nextUrl, replace = false) {
-    if (!nextUrl) return;
-    const currentUrl = `${location.pathname}${location.search}${location.hash}`;
-    if (currentUrl === nextUrl) return;
-    if (replace) history.replaceState(null, '', nextUrl);
-    else history.pushState(null, '', nextUrl);
-  }
+  function applyRouteState(routeState, options = {}) {
+    setShellEntry(routeState);
+    const api = getCFrontendApi();
+    if (!api?.applyRouteState) throw new Error('C frontend route API is unavailable');
 
-  function applyCurrentRouteState() {
-    applyRouteState(parseRouteState());
-  }
+    const routeInput = buildRouteInput(routeState);
+    api.applyRouteState(routeInput, { syncUrl: false, replace: options.replace !== false });
 
-  function applyRouteState(routeState) {
-    const sampleData = getSampleData();
-    const resourceId = routeState.resourceId;
-
-    switch (routeState.routeKind) {
-      case 'race': {
-        const raceId = resourceId || sampleData.raceGroups?.featuredRaceId;
-        if (typeof window.renderPublicRaceContext === 'function' && raceId) window.renderPublicRaceContext(raceId);
-        activatePage('race');
-        return;
-      }
-      case 'works': {
-        const work = resourceId ? getWorkById(resourceId) : null;
-        const raceId = routeState.raceId || work?.raceId || sampleData.raceGroups?.featuredRaceId;
-        if (typeof window.renderPublicRaceContext === 'function' && raceId) window.renderPublicRaceContext(raceId);
-        activatePage('works');
-        if (routeState.filter && typeof window.renderWorksPage === 'function') window.renderWorksPage(raceId, routeState.filter);
-        if (resourceId && typeof window.renderWorkDetail === 'function') window.renderWorkDetail(resourceId);
-        return;
-      }
-      case 'results': {
-        const raceId = resourceId || getPreferredResultRaceId();
-        if (typeof window.renderResultsAndReview === 'function' && raceId) window.renderResultsAndReview(raceId);
-        activatePage('results');
-        return;
-      }
-      case 'review': {
-        const raceId = resourceId || getPreferredResultRaceId();
-        if (typeof window.renderResultsAndReview === 'function' && raceId) window.renderResultsAndReview(raceId);
-        activatePage('review');
-        return;
-      }
-      case 'riders': {
-        const profile = resourceId ? getProfileById(resourceId) : (getSampleData().profiles || [])[0];
-        activatePage('rider');
-        if (typeof window.renderRiderProfile === 'function' && profile) window.renderRiderProfile(profile);
-        else renderUnavailableRiderProfile(resourceId);
-        return;
-      }
-      case 'cooperation':
-        activatePage('cooperation');
-        return;
-      case 'live':
-        if (typeof window.renderPublicRaceContext === 'function') {
-          const raceId = resourceId || sampleData.raceGroups?.featuredRaceId;
-          if (raceId) window.renderPublicRaceContext(raceId);
-        }
-        activatePage('live');
-        return;
-      case 'screen':
-        if (typeof window.renderPublicRaceContext === 'function') {
-          const raceId = resourceId || sampleData.raceGroups?.featuredRaceId;
-          if (raceId) window.renderPublicRaceContext(raceId);
-        }
-        activatePage('screen');
-        activateScreenMode(routeState.screenMode || 'live');
-        return;
-      default:
-        if (routeState.routeKind === 'public' && routeState.raceId && typeof window.renderHomeRace === 'function' && typeof window.renderPublicRaceContext === 'function') {
-          setPinnedHomeRaceId(routeState.raceId);
-          window.renderHomeRace(routeState.raceId);
-          window.renderPublicRaceContext(routeState.raceId);
-        } else if (routeState.routeKind === 'public') {
-          setPinnedHomeRaceId(null);
-        }
-        activatePage(getInitialPage(routeState.entry));
+    if (routeState.routeKind === 'riders' && routeState.resourceId && !getProfileById(routeState.resourceId)) {
+      renderUnavailableRiderProfile(routeState.resourceId);
     }
   }
 
   function bindRouteSync() {
-    document.addEventListener('click', (event) => {
-      const routeState = parseRouteState();
-      const workButton = event.target.closest('[data-work-id]');
-      if (workButton) {
-        updateUrl(`/works/${encodeURIComponent(workButton.dataset.workId)}`);
-        applyCurrentRouteState();
-        return;
-      }
-
-      const workCloseButton = event.target.closest('[data-work-close]');
-      if (workCloseButton) {
-        updateUrl(getPathForPage('works', routeState));
-        applyCurrentRouteState();
-        return;
-      }
-
-      const resultsRaceButton = event.target.closest('[data-results-race]');
-      if (resultsRaceButton) {
-        const isReviewPage = Boolean(document.querySelector('.page-review.active'));
-        updateUrl(`/${isReviewPage ? 'review' : 'results'}/${encodeURIComponent(resultsRaceButton.dataset.resultsRace)}`);
-        applyCurrentRouteState();
-        return;
-      }
-
-      const liveRaceButton = event.target.closest('[data-live-race]');
-      if (liveRaceButton && routeState.routeKind === 'public') {
-        setPinnedHomeRaceId(liveRaceButton.dataset.liveRace);
-        window.requestAnimationFrame(() => {
-          updateUrl(`/public/?raceId=${encodeURIComponent(liveRaceButton.dataset.liveRace)}#home`, true);
-          applyCurrentRouteState();
-        });
-        return;
-      }
-
-      const workFilterButton = event.target.closest('[data-work-filter]');
-      if (workFilterButton) {
-        const params = new URLSearchParams();
-        const raceId = getCurrentRaceId(routeState);
-        if (raceId) params.set('raceId', raceId);
-        if (workFilterButton.dataset.workFilter) params.set('filter', workFilterButton.dataset.workFilter);
-        updateUrl(`/works${params.toString() ? `?${params.toString()}` : ''}`);
-        applyCurrentRouteState();
-        return;
-      }
-
-      const screenModeButton = event.target.closest('[data-screen-mode]');
-      if (screenModeButton && routeState.routeKind === 'screen') {
-        const raceId = getCurrentRaceId(routeState);
-        const params = new URLSearchParams();
-        if (screenModeButton.dataset.screenMode) params.set('screenMode', screenModeButton.dataset.screenMode);
-        const query = params.toString() ? `?${params.toString()}` : '';
-        updateUrl(raceId ? `/screen/${encodeURIComponent(raceId)}${query}` : `/screen/${query}`);
-        applyCurrentRouteState();
-        return;
-      }
-
-      const pageButton = event.target.closest('[data-page]');
-      if (pageButton) {
-        updateUrl(getPathForPage(pageButton.dataset.page, routeState));
-        applyCurrentRouteState();
-      }
+    window.addEventListener('ary:c-frontend-route-change', (event) => {
+      const url = event.detail?.url;
+      if (!url) return;
+      const nextRouteState = parseRouteState();
+      setShellEntry(nextRouteState);
     });
 
     window.addEventListener('popstate', () => {
-      applyRouteState(parseRouteState());
+      applyRouteState(parseRouteState(), { replace: true });
     });
   }
 
@@ -415,8 +251,7 @@
       await loadPrototypeScript();
 
       const routeState = parseRouteState();
-      document.body.dataset.shellEntry = routeState.entry;
-      applyRouteState(routeState);
+      applyRouteState(routeState, { replace: true });
       bindRouteSync();
     } catch (error) {
       showFailure(error);

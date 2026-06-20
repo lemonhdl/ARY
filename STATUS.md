@@ -9,7 +9,7 @@
 * 当前正式项目任务定义入口是 `docs/ary.plan.md`。
 * `PRD-TEMP-1` 已完成首轮整改，报名、RaceProject 自动生成、CAConnection 动态接入和评审前风险提示的新口径已同步到主要文档和高保真原型。
 * `UX-1` 已产出第一轮高保真原型和设计说明，但尚未评审验收，不能直接进入 `M2` 或启动架构设计。
-* 当前尚未看到应用代码、测试命令或部署配置；仓库主要由产品、领域、权限、QA、发布运维和设计原型材料组成。
+* 当前仓库已具备最小可运行 Node.js 单机应用骨架、运行时装配脚本、handoff 校验脚本和多组产品壳入口，已进入“持续集成验收与收尾”阶段，而不再只是文档 / 原型材料阶段。
 * 已对 `tasks/` 下 4 份小组分工文档完成一轮合理性复核，并新增补充建议与整合方案，作为后续“可运行产品壳 + 联调”输入。
 * 已新增共享字段字典初稿，开始把前端原型、管理端需求、Rider 事件和数据导出收敛到统一 view model。
 * 已新增真实交付状态清单，明确当前最可用资产是文档基线 + 高保真原型 + 原型样例数据，A/B/D 组仍需补最小可提交样例或实现产物。
@@ -32,7 +32,8 @@
 * 已完成 C-Frontend 首轮产品壳接线：当前 `app/web/public/`、`app/web/live/`、`app/web/screen/` 已不再是占位页，而是通过运行时 bridge 复用 `deliverables/c-frontend/app-shell/prototype/` 原型，并接入 `/api/runtime/assembled-view`；浏览器已验证三处入口可打开，其中 `/screen/` 已收敛为纯展示输出面。
 * 已完成 C-Frontend 第二批公开 route 接线：`/race/:raceId`、`/works/:workId`、`/results/:raceId`、`/review/:raceId`、`/riders/:riderId` 与 `/cooperation` 均已落入产品壳入口页，并通过 loader 绑定到对应原型 panel 与资源上下文；浏览器已验证关键 URL 可直接进入对应页面。
 * 已完成 C-Frontend 站内 URL 同步：当前从 Public 首页点入 Race、从 Race 点入 Live、从 Results 切换到 Review，以及浏览器 Back 回退，都已能同步 pathname 与页面 panel，不再只停留在原型内部 hash / 面板切换层。
-* 已完成 C-Frontend 返工复审：进一步深挖首页 live switcher、Works filter 和 Rider CTA 后，已确认问题开始从“集成接线”转向“原型内部 route/state contract 不稳定”；其中 Works filter URL 同步已通过，但首页 live race 切换仍会被原型自身状态 / 轮播语义覆盖，当前判断不宜继续由 E 侧替 C 做原型产品化收口。
+* 已完成 C-Frontend 最新提交 `7685d6b` 的复审、产品壳 API 化收口与本地修复：C 组已把显式 route / CTA contract 收回到 `deliverables/c-frontend/app-shell/prototype/script.js`，`window.ARY_C_FRONTEND` 现已支持 Home race、Works filter、Work detail、Rider、Results / Review 和 Screen mode 的公开状态驱动；E 侧也已将 `app/web/shared/c-frontend-loader.js` 收口为消费公开 API，不再继续扩大 monkey patch 面积。浏览器已验证首页 live race 切换会稳定写回 `/public/?raceId=...#home`，Works / Screen / Work detail 的路径也能由公开 API 正常驱动，Back / Forward 也可在壳层回放。由于当前没有时间再返给 C 返工，E 已直接修复 Results / Review 对 `archived` 但已发布赛事的错误排除；`/results/genesis-dogfood-race` 与 `/review/genesis-dogfood-race` 现已稳定渲染“创世骑行挑战赛”。当前口径已可收敛为：C-Frontend 不再需要等待新提交，可继续进入最终集成验收与收工。
+* 已补完成 C-Frontend 最终人工验收留痕：本机浏览器已逐项验证 Public、Live、Works、Results、Review、Riders、Cooperation、Screen 的直达渲染，以及 Results -> Review -> Back 的站内跳转与回退；当前 C-Frontend 已具备“主流程已集成且有人工收工证据”的口径。
 
 ## 任务看板
 
@@ -40,7 +41,7 @@
 | --- | --- | --- | --- |
 | `PRD-1` 文档基线与范围确认 | 进行中 | 业务文档已集中到 `docs/`，当前已新增分工复核、集成建议、共享字段字典、真实交付状态清单、发布态 / 可见性规则、`todos/` 任务包，以及 `deliverables/` 交付骨架与 manifest 模板；`todos/01-04` 已改为直接保留原始详细分工内容并追加集成约束，并新增统一架构图 / 组件图、单机 monorepo Web 技术路线决策、目录骨架 / 启动契约文档，以及“各改各目录”的 ownership 约定，下一步按统一目录填充真实交付并进入自动集成。 | `docs/README.md`、`docs/ary.plan.md`、`tasks/ARY-integration-plan.review.md`、`tasks/ARY-shared-field-dictionary.md`、`tasks/ARY-delivery-reality-checklist.md`、`tasks/ARY-publication-visibility-rules.md`、`todos/README.md`、`deliverables/README.md` |
 | `PRD-TEMP-1` 报名 / RaceProject / CA 参赛语义整改 | 待复审 | 已完成首轮文档和原型整改：Registration approved 自动生成 RaceProject、参赛中可新增 CAConnection、CA 接入异常进入评审前风险提示而非硬门禁。需复审是否并入正式 `PRD-1` 基线。 | `docs/registration-ca-rules-alignment.taskbook.md`、`docs/ary-mvp.prd.md`、`docs/ary-domain-analysis.v0.3.md`、`design-prototype/` |
-| `UX-1` UX/UI 高保真原型与设计基线 | 进行中 | 高保真原型已按 IA 重构为 1080P 高密度蓝白竞赛风格页面，并接入样例赛事数据驱动主要页面；页面可见文案已清理 PRD / 实现说明口吻，二级页面口号式大标题已降级为对象名和状态摘要；本轮已按明确审查标准修正首页 IA：Public Header 收敛为 Races / Works / Riders / Cooperation，Race 子页面入口回到具体 Race/赛果模块，底部快捷菜单移除，Hero 与 Featured Race 合体，Latest Results / Past Races 去重，开放报名 / 合作入口命名明确，首页独立 Leaderboards / Live Skill Board 已撤销，未登录态只显示 Login；但从产品壳接入结果看，首页 live switcher / carousel / CTA contract 仍未稳定到可由 E 直接接管收工，需按最新 C-Frontend 返工复审继续补齐。 | `docs/ux-hifi.taskbook.md`、`.agents/skills/hifi-ui-page-workflow/SKILL.md`、`design-prototype/index.html`、`design-prototype/README.md`、`reviews/c-frontend-rereview-2026-06-20.md` |
+| `UX-1` UX/UI 高保真原型与设计基线 | 进行中 | 高保真原型已按 IA 重构为 1080P 高密度蓝白竞赛风格页面，并接入样例赛事数据驱动主要页面；页面可见文案已清理 PRD / 实现说明口吻，二级页面口号式大标题已降级为对象名和状态摘要；本轮已按明确审查标准修正首页 IA：Public Header 收敛为 Races / Works / Riders / Cooperation，Race 子页面入口回到具体 Race/赛果模块，底部快捷菜单移除，Hero 与 Featured Race 合体，Latest Results / Past Races 去重，开放报名 / 合作入口命名明确，首页独立 Leaderboards / Live Skill Board 已撤销，未登录态只显示 Login；最新 C-Frontend 提交已把 route / CTA contract 收回到 C 自身原型，E 侧也已恢复 API 化集成并直接修补了 Results / Review 对 archived 已发布赛事的错误排除，当前主流程已进入收尾验收阶段。 | `docs/ux-hifi.taskbook.md`、`.agents/skills/hifi-ui-page-workflow/SKILL.md`、`design-prototype/index.html`、`design-prototype/README.md`、`reviews/c-frontend-7685d6b.review.md`、`reviews/c-frontend-integration-closure-2026-06-20.md` |
 | `DEV-1` 领域模型 + 权限 + 数据模型 | 暂缓 | 不能在缺少 UX/UI 高保真原型和关键页面状态输入时启动架构设计。 | `docs/ary-domain-analysis.v0.3.md`、`docs/ary-permission-matrix.md`、`docs/ary-mvp.ia.md` |
 | `DEV-5` CA 接入 / Projection / Live Hall | 细化中 | 已将 CA 作为 Agent Race 工具、比赛信号源和评审参考的口径落盘；CAConnection 可在参赛过程中登记和握手，合法连接数据进入证据链，接入异常进入评审前风险提示；`task_progress` 仅用于 unblock / 说明，不做定期推送，且不设 `session_progress` push。 | `docs/ary-ca-integration-spec.md` |
 | `REL-1` 赛事彩排 / 灰度发布 / 正式发布 | 待开始 | 等待开发任务和验收证据完成。 | `docs/ary-release-ops-plan.md` |
@@ -74,7 +75,8 @@
 | C-Frontend 首轮产品壳接线已完成：`/public`、`/live`、`/screen` 已接入运行时 bridge 与原型壳，浏览器验证通过 | `app/server/index.js`、`app/web/shared/c-frontend-runtime-bridge.js`、`app/web/shared/c-frontend-loader.js`、`app/web/public/index.html`、`app/web/live/index.html`、`app/web/screen/index.html` |
 | C-Frontend 第二批公开 route 已接入：Race / Works / Results / Review / Rider / Cooperation 均支持产品壳 URL 直达 | `app/server/index.js`、`app/web/shared/c-frontend-loader.js`、`app/web/race/index.html`、`app/web/works/index.html`、`app/web/results/index.html`、`app/web/review/index.html`、`app/web/riders/index.html`、`app/web/cooperation/index.html` |
 | C-Frontend 站内导航已开始同步产品壳 pathname：主导航、关键 CTA 与浏览器 Back/Forward 已可驱动对应页面状态 | `app/server/index.js`、`app/web/shared/c-frontend-loader.js` |
-| C-Frontend 返工复审已完成：Works filter URL 同步已通过，但首页 live race 切换仍未形成稳定的外部 route/state contract，当前应暂停继续由 E 侧做原型内部产品化收口 | `reviews/c-frontend-rereview-2026-06-20.md`、`app/web/shared/c-frontend-loader.js` |
+| C-Frontend 最新提交 `7685d6b` 已完成复审：显式 route / CTA contract 已落到 C 自身原型代码，E 侧也已把 loader 收口为消费公开 API，并已在当前仓库直接修复 Results / Review 对 archived 已发布赛事的错误排除；当前可继续最终集成验收，不再等待 C 新提交 | `reviews/c-frontend-7685d6b.review.md`、`reviews/c-frontend-integration-closure-2026-06-20.md`、`deliverables/c-frontend/app-shell/prototype/script.js`、`app/web/shared/c-frontend-loader.js` |
+| C-Frontend 最终人工验收留痕已补齐，当前已有浏览器实测收工证据 | `reviews/c-frontend-final-manual-acceptance-2026-06-20.md` |
 | D-Data authority mock 已接入运行时主装配链路，`assembled-view` 与运行时 API 已优先消费 `deliverables/d-data/authority-mock.json` | `scripts/assemble.js`、`scripts/setup-runtime.js`、`runtime-data/assembled-view.json`、`runtime-data/authority-mock.json` |
 | 运行时 `caStatuses` 已按 D-Data / 共享字段字典收敛状态枚举，live API 与维护页不再出现旧值 `connected` | `scripts/assemble.js`、`app/web/admin/maintenance.html`、`runtime-data/assembled-view.json` |
 | D-Data 提交 `d277698` 已完成复审，当前判断完成度约 85% 到 90%，交付本身可生成、可校验且可直接进入集成 | `reviews/d-data-d277698.review.md` |
@@ -112,5 +114,5 @@
 | 架构、数据模型和接口契约尚未完成 | `DEV-1` 前置风险 |
 | UX/UI 高保真原型和关键页面状态尚未评审验收 | `M2` 前置风险 |
 | 报名 / RaceProject / CA 参赛语义已完成首轮整改，但仍需人工复审确认是否并入正式基线 | `PRD-TEMP-1` 待复审，重点看评审前风险命名、CAConnection 新增窗口和违规作品处理 |
-| 当前终端环境未安装 `node` / `npm`，因此无法在本机完成实际启动验证 | 仓库内已有 `package.json`、`scripts/` 和 `start-web-app.bat` / `stop-web-app.bat`，待具备 Node.js 环境后即可执行 |
-| C-Frontend 站内导航已能同步关键 pathname，但仍未形成完整路由器：首页 live switcher、自动轮播和若干 CTA 仍由原型内部状态主导 | 当前接线以兼容 bridge 复用 C 组原型为主；经返工复审，下一步不再建议由 E 继续扩大 monkey patch 面积，而应等待 C 按最新 review 补稳定 contract |
+| 当前仓库已具备本机可执行验证能力 | 已实际执行 `node .\scripts\assemble.js`、`node .\scripts\validate-handoffs.js`，并完成浏览器路由回归；剩余工作主要是最终人工验收留痕与小范围语义整理 |
+| C-Frontend 主 blocker 已关闭并完成本地修复 | C 组最新提交已关闭上轮主 blocker，E 侧也已改用 `window.ARY_C_FRONTEND` 收口现有 loader，并直接修复了 Results / Review 对 archived 已发布赛事的错误排除，且最终人工验收留痕已补齐；当前剩余工作已降为收尾级整理 |
