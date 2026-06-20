@@ -45,6 +45,7 @@
       .alert { padding: 12px 16px; border-radius: 12px; font-size: 13px; margin-bottom: 16px; }
       .alert-info { background: rgba(59,130,246,0.08); border: 1px solid rgba(59,130,246,0.15); color: #1e40af; }
       .alert-warning { background: rgba(234,179,8,0.1); border: 1px solid rgba(234,179,8,0.2); color: #92400e; }
+      .action-row { display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 0 16px; }
     </style>
   </head>
   <body>
@@ -72,7 +73,13 @@
 
         <h2 class="section-title">Projection 状态与重算</h2>
         <div class="alert alert-info">Projection 是过程展示数据，重算不影响核心事实数据。重算期间 Live Hall 和 Screen Console 回退到上一稳定版本。</div>
+        <div class="action-row">
+          <button class="btn btn-primary" onclick="batchRebuild('all')">批量重算全部 Projection</button>
+          <button class="btn" onclick="batchRebuild('failed')">批量重算失败项</button>
+          <button class="btn" onclick="batchRebuild('stale')">批量重算过期项</button>
+        </div>
         <div class="table-wrap"><table><thead><tr><th>赛事</th><th>Projection 类型</th><th>健康状态</th><th>最近重建</th><th>失败原因</th><th>操作</th></tr></thead><tbody id="projection-table"></tbody></table></div>
+        <div class="table-wrap"><table><thead><tr><th>时间</th><th>操作人</th><th>动作</th><th>目标</th><th>结果</th></tr></thead><tbody id="projection-history-table"></tbody></table></div>
 
         <h2 class="section-title">公开展示异常处理</h2>
         <div class="alert alert-warning">隐藏操作不删除数据，仅控制公开端可见性。所有变更写入审计日志。</div>
@@ -80,7 +87,7 @@
 
         <h2 class="section-title">Report 重跑</h2>
         <div class="alert alert-info">Report 重跑不自动发布。未发布 Report 不在 Public Site 出现。</div>
-        <div class="table-wrap"><table><thead><tr><th>赛事</th><th>Report 类型</th><th>状态</th><th>最近修改</th><th>操作</th></tr></thead><tbody id="report-table"></tbody></table></div>
+        <div class="table-wrap"><table><thead><tr><th>赛事</th><th>Report 类型</th><th>状态</th><th>最近修改</th><th>失败原因</th><th>操作</th></tr></thead><tbody id="report-table"></tbody></table></div>
       </main>
     </div>
     <script type="module">
@@ -92,6 +99,7 @@
         try {
           const resp = await fetch('/api/runtime/assembled-view');
           const data = await resp.json();
+          const auditLogs = data.auditLogs || [];
 
           // CA 接入状态详情
           const caRaces = data.caStatuses || [];
@@ -105,10 +113,10 @@
                     <tr>
                       <td><strong>${c.riderName}</strong></td>
                       <td>${c.caType}</td>
-                      <td><span class="badge badge-${c.ingestionStatus === 'active' ? 'healthy' : c.ingestionStatus === 'connected' ? 'degraded' : c.ingestionStatus === 'failed' ? 'failed' : 'stale'}">${c.ingestionStatus}</span>${c.flaggedAnomaly ? ' ⚠️' : ''}</td>
+                      <td><span class="badge badge-${c.ingestionStatus === 'active' ? 'healthy' : (c.ingestionStatus === 'handshaken' || c.ingestionStatus === 'registered') ? 'degraded' : c.ingestionStatus === 'failed' ? 'failed' : 'stale'}">${c.ingestionStatus}</span>${c.flaggedAnomaly ? ' ⚠️' : ''}</td>
                       <td style="font-size:12px;">${c.registeredAt ? new Date(c.registeredAt).toLocaleDateString('zh-CN') : '--'}</td>
                       <td style="font-size:12px;">${c.lastSyncedAt ? new Date(c.lastSyncedAt).toLocaleString('zh-CN') : '--'}</td>
-                      <td style="font-size:12px;color:#dc2626;">${c.failureReason || '--'}</td>
+                      <td style="font-size:12px;color:#dc2626;">${c.failureReason || c.anomalyNote || '--'}</td>
                       <td>${c.flaggedAnomaly ? `<button class="btn btn-sm" onclick="toggleAnomalyFlag('${c.caConnectionId}')" title="取消异常标记">取消标记</button>` : (c.ingestionStatus === 'failed' ? `<button class="btn btn-sm btn-danger" onclick="toggleAnomalyFlag('${c.caConnectionId}')" title="标记为已知异常">标记已知</button>` : '--')}</td>
                     </tr>
                   `).join('')}</tbody>
@@ -131,6 +139,21 @@
               <td><button class="btn btn-primary" onclick="rebuild('${p.raceId}','${p.projectionType}')">重算</button></td>
             </tr>
           `).join('') : `<tr><td colspan="6" style="text-align:center;color:#94a3b8;padding:40px;">暂无 Projection 数据。请在 authority-mock.json 中补充 projectionStatuses。</td></tr>`;
+
+          const projectionHistory = auditLogs.filter(log => {
+            const target = String(log.target || '');
+            const action = String(log.action || '');
+            return target.includes('Projection') || action.includes('projection');
+          });
+          document.getElementById('projection-history-table').innerHTML = projectionHistory.length ? projectionHistory.map(log => `
+            <tr>
+              <td style="font-size:12px;">${log.at ? new Date(log.at).toLocaleString('zh-CN') : '--'}</td>
+              <td><strong>${log.actor || '--'}</strong></td>
+              <td>${log.action || '--'}</td>
+              <td>${log.target || '--'}</td>
+              <td>${log.result || log.severity || '--'}</td>
+            </tr>
+          `).join('') : `<tr><td colspan="5" style="text-align:center;color:#94a3b8;padding:40px;">暂无 Projection 重算历史。</td></tr>`;
 
           // Published artifacts
           const arts = data.publishedArtifacts || [];
@@ -156,9 +179,13 @@
               <td>${r.reportType || '--'}</td>
               <td><span class="badge ${pubBadges[r.publicationStatus] || ''}">${r.publicationStatus}</span></td>
               <td style="font-size:12px;">${r.lastModifiedAt ? new Date(r.lastModifiedAt).toLocaleString('zh-CN') : '--'}</td>
-              <td><button class="btn btn-primary" onclick="regenerateReport('${r.artifactId}')">重跑</button></td>
+              <td style="font-size:12px;color:#dc2626;">${r.withdrawnReason || r.statusNote || '--'}</td>
+              <td>
+                <button class="btn btn-primary" onclick="regenerateReport('${r.artifactId}')">重跑</button>
+                ${r.publicationStatus !== 'published' ? `<button class="btn" onclick="markReportReviewed('${r.artifactId}')">已审核</button>` : ''}
+              </td>
             </tr>
-          `).join('') : `<tr><td colspan="5" style="text-align:center;color:#94a3b8;padding:40px;">暂无 Report 数据。</td></tr>`;
+          `).join('') : `<tr><td colspan="6" style="text-align:center;color:#94a3b8;padding:40px;">暂无 Report 数据。</td></tr>`;
         } catch (e) {
           document.getElementById('projection-table').innerHTML = `<tr><td colspan="6" style="color:#dc2626;">加载失败：${e.message}</td></tr>`;
         }
@@ -172,6 +199,12 @@
           alert(`已触发 ${raceId}:${type} 重算\n（演示模式。实际将通过 API 触发并写入审计日志。）`);
         }
       };
+      window.batchRebuild = function(scope) {
+        const scopeText = scope === 'all' ? '全部 Projection' : (scope === 'failed' ? '失败项 Projection' : '过期项 Projection');
+        if (confirm(`确认批量重算${scopeText}？\n\n重算期间对应页面将回退到上一稳定版本。`)) {
+          alert(`已触发${scopeText}批量重算\n（演示模式。实际将通过 API 触发并写入审计日志。）`);
+        }
+      };
       window.hideArtifact = function(id, type) {
         const reason = prompt(`请输入隐藏 ${id} 的原因（必填）：`);
         if (reason) alert(`${type} ${id} 已隐藏\n原因：${reason}\n（演示模式。实际将通过 API 持久化并写入审计日志。）`);
@@ -181,6 +214,11 @@
       };
       window.regenerateReport = function(id) {
         if (confirm(`确认重跑 Report ${id}？\n\n重跑不自动发布，需人工审核后发布。`)) alert(`已触发 Report ${id} 重跑\n（演示模式。）`);
+      };
+      window.markReportReviewed = function(id) {
+        if (confirm(`确认将 Report ${id} 标记为已审核？\n\n该动作会写入审计日志。`)) {
+          alert(`Report ${id} 已标记为已审核\n（演示模式。实际将通过 API 持久化并写入审计日志。）`);
+        }
       };
 
       load();

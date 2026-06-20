@@ -23,7 +23,10 @@
 * 已创建 `deliverables/` 统一交付目录骨架，并为 A-E 五组预置 manifest 模板，后续可直接按目录填充真实产物供自动集成读取。
 * 已补充 monorepo 目录 ownership 约定：A-D 默认只改各自 `deliverables/` 目录，E 负责 `app/`、`scripts/`、`runtime-data/` 接线与装配，降低多人并行修改同一运行时代码目录的冲突。
 * 已完成 B-Admin 最新提交 `21e7e38` 的复审：上一轮“未接入 / 未装配 / 用户页空表”的高优先级问题已关闭，但系统配置页交互失效、审计日志 `profile_update` UI 支持不完整、维护页缺少 CA 接入状态详情，以及样例数据内部冲突仍待修复。
-* 已完成 D-Data 提交 `d277698` 与 B-Admin 提交 `8d520d3` 的复审：D-Data 交付本身可生成且 12 条不变量校验通过，但当前程序集成链路尚未把其 authority mock 接为运行时主源；B-Admin 本次提交仅包含运行态生成物与日志/pid，不构成新的功能交付。
+* 已完成 D-Data 提交 `d277698` 与 B-Admin 提交 `8d520d3` 的复审：D-Data 交付本身可生成且 12 条不变量校验通过，当前判断完成度约 85% 到 90%，无需因其本身再开一轮返工；现已由 E / 集成侧完成 authority mock 主源接线，运行时装配已优先消费 `deliverables/d-data/authority-mock.json`。B-Admin 本次提交仅包含运行态生成物与日志/pid，不构成新的功能交付。
+* 已完成 B-Admin 当前交付复审并继续由集成侧补齐运行壳：配置页本地开关、审计日志 `profile_update` 筛选、Dashboard 接入异常列表 / Report 风险提醒、维护页批量重算 / 重算历史 / Report 失败原因 / 已审核动作，以及运行时 `caStatuses` 枚举收敛均已完成；`deliverables/b-admin/ca-status.sample.json` 中残留的旧口径 `connected` 也已清理。当前 B-Admin 已进入可直接集成收工状态。
+* 已完成运行时 `caStatuses` 来源优先级清理：装配链路现以 D-Data 的 `CAConnectionHealth` 为权威枚举，并在运行态中把旧口径 `connected` 收敛为 `handshaken`；管理端维护页已同步按共享字段字典渲染，不再展示旧状态值。
+* 已形成 B-Admin / D-Data 最终集成收工说明：当前运行时主源已切到 D-Data，B-Admin 运行壳与样例枚举也已收口；关键 admin 路由与 runtime API 均返回 `200`，当前口径可收敛为“无需等待 B / D 新提交，可直接进入最终集成验收”。
 
 ## 任务看板
 
@@ -58,7 +61,11 @@
 | 统一交付目录骨架与 manifest 模板已生成，可直接供 A-E 各组落盘产物 | `deliverables/README.md`、`deliverables/*/handoff.manifest.template.json` |
 | B-Admin 最新提交 `21e7e38` 已完成复审，当前已接入程序壳并具备基础可运行性，但仍有配置页交互、审计日志筛选、维护页 CA 接入区块和样例一致性问题待补 | `reviews/b-admin-21e7e38.review.md` |
 | B-Admin 提交 `8d520d3` 已完成复审，确认仅提交了 `runtime-data/` 下的生成物与运行日志，不构成新的管理端功能交付 | `reviews/b-admin-8d520d3.review.md` |
-| D-Data 提交 `d277698` 已完成复审，交付本身可生成、可校验，但当前程序集成链路尚未消费其 authority mock | `reviews/d-data-d277698.review.md` |
+| B-Admin 当前运行壳与交付样例已完成 Dashboard / 维护页末尾残项补齐，并已按共享字段字典收敛运行时与样例 CA 状态，可直接进入最终集成验收 | `reviews/b-admin-rereview-2026-06-20.review.md`、`app/web/admin/dashboard.html`、`app/web/admin/maintenance.html`、`scripts/assemble.js`、`deliverables/b-admin/ca-status.sample.json` |
+| B-Admin / D-Data 最终集成收工口径已形成：当前无需等待 B / D 新提交，可直接进入最终集成验收 | `reviews/integration-closure-2026-06-20.md` |
+| D-Data authority mock 已接入运行时主装配链路，`assembled-view` 与运行时 API 已优先消费 `deliverables/d-data/authority-mock.json` | `scripts/assemble.js`、`scripts/setup-runtime.js`、`runtime-data/assembled-view.json`、`runtime-data/authority-mock.json` |
+| 运行时 `caStatuses` 已按 D-Data / 共享字段字典收敛状态枚举，live API 与维护页不再出现旧值 `connected` | `scripts/assemble.js`、`app/web/admin/maintenance.html`、`runtime-data/assembled-view.json` |
+| D-Data 提交 `d277698` 已完成复审，当前判断完成度约 85% 到 90%，交付本身可生成、可校验且可直接进入集成 | `reviews/d-data-d277698.review.md` |
 | CA 接入契约已形成原始骑行状态消息草案，仍需继续讨论完善 | `docs/ary-ca-integration-spec.md` |
 | 报名 / RaceProject / CA 参赛语义整改已形成临时任务书 | `docs/registration-ca-rules-alignment.taskbook.md` |
 | 当前仓库包含设计原型 | `design-prototype/` |

@@ -3,6 +3,7 @@ const path = require('node:path');
 
 const rootDir = path.resolve(__dirname, '..');
 const runtimeDir = path.join(rootDir, 'runtime-data');
+const dDataAuthorityMockPath = path.join(rootDir, 'deliverables', 'd-data', 'authority-mock.json');
 const authorityMockPath = path.join(runtimeDir, 'authority-mock.json');
 const assembledViewPath = path.join(runtimeDir, 'assembled-view.json');
 const compatibilityReportPath = path.join(runtimeDir, 'compatibility-report.json');
@@ -10,12 +11,17 @@ const groups = ['a-rider', 'b-admin', 'c-frontend', 'd-data'];
 
 fs.mkdirSync(runtimeDir, { recursive: true });
 
-if (!fs.existsSync(authorityMockPath)) {
-  console.error('Missing runtime-data/authority-mock.json. Run npm run setup first.');
+const effectiveAuthorityMockPath = fs.existsSync(dDataAuthorityMockPath) ? dDataAuthorityMockPath : authorityMockPath;
+
+if (!fs.existsSync(effectiveAuthorityMockPath)) {
+  console.error('Missing authority mock. Run npm run setup first or provide deliverables/d-data/authority-mock.json.');
   process.exit(1);
 }
 
-const authorityMock = JSON.parse(fs.readFileSync(authorityMockPath, 'utf8'));
+const authorityMock = JSON.parse(fs.readFileSync(effectiveAuthorityMockPath, 'utf8'));
+
+// Keep runtime-data aligned with the effective source consumed by the app API.
+fs.writeFileSync(authorityMockPath, JSON.stringify(authorityMock, null, 2));
 const manifests = [];
 const warnings = [];
 
@@ -40,6 +46,84 @@ function safeLoadJson(filePath) {
   return null;
 }
 
+function normalizeCaStatusValue(status) {
+  if (status === 'connected') return 'handshaken';
+  return status || 'not_configured';
+}
+
+function buildCaStatuses(authorityMockData, bAdminCaStatusData) {
+  const authorityCaStatuses = Array.isArray(authorityMockData.caStatuses) ? authorityMockData.caStatuses : [];
+  const bAdminRaces = (bAdminCaStatusData && Array.isArray(bAdminCaStatusData.races)) ? bAdminCaStatusData.races : [];
+
+  if (!authorityCaStatuses.length) {
+    return bAdminRaces.map((race) => ({
+      ...race,
+      aggregateStatus: normalizeCaStatusValue(race.aggregateStatus),
+      connections: Array.isArray(race.connections)
+        ? race.connections.map((connection) => ({
+          ...connection,
+          ingestionStatus: normalizeCaStatusValue(connection.ingestionStatus)
+        }))
+        : []
+    }));
+  }
+
+  const raceTitleById = new Map((authorityMockData.races || []).map((race) => [race.id, race.title]));
+  const bAdminRaceById = new Map(bAdminRaces.map((race) => [race.raceId, race]));
+  const groupedConnections = new Map();
+
+  for (const connection of authorityCaStatuses) {
+    const raceId = connection.raceId;
+    if (!groupedConnections.has(raceId)) groupedConnections.set(raceId, []);
+
+    const bAdminRace = bAdminRaceById.get(raceId);
+    const bAdminConnection = bAdminRace && Array.isArray(bAdminRace.connections)
+      ? bAdminRace.connections.find((candidate) => candidate.riderId === connection.riderId)
+      : null;
+
+    const ingestionStatus = normalizeCaStatusValue(connection.health || (bAdminConnection && bAdminConnection.ingestionStatus));
+    const riskNote = connection.riskNote || (bAdminConnection && bAdminConnection.anomalyNote) || null;
+
+    groupedConnections.get(raceId).push({
+      caConnectionId: (bAdminConnection && bAdminConnection.caConnectionId) || `${raceId}:${connection.riderId}`,
+      riderId: connection.riderId,
+      riderName: connection.riderName,
+      caType: (bAdminConnection && bAdminConnection.caType) || connection.provider || '--',
+      ingestionStatus,
+      registeredAt: (bAdminConnection && bAdminConnection.registeredAt) || null,
+      lastSyncedAt: connection.lastSignalAt || (bAdminConnection && bAdminConnection.lastSyncedAt) || null,
+      sessionCount: (bAdminConnection && bAdminConnection.sessionCount) || null,
+      failureReason: ingestionStatus === 'failed' ? (riskNote || (bAdminConnection && bAdminConnection.failureReason) || null) : null,
+      flaggedAnomaly: Boolean((bAdminConnection && bAdminConnection.flaggedAnomaly) || (riskNote && ingestionStatus !== 'failed' && ingestionStatus !== 'not_configured')),
+      anomalyNote: riskNote
+    });
+  }
+
+  return Array.from(groupedConnections.entries()).map(([raceId, connections]) => {
+    const bAdminRace = bAdminRaceById.get(raceId);
+    const configuredCount = connections.filter((connection) => !['not_configured', 'disabled'].includes(connection.ingestionStatus)).length;
+    const activeCount = connections.filter((connection) => connection.ingestionStatus === 'active').length;
+    const failedCount = connections.filter((connection) => connection.ingestionStatus === 'failed').length;
+    const notConfiguredCount = connections.filter((connection) => connection.ingestionStatus === 'not_configured').length;
+    const aggregateStatus = bAdminRace
+      ? normalizeCaStatusValue(bAdminRace.aggregateStatus)
+      : (failedCount > 0 && activeCount === 0 ? 'degraded' : activeCount > 0 ? 'active' : 'failed');
+
+    return {
+      raceId,
+      raceTitle: (bAdminRace && bAdminRace.raceTitle) || raceTitleById.get(raceId) || raceId,
+      aggregateStatus,
+      totalRegistrations: (bAdminRace && bAdminRace.totalRegistrations) || connections.length,
+      totalRaceProjects: (bAdminRace && bAdminRace.totalRaceProjects) || connections.length,
+      configuredCount,
+      activeCount,
+      failedCount,
+      notConfiguredCount,
+      connections
+    };
+  });
+}
+
 // Ingest B-admin sample data
 const bAdminDir = path.join(rootDir, 'deliverables', 'b-admin');
 const bDashboard = safeLoadJson(path.join(bAdminDir, 'dashboard-overview.sample.json'));
@@ -50,6 +134,7 @@ const bUserRoles = safeLoadJson(path.join(bAdminDir, 'user-roles.sample.json'));
 const bProfileCompletion = safeLoadJson(path.join(bAdminDir, 'profile-completion.sample.json'));
 const bSystemConfig = safeLoadJson(path.join(bAdminDir, 'system-config.sample.json'));
 const bCaStatus = safeLoadJson(path.join(bAdminDir, 'ca-status.sample.json'));
+const caStatuses = buildCaStatuses(authorityMock, bCaStatus);
 
 const dashboard = {
   ...(authorityMock.dashboard || {}),
@@ -65,9 +150,11 @@ const dashboard = {
 const assembledView = {
   generatedAt: new Date().toISOString(),
   source: 'scripts/assemble.js',
+  authorityMockSource: path.relative(rootDir, effectiveAuthorityMockPath).replace(/\\/g, '/'),
   races: authorityMock.races || [],
   liveProjections: authorityMock.liveProjections || [],
   works: authorityMock.works || [],
+  results: authorityMock.results || [],
   awards: authorityMock.awards || [],
   reviews: authorityMock.reviews || [],
   profiles: authorityMock.profiles || [],
@@ -78,7 +165,7 @@ const assembledView = {
   systemConfigs: (bSystemConfig && bSystemConfig.configs) ? bSystemConfig.configs : [],
   userRoles: (bUserRoles && bUserRoles.users) ? bUserRoles.users : [],
   profileCompletion: (bProfileCompletion && bProfileCompletion.users) ? bProfileCompletion.users : [],
-  caStatuses: (bCaStatus && bCaStatus.races) ? bCaStatus.races : [],
+  caStatuses,
   manifests
 };
 
@@ -87,7 +174,8 @@ const compatibilityReport = {
   ok: warnings.length === 0,
   warnings,
   manifestCount: manifests.length,
-  runtimeFiles: { authorityMockPath, assembledViewPath }
+  runtimeFiles: { authorityMockPath, assembledViewPath },
+  authorityMockSource: path.relative(rootDir, effectiveAuthorityMockPath).replace(/\\/g, '/')
 };
 
 fs.writeFileSync(assembledViewPath, JSON.stringify(assembledView, null, 2));
