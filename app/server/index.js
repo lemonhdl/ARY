@@ -6,7 +6,9 @@ const url = require('node:url');
 const rootDir = path.resolve(__dirname, '..', '..');
 const webDir = path.join(rootDir, 'app', 'web');
 const runtimeDir = path.join(rootDir, 'runtime-data');
+const cFrontendPrototypeDir = path.join(rootDir, 'deliverables', 'c-frontend', 'app-shell', 'prototype');
 const port = Number(process.env.PORT || 3000);
+const cFrontendRouteFallbacks = new Set(['race', 'works', 'results', 'review', 'riders', 'cooperation', 'live', 'screen']);
 
 const contentTypes = {
   '.html': 'text/html; charset=utf-8',
@@ -49,6 +51,26 @@ function serveRuntimeJson(res, fileName) {
   sendFile(res, path.join(runtimeDir, fileName));
 }
 
+function serveStaticDir(res, pathname, staticDir, prefix) {
+  const relativePath = pathname.slice(prefix.length) || '/index.html';
+  const normalized = relativePath === '/' ? '/index.html' : relativePath;
+  const filePath = path.join(staticDir, path.normalize(normalized));
+
+  if (!filePath.startsWith(staticDir)) {
+    sendJson(res, 400, { error: 'Invalid path' });
+    return;
+  }
+
+  fs.stat(filePath, (error, stats) => {
+    if (!error && stats.isDirectory()) {
+      sendFile(res, path.join(filePath, 'index.html'));
+      return;
+    }
+
+    sendFile(res, filePath);
+  });
+}
+
 function serveWebAsset(res, pathname) {
   const normalized = pathname === '/' ? '/index.html' : pathname;
   const filePath = path.join(webDir, path.normalize(normalized));
@@ -62,6 +84,15 @@ function serveWebAsset(res, pathname) {
     if (!error && stats.isDirectory()) {
       sendFile(res, path.join(filePath, 'index.html'));
       return;
+    }
+
+    if (error && error.code === 'ENOENT') {
+      const segments = normalized.split('/').filter(Boolean);
+      const routeRoot = segments[0];
+      if (routeRoot && cFrontendRouteFallbacks.has(routeRoot) && segments.length > 1) {
+        sendFile(res, path.join(webDir, routeRoot, 'index.html'));
+        return;
+      }
     }
 
     sendFile(res, filePath);
@@ -89,6 +120,11 @@ const server = http.createServer((req, res) => {
 
   if (pathname === '/api/runtime/compatibility-report') {
     serveRuntimeJson(res, 'compatibility-report.json');
+    return;
+  }
+
+  if (pathname === '/c-frontend-prototype' || pathname.startsWith('/c-frontend-prototype/')) {
+    serveStaticDir(res, pathname, cFrontendPrototypeDir, '/c-frontend-prototype');
     return;
   }
 

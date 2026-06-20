@@ -82,6 +82,8 @@ This directory now includes:
 3. Treat `legacy-reuse/` as reusable C-owned demo/proof material, not as the final runtime authority source.
 4. Replace legacy data with `runtime-data/assembled-view.json` when D/B/A handoffs are ready.
 5. Do not edit C page structure just to switch data sources; use the adapter contract.
+6. Drive product-shell navigation through `window.ARY_C_FRONTEND.applyRouteState(...)` or `window.ARY_C_FRONTEND.applyPath(...)`; the prototype dispatches `ary:c-frontend-route-change` with explicit `{ state, url }` for Back/Forward and shell sync.
+7. Set `homeRacePinned: true` whenever the shell supplies `raceId`; this prevents the Home carousel from overwriting the shell URL.
 
 ## Validation expectation
 

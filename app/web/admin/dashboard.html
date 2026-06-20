@@ -42,6 +42,8 @@
       .section-title { font-size: 18px; margin: 24px 0 12px; color: #14314f; }
       .bar { height: 8px; border-radius: 4px; background: #e2e8f0; overflow: hidden; }
       .bar-fill { height: 100%; border-radius: 4px; transition: width 0.3s; }
+      .stack { display: grid; gap: 12px; margin-bottom: 24px; }
+      .muted { color: #64748b; font-size: 12px; }
     </style>
   </head>
   <body>
@@ -74,12 +76,17 @@
 
         <h2 class="section-title">CA 接入全局健康</h2>
         <div class="stat-grid" id="ca-health">加载中...</div>
+<<<<<<< HEAD
         <div class="table-wrap" id="ca-anomaly-wrap" style="margin-top:16px;"><table><thead><tr><th>赛事</th><th>骑手</th><th>状态</th><th>失败原因</th></tr></thead><tbody id="ca-anomaly-table"></tbody></table></div>
+=======
+        <div class="table-wrap"><table><thead><tr><th>赛事</th><th>骑手</th><th>状态</th><th>风险 / 失败原因</th></tr></thead><tbody id="ca-exception-table"></tbody></table></div>
+>>>>>>> 7b04444157fe27eef26051f4ebe535349ece406c
 
         <h2 class="section-title">Projection 状态</h2>
         <div class="table-wrap"><table><thead><tr><th>赛事</th><th>Projection 类型</th><th>健康状态</th><th>最近重建</th></tr></thead><tbody id="projection-status-table"></tbody></table></div>
 
         <h2 class="section-title">Report 状态</h2>
+        <div class="stack" id="report-risk-list"></div>
         <div class="table-wrap"><table><thead><tr><th>赛事</th><th>Report 类型</th><th>发布状态</th><th>最近修改</th></tr></thead><tbody id="report-status-table"></tbody></table></div>
         <div id="report-reminder" style="margin-top:16px;"></div>
 
@@ -90,6 +97,7 @@
     <script type="module">
       const statusLabels = { draft: '草稿', published: '已发布', registration: '报名中', running: '进行中', judging: '评审中', completed: '已结束', archived: '已归档', upcoming: '即将开放' };
       const statusBadges = { running: 'badge-running', judging: 'badge-judging', completed: 'badge-completed', registration: 'badge-registration', draft: 'badge-stale', published: 'badge-healthy' };
+      const caStatusBadges = { active: 'badge-healthy', handshaken: 'badge-degraded', registered: 'badge-degraded', failed: 'badge-failed', not_configured: 'badge-stale', disabled: 'badge-stale' };
 
       async function load() {
         try {
@@ -98,6 +106,7 @@
           const dash = data.dashboard || {};
           const races = data.races || [];
           const topRaces = dash.topRaces || [];
+          const caRaces = data.caStatuses || [];
 
           document.getElementById('update-time').textContent = data.generatedAt ? new Date(data.generatedAt).toLocaleString('zh-CN') : '--';
 
@@ -136,6 +145,7 @@
             <div class="stat-card"><p class="label">未配置 CA</p><p class="value"><span class="health-dot stale"></span>${ca.notConfigured || 0}</p></div>
           `;
 
+<<<<<<< HEAD
           // CA 接入异常列表
           const caStatuses = data.caStatuses || [];
           const anomalies = [];
@@ -156,6 +166,25 @@
               </tr>`).join('')
             : '<tr><td colspan="4" style="text-align:center;color:#16a34a;">✅ 当前无接入异常</td></tr>';
           document.getElementById('ca-anomaly-wrap').style.display = anomalies.length ? '' : 'none';
+=======
+          const caExceptions = caRaces.flatMap(race => (race.connections || [])
+            .filter(connection => connection.flaggedAnomaly || ['failed', 'handshaken', 'registered'].includes(connection.ingestionStatus))
+            .map(connection => ({
+              raceTitle: race.raceTitle,
+              riderName: connection.riderName,
+              ingestionStatus: connection.ingestionStatus,
+              note: connection.failureReason || connection.anomalyNote || '--'
+            })));
+          document.getElementById('ca-exception-table').innerHTML = caExceptions.length
+            ? caExceptions.map(item => `
+              <tr>
+                <td><strong>${item.raceTitle}</strong></td>
+                <td>${item.riderName}</td>
+                <td><span class="badge ${caStatusBadges[item.ingestionStatus] || 'badge-stale'}">${item.ingestionStatus}</span></td>
+                <td>${item.note}</td>
+              </tr>`).join('')
+            : '<tr><td colspan="4" style="text-align:center;color:#94a3b8;">当前没有 CA 接入异常。</td></tr>';
+>>>>>>> 7b04444157fe27eef26051f4ebe535349ece406c
 
           const projections = data.projectionStatuses || [];
           document.getElementById('projection-status-table').innerHTML = projections.length
@@ -169,6 +198,21 @@
             : '<tr><td colspan="4" style="text-align:center;color:#94a3b8;">暂无 Projection 数据</td></tr>';
 
           const reports = (data.publishedArtifacts || []).filter(a => a.artifactType === 'report');
+          const reportFailures = reports.filter(r => r.publicationStatus === 'withdrawn');
+          const endedButUnpublished = races
+            .filter(race => ['completed', 'archived'].includes(race.status))
+            .filter(race => !reports.some(report => report.raceId === race.id && report.publicationStatus === 'published'));
+          document.getElementById('report-risk-list').innerHTML = [
+            reportFailures.length
+              ? `<div class="alert alert-warning">存在 ${reportFailures.length} 条已撤回 Report：${reportFailures.map(r => `${r.raceTitle} / ${r.reportType} / ${r.withdrawnReason || '未填写撤回原因'}`).join('；')}</div>`
+              : '',
+            endedButUnpublished.length
+              ? `<div class="alert alert-warning">以下赛事已结束但 Report 仍未发布：${endedButUnpublished.map(r => r.title).join('、')}</div>`
+              : '',
+            (!reportFailures.length && !endedButUnpublished.length)
+              ? '<div class="alert" style="background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.15);color:#166534;">当前没有未处理的 Report 风险提醒。</div>'
+              : ''
+          ].join('');
           document.getElementById('report-status-table').innerHTML = reports.length
             ? reports.map(r => `
               <tr>

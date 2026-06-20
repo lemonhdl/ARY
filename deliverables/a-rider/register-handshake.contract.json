@@ -21,8 +21,7 @@
       "connectorId": "string (required) - DCR 连接器实例 ID",
       "connectorVersion": "string - DCR 版本号",
       "caProjectId": "string (required) - 外部 CA Project 标识（Claude Code 项目目录）",
-      "caSessionId": "string (required) - 外部 CA Session 标识",
-      "clientPublicKey": "string (required) - DCR 客户端 Ed25519 公钥（PEM），用于后续验签"
+      "caSessionId": "string (required) - 外部 CA Session 标识"
     }
   },
 
@@ -32,8 +31,7 @@
     "body": {
       "caConnectionId": "string - ARY 服务端分配的连接 ID",
       "status": "string - 'handshaken'",
-      "serverPublicKey": "string - ARY 服务端 Ed25519 公钥（PEM），用于后续签名验证",
-      "signingPrivateKey": "string - ARY 下发的 Ed25519 私钥（PEM），DCR 客户端仅内存保存",
+      "signingPrivateKey": "string - ARY 服务端生成的 Ed25519 私钥（PEM），下发给 DCR 客户端，客户端仅内存保存",
       "registeredAt": "string (ISO 8601)",
       "handshakenAt": "string (ISO 8601)"
     }
@@ -48,13 +46,16 @@
 
   "keyManagement": {
     "algorithm": "Ed25519",
-    "generation": "ARY 服务端在握手时生成密钥对",
-    "privateKeyDelivery": "通过 HTTPS 响应体下发至 DCR Desktop App",
-    "privateKeyStorage": "DCR 客户端仅内存保存，不落盘。客户端重启后需重新握手",
-    "publicKeyStorage": "ARY 服务端持久化，与 caConnectionId 绑定",
+    "keyGeneration": "ARY 服务端在握手时生成密钥对",
+    "keyPairOwner": "ARY 服务端",
+    "privateKeyDelivery": "通过 HTTPS 响应体下发至 DCR Desktop App（仅内存保存，不落盘）",
+    "privateKeyUsage": "DCR Desktop App 使用私钥对每条 RidingSignalMessage 签名",
+    "publicKeyStorage": "ARY 服务端持久化公钥，与 caConnectionId 绑定",
+    "publicKeyUsage": "ARY 服务端使用公钥验签每条 push 消息",
     "signingScope": "整个消息体 canonical JSON（RFC 8785 JCS）",
-    "signer": "DCR Desktop App",
-    "verifier": "ARY 服务端"
+    "signer": "DCR Desktop App（使用服务端下发的私钥）",
+    "verifier": "ARY 服务端（使用服务端持有的公钥）",
+    "note": "客户端不生成密钥对，不持有公钥。服务端是密钥对的唯一生成者和公钥的唯一持有者。"
   },
 
   "constraints": [

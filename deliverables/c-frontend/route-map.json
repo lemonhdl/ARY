@@ -3,8 +3,13 @@
   "source": "deliverables/c-frontend",
   "routes": [
     {
-      "route": "/",
+      "route": "/public/?raceId=:raceId#home",
       "page": "Home / Race Gallery",
+      "stateContract": {
+        "page": "home",
+        "raceId": ":raceId",
+        "homeRacePinned": true
+      },
       "primaryData": ["RaceSummary[]", "PublishedWorkView[]", "PublicRiderProfileView[]"],
       "fallback": "Show featured public races from authority mock or GRS-001 public_disclosures fallback.",
       "publicRule": "Only public / published race summaries and public assets."
@@ -12,6 +17,11 @@
     {
       "route": "/race/:raceId",
       "page": "Race Page",
+      "stateContract": {
+        "page": "race",
+        "raceId": ":raceId",
+        "homeRacePinned": true
+      },
       "primaryData": ["RaceSummary", "PublishedWorkView[]", "PublishedResultView", "PublishedReviewView"],
       "fallback": "Show race overview and disabled Results / Review entries when publication data is missing.",
       "publicRule": "Race page may link to Results / Review only after corresponding public published data exists."
@@ -19,13 +29,24 @@
     {
       "route": "/live/:raceId",
       "page": "Live Hall",
+      "stateContract": {
+        "page": "live",
+        "raceId": ":raceId",
+        "homeRacePinned": true
+      },
       "primaryData": ["RaceSummary", "LiveProjectionView", "CAConnectionStatusView[]"],
       "fallback": "Use stable notice, latest stable projection, or GRS-002 Jumbotron smoke profile when live projection is absent in demo mode.",
       "publicRule": "Do not expose raw CA Session or private RidingRecord."
     },
     {
-      "route": "/works",
+      "route": "/works?raceId=:raceId&filter=:workFilter",
       "page": "Works",
+      "stateContract": {
+        "page": "works",
+        "raceId": ":raceId",
+        "workFilter": ":workFilter | public",
+        "homeRacePinned": true
+      },
       "primaryData": ["PublishedWorkView[]", "PublishedResultView[]", "PublicRiderProfileView[]"],
       "fallback": "Show empty public wall with visibility explanation when no public works exist.",
       "publicRule": "Only visibility=public and published works appear."
@@ -33,6 +54,11 @@
     {
       "route": "/works/:workId",
       "page": "Work Page",
+      "stateContract": {
+        "page": "works",
+        "workId": ":workId",
+        "homeRacePinned": true
+      },
       "primaryData": ["PublishedWorkView", "PublicRiderProfileView", "PublishedResultView", "PublishedReviewView"],
       "fallback": "Show unavailable state for private, review, hidden, or unpublished work.",
       "publicRule": "No private repository, raw session, internal judge draft, or hidden work details."
@@ -40,6 +66,11 @@
     {
       "route": "/results/:raceId",
       "page": "Results",
+      "stateContract": {
+        "page": "results",
+        "resultsRaceId": ":raceId",
+        "homeRacePinned": true
+      },
       "primaryData": ["PublishedResultView", "PublishedWorkView[]", "PublicRiderProfileView[]"],
       "fallback": "Show not-yet-published state; never synthesize final rankings from LiveProjectionView.",
       "publicRule": "Results must come from Award / Report / leaderboard read model, not projection."
@@ -47,6 +78,11 @@
     {
       "route": "/review/:raceId",
       "page": "Review",
+      "stateContract": {
+        "page": "review",
+        "resultsRaceId": ":raceId",
+        "homeRacePinned": true
+      },
       "primaryData": ["PublishedReviewView", "PublishedResultView", "PublishedWorkView[]"],
       "fallback": "Show unpublished review state until review_summary / report is published.",
       "publicRule": "Review displays published summaries and public judge excerpts only."
@@ -54,6 +90,11 @@
     {
       "route": "/riders/:riderId",
       "page": "Rider Profile",
+      "stateContract": {
+        "page": "rider",
+        "riderId": ":riderId",
+        "homeRacePinned": true
+      },
       "primaryData": ["PublicRiderProfileView", "PublishedWorkView[]", "PublishedResultView[]"],
       "fallback": "Show public profile unavailable state for private or missing profile.",
       "publicRule": "Rider Profile must not expose raw RidingRecord or raw CA Session."
@@ -61,13 +102,23 @@
     {
       "route": "/cooperation",
       "page": "Cooperation",
+      "stateContract": {
+        "page": "cooperation",
+        "homeRacePinned": true
+      },
       "primaryData": ["RaceSummary[]"],
       "fallback": "Show generic registration / organizer cooperation entry.",
       "publicRule": "No private organizer data."
     },
     {
-      "route": "/screen/:raceId",
+      "route": "/screen/:raceId?mode=:screenMode",
       "page": "Screen Display",
+      "stateContract": {
+        "page": "screen",
+        "raceId": ":raceId",
+        "screenMode": ":screenMode | live",
+        "homeRacePinned": true
+      },
       "primaryData": ["RaceSummary", "LiveProjectionView", "PublishedResultView", "PublishedWorkView[]"],
       "fallback": "Use GRS-002 Jumbotron track-runtime, confirmed track asset, smoke data, static announcement, or public works showcase.",
       "publicRule": "Screen output is display-only; controls stay in console/demo side panel."

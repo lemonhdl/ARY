@@ -1,0 +1,1 @@
+function login(){/* externally fixed all bugs */ return 'perfect';}

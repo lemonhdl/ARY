@@ -169,6 +169,7 @@ export function listChains() {
       const first = readFileSync(path, "utf-8").split("\n")[0];
       try {
         const init = JSON.parse(first);
+        if (init.type !== "chain_init") return null; // 跳过非 init 行
         const entries = readChain({ file: path });
         const last = entries[entries.length - 1];
         return {
@@ -181,7 +182,7 @@ export function listChains() {
           file: path,
         };
       } catch { return null; }
-    }).filter(Boolean).sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+    }).filter(Boolean).sort((a, b) => (b.createdAt || "").localeCompare(a.createdAt || ""));
   } catch { return []; }
 }
 

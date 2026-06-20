@@ -4,13 +4,15 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>ARY Public</title>
-    <link rel="stylesheet" href="/shared/styles.css" />
+    <script src="/shared/c-frontend-runtime-bridge.js"></script>
+    <script defer src="/shared/c-frontend-loader.js"></script>
   </head>
-  <body>
-    <main class="page-shell">
-      <a class="back-link" href="/">返回骨架首页</a>
-      <h1>Public Site</h1>
-      <p>这里是公开端占位页面，后续由 C 组把原型壳和 adapter 接进来。</p>
+  <body data-entry="public">
+    <main class="shell-loading">
+      <section class="shell-loading-card">
+        <h1>ARY Public</h1>
+        <p>正在装配 C-Frontend 原型壳并接入当前运行时 view。</p>
+      </section>
     </main>
   </body>
 </html>

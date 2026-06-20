@@ -1,2 +1,7 @@
 .agents/
 .DS_Store
+runtime-data/web-app.log
+runtime-data/web-app.error.log
+runtime-data/web-app.pid
+runtime-data/assembled-view.json
+runtime-data/compatibility-report.json

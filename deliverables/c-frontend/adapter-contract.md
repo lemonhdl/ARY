@@ -2,7 +2,7 @@
 
 ## Purpose
 
-C 组页面壳只消费 adapter 输出，不直接读取 A/B/D 的原始 handoff。E 组可以把 `runtime-data/assembled-view.json`、D 组 authority mock、B 组发布治理和 A 组公开骑行摘要归一化后喂给本契约。
+C 组页面壳优先消费 `window.ARY_C_FRONTEND_ADAPTER`，也兼容 E 侧已经存在的 `window.ARY_ASSEMBLED_VIEW` / `window.ARY_RUNTIME_VIEW`；这些输入缺失时才回落到本地 `window.ARY_SAMPLE_DATA` demo 数据。E 组可以把 `runtime-data/assembled-view.json`、D 组 authority mock、B 组发布治理和 A 组公开骑行摘要归一化后喂给本契约。
 
 ## Minimum adapter input
 
@@ -83,6 +83,42 @@ Reusable for Live Hall / Screen Display:
 }
 ```
 
+## Executable route / CTA contract
+
+The prototype exposes a C-owned route boundary on `window.ARY_C_FRONTEND` so E can drive page state without monkey patching DOM handlers or internal render functions.
+
+```js
+window.ARY_C_FRONTEND.applyRouteState({
+  page: "home | race | live | works | results | review | rider | cooperation | screen",
+  raceId: "bay-area-happy-trip",
+  workId: "work-gba-wander",
+  riderId: "rider-mira",
+  resultsRaceId: "genesis-dogfood-race",
+  workFilter: "public | featured | awarded | unavailable",
+  screenMode: "live | leaderboard | announcement | fallback",
+  homeRacePinned: true
+}, { syncUrl: true, replace: false });
+```
+
+Available methods:
+
+1. `applyRouteState(state, options)` renders the requested page state and optionally writes the product-shell URL.
+2. `applyPath(path, options)` parses a route-map path such as `/works?raceId=genesis-dogfood-race&filter=awarded` or `/public/?raceId=smart-investment-analyst#home` and applies it.
+3. `parsePath(path)` returns the route state without rendering.
+4. `getRouteState()` returns the current explicit C route state.
+5. `getUrlForState(state)` returns the product-shell path for a state.
+6. `pauseHomeCarousel()` pins the current home race and stops automatic rotation.
+7. `resumeHomeCarousel()` allows the home carousel to rotate again while Home is active.
+
+When C state changes, the prototype dispatches `ary:c-frontend-route-change` with `{ state, url }` in `event.detail`.
+
+Route ownership rules:
+
+1. External `raceId` wins over Home carousel state.
+2. `homeRacePinned: true` prevents automatic Live Race rotation from overwriting URL or page state.
+3. Works filter, Work detail, Rider profile, Results / Review race, Live Hall, and Screen mode all have explicit state keys and must not be inferred from the currently visible DOM.
+4. CTA buttons carry explicit route data (`data-route-race-id`, `data-work-id`, `data-rider-id`, `data-work-filter`, `data-results-race`, `data-screen-mode`) and call the same route boundary used by E.
+
 ## Integration expectation
 
-E should be able to replace the assembled input without editing C page DOM structure. If an input field is absent, the adapter must return an explicit empty / unavailable model so the page can render documented fallback UI.
+E should be able to replace the assembled input without editing C page DOM structure. If an input field is absent, the adapter must return an explicit empty / unavailable model so the page can render documented fallback UI. E should use `window.ARY_C_FRONTEND` for route and CTA state instead of wrapping `renderHomeRace`, `renderPublicRaceContext`, or raw click handlers.

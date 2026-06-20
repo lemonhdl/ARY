@@ -3,7 +3,9 @@ const path = require('node:path');
 
 const rootDir = path.resolve(__dirname, '..');
 const runtimeDir = path.join(rootDir, 'runtime-data');
-const sourceMockPath = path.join(rootDir, 'design-prototype', 'data', 'sample-races.json');
+const sourceMockPath = fs.existsSync(path.join(rootDir, 'deliverables', 'd-data', 'authority-mock.json'))
+  ? path.join(rootDir, 'deliverables', 'd-data', 'authority-mock.json')
+  : path.join(rootDir, 'design-prototype', 'data', 'sample-races.json');
 const authorityMockPath = path.join(runtimeDir, 'authority-mock.json');
 const assembledViewPath = path.join(runtimeDir, 'assembled-view.json');
 const compatibilityReportPath = path.join(runtimeDir, 'compatibility-report.json');
@@ -13,7 +15,7 @@ fs.mkdirSync(path.join(runtimeDir, 'app-state'), { recursive: true });
 
 if (!fs.existsSync(authorityMockPath)) {
   fs.writeFileSync(authorityMockPath, fs.readFileSync(sourceMockPath, 'utf8'));
-  console.log('Created runtime-data/authority-mock.json from design-prototype sample data');
+  console.log(`Created runtime-data/authority-mock.json from ${path.relative(rootDir, sourceMockPath).replace(/\\/g, '/')}`);
 }
 
 if (!fs.existsSync(assembledViewPath)) {

@@ -6,9 +6,14 @@
  */
 
 import { execSync } from "node:child_process";
-import { createHash } from "node:crypto";
-import { readFileSync, existsSync, readdirSync, statSync } from "node:fs";
-import { join, resolve } from "node:path";
+import { createHash, randomUUID } from "node:crypto";
+import { readFileSync, writeFileSync, copyFileSync, existsSync, readdirSync, statSync, mkdirSync } from "node:fs";
+import { join, resolve, basename } from "node:path";
+import { homedir } from "node:os";
+// 提交存储目录：环境变量 > 中转站自身目录 ~/.dcr/submissions
+function getSubmissionsDir() {
+  return process.env.DCR_SUBMISSIONS_DIR || join(homedir(), ".dcr", "submissions");
+}
 
 /**
  * 获取 Git 工作区状态和文件内容哈希
@@ -123,4 +128,168 @@ export function diffFileStates(before, after) {
     added,
     removed,
   };
+}
+
+// ══════════════════════════════════════════════════════
+// 项目提交 & 验证（作品提交）
+// ══════════════════════════════════════════════════════
+
+/**
+ * 对项目目录做完整快照，生成提交清单。
+ */
+export function buildSubmissionSnapshot(projectDir) {
+  const dir = resolve(projectDir || process.cwd());
+  const files = getTrackedFiles(dir);
+  const manifest = [];
+  let totalSize = 0;
+
+  for (const file of files.slice(0, 2000)) {
+    const fullPath = join(dir, file);
+    try {
+      const content = readFileSync(fullPath);
+      const fileHash = createHash("sha256").update(content).digest("hex");
+      const size = content.length;
+      totalSize += size;
+      manifest.push({ path: file, sha256: fileHash, size });
+    } catch {
+      manifest.push({ path: file, sha256: null, size: 0, error: "unreadable" });
+    }
+  }
+
+  const snapshotHash = createHash("sha256")
+    .update(manifest.map(f => f.path + ":" + f.sha256).join("\n"))
+    .digest("hex");
+
+  return {
+    snapshotHash,
+    files: manifest,
+    totalSize,
+    fileCount: manifest.length,
+    capturedAt: new Date().toISOString(),
+  };
+}
+
+/**
+ * 验证项目提交是否与链条目中的文件快照一致。
+ */
+export function verifySubmissionAgainstChain(submission, chainEntries) {
+  if (!chainEntries || chainEntries.length === 0) {
+    return { valid: false, matches: [], verdict: "无链条目——项目未经 DCR 中转站记录" };
+  }
+
+  const chainHashes = new Set(
+    chainEntries.filter(e => e.fileHash).map(e => e.fileHash)
+  );
+
+  const matches = [];
+  for (const entry of chainEntries) {
+    if (!entry.fileHash) continue;
+    if (entry.fileHash === submission.snapshotHash) {
+      matches.push({
+        entryIndex: entry.index,
+        timestamp: entry.timestamp,
+        fileHash: entry.fileHash.slice(0, 16),
+        fileCount: entry.fileCount,
+        model: entry.model,
+      });
+    }
+  }
+
+  const exactMatch = chainHashes.has(submission.snapshotHash);
+
+  return {
+    valid: exactMatch,
+    submissionHash: submission.snapshotHash.slice(0, 16),
+    matches: matches.slice(0, 10),
+    matchCount: matches.length,
+    chainEntryCount: chainEntries.length,
+    verdict: exactMatch
+      ? "✅ 完整匹配——提交快照与中转站记录一致"
+      : matches.length > 0
+        ? "⚠️ 部分匹配——找到 " + matches.length + " 个历史匹配点，但最终提交不完全一致"
+        : "❌ 不匹配——提交快照不在链条目中，文件可能被替换",
+  };
+}
+
+// ══════════════════════════════════════════════════════
+// 提交持久化存储
+// ══════════════════════════════════════════════════════
+
+/**
+ * 将项目文件持久化存储到 ~/.dcr/submissions/<id>/
+ * @param {string} projectDir - 项目目录
+ * @param {string} chainId - 关联的链 ID
+ * @returns {{ submissionId, storedDir, manifest, verification }}
+ */
+export function storeSubmission(projectDir, chainId) {
+  const dir = resolve(projectDir || process.cwd());
+  const snapshot = buildSubmissionSnapshot(dir);
+  const submissionId = randomUUID();
+  const base = getSubmissionsDir();
+  const storedDir = join(base, submissionId);
+
+  if (!existsSync(base)) mkdirSync(base, { recursive: true });
+  mkdirSync(storedDir, { recursive: true });
+
+  // 复制所有文件到存储目录
+  let copied = 0;
+  const copyErrors = [];
+  for (const f of snapshot.files) {
+    const src = join(dir, f.path);
+    const dst = join(storedDir, f.path);
+    try {
+      const dstDir = join(storedDir, basename(f.path) === f.path ? "" : f.path.substring(0, f.path.lastIndexOf("/")));
+      if (!existsSync(dstDir)) mkdirSync(dstDir, { recursive: true });
+      copyFileSync(src, dst);
+      copied++;
+    } catch (e) {
+      copyErrors.push({ path: f.path, error: e.message });
+    }
+  }
+
+  // 写提交清单
+  const manifest = {
+    submissionId,
+    chainId,
+    submittedAt: new Date().toISOString(),
+    sourceDir: dir,
+    storedDir,
+    snapshot,
+    copied,
+    totalFiles: snapshot.fileCount,
+    errors: copyErrors,
+  };
+  writeFileSync(join(storedDir, "manifest.json"), JSON.stringify(manifest, null, 2), "utf-8");
+
+  return manifest;
+}
+
+/**
+ * 列出所有已存储的提交
+ */
+export function listSubmissions() {
+  const base = getSubmissionsDir();
+  if (!existsSync(base)) return [];
+  return readdirSync(base)
+    .filter(f => {
+      try { return statSync(join(base, f)).isDirectory(); } catch { return false; }
+    })
+    .map(id => {
+      try {
+        const m = JSON.parse(readFileSync(join(base, id, "manifest.json"), "utf-8"));
+        return { submissionId: m.submissionId, chainId: m.chainId, submittedAt: m.submittedAt, sourceDir: m.sourceDir, fileCount: m.copied, totalFiles: m.totalFiles, snapshotHash: m.snapshot?.snapshotHash?.slice(0, 16), storedDir: m.storedDir };
+      } catch { return null; }
+    })
+    .filter(Boolean)
+    .sort((a, b) => b.submittedAt.localeCompare(a.submittedAt));
+}
+
+/**
+ * 获取单个提交详情
+ */
+export function getSubmission(submissionId) {
+  const base = getSubmissionsDir();
+  const manifestPath = join(base, submissionId, "manifest.json");
+  if (!existsSync(manifestPath)) return null;
+  return JSON.parse(readFileSync(manifestPath, "utf-8"));
 }

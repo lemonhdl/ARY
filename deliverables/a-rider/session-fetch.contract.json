@@ -28,7 +28,7 @@
       "fetchedAt": "string (ISO 8601) - 快照生成时间",
       "ca": {
         "caConnectionId": "string",
-        "caType": "enum: codex | claude_code | other",
+        "caType": "enum: claude_code | codex（已支持，由 DCR format-adapter 统一为 OpenAI Chat Completions 内部表示）",
         "caProjectId": "string",
         "caSessionId": "string"
       },
