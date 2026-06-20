@@ -2,7 +2,7 @@
 
 本目录用于交付前端产品壳、页面依赖清单和 adapter 契约。
 
-建议正式交付文件：
+正式交付文件：
 
 1. `handoff.manifest.json`
 2. `route-map.json`
@@ -12,8 +12,6 @@
 6. `shell-readme.md`
 7. `app-shell/` 目录
 
-当前仅提供模板：
+当前正式交付已包含上述文件；`handoff.manifest.template.json` 仅作为后续迭代模板保留。
 
-1. `handoff.manifest.template.json`
-
-正式交付时请将模板复制为 `handoff.manifest.json`。
+返工后，`app-shell/prototype/script.js` 暴露 `window.ARY_C_FRONTEND`，E 可以通过 `applyRouteState` / `applyPath` 接管 Home race、Works filter、Work detail、Rider CTA、Results / Review、Screen mode 等状态，不需要继续 monkey patch 原型内部函数或 DOM。
