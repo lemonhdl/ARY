@@ -1,0 +1,76 @@
+{
+  "contract": "ARY Session Snapshot Fetch",
+  "version": "0.1.0",
+  "direction": "ARY 服务端 → DCR Desktop App",
+  "description": "W3 fetch 端点契约。ARY 服务端按需拉取完整 Session 快照。",
+
+  "endpoint": {
+    "method": "GET",
+    "path": "/ary/ca/connections/{caConnectionId}/sessions/{caSessionId}/snapshot",
+    "headers": {
+      "Authorization": "Bearer <ary-server-token>",
+      "Accept": "application/json"
+    }
+  },
+
+  "request": {
+    "pathParams": {
+      "caConnectionId": "string (required) - CA 连接 ID",
+      "caSessionId": "string (required) - CA Session ID"
+    }
+  },
+
+  "response": {
+    "status": 200,
+    "contentType": "application/json",
+    "schema": {
+      "schemaVersion": "string - 'ary.ca.session_snapshot.v0.1'",
+      "fetchedAt": "string (ISO 8601) - 快照生成时间",
+      "ca": {
+        "caConnectionId": "string",
+        "caType": "enum: codex | claude_code | other",
+        "caProjectId": "string",
+        "caSessionId": "string"
+      },
+      "session": {
+        "startedAt": "string (ISO 8601)",
+        "endedAt": "string (ISO 8601) | null",
+        "lastActiveAt": "string (ISO 8601)",
+        "messageCount": "number",
+        "toolCallCount": "number",
+        "tokens": "number",
+        "allRidingMessageLength": "number"
+      },
+      "task": {
+        "taskId": "string",
+        "taskStatus": "enum: not_started | in_progress | blocked | completed",
+        "progressPercent": "number (0-100)"
+      },
+      "technicalActions": [
+        {
+          "type": "string - file_changed | test_run | command_executed | tool_called",
+          "count": "number"
+        }
+      ],
+      "summary": {
+        "currentGoal": "string",
+        "latestActivity": "string",
+        "riskLevel": "enum: low | medium | high",
+        "riskReason": "string"
+      }
+    }
+  },
+
+  "errors": {
+    "404": "caConnectionId 不存在或 caSessionId 不归属该连接",
+    "403": "CAConnection 未完成握手或被禁用",
+    "500": "DCR 客户端内部错误（Session 数据损坏、Claude Code 进程异常）",
+    "503": "DCR 客户端不可达"
+  },
+
+  "constraints": [
+    "fetch 由 ARY 服务端主动触发，DCR 被动响应",
+    "DCR 必须先完成 CAConnection 登记与握手，fetch 端点才可用",
+    "fetch 返回的快照是完整数据，与 push 消息中的 counters 可能不同（counters 为消息发送时的观测值）"
+  ]
+}

@@ -1,0 +1,14 @@
+[
+  {
+    "raceId": "grs-001",
+    "title": "ARY GRS 001：Product Definition Race",
+    "status": "open",
+    "summary": "队伍围绕 ARY 的产品定义、系统方案和关键技术验证参赛。",
+    "publicRules": [
+      "Organizer 持有完整 Race 源数据",
+      "ARY 展示公开摘要与参与入口",
+      "Rider 提交方案摘要和整理后的 Riding Record",
+      "公开榜单只展示公开结果"
+    ]
+  }
+]

@@ -1,0 +1,53 @@
+{
+  "__GENERATION_NOTE__": {
+    "generatedAt": "2026-06-19T14:37:55.523Z",
+    "source": "本地 Claude Code 数据",
+    "identityStatus": "身份字段（race.*, rider.*, ca.caConnectionId）使用假数据，标注 __MOCK__。服务端 API 就绪后替换。",
+    "schemaVersion": "ary.ca.riding_signal.v0.1"
+  },
+  "description": "Session 快照样例，对应 W3 fetch 接口返回结构。",
+  "snapshot": {
+    "schemaVersion": "ary.ca.session_snapshot.v0.1",
+    "fetchedAt": "2026-06-19T14:37:55.543Z",
+    "ca": {
+      "caConnectionId": "__MOCK__conn_claude_code_001",
+      "caType": "claude_code",
+      "caProjectId": "C:\\Users\\ROG\\Desktop\\se\\ARY",
+      "caSessionId": "a5e351aa-813f-4e15-9e77-6bad6205b227"
+    },
+    "session": {
+      "startedAt": "2026-06-19T10:19:52.402Z",
+      "endedAt": null,
+      "lastActiveAt": "2026-06-19T14:37:55.195Z",
+      "messageCount": 214,
+      "toolCallCount": 58,
+      "tokens": 396517,
+      "allRidingMessageLength": 245899
+    },
+    "task": {
+      "taskId": "__MOCK__DEV-12",
+      "taskStatus": "in_progress",
+      "progressPercent": 95
+    },
+    "technicalActions": [
+      {
+        "type": "command_executed",
+        "count": 26
+      },
+      {
+        "type": "tool_called",
+        "count": 20
+      },
+      {
+        "type": "file_changed",
+        "count": 12
+      }
+    ],
+    "summary": {
+      "currentGoal": "我们可以先在本地生成一份假数据并注明，先用着吧",
+      "latestActivity": "Processing",
+      "riskLevel": "medium",
+      "riskReason": ""
+    }
+  }
+}
