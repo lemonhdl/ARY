@@ -1,0 +1,108 @@
+{
+  "group": "d-data",
+  "version": "0.1.0",
+  "contractVersion": "0.1.0",
+  "dependsOn": [
+    "a-rider",
+    "b-admin"
+  ],
+  "artifacts": [
+    {
+      "name": "authority-mock.json",
+      "path": "deliverables/d-data/authority-mock.json",
+      "required": true,
+      "type": "sample-data",
+      "role": "first-round-runtime-source-of-truth",
+      "description": "唯一权威 mock;第一轮单机 Web 运行时主入口。覆盖 11 个共享 View。"
+    },
+    {
+      "name": "authority-mock.schema.md",
+      "path": "deliverables/d-data/authority-mock.schema.md",
+      "required": true,
+      "type": "documentation",
+      "description": "authority-mock.json 各顶层键的结构、枚举与到共享字段字典的映射。"
+    },
+    {
+      "name": "data-coverage-report.md",
+      "path": "deliverables/d-data/data-coverage-report.md",
+      "required": true,
+      "type": "documentation",
+      "description": "覆盖了哪些对象/状态、哪些仍是 fallback/假数据、哪些应来自 A/B handoff。"
+    },
+    {
+      "name": "data-mapping-notes.md",
+      "path": "deliverables/d-data/data-mapping-notes.md",
+      "required": true,
+      "type": "documentation",
+      "description": "设计取舍、E 如何接线、前端字段映射与发布/可见性过滤约定。"
+    },
+    {
+      "name": "source",
+      "path": "deliverables/d-data/source",
+      "required": false,
+      "type": "directory",
+      "description": "数据生产层:确定性生成器 + PostgreSQL 生命周期 + schema/seed/exports。"
+    },
+    {
+      "name": "relational-mock.json",
+      "path": "deliverables/d-data/source/exports/relational-mock.json",
+      "required": false,
+      "type": "sample-data",
+      "description": "core + read_model 关系数据 JSON 镜像;供需要原始关系结构的消费方使用。"
+    },
+    {
+      "name": "seed.sql",
+      "path": "deliverables/d-data/source/seed/seed.sql",
+      "required": false,
+      "type": "sql",
+      "description": "可直接灌 PostgreSQL 的确定性 INSERT。"
+    }
+  ],
+  "consumes": {
+    "a-rider": [
+      "riding-events.sample.json",
+      "ca-status.sample.json",
+      "signature-samples.json"
+    ],
+    "b-admin": [
+      "dashboard-overview.sample.json",
+      "projection-status.sample.json",
+      "published-artifacts.sample.json",
+      "audit-log.sample.json"
+    ]
+  },
+  "provides": {
+    "views": [
+      "RaceSummary[]",
+      "LiveProjectionView[]",
+      "PublishedWorkView[]",
+      "PublishedResultView[]",
+      "PublishedReviewView[]",
+      "PublicRiderProfileView[]",
+      "DashboardOverview",
+      "CAConnectionStatusView[]",
+      "ProjectionStatus[]",
+      "PublishedArtifactStatus[]",
+      "AuditLogEntry[]"
+    ],
+    "topLevelKeys": [
+      "metadata",
+      "races",
+      "liveProjections",
+      "works",
+      "results",
+      "awards",
+      "reviews",
+      "profiles",
+      "dashboard",
+      "caStatuses",
+      "projectionStatuses",
+      "publishedArtifacts",
+      "auditLogs"
+    ]
+  },
+  "regenerate": "cd deliverables/d-data/source && python generate.py",
+  "verify": "cd deliverables/d-data/source && python manage.py verify",
+  "deterministic": true,
+  "notes": "authority-mock.json 是第一轮唯一权威 mock。A、B 的 handoff 用于补齐赛时与管理侧信息,但不得另立第二份主 mock。公开端消费 works 时必须按 11-Publication-Visibility-Rules 过滤 visibility==public。E 应让 runtime-data/authority-mock.json 来源于本文件(详见 data-mapping-notes.md)。"
+}

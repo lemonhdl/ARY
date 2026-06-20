@@ -1,0 +1,15 @@
+# ARY D 组数据层 conda 环境定义。
+# 用法: conda env create -f environment.yml  (或 conda env update -f environment.yml)
+# 说明:
+#   1. 环境名固定为 SE(对齐 todos/04 §4 与硬约束:不动 SE 之外任何内容)。
+#   2. 生成 authority-mock.json 只需 python(纯标准库);Faker 为预留可选依赖,当前生成不消费。
+#   3. PostgreSQL 仅用于离线数据工程(manage.py load/verify-db/backup),不是第一轮运行时前置。
+name: SE
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - postgresql=16       # 提供 initdb / pg_ctl / psql / pg_dump
+  - pip
+  - pip:
+      - -r requirements.txt

@@ -1,0 +1,6 @@
+# ARY D 组数据层 Python 依赖。
+# 重要:生成 authority-mock.json / relational-mock.json / seed.sql 不强依赖任何第三方包,
+#       纯标准库即可运行(python generate.py)。以下依赖只用于「增强」与「灌库」路径。
+
+Faker>=24.0           # 预留可选依赖:当前生成完全走 content.py 确定性内容池,不消费 Faker(缺失也不影响产物)
+psycopg2-binary>=2.9  # 可选:仅在用 Python 直连 PostgreSQL 时需要(manage.py 默认走 psql 子进程)
