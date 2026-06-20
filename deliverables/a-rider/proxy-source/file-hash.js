@@ -9,10 +9,11 @@ import { execSync } from "node:child_process";
 import { createHash, randomUUID } from "node:crypto";
 import { readFileSync, writeFileSync, copyFileSync, existsSync, readdirSync, statSync, mkdirSync } from "node:fs";
 import { join, resolve, basename } from "node:path";
-import { homedir } from "node:os";
+import { fileURLToPath } from "node:url";
 // 提交存储目录：环境变量 > 中转站自身目录 ~/.dcr/submissions
+const __dirname_fh = fileURLToPath(new URL(".", import.meta.url));
 function getSubmissionsDir() {
-  return process.env.DCR_SUBMISSIONS_DIR || join(homedir(), ".dcr", "submissions");
+  return process.env.DCR_SUBMISSIONS_DIR || join(__dirname_fh, "data", "submissions");
 }
 
 /**

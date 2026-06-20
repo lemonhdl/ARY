@@ -2,7 +2,7 @@
   "__GENERATION_NOTE__": {
     "generatedAt": "2026-06-19T14:37:55.523Z",
     "source": "本地 Claude Code 数据",
-    "identityStatus": "身份字段（race.*, rider.*, ca.caConnectionId）使用假数据，标注 __MOCK__。服务端 API 就绪后替换。",
+    "identityStatus": "所有身份字段、项目路径、session ID 和原始 prompt 均已脱敏，使用 __MOCK__ 前缀和示例占位符。服务端 API 就绪后替换。",
     "schemaVersion": "ary.ca.riding_signal.v0.1"
   },
   "description": "Session 快照样例，对应 W3 fetch 接口返回结构。",
@@ -12,8 +12,8 @@
     "ca": {
       "caConnectionId": "__MOCK__conn_claude_code_001",
       "caType": "claude_code",
-      "caProjectId": "C:\\Users\\ROG\\Desktop\\se\\ARY",
-      "caSessionId": "a5e351aa-813f-4e15-9e77-6bad6205b227"
+      "caProjectId": "__MOCK__sample_project",
+      "caSessionId": "__MOCK__sample_session_001"
     },
     "session": {
       "startedAt": "2026-06-19T10:19:52.402Z",
@@ -44,7 +44,7 @@
       }
     ],
     "summary": {
-      "currentGoal": "我们可以先在本地生成一份假数据并注明，先用着吧",
+      "currentGoal": "[示例] 骑行赛事演示任务",
       "latestActivity": "Processing",
       "riskLevel": "medium",
       "riskReason": ""

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DCR Proxy — 中转站控制面板</title>
+<style>
+  :root { --bg:#0d1117; --surface:#161b22; --border:#30363d; --text:#c9d1d9; --muted:#8b949e; --accent:#58a6ff; --green:#3fb950; --yellow:#d2991d; --red:#f85149; }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:"Segoe UI","SF Mono",Consolas,monospace;background:var(--bg);color:var(--text);padding:20px;max-width:900px;margin:0 auto}
+  .header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+  .title{font-size:18px;font-weight:700}
+  .status-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px}
+  .status-dot.on{background:var(--green)}
+  .status-dot.off{background:var(--muted)}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:16px}
+  .card h3{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px}
+  .row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);font-size:13px}
+  .row:last-child{border-bottom:none}
+  .row .label{color:var(--muted)}
+  .row .val{color:var(--accent);font-weight:500;font-family:"SF Mono",Consolas,monospace;font-size:12px}
+  .grid{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px;margin-bottom:16px}
+  .stat{text-align:center;background:var(--bg);padding:12px 8px;border-radius:6px;border:1px solid var(--border)}
+  .stat .num{font-size:24px;font-weight:700;color:var(--accent)}
+  .stat .label{font-size:10px;color:var(--muted);margin-top:4px}
+  .chain-entry{padding:8px 0;border-bottom:1px solid var(--border);font-size:12px}
+  .chain-entry:last-child{border-bottom:none}
+  .ce-head{display:flex;gap:10px;align-items:center;margin-bottom:4px;flex-wrap:wrap}
+  .ce-index{font-weight:700;color:var(--accent);min-width:28px}
+  .ce-agent{font-size:9px;background:var(--border);padding:1px 5px;border-radius:3px;color:var(--yellow)}
+  .ce-model{color:var(--muted);font-size:10px}
+  .ce-dur{color:var(--muted);font-size:10px}
+  .ce-tok{color:var(--yellow);font-size:11px}
+  .ce-hash{font-size:9px;color:var(--muted);font-family:"SF Mono",Consolas,monospace}
+  .valid{color:var(--green)} .broken{color:var(--red);font-weight:700}
+  .refresh{font-size:10px;color:var(--muted)}
+  code{font-family:"SF Mono",Consolas,monospace;font-size:10px;background:#0d1117;padding:1px 4px;border-radius:3px}
+</style>
+</head>
+<body>
+<div class="header">
+  <div><span class="title">🔄 DCR Proxy</span><br><span class="refresh" id="lastUpdate">—</span></div>
+  <div style="text-align:right"><div id="proxyState" style="font-size:14px">—</div><div style="font-size:10px;color:var(--muted)" id="proxyUptime"></div></div>
+</div>
+
+<div class="grid" id="statsGrid"></div>
+
+<div class="card">
+  <h3>📋 最近请求</h3>
+  <div id="recentEntries"></div>
+</div>
+
+<div class="card">
+  <h3>🔗 链完整性</h3>
+  <div id="chainVerify"></div>
+</div>
+
+<script>
+var POLL = "http://localhost:3738/__dcr";
+
+function fmt(ts){if(!ts)return"—";return new Date(ts).toLocaleTimeString("zh-CN",{hour:"2-digit",minute:"2-digit",second:"2-digit"})}
+function dur(ms){if(!ms)return"—";var s=Math.floor(ms/1000);if(s<60)return s+"s";return Math.floor(s/60)+"m"+s%60+"s"}
+function esc(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;")}
+
+var agentLabels = { anthropic: "Claude Code", openai: "Codex", unknown: "其他" };
+
+async function poll(){
+  try{
+    var s=await fetch(POLL+"/status",{cache:"no-cache"}).then(r=>r.json());
+    var chain=await fetch(POLL+"/chain/entries",{cache:"no-cache"}).then(r=>r.json());
+    var verify=await fetch(POLL+"/chain/verify",{cache:"no-cache"}).then(r=>r.json());
+  }catch(e){document.getElementById("proxyState").innerHTML='<span class="status-dot off"></span>未启动';return}
+
+  document.getElementById("proxyState").innerHTML='<span class="status-dot on"></span>运行中 · 上游: '+esc(s.upstream||"");
+  document.getElementById("lastUpdate").textContent="刷新 "+fmt(new Date().toISOString());
+
+  var lastAgent = s.lastRequest?.agentType || "unknown";
+  document.getElementById("statsGrid").innerHTML=
+    '<div class="stat"><div class="num">'+(s.totalEntries||0)+'</div><div class="label">总请求</div></div>'+
+    '<div class="stat"><div class="num">'+(s.userCount||0)+'</div><div class="label">活跃用户</div></div>'+
+    '<div class="stat"><div class="num">'+(s.lastRequest?s.lastRequest.duration+"ms":"—")+'</div><div class="label">最近耗时</div></div>'+
+    '<div class="stat"><div class="num" style="font-size:14px">'+(agentLabels[lastAgent]||lastAgent)+'</div><div class="label">检测 Agent</div></div>';
+
+  var entriesHtml="";
+  for(var i=chain.length-1;i>=0&&i>=chain.length-10;i--){
+    var e=chain[i];
+    entriesHtml+='<div class="chain-entry">'+
+      '<div class="ce-head">'+
+      '<span class="ce-index">#'+(e.index!=null?e.index:i)+'</span>'+
+      '<span class="ce-agent">'+(agentLabels[e.agentType]||e.agentType||"未知")+'</span>'+
+      '<span class="ce-model">'+esc(e.model||"")+'</span>'+
+      '<span class="ce-dur">'+dur(e.duration)+'</span>'+
+      '<span class="ce-tok">'+((e.usage&&e.usage.total_tokens||0).toLocaleString())+' tokens</span>'+
+      '</div>'+
+      '<div class="ce-hash">hash: '+(e.hash||"").slice(0,16)+'… prev: '+(e.prevHash||"").slice(0,16)+'…</div>'+
+      (e.promptPreview?'<div class="ce-hash" style="margin-top:2px">💬 '+esc(e.promptPreview.slice(0,100))+'</div>':'')+
+      '</div>';
+  }
+  document.getElementById("recentEntries").innerHTML=entriesHtml||'<div style="color:var(--muted)">暂无请求</div>';
+
+  // ── 链完整性（多链） ──
+  var verifyHtml = '<div class="row"><span class="label">用户数</span><span class="val">'+(s.userCount||0)+'</span></div>'+
+    '<div class="row"><span class="label">历史链数</span><span class="val">'+(s.chainCount||0)+'</span></div>'+
+    '<div class="row"><span class="label">总条目</span><span class="val">'+(s.totalEntries||0)+'</span></div>';
+  if (verify && verify.results) {
+    for (var vi = 0; vi < verify.results.length; vi++) {
+      var vr = verify.results[vi];
+      verifyHtml += '<div class="row"><span class="label">链 '+(vr.chainId||"").slice(0,8)+'…</span>'+
+        '<span class="val '+(vr.valid?'valid':'broken')+'">'+(vr.valid?'✅':'❌ 断裂')+
+        ' · '+((vr.summary&&vr.summary.totalEntries)||0)+'条 · '+((vr.summary&&vr.summary.totalTokens||0).toLocaleString())+'🪙</span></div>';
+    }
+  }
+  document.getElementById("chainVerify").innerHTML = verifyHtml;
+}
+
+setInterval(poll,2000);
+poll();
+</script>
+</body>
+</html>
