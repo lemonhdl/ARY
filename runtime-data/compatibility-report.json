@@ -1,0 +1,10 @@
+{
+  "generatedAt": "2026-06-20T15:56:14.758Z",
+  "ok": true,
+  "warnings": [],
+  "manifestCount": 4,
+  "runtimeFiles": {
+    "authorityMockPath": "D:\\ary-grs-003-llt5925\\ARY\\runtime-data\\authority-mock.json",
+    "assembledViewPath": "D:\\ary-grs-003-llt5925\\ARY\\runtime-data\\assembled-view.json"
+  }
+}

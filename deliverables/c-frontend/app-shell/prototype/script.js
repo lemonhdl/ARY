@@ -349,15 +349,19 @@ function getPublicReview(raceId) {
   return sampleData?.reviews?.find((review) => review.raceId === raceId && review.status === "published");
 }
 
+function canShowPublishedResults(race) {
+  return ["completed", "archived"].includes(race?.status);
+}
+
 function getPublishedAwards(raceId) {
   const race = getRace(raceId);
   const review = getPublicReview(raceId);
-  if (race?.status !== "completed" || !review) return [];
+  if (!canShowPublishedResults(race) || !review) return [];
   return (sampleData?.awards || []).filter((award) => award.raceId === raceId);
 }
 
 function getPublishedResultRaces() {
-  return (sampleData?.races || []).filter((race) => race.status === "completed" && getPublicReview(race.id) && getPublishedAwards(race.id).length);
+  return (sampleData?.races || []).filter((race) => canShowPublishedResults(race) && getPublicReview(race.id) && getPublishedAwards(race.id).length);
 }
 
 function domainText(domain) {

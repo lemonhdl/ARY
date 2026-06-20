@@ -46,8 +46,8 @@
 16. 已补充 monorepo 目录 ownership 约定：A-D 默认只改各自 `deliverables/` 目录，E 负责 `app/`、`scripts/`、`runtime-data/` 接线，以降低多人并行修改同一运行时代码目录的冲突。
 17. 已完成 C-Frontend 首轮产品壳接线：`app/web/public/`、`app/web/live/`、`app/web/screen/` 已通过运行时 bridge 复用 `deliverables/c-frontend/app-shell/prototype/`，下一步继续把 `route-map.json` 中剩余页面入口和共享 view model 边界正式落到产品壳。
 18. 已完成 C-Frontend 第二批公开 route 接线：`/race/:raceId`、`/works/:workId`、`/results/:raceId`、`/review/:raceId`、`/riders/:riderId` 与 `/cooperation` 已可直达；下一步从“URL 可进入”继续推进到“站内导航 URL 同步”和更明确的共享 adapter/view model 代码边界。
-19. 已完成 C-Frontend 关键站内导航的 pathname 同步：主导航、关键 CTA 与浏览器 Back/Forward 已能带动对应页面状态；继续深挖时已确认首页 live switcher、自动轮播与 CTA contract 开始暴露原型内部边界问题，当前不再建议由 E 继续以 monkey patch 方式替 C 收口。
-20. 已形成 C-Frontend 返工复审结论：当前产品壳已足以证明可集成、可联调，但首页 live race 切换、carousel 与关键 CTA 的正式 route / state contract 仍应由 C 自身返工补齐；下一步暂停继续深挖该原型内部行为，等待 C 按最新 review 返工后再复审。
+19. 已完成 C-Frontend 关键站内导航的 pathname 同步：主导航、关键 CTA 与浏览器 Back/Forward 已能带动对应页面状态；此前暴露出的首页 live switcher、carousel 与 CTA contract 问题，已由 C 最新提交 `7685d6b` 收回到原型自身公开 API。
+20. 已完成 C-Frontend 最新提交复审、本地收口和最终人工验收留痕：`window.ARY_C_FRONTEND` 已成为可消费的 route / CTA contract，`app/web/shared/c-frontend-loader.js` 已改为消费公开 API 并在产品壳层补齐 `popstate` 回放；由于当前没有时间再返给 C 返工，Results / Review 对 archived 已发布赛事的错误排除也已在当前仓库直接修复，并已形成单独的 C 集成收口说明与最终人工验收记录。当前剩余工作量已降为收尾级整理，不再有新的 C 集成 blocker。
 
 ## 执行纪律
 

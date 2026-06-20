@@ -79,15 +79,25 @@
           <button class="btn" onclick="batchRebuild('stale')">批量重算过期项</button>
         </div>
         <div class="table-wrap"><table><thead><tr><th>赛事</th><th>Projection 类型</th><th>健康状态</th><th>最近重建</th><th>失败原因</th><th>操作</th></tr></thead><tbody id="projection-table"></tbody></table></div>
+<<<<<<< HEAD
+        <div id="projection-bulk-actions" style="margin-top: 8px;"></div>
+        <details id="projection-history-details" style="margin-top: 16px;"><summary style="cursor:pointer;font-size:14px;color:#3d6d99;">📜 查看重算历史</summary><div class="table-wrap" style="margin-top:8px;"><table><thead><tr><th>时间</th><th>赛事</th><th>Projection 类型</th><th>结果</th></tr></thead><tbody id="projection-history-table"></tbody></table></div></details>
+=======
         <div class="table-wrap"><table><thead><tr><th>时间</th><th>操作人</th><th>动作</th><th>目标</th><th>结果</th></tr></thead><tbody id="projection-history-table"></tbody></table></div>
+>>>>>>> 7b04444157fe27eef26051f4ebe535349ece406c
 
         <h2 class="section-title">公开展示异常处理</h2>
         <div class="alert alert-warning">隐藏操作不删除数据，仅控制公开端可见性。所有变更写入审计日志。</div>
         <div class="table-wrap"><table><thead><tr><th>资源类型</th><th>资源名称</th><th>所属赛事</th><th>当前可见性</th><th>公开可见</th><th>操作</th></tr></thead><tbody id="published-table"></tbody></table></div>
 
         <h2 class="section-title">Report 重跑</h2>
+<<<<<<< HEAD
+        <div class="alert alert-info">Report 重跑不自动发布。未发布 Report 不在 Public Site 出现。支持失败重跑、查看失败原因和标记已审核。</div>
+        <div class="table-wrap"><table><thead><tr><th>赛事</th><th>Report 类型</th><th>状态</th><th>失败原因</th><th>最近修改</th><th>操作</th></tr></thead><tbody id="report-table"></tbody></table></div>
+=======
         <div class="alert alert-info">Report 重跑不自动发布。未发布 Report 不在 Public Site 出现。</div>
         <div class="table-wrap"><table><thead><tr><th>赛事</th><th>Report 类型</th><th>状态</th><th>最近修改</th><th>失败原因</th><th>操作</th></tr></thead><tbody id="report-table"></tbody></table></div>
+>>>>>>> 7b04444157fe27eef26051f4ebe535349ece406c
       </main>
     </div>
     <script type="module">
@@ -113,7 +123,11 @@
                     <tr>
                       <td><strong>${c.riderName}</strong></td>
                       <td>${c.caType}</td>
+<<<<<<< HEAD
+                      <td><span class="badge badge-${c.ingestionStatus === 'active' ? 'healthy' : c.ingestionStatus === 'handshaken' ? 'degraded' :c.ingestionStatus === 'failed' ? 'failed' : 'stale'}">${c.ingestionStatus}</span>${c.flaggedAnomaly ? ' ⚠️' : ''}</td>
+=======
                       <td><span class="badge badge-${c.ingestionStatus === 'active' ? 'healthy' : (c.ingestionStatus === 'handshaken' || c.ingestionStatus === 'registered') ? 'degraded' : c.ingestionStatus === 'failed' ? 'failed' : 'stale'}">${c.ingestionStatus}</span>${c.flaggedAnomaly ? ' ⚠️' : ''}</td>
+>>>>>>> 7b04444157fe27eef26051f4ebe535349ece406c
                       <td style="font-size:12px;">${c.registeredAt ? new Date(c.registeredAt).toLocaleDateString('zh-CN') : '--'}</td>
                       <td style="font-size:12px;">${c.lastSyncedAt ? new Date(c.lastSyncedAt).toLocaleString('zh-CN') : '--'}</td>
                       <td style="font-size:12px;color:#dc2626;">${c.failureReason || c.anomalyNote || '--'}</td>
@@ -138,7 +152,32 @@
               <td style="font-size:12px;color:#dc2626;">${p.failureReason || '--'}</td>
               <td><button class="btn btn-primary" onclick="rebuild('${p.raceId}','${p.projectionType}')">重算</button></td>
             </tr>
-          `).join('') : `<tr><td colspan="6" style="text-align:center;color:#94a3b8;padding:40px;">暂无 Projection 数据。请在 authority-mock.json 中补充 projectionStatuses。</td></tr>`;
+          `).join('') : `<tr><td colspan="6" style="text-align:center;color:#94a3b8;padding:40px;">暂无 Projection 数据。</td></tr>`;
+
+          // 批量重算按钮
+          const raceIds = [...new Set(projs.map(p => p.raceId))];
+          document.getElementById('projection-bulk-actions').innerHTML = raceIds.length ? raceIds.map(rid => {
+            const raceProjs = projs.filter(p => p.raceId === rid);
+            const raceTitle = raceProjs[0].raceTitle;
+            return `<button class="btn btn-sm" onclick="bulkRebuild('${rid}')" style="margin-right:8px;margin-bottom:4px;">🔄 批量重算 ${raceTitle}（${raceProjs.length} 项）</button>`;
+          }).join('') : '';
+
+          // 重算历史
+          const history = [];
+          for (const p of projs) {
+            if (p.rebuildCount > 0) {
+              history.push({ raceTitle: p.raceTitle, projectionType: p.projectionType, lastRebuiltAt: p.lastRebuiltAt, health: p.health, rebuildCount: p.rebuildCount, lastFailedAt: p.lastFailedAt });
+            }
+          }
+          history.sort((a, b) => new Date(b.lastRebuiltAt) - new Date(a.lastRebuiltAt));
+          document.getElementById('projection-history-table').innerHTML = history.length ? history.map(h => `
+            <tr>
+              <td style="font-size:12px;">${h.lastRebuiltAt ? new Date(h.lastRebuiltAt).toLocaleString('zh-CN') : '--'}</td>
+              <td>${h.raceTitle}</td>
+              <td>${h.projectionType}</td>
+              <td><span class="badge ${healthBadges[h.health] || ''}">${h.health}</span> · 累计 ${h.rebuildCount} 次${h.lastFailedAt ? ' · 最近失败: ' + new Date(h.lastFailedAt).toLocaleString('zh-CN') : ''}</td>
+            </tr>
+          `).join('') : '<tr><td colspan="4" style="text-align:center;color:#94a3b8;">暂无重算历史</td></tr>';
 
           const projectionHistory = auditLogs.filter(log => {
             const target = String(log.target || '');
@@ -173,12 +212,23 @@
 
           // Reports
           const reports = (data.publishedArtifacts || []).filter(a => a.artifactType === 'report');
-          document.getElementById('report-table').innerHTML = reports.length ? reports.map(r => `
+          document.getElementById('report-table').innerHTML = reports.length ? reports.map(r => {
+            const failureInfo = r.publicationStatus === 'withdrawn' ? (r.withdrawnReason || '已撤回') : (r.failureReason || (r.publicationStatus === 'failed' ? '生成失败' : '--'));
+            return `
             <tr>
               <td><strong>${r.raceTitle}</strong></td>
               <td>${r.reportType || '--'}</td>
               <td><span class="badge ${pubBadges[r.publicationStatus] || ''}">${r.publicationStatus}</span></td>
+              <td style="font-size:12px;color:${r.publicationStatus === 'withdrawn' || r.publicationStatus === 'failed' ? '#dc2626' : '#5a7a9a'};">${failureInfo}</td>
               <td style="font-size:12px;">${r.lastModifiedAt ? new Date(r.lastModifiedAt).toLocaleString('zh-CN') : '--'}</td>
+<<<<<<< HEAD
+              <td>
+                <button class="btn btn-primary" onclick="regenerateReport('${r.artifactId}')">重跑</button>
+                ${r.publicationStatus === 'draft' ? `<button class="btn btn-sm" onclick="markReviewed('${r.artifactId}')" style="margin-left:4px;" title="标记为已审核，可进入发布流程">✔ 已审核</button>` : ''}
+              </td>
+            </tr>
+          `;}).join('') : `<tr><td colspan="6" style="text-align:center;color:#94a3b8;padding:40px;">暂无 Report 数据。</td></tr>`;
+=======
               <td style="font-size:12px;color:#dc2626;">${r.withdrawnReason || r.statusNote || '--'}</td>
               <td>
                 <button class="btn btn-primary" onclick="regenerateReport('${r.artifactId}')">重跑</button>
@@ -186,6 +236,7 @@
               </td>
             </tr>
           `).join('') : `<tr><td colspan="6" style="text-align:center;color:#94a3b8;padding:40px;">暂无 Report 数据。</td></tr>`;
+>>>>>>> 7b04444157fe27eef26051f4ebe535349ece406c
         } catch (e) {
           document.getElementById('projection-table').innerHTML = `<tr><td colspan="6" style="color:#dc2626;">加载失败：${e.message}</td></tr>`;
         }
@@ -193,6 +244,16 @@
 
       window.toggleAnomalyFlag = function(connectionId) {
         alert('CAConnection ' + connectionId + ' 异常标记已切换\n（演示模式。实际将通过 API 持久化并写入审计日志。）');
+      };
+      window.bulkRebuild = function(raceId) {
+        if (confirm('确认批量重算 ' + raceId + ' 的全部 Projection？\n\n重算期间对应 Live Hall / Screen Console 将回退到上一稳定版本。')) {
+          alert('已触发 ' + raceId + ' 全量 Projection 批量重算\n（演示模式。实际将通过 API 触发并写入审计日志。）');
+        }
+      };
+      window.markReviewed = function(artifactId) {
+        if (confirm('确认将 ' + artifactId + ' 标记为已审核？\n\n标记后该 Report 可进入发布流程。')) {
+          alert('Report ' + artifactId + ' 已标记为已审核\n（演示模式。）');
+        }
       };
       window.rebuild = function(raceId, type) {
         if (confirm(`确认手动重算 ${raceId} 的 ${type} Projection？\n\n重算期间对应 Live Hall / Screen Console 将回退到上一稳定版本。`)) {
