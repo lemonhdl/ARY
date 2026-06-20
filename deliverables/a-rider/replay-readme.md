@@ -82,3 +82,20 @@ node test-attack.js
 - [ ] 哈希链验证逻辑与样例行一致
 - [ ] 错误码定义覆盖所有失败路径
 - [ ] `identity-config.json` 中 `__MOCK__` 字段标识清晰，替换路径明确
+
+## Fixture 占位与真实字段对照
+
+以下字段在样例和 identity-config.json 中使用 `__MOCK__` 前缀占位，接入真实 ARY 服务端后必须替换：
+
+| 占位值 | 真实来源 | 替换时机 |
+|--------|---------|---------|
+| `__MOCK__race_2026_demo` | ARY 服务端分配的 raceId | W1 握手成功后 |
+| `__MOCK__reg_008` | ARY 服务端分配的 registrationId | 同上 |
+| `__MOCK__rp_008` | ARY 服务端分配的 raceProjectId | 同上 |
+| `__MOCK__conn_claude_code_001` | ARY 服务端返回的 caConnectionId | W1 握手响应 |
+| `__MOCK__dcr_desktop_v0.1` | 固定值，无需替换 | — |
+| `__MOCK__sample_project` | 骑手实际项目路径 | 配置文件 `projectDir` |
+| `__MOCK__sample_session_001` | Claude Code 实际 sessionId | 运行时自动获取 |
+| `__MOCK__DEV-12` | ARY 服务端分配的 taskId | W1 握手成功后 |
+
+**E 组注意**：做 fixture 比对时，上述字段不要做精确匹配，使用通配或跳过比对。

@@ -9,9 +9,21 @@ import { createServer } from "node:http";
 import { readFile, readdir, stat, access } from "node:fs/promises";
 import { join } from "node:path";
 import { homedir } from "node:os";
-import { createReadStream, readFileSync, existsSync } from "node:fs";
-import { buildMessages, buildSessionSnapshot, buildFailureMessage } from "./message-builder.js";
+import { createReadStream, readFileSync, existsSync, writeFileSync, mkdirSync } from "node:fs";
+import { buildMessages, buildMessagesFromChain, buildSessionSnapshot, buildFailureMessage } from "./message-builder.js";
 import { listChains, readChain, verifyChain } from "./chain-store.js";
+import { buildSubmissionSnapshot, verifySubmissionAgainstChain, storeSubmission, listSubmissions, getSubmission } from "./file-hash.js";
+
+const DCR_CONFIG_DIR = join(homedir(), ".dcr");
+const DCR_CONFIG_FILE = join(DCR_CONFIG_DIR, "config.json");
+
+function loadDcrConfig() {
+  try { return JSON.parse(readFileSync(DCR_CONFIG_FILE, "utf-8")); } catch { return {}; }
+}
+function saveDcrConfig(cfg) {
+  if (!existsSync(DCR_CONFIG_DIR)) mkdirSync(DCR_CONFIG_DIR, { recursive: true });
+  writeFileSync(DCR_CONFIG_FILE, JSON.stringify(cfg, null, 2), "utf-8");
+}
 
 // ── 路径工具 ────────────────────────────────────────────────
 
@@ -141,13 +153,6 @@ async function getOverview() {
   const projects = await getProjects();
   const history = await getRecentHistory(5);
 
-  const debug = {
-    sessionsFound: sessions.length,
-    sessionsStatuses: sessions.map(s => s.status),
-    sessionsDir: SESSIONS_DIR,
-    exists: existsSync(SESSIONS_DIR),
-  };
-
   const activeSession = sessions.find(s => s.status === "busy") || sessions[0];
   const totalSessions = sessions.length;
   const activeSessions = sessions.filter(s => s.status === "busy").length || (sessions.length > 0 ? 1 : 0);
@@ -163,10 +168,33 @@ async function getOverview() {
     }
   }
 
-  // ── 从当前活跃 session 计算骑行汇总 ──────────────────
-  let ridingStats = { totalTokens: 0, totalMessages: 0, totalToolCalls: 0, totalTime: 0, signalTypes: [] };
+  // ── 连接中转站拿实时状态 ──
+  const config = loadDcrConfig();
+  const proxyUrl = config.proxyUrl || "http://localhost:3738";
+  let proxyStatus = { online: false, userCount: 0, totalEntries: 0, lastRequest: null, upstream: "", url: proxyUrl };
+  try {
+    const proxyRes = await fetch(proxyUrl + "/__dcr/status");
+    if (proxyRes.ok) Object.assign(proxyStatus, await proxyRes.json(), { online: true, url: proxyUrl });
+  } catch { }
 
-  if (activeSession) {
+  // ── 骑行统计从链条目拿 ──
+  let ridingStats = { totalTokens: 0, totalMessages: 0, totalToolCalls: 0, totalTime: 0, signalTypes: [] };
+  const chains = listChains();
+  const activeChain = chains[0];
+  if (activeChain) {
+    const entries = readChain(activeChain);
+    const messages = buildMessagesFromChain(entries, { startedAt: activeChain.createdAt });
+    if (messages.length > 0) {
+      ridingStats.totalTokens = messages[messages.length - 1].counters?.tokens || 0;
+      ridingStats.totalMessages = messages.length;
+      ridingStats.totalToolCalls = messages[messages.length - 1].counters?.toolCallCount || 0;
+      ridingStats.totalTime = new Date(messages[messages.length - 1].timestamp).getTime() - new Date(messages[0].timestamp).getTime();
+      ridingStats.signalTypes = [...new Set(messages.map(m => m.signal?.type).filter(Boolean))];
+    }
+  }
+
+  // ── 兜底：从 Claude Code session 计算 ──
+  if (ridingStats.dataSource === "none" && activeSession) {
     try {
       const projDir = join(PROJECTS_DIR, encodeProjectPath(activeSession.cwd || ""));
       const sf = join(projDir, `${activeSession.sessionId}.jsonl`);
@@ -184,6 +212,7 @@ async function getOverview() {
         ridingStats.totalToolCalls = last.counters?.toolCallCount || 0;
         ridingStats.totalTime = new Date(last.timestamp).getTime() - new Date(first.timestamp).getTime();
         ridingStats.signalTypes = [...new Set(messages.map(m => m.signal?.type).filter(Boolean))];
+        ridingStats.dataSource = "claude-code-jsonl";
       }
     } catch (e) { console.error("ridingStats error:", e.message); }
   }
@@ -194,11 +223,18 @@ async function getOverview() {
     activeSessions,
     totalProjects: projects.length,
     totalEvents,
-    currentProject: activeSession?.cwd || null,
+    currentProject: config.projectDir || activeSession?.cwd || null,
     currentSessionId: activeSession?.sessionId || null,
     recentPrompts: history,
     ridingStats,
-    _debug: debug,
+    proxyStatus,
+    chains: chains.slice(0, 5).map(c => ({
+      chainId: c.chainId,
+      createdAt: c.createdAt,
+      entryCount: c.entryCount,
+      totalTokens: c.totalTokens,
+      lastEntryAt: c.lastEntryAt,
+    })),
   };
 }
 
@@ -226,6 +262,25 @@ async function handleAPI(pathname, req, res) {
   res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
 
   try {
+    // GET /api/config — 读取配置
+    if (pathname === "/api/config" && req.method === "GET") {
+      return { status: 200, body: loadDcrConfig() };
+    }
+
+    // PUT /api/config — 保存配置
+    if (pathname === "/api/config" && req.method === "PUT") {
+      const chunks = [];
+      req.on("data", c => chunks.push(c));
+      const body = await new Promise(resolve => req.on("end", () => resolve(Buffer.concat(chunks).toString("utf-8"))));
+      try {
+        const cfg = JSON.parse(body);
+        saveDcrConfig(cfg);
+        return { status: 200, body: { ok: true, ...cfg } };
+      } catch (e) {
+        return { status: 400, body: { error: e.message } };
+      }
+    }
+
     // GET /api/overview
     if (pathname === "/api/overview" && req.method === "GET") {
       const data = await getOverview();
@@ -261,13 +316,38 @@ async function handleAPI(pathname, req, res) {
       return { status: 200, body: { session: sessionData, events } };
     }
 
-    // GET /api/ary/messages — ARY 标准消息流
+    // GET /api/ary/messages — ARY 标准消息流（优先 DCR 链条目，兜底 Claude Code JSONL）
     if (pathname === "/api/ary/messages" && req.method === "GET") {
       const url = new URL(req.url, "http://localhost");
-      const pid = url.searchParams.get("pid");
       const limit = parseInt(url.searchParams.get("limit") || "100");
 
-      // 找目标 session
+      // ── 优先从 DCR 链条目读取 ──
+      const chains = listChains();
+      const activeChain = chains[0];
+      if (activeChain) {
+        const entries = readChain(activeChain);
+        if (entries.length > 0) {
+          const messages = buildMessagesFromChain(entries.slice(-limit), {
+            sessionId: activeChain.session?.sessionId,
+            cwd: activeChain.session?.cwd,
+            startedAt: activeChain.createdAt,
+          });
+          return {
+            status: 200,
+            body: {
+              source: "dcr-chain",
+              chainId: activeChain.chainId,
+              entryCount: entries.length,
+              messageCount: messages.length,
+              signalTypes: [...new Set(messages.map(m => m.signal?.type))],
+              messages: messages.slice(-50),
+            },
+          };
+        }
+      }
+
+      // ── 兜底：Claude Code 原始 session ──
+      const pid = url.searchParams.get("pid");
       const sessions = await getActiveSessions();
       const target = pid
         ? sessions.find(s => String(s.pid) === pid)
@@ -280,7 +360,6 @@ async function handleAPI(pathname, req, res) {
       const sessionFile = join(projectDir, `${target.sessionId}.jsonl`);
       const rawEvents = await readJSONL(sessionFile);
 
-      // 用 message-builder 转换
       const messages = buildMessages(rawEvents.slice(-limit), {
         sessionId: target.sessionId,
         cwd: target.cwd,
@@ -290,10 +369,11 @@ async function handleAPI(pathname, req, res) {
       return {
         status: 200,
         body: {
+          source: "claude-code-jsonl",
           session: { pid: target.pid, sessionId: target.sessionId, cwd: target.cwd, status: target.status },
           messageCount: messages.length,
           signalTypes: [...new Set(messages.map(m => m.signal.type))],
-          messages: messages.slice(-50),  // 返回最近 50 条
+          messages: messages.slice(-50),
         },
       };
     }
@@ -340,6 +420,95 @@ async function handleAPI(pathname, req, res) {
       const entries = readChain(chain);
       const verification = verifyChain(chain);
       return { status: 200, body: { chain, entries, verification } };
+    }
+
+    // GET /api/chain/:chainId/messages — 链记录的 ARY 统一格式消息
+    const chainMsgMatch = pathname.match(/^\/api\/chain\/([^\/]+)\/messages$/);
+    if (chainMsgMatch && req.method === "GET") {
+      const chainId = chainMsgMatch[1];
+      const chains = listChains();
+      const chain = chains.find(c => c.chainId === chainId);
+      if (!chain) return { status: 404, body: { error: "chain not found" } };
+      const entries = readChain(chain);
+      const messages = buildMessagesFromChain(entries, {
+        sessionId: chain.session?.sessionId,
+        cwd: chain.session?.cwd,
+        startedAt: chain.createdAt,
+      });
+      return { status: 200, body: { chainId, entryCount: entries.length, messageCount: messages.length, messages } };
+    }
+
+    // GET /api/ary/chain-messages — 活跃链的 ARY 消息（统一格式）
+    if (pathname === "/api/ary/chain-messages" && req.method === "GET") {
+      const chains = listChains();
+      const target = chains[0];
+      if (!target) return { status: 404, body: { error: "no chains found" } };
+      const entries = readChain(target);
+      const messages = buildMessagesFromChain(entries, {
+        sessionId: target.session?.sessionId,
+        cwd: target.session?.cwd,
+        startedAt: target.createdAt,
+      });
+      return { status: 200, body: { chainId: target.chainId, entryCount: entries.length, messageCount: messages.length, messages: messages.slice(-50) } };
+    }
+
+    // POST /api/submit — 提交项目：生成快照、持久化存储、与链条目验证
+    if (pathname === "/api/submit" && req.method === "POST") {
+      const chunks = [];
+      req.on("data", c => chunks.push(c));
+      const body = await new Promise(resolve => req.on("end", () => resolve(Buffer.concat(chunks).toString("utf-8"))));
+      let params;
+      try { params = JSON.parse(body); } catch { return { status: 400, body: { error: "invalid JSON" } }; }
+
+      const projectDir = params.projectDir || process.cwd();
+      const chains = listChains();
+      const chainId = params.chainId || (chains[0]?.chainId) || "";
+
+      // 持久化存储项目文件
+      const manifest = storeSubmission(projectDir, chainId);
+
+      // 与链条目对账
+      const snapshot = manifest.snapshot;
+      let verification = { valid: false, verdict: "无链条目可供比对" };
+      if (chainId) {
+        const chain = chains.find(c => c.chainId === chainId);
+        if (chain) {
+          const entries = readChain(chain);
+          verification = verifySubmissionAgainstChain(snapshot, entries);
+        }
+      }
+
+      return { status: 200, body: { submissionId: manifest.submissionId, storedDir: manifest.storedDir, snapshot, verification } };
+    }
+
+    // GET /api/submissions — 列出所有已存储的提交
+    if (pathname === "/api/submissions" && req.method === "GET") {
+      return { status: 200, body: listSubmissions() };
+    }
+
+    // GET /api/submission/:id — 获取单次提交详情
+    const subDetailMatch = pathname.match(/^\/api\/submission\/([^\/]+)$/);
+    if (subDetailMatch && req.method === "GET") {
+      const detail = getSubmission(subDetailMatch[1]);
+      if (!detail) return { status: 404, body: { error: "submission not found" } };
+      return { status: 200, body: detail };
+    }
+
+    // GET /api/submit/:chainId — 按指定链验证提交
+    const submitMatch = pathname.match(/^\/api\/submit\/([^\/]+)$/);
+    if (submitMatch && req.method === "GET") {
+      const chainId = submitMatch[1];
+      const chains = listChains();
+      const chain = chains.find(c => c.chainId === chainId);
+      if (!chain) return { status: 404, body: { error: "chain not found" } };
+
+      const url = new URL(req.url, "http://localhost");
+      const projectDir = url.searchParams.get("dir") || process.cwd();
+      const snapshot = buildSubmissionSnapshot(projectDir);
+      const entries = readChain(chain);
+      const verification = verifySubmissionAgainstChain(snapshot, entries);
+
+      return { status: 200, body: { chainId, snapshot, verification } };
     }
 
     // GET /api/projects

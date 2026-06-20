@@ -36,8 +36,35 @@
         <div id="caStatus">
           <div class="ca-row"><span>连接状态</span><span id="caHealth" class="val">—</span></div>
           <div class="ca-row"><span>当前项目</span><span id="caProject" class="val">—</span></div>
-          <div class="ca-row"><span>Session ID</span><span id="caSessionId" class="val">—</span></div>
+          <div class="ca-row"><span>记录数</span><span id="caSessionId" class="val">—</span></div>
         </div>
+      </section>
+
+      <section class="card" id="submitCard">
+        <h3>📦 提交作品</h3>
+        <div style="font-size:11px;color:var(--muted);margin-bottom:6px" id="submitProjectLabel">项目: —</div>
+        <button id="submitBtn" style="width:100%;background:var(--accent);color:#fff;border:none;padding:8px;border-radius:4px;cursor:pointer;font-size:13px;font-weight:600">提交验证</button>
+        <div id="submitResult" style="font-size:10px;color:var(--muted);margin-top:6px;max-height:120px;overflow-y:auto"></div>
+      </section>
+
+      <section class="card" id="upstreamCard">
+        <h3>⚙️ 连接配置</h3>
+        <div style="margin-bottom:6px">
+          <div style="font-size:10px;color:var(--muted);margin-bottom:2px">中转站地址</div>
+          <input id="proxyUrlInput" type="text" style="width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);padding:5px 8px;border-radius:4px;font-family:monospace;font-size:11px" placeholder="http://localhost:3738">
+        </div>
+        <div style="margin-bottom:6px">
+          <div style="font-size:10px;color:var(--muted);margin-bottom:2px">监控项目目录</div>
+          <input id="projectDirInput" type="text" style="width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);padding:5px 8px;border-radius:4px;font-family:monospace;font-size:11px" placeholder="C:/path/to/project">
+        </div>
+        <div style="margin-bottom:6px">
+          <div style="font-size:10px;color:var(--muted);margin-bottom:2px">上游端点（LLM API）</div>
+          <div style="display:flex;gap:6px">
+            <input id="upstreamInput" type="text" style="flex:1;background:var(--bg);border:1px solid var(--border);color:var(--text);padding:5px 8px;border-radius:4px;font-family:monospace;font-size:11px" placeholder="https://api.deepseek.com/anthropic">
+            <button id="upstreamSave" style="background:var(--accent);color:#fff;border:none;padding:5px 10px;border-radius:4px;cursor:pointer;font-size:11px">保存</button>
+          </div>
+        </div>
+        <div id="upstreamStatus" style="font-size:10px;color:var(--muted);margin-top:4px"></div>
       </section>
 
       <section class="card" id="recentPrompts">
@@ -87,10 +114,10 @@
   <!-- ════════════ 底部状态 ════════════ -->
   <footer id="bottomBar">
     <span id="clock">—</span>
-    <span id="dataSource">数据源: ~/.claude/</span>
+    <span id="dataSource">数据源: ~/.claude/ + ~/.dcr/sessions/</span>
     <span id="autoRefresh">⏱ 手动刷新</span>
   </footer>
 
-  <script type="module" src="app-v8.js?v=2"></script>
+  <script type="module" src="app-v10.js?v=1"></script>
 </body>
 </html>

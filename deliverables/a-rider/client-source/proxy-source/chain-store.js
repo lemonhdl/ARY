@@ -8,12 +8,13 @@
 import { createHash, randomUUID } from "node:crypto";
 import { readFileSync, writeFileSync, existsSync, mkdirSync, appendFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
-import { homedir } from "node:os";
+import { fileURLToPath } from "node:url";
 
-// ═══════════════════════════════ 路径
+// ═══════════════════════════════ 路径（中转站自身目录下的 data/）
 
-const DCR_DIR = join(homedir(), ".dcr");
-const SESSIONS_DIR = join(DCR_DIR, "sessions");
+const __dirname = fileURLToPath(new URL(".", import.meta.url));
+const DATA_DIR = join(__dirname, "data");
+const SESSIONS_DIR = join(DATA_DIR, "sessions");
 
 function ensureDir(dir) {
   if (!existsSync(dir)) mkdirSync(dir, { recursive: true });

@@ -55,6 +55,8 @@ body {
 .badge.pending { background: #1c2333; color: var(--muted); }
 .badge.active { background: #0d3320; color: var(--green); }
 .badge.failed { background: #3d1414; color: var(--red); }
+.badge.error { background: #3d1414; color: var(--red); animation: blink 2s infinite; }
+@keyframes blink { 50% { opacity: 0.5; } }
 
 /* ── 主布局 ────────────────────────────── */
 
