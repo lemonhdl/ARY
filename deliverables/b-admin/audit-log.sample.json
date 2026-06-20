@@ -4,7 +4,7 @@
     "sharedContract": "todos/10-Shared-Field-Dictionary.md",
     "generatedAt": "2026-06-19T12:00:00Z",
     "source": "deliverables/b-admin/audit-log.sample.json",
-    "coverage": "覆盖 8 类操作类型：role_change / admin_login / projection_rebuild / report_regenerate / work_visibility_change / profile_visibility_change / config_update / access_denied"
+    "coverage": "覆盖 9 类操作类型：role_change / profile_update / admin_login / projection_rebuild / report_regenerate / work_visibility_change / profile_visibility_change / config_update / access_denied。注意 profile_update（资料补全状态变更）与 profile_visibility_change（Rider Profile 公开展示开关）是两个不同动作。"
   },
   "logs": [
     {
@@ -130,6 +130,23 @@
       },
       "ip": "192.168.1.100",
       "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/130.0",
+      "result": "success"
+    },
+    {
+      "logId": "log_007b",
+      "timestamp": "2026-06-19T08:00:00Z",
+      "actorUserId": "user_rider_02",
+      "actorGithubAccount": "ana-ruiz",
+      "actionType": "profile_update",
+      "targetResourceType": "User",
+      "targetResourceId": "user_rider_02",
+      "detail": {
+        "previousProfile": { "displayName": "Ana Ruiz", "organization": "SZU Design Lab", "contact": "" },
+        "newProfile": { "displayName": "Ana Ruiz", "organization": "SZU Design Lab", "contact": "ana.ruiz@example.com" },
+        "reason": "用户自行补全联系方式"
+      },
+      "ip": "10.0.0.55",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Chrome/130.0",
       "result": "success"
     },
     {

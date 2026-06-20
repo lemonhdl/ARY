@@ -1,0 +1,17 @@
+{
+  "__NOTE__": "本文件中的值均为本地开发假数据。等服务端 API 就绪后替换为真实值。",
+  "race": {
+    "raceId": "__MOCK__race_2026_demo",
+    "taskId": "__MOCK__DEV-12"
+  },
+  "rider": {
+    "registrationId": "__MOCK__reg_008",
+    "raceProjectId": "__MOCK__rp_008"
+  },
+  "ca": {
+    "caConnectionId": "__MOCK__conn_claude_code_001",
+    "caType": "claude_code",
+    "connectorId": "__MOCK__dcr_desktop_v0.1",
+    "connectorVersion": "0.1.0"
+  }
+}

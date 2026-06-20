@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DCR Desktop App — Rider Client</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- ════════════ 顶部状态栏 ════════════ -->
+  <header id="topBar">
+    <div class="brand">
+      <span class="logo">🐎</span>
+      <span class="title">DCR Desktop</span>
+      <span class="version">v0.1.1</span>
+    </div>
+    <div id="connectionBadge" class="badge pending">● 检测中…</div>
+  </header>
+
+  <!-- ════════════ 主布局 ════════════ -->
+  <main id="layout">
+    <!-- 左侧：概览卡片 -->
+    <aside id="sidebar">
+      <section class="card" id="overviewCard">
+        <h3>📊 总览</h3>
+        <div class="stat-grid" id="overviewStats">
+          <div class="stat"><span class="num">-</span><span class="label">活跃 Session</span></div>
+          <div class="stat"><span class="num">-</span><span class="label">历史 Session</span></div>
+          <div class="stat"><span class="num">-</span><span class="label">追踪项目</span></div>
+          <div class="stat"><span class="num">-</span><span class="label">骑行事件</span></div>
+        </div>
+      </section>
+
+      <section class="card" id="connectionCard">
+        <h3>🔗 CA 连接状态</h3>
+        <div id="caStatus">
+          <div class="ca-row"><span>连接状态</span><span id="caHealth" class="val">—</span></div>
+          <div class="ca-row"><span>当前项目</span><span id="caProject" class="val">—</span></div>
+          <div class="ca-row"><span>Session ID</span><span id="caSessionId" class="val">—</span></div>
+        </div>
+      </section>
+
+      <section class="card" id="recentPrompts">
+        <h3>💬 最近 Prompt</h3>
+        <ul id="promptList" class="scroll-list"></ul>
+      </section>
+    </aside>
+
+    <!-- 右侧：事件流主区域 -->
+    <section id="mainPanel">
+      <!-- 标签页 -->
+      <nav id="tabs">
+        <button class="tab active" data-tab="events">💬 对话</button>
+        <button class="tab" data-tab="chain">🔗 哈希链</button>
+        <button class="tab" data-tab="sessions">📋 Session 列表</button>
+        <button class="tab" data-tab="projects">📁 项目列表</button>
+      </nav>
+
+      <!-- 哈希链 -->
+      <div id="tab-chain" class="tab-content">
+        <div id="chainView" class="scroll-list"></div>
+      </div>
+
+      <!-- 事件流 -->
+      <div id="tab-events" class="tab-content active">
+        <div class="toolbar">
+          <select id="projectFilter">
+            <option value="">全部项目…</option>
+          </select>
+          <button id="refreshEvents">🔄 刷新</button>
+        </div>
+        <div id="eventStream" class="scroll-list"></div>
+      </div>
+
+      <!-- Session 列表 -->
+      <div id="tab-sessions" class="tab-content">
+        <div id="sessionList" class="scroll-list"></div>
+      </div>
+
+      <!-- 项目列表 -->
+      <div id="tab-projects" class="tab-content">
+        <div id="projectList" class="scroll-list"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ════════════ 底部状态 ════════════ -->
+  <footer id="bottomBar">
+    <span id="clock">—</span>
+    <span id="dataSource">数据源: ~/.claude/</span>
+    <span id="autoRefresh">⏱ 手动刷新</span>
+  </footer>
+
+  <script type="module" src="app-v8.js?v=2"></script>
+</body>
+</html>

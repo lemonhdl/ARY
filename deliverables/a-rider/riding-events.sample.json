@@ -1,0 +1,406 @@
+{
+  "__GENERATION_NOTE__": {
+    "generatedAt": "2026-06-19T14:37:55.523Z",
+    "source": "本地 Claude Code 数据",
+    "identityStatus": "身份字段（race.*, rider.*, ca.caConnectionId）使用假数据，标注 __MOCK__。服务端 API 就绪后替换。",
+    "schemaVersion": "ary.ca.riding_signal.v0.1"
+  },
+  "description": "骑行事件样例集。至少 3 条正常事件 + 1 条乱序/重放 + 1 条失败事件。",
+  "normal": [
+    {
+      "schemaVersion": "ary.ca.riding_signal.v0.1",
+      "messageId": "msg_e14ecdbc-e53",
+      "idempotencyKey": "claude_code:__MOCK__race_2026_demo:__MOCK__reg_008:__MOCK__dcr_desktop_v0.1:a5e351aa-813f-4e15-9e77-6bad6205b227:seq_0",
+      "sequence": 0,
+      "timestamp": "2026-06-19T10:20:09.009Z",
+      "race": {
+        "raceId": "__MOCK__race_2026_demo",
+        "taskId": "__MOCK__DEV-12"
+      },
+      "rider": {
+        "registrationId": "__MOCK__reg_008",
+        "raceProjectId": "__MOCK__rp_008"
+      },
+      "ca": {
+        "caConnectionId": "__MOCK__conn_claude_code_001",
+        "caType": "claude_code",
+        "connectorId": "__MOCK__dcr_desktop_v0.1",
+        "connectorVersion": "0.1.0",
+        "caProjectId": "C:\\Users\\ROG\\Desktop\\se\\ARY",
+        "caSessionId": "a5e351aa-813f-4e15-9e77-6bad6205b227"
+      },
+      "signal": {
+        "kind": "event",
+        "type": "session_started",
+        "phase": "riding",
+        "taskStatus": "in_progress",
+        "progressPercent": 1
+      },
+      "counters": {
+        "tokens": 0,
+        "sessionCount": 1,
+        "messageCount": 1,
+        "toolCallCount": 0,
+        "allRidingMessageLength": 0
+      },
+      "technicalActions": [
+        {
+          "type": "command_executed",
+          "count": 26
+        },
+        {
+          "type": "tool_called",
+          "count": 20
+        },
+        {
+          "type": "file_changed",
+          "count": 12
+        }
+      ],
+      "summary": {
+        "currentGoal": "Agent Riding in progress",
+        "latestActivity": "你去把 GitHub 仓库上的 003 分支拷过来",
+        "riskLevel": "low",
+        "riskReason": ""
+      }
+    },
+    {
+      "schemaVersion": "ary.ca.riding_signal.v0.1",
+      "messageId": "msg_a5b5be88-c90",
+      "idempotencyKey": "claude_code:__MOCK__race_2026_demo:__MOCK__reg_008:__MOCK__dcr_desktop_v0.1:a5e351aa-813f-4e15-9e77-6bad6205b227:seq_1",
+      "sequence": 1,
+      "timestamp": "2026-06-19T10:20:12.246Z",
+      "race": {
+        "raceId": "__MOCK__race_2026_demo",
+        "taskId": "__MOCK__DEV-12"
+      },
+      "rider": {
+        "registrationId": "__MOCK__reg_008",
+        "raceProjectId": "__MOCK__rp_008"
+      },
+      "ca": {
+        "caConnectionId": "__MOCK__conn_claude_code_001",
+        "caType": "claude_code",
+        "connectorId": "__MOCK__dcr_desktop_v0.1",
+        "connectorVersion": "0.1.0",
+        "caProjectId": "C:\\Users\\ROG\\Desktop\\se\\ARY",
+        "caSessionId": "a5e351aa-813f-4e15-9e77-6bad6205b227"
+      },
+      "signal": {
+        "kind": "event",
+        "type": "task_progress",
+        "phase": "riding",
+        "taskStatus": "in_progress",
+        "progressPercent": 2
+      },
+      "counters": {
+        "tokens": 25163,
+        "sessionCount": 1,
+        "messageCount": 2,
+        "toolCallCount": 0,
+        "allRidingMessageLength": 1033
+      },
+      "technicalActions": [
+        {
+          "type": "command_executed",
+          "count": 26
+        },
+        {
+          "type": "tool_called",
+          "count": 20
+        },
+        {
+          "type": "file_changed",
+          "count": 12
+        }
+      ],
+      "summary": {
+        "currentGoal": "Agent Riding in progress",
+        "latestActivity": "Processing",
+        "riskLevel": "low",
+        "riskReason": ""
+      }
+    },
+    {
+      "schemaVersion": "ary.ca.riding_signal.v0.1",
+      "messageId": "msg_217d98bd-ce6",
+      "idempotencyKey": "claude_code:__MOCK__race_2026_demo:__MOCK__reg_008:__MOCK__dcr_desktop_v0.1:a5e351aa-813f-4e15-9e77-6bad6205b227:seq_2",
+      "sequence": 2,
+      "timestamp": "2026-06-19T10:20:12.620Z",
+      "race": {
+        "raceId": "__MOCK__race_2026_demo",
+        "taskId": "__MOCK__DEV-12"
+      },
+      "rider": {
+        "registrationId": "__MOCK__reg_008",
+        "raceProjectId": "__MOCK__rp_008"
+      },
+      "ca": {
+        "caConnectionId": "__MOCK__conn_claude_code_001",
+        "caType": "claude_code",
+        "connectorId": "__MOCK__dcr_desktop_v0.1",
+        "connectorVersion": "0.1.0",
+        "caProjectId": "C:\\Users\\ROG\\Desktop\\se\\ARY",
+        "caSessionId": "a5e351aa-813f-4e15-9e77-6bad6205b227"
+      },
+      "signal": {
+        "kind": "event",
+        "type": "task_progress",
+        "phase": "riding",
+        "taskStatus": "in_progress",
+        "progressPercent": 2
+      },
+      "counters": {
+        "tokens": 50326,
+        "sessionCount": 1,
+        "messageCount": 3,
+        "toolCallCount": 1,
+        "allRidingMessageLength": 2056
+      },
+      "technicalActions": [
+        {
+          "type": "command_executed",
+          "count": 26
+        },
+        {
+          "type": "tool_called",
+          "count": 20
+        },
+        {
+          "type": "file_changed",
+          "count": 12
+        }
+      ],
+      "summary": {
+        "currentGoal": "Agent Riding in progress",
+        "latestActivity": "Processing",
+        "riskLevel": "low",
+        "riskReason": ""
+      }
+    },
+    {
+      "schemaVersion": "ary.ca.riding_signal.v0.1",
+      "messageId": "msg_d9b16b0b-a49",
+      "idempotencyKey": "claude_code:__MOCK__race_2026_demo:__MOCK__reg_008:__MOCK__dcr_desktop_v0.1:a5e351aa-813f-4e15-9e77-6bad6205b227:seq_3",
+      "sequence": 3,
+      "timestamp": "2026-06-19T10:20:12.916Z",
+      "race": {
+        "raceId": "__MOCK__race_2026_demo",
+        "taskId": "__MOCK__DEV-12"
+      },
+      "rider": {
+        "registrationId": "__MOCK__reg_008",
+        "raceProjectId": "__MOCK__rp_008"
+      },
+      "ca": {
+        "caConnectionId": "__MOCK__conn_claude_code_001",
+        "caType": "claude_code",
+        "connectorId": "__MOCK__dcr_desktop_v0.1",
+        "connectorVersion": "0.1.0",
+        "caProjectId": "C:\\Users\\ROG\\Desktop\\se\\ARY",
+        "caSessionId": "a5e351aa-813f-4e15-9e77-6bad6205b227"
+      },
+      "signal": {
+        "kind": "event",
+        "type": "task_progress",
+        "phase": "riding",
+        "taskStatus": "in_progress",
+        "progressPercent": 2
+      },
+      "counters": {
+        "tokens": 75489,
+        "sessionCount": 1,
+        "messageCount": 4,
+        "toolCallCount": 2,
+        "allRidingMessageLength": 3079
+      },
+      "technicalActions": [
+        {
+          "type": "command_executed",
+          "count": 26
+        },
+        {
+          "type": "tool_called",
+          "count": 20
+        },
+        {
+          "type": "file_changed",
+          "count": 12
+        }
+      ],
+      "summary": {
+        "currentGoal": "Agent Riding in progress",
+        "latestActivity": "Processing",
+        "riskLevel": "low",
+        "riskReason": ""
+      }
+    },
+    {
+      "schemaVersion": "ary.ca.riding_signal.v0.1",
+      "messageId": "msg_36d86900-a66",
+      "idempotencyKey": "claude_code:__MOCK__race_2026_demo:__MOCK__reg_008:__MOCK__dcr_desktop_v0.1:a5e351aa-813f-4e15-9e77-6bad6205b227:seq_4",
+      "sequence": 4,
+      "timestamp": "2026-06-19T10:20:13.545Z",
+      "race": {
+        "raceId": "__MOCK__race_2026_demo",
+        "taskId": "__MOCK__DEV-12"
+      },
+      "rider": {
+        "registrationId": "__MOCK__reg_008",
+        "raceProjectId": "__MOCK__rp_008"
+      },
+      "ca": {
+        "caConnectionId": "__MOCK__conn_claude_code_001",
+        "caType": "claude_code",
+        "connectorId": "__MOCK__dcr_desktop_v0.1",
+        "connectorVersion": "0.1.0",
+        "caProjectId": "C:\\Users\\ROG\\Desktop\\se\\ARY",
+        "caSessionId": "a5e351aa-813f-4e15-9e77-6bad6205b227"
+      },
+      "signal": {
+        "kind": "event",
+        "type": "task_progress",
+        "phase": "riding",
+        "taskStatus": "in_progress",
+        "progressPercent": 3
+      },
+      "counters": {
+        "tokens": 75489,
+        "sessionCount": 1,
+        "messageCount": 5,
+        "toolCallCount": 2,
+        "allRidingMessageLength": 4102
+      },
+      "technicalActions": [
+        {
+          "type": "command_executed",
+          "count": 26
+        },
+        {
+          "type": "tool_called",
+          "count": 20
+        },
+        {
+          "type": "file_changed",
+          "count": 12
+        }
+      ],
+      "summary": {
+        "currentGoal": "Agent Riding in progress",
+        "latestActivity": "Processing",
+        "riskLevel": "low",
+        "riskReason": ""
+      }
+    }
+  ],
+  "replayed": [
+    {
+      "schemaVersion": "ary.ca.riding_signal.v0.1",
+      "messageId": "msg_a5b5be88-c90",
+      "idempotencyKey": "claude_code:__MOCK__race_2026_demo:__MOCK__reg_008:__MOCK__dcr_desktop_v0.1:a5e351aa-813f-4e15-9e77-6bad6205b227:seq_1:replay",
+      "sequence": 99,
+      "timestamp": "2026-06-19T10:20:12.246Z",
+      "race": {
+        "raceId": "__MOCK__race_2026_demo",
+        "taskId": "__MOCK__DEV-12"
+      },
+      "rider": {
+        "registrationId": "__MOCK__reg_008",
+        "raceProjectId": "__MOCK__rp_008"
+      },
+      "ca": {
+        "caConnectionId": "__MOCK__conn_claude_code_001",
+        "caType": "claude_code",
+        "connectorId": "__MOCK__dcr_desktop_v0.1",
+        "connectorVersion": "0.1.0",
+        "caProjectId": "C:\\Users\\ROG\\Desktop\\se\\ARY",
+        "caSessionId": "a5e351aa-813f-4e15-9e77-6bad6205b227"
+      },
+      "signal": {
+        "kind": "event",
+        "type": "task_progress",
+        "phase": "riding",
+        "taskStatus": "in_progress",
+        "progressPercent": 2
+      },
+      "counters": {
+        "tokens": 25163,
+        "sessionCount": 1,
+        "messageCount": 2,
+        "toolCallCount": 0,
+        "allRidingMessageLength": 1033
+      },
+      "technicalActions": [
+        {
+          "type": "command_executed",
+          "count": 26
+        },
+        {
+          "type": "tool_called",
+          "count": 20
+        },
+        {
+          "type": "file_changed",
+          "count": 12
+        }
+      ],
+      "summary": {
+        "currentGoal": "Agent Riding in progress",
+        "latestActivity": "Processing",
+        "riskLevel": "low",
+        "riskReason": ""
+      }
+    }
+  ],
+  "failure": [
+    {
+      "schemaVersion": "ary.ca.riding_signal.v0.1",
+      "messageId": "msg_f8541d44-809",
+      "idempotencyKey": "claude_code:__MOCK__race_2026_demo:__MOCK__reg_008:connection_failed:20260619143755",
+      "timestamp": "2026-06-19T14:37:55.533Z",
+      "race": {
+        "raceId": "__MOCK__race_2026_demo",
+        "taskId": "__MOCK__DEV-12"
+      },
+      "rider": {
+        "registrationId": "__MOCK__reg_008",
+        "raceProjectId": "__MOCK__rp_008"
+      },
+      "ca": {
+        "caConnectionId": "__MOCK__conn_claude_code_001",
+        "caType": "claude_code",
+        "connectorId": "__MOCK__dcr_desktop_v0.1",
+        "connectorVersion": "0.1.0",
+        "caProjectId": "C:\\Users\\ROG\\Desktop\\se\\ARY",
+        "caSessionId": "a5e351aa-813f-4e15-9e77-6bad6205b227"
+      },
+      "signal": {
+        "kind": "event",
+        "type": "risk_detected",
+        "phase": "paused",
+        "taskStatus": "blocked"
+      },
+      "ingestion": {
+        "status": "failed",
+        "statusReason": "ca_session_permission_denied",
+        "lastSyncedAt": "2026-06-19T14:37:55.533Z",
+        "scope": "ca_connection"
+      }
+    }
+  ],
+  "stats": {
+    "totalMessagesGenerated": 214,
+    "signalTypes": [
+      "session_started",
+      "task_progress",
+      "risk_detected"
+    ],
+    "counters": {
+      "tokens": 396517,
+      "sessionCount": 1,
+      "messageCount": 214,
+      "toolCallCount": 58,
+      "allRidingMessageLength": 221964
+    }
+  }
+}

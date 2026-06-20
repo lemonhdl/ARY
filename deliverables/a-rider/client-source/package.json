@@ -1,0 +1,16 @@
+{
+  "name": "dcr-desktop-app",
+  "version": "0.1.0",
+  "description": "DCR Desktop App — Rider 客户端。中转代理 + Ed25519 签名 + SHA256 哈希链 + 文件快照 + 本地 UI",
+  "type": "module",
+  "scripts": {
+    "proxy": "node proxy.js",
+    "ui": "node server.js",
+    "start": "node proxy.js & node server.js",
+    "samples": "node generate-samples.js",
+    "signatures": "node generate-signature-samples.js",
+    "test-attack": "node test-attack.js"
+  },
+  "keywords": ["ary", "dcr", "rider", "claude-code"],
+  "license": "MIT"
+}

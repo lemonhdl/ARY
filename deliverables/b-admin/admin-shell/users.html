@@ -104,7 +104,15 @@
         try {
           const resp = await fetch('/api/runtime/assembled-view');
           const data = await resp.json();
-          users = (data.manifests || []).find(m => m.group === 'b-admin') ? [] : [];
+          users = data.userRoles || [];
+          if (!users.length) {
+            // Fallback: try to load from user-roles.sample.json via the runtime
+            try {
+              const directResp = await fetch('/api/runtime/authority-mock');
+              const mock = await directResp.json();
+              if (mock.userRoles) users = mock.userRoles;
+            } catch (_) { /* use empty */ }
+          }
           renderTable(users);
         } catch (e) {
           document.getElementById('user-table').innerHTML = `<tr><td colspan="9" style="color:#dc2626;">加载失败：${e.message}</td></tr>`;

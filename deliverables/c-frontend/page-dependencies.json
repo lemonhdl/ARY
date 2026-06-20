@@ -1,0 +1,65 @@
+{
+  "version": "0.1.0",
+  "dependencies": [
+    {
+      "page": "Home / Race Gallery",
+      "requiredViews": ["RaceSummary[]", "PublishedWorkView[]", "PublicRiderProfileView[]"],
+      "optionalViews": ["PublishedResultView[]"],
+      "legacyReuse": ["grs001-public-yard/public_disclosures.json", "grs001-public-yard/races.json"]
+    },
+    {
+      "page": "Race Page",
+      "requiredViews": ["RaceSummary"],
+      "optionalViews": ["LiveProjectionView", "PublishedWorkView[]", "PublishedResultView", "PublishedReviewView"],
+      "legacyReuse": ["grs001-public-yard/public_disclosures.json"]
+    },
+    {
+      "page": "Live Hall",
+      "requiredViews": ["RaceSummary", "LiveProjectionView"],
+      "optionalViews": ["CAConnectionStatusView[]", "ProjectionStatus"],
+      "legacyReuse": ["grs002-jumbotron/runtime/trackRuntime.js", "grs002-jumbotron/runtime/jumbotronAdapter.js", "grs002-jumbotron/data/curated-race-snapshot.json", "grs002-jumbotron/data/smoke-race-snapshot-8.json"]
+    },
+    {
+      "page": "Works",
+      "requiredViews": ["PublishedWorkView[]"],
+      "optionalViews": ["PublishedResultView[]", "PublicRiderProfileView[]"],
+      "legacyReuse": []
+    },
+    {
+      "page": "Work Page",
+      "requiredViews": ["PublishedWorkView"],
+      "optionalViews": ["PublishedResultView", "PublishedReviewView", "PublicRiderProfileView", "publicEvidenceSummaries[]"],
+      "legacyReuse": []
+    },
+    {
+      "page": "Results",
+      "requiredViews": ["PublishedResultView"],
+      "optionalViews": ["PublishedWorkView[]", "PublicRiderProfileView[]"],
+      "legacyReuse": ["grs001-public-yard/leaderboard_projection.json"]
+    },
+    {
+      "page": "Review",
+      "requiredViews": ["PublishedReviewView"],
+      "optionalViews": ["PublishedResultView", "PublishedWorkView[]"],
+      "legacyReuse": []
+    },
+    {
+      "page": "Rider Profile",
+      "requiredViews": ["PublicRiderProfileView"],
+      "optionalViews": ["PublishedWorkView[]", "PublishedResultView[]", "CAConnectionStatusView[]"],
+      "legacyReuse": ["grs001-public-yard/users.json", "grs001-public-yard/teams.json"]
+    },
+    {
+      "page": "Cooperation",
+      "requiredViews": ["RaceSummary[]"],
+      "optionalViews": [],
+      "legacyReuse": ["grs001-public-yard/races.json"]
+    },
+    {
+      "page": "Screen Display",
+      "requiredViews": ["RaceSummary"],
+      "optionalViews": ["LiveProjectionView", "PublishedResultView", "PublishedWorkView[]"],
+      "legacyReuse": ["grs002-jumbotron/runtime/trackRuntime.js", "grs002-jumbotron/assets/real-explicit-closed-course/track.profile.json", "grs002-jumbotron/assets/real-explicit-closed-course/background.webp", "grs002-jumbotron/assets/sprites/rider3_run.webp", "grs002-jumbotron/assets/sprites/rider3_walk.webp", "grs002-jumbotron/assets/sprites/rider3_stay.webp"]
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "group": "a-rider",
+  "version": "0.1.0",
+  "contractVersion": "0.1.0",
+  "dependsOn": ["d-data"],
+  "artifacts": [
+    {
+      "name": "riding-events.sample.json",
+      "path": "deliverables/a-rider/riding-events.sample.json",
+      "required": true,
+      "type": "sample-data",
+      "description": "骑行事件样例集，含正常事件流、乱序重放、失败事件，可映射至 LiveEventEntry / CAConnectionStatusView / LiveHeadlineMetricsView"
+    },
+    {
+      "name": "ca-status.sample.json",
+      "path": "deliverables/a-rider/ca-status.sample.json",
+      "required": true,
+      "type": "sample-data",
+      "description": "CAConnection 状态样例，覆盖 registered / handshaken / active / failed / not_configured"
+    },
+    {
+      "name": "signature-samples.json",
+      "path": "deliverables/a-rider/signature-samples.json",
+      "required": true,
+      "type": "sample-data",
+      "description": "Ed25519 签名样例，含待签名原文、canonical JSON 说明、正常签名、篡改验签失败、密钥不匹配验签失败"
+    },
+    {
+      "name": "session-fetch.contract.json",
+      "path": "deliverables/a-rider/session-fetch.contract.json",
+      "required": true,
+      "type": "contract",
+      "description": "W3 fetch 端点契约，定义 snapshot 请求/响应格式"
+    },
+    {
+      "name": "register-handshake.contract.json",
+      "path": "deliverables/a-rider/register-handshake.contract.json",
+      "required": true,
+      "type": "contract",
+      "description": "W1 握手登记契约，定义 CAConnection 登记请求/响应格式"
+    },
+    {
+      "name": "error-codes.md",
+      "path": "deliverables/a-rider/error-codes.md",
+      "required": true,
+      "type": "documentation",
+      "description": "Rider 客户端错误码定义，覆盖握手失败、签名失败、重放拒绝、sequence 异常等"
+    },
+    {
+      "name": "protocol-summary.md",
+      "path": "deliverables/a-rider/protocol-summary.md",
+      "required": true,
+      "type": "documentation",
+      "description": "DCR 协议摘要，说明消息格式、push/fetch 流程、签名机制、哈希链防伪"
+    },
+    {
+      "name": "replay-readme.md",
+      "path": "deliverables/a-rider/replay-readme.md",
+      "required": true,
+      "type": "documentation",
+      "description": "E 组本地回放与集成测试指南"
+    },
+    {
+      "name": "client-source/",
+      "path": "deliverables/a-rider/client-source/",
+      "required": true,
+      "type": "source-code",
+      "description": "DCR Desktop App 核心源码：消息构造、签名、哈希链、中转代理、用户端"
+    }
+  ],
+  "notes": "身份字段（race.*, rider.*, ca.caConnectionId）当前使用 __MOCK__ 占位，等待 ARY 服务端 API 就绪后替换。中转站和用户端当前部署于骑手本机，后续中转站迁移至云端时仅需修改 ANTHROPIC_BASE_URL 指向。"
+}

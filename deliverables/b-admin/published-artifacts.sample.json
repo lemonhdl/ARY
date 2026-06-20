@@ -167,13 +167,14 @@
       "raceTitle": "湾区开心游",
       "reportType": "rider_report",
       "subjectRegistrationId": "reg_mira_001",
-      "publicationStatus": "generated",
+      "publicationStatus": "draft",
       "visibility": null,
       "publishedAt": null,
       "withdrawnAt": null,
       "withdrawnReason": null,
       "isPubliclyVisible": false,
-      "lastModifiedAt": "2026-06-19T11:45:00Z"
+      "lastModifiedAt": "2026-06-19T11:45:00Z",
+      "statusNote": "rider_report 生成后处于 draft 状态，需 Organizer 审核发布。publicationStatus 使用 draft/published/withdrawn 三态，不使用 generated。"
     },
     {
       "artifactType": "report",
@@ -188,6 +189,20 @@
       "withdrawnReason": null,
       "isPubliclyVisible": false,
       "lastModifiedAt": "2026-06-19T09:00:00Z"
+    },
+    {
+      "artifactType": "report",
+      "artifactId": "race-report-gov-service-navigator-withdrawn",
+      "raceId": "gov-service-navigator",
+      "raceTitle": "政务办事导航 Agent",
+      "reportType": "race_report",
+      "publicationStatus": "withdrawn",
+      "visibility": null,
+      "publishedAt": "2026-06-16T15:00:00Z",
+      "withdrawnAt": "2026-06-19T10:00:00Z",
+      "withdrawnReason": "发现赛事报告中部分统计数据有误，撤回修正后重新发布",
+      "isPubliclyVisible": false,
+      "lastModifiedAt": "2026-06-19T10:00:00Z"
     },
     {
       "artifactType": "work",

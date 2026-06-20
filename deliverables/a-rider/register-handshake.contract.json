@@ -1,0 +1,67 @@
+{
+  "contract": "ARY CAConnection Registration & Handshake",
+  "version": "0.1.0",
+  "direction": "DCR Desktop App → ARY 服务端",
+  "description": "W1 登记与握手契约。Rider 将 Claude Code 会话登记到 ARY，完成身份握手，获取 caConnectionId。",
+
+  "endpoint": {
+    "method": "POST",
+    "path": "/ary/ca/register",
+    "headers": {
+      "Authorization": "Bearer <rider-github-token>",
+      "Content-Type": "application/json"
+    }
+  },
+
+  "request": {
+    "body": {
+      "registrationId": "string (required) - 选手报名 ID",
+      "raceProjectId": "string (required) - 参赛项目 ID",
+      "caType": "enum (required): claude_code",
+      "connectorId": "string (required) - DCR 连接器实例 ID",
+      "connectorVersion": "string - DCR 版本号",
+      "caProjectId": "string (required) - 外部 CA Project 标识（Claude Code 项目目录）",
+      "caSessionId": "string (required) - 外部 CA Session 标识",
+      "clientPublicKey": "string (required) - DCR 客户端 Ed25519 公钥（PEM），用于后续验签"
+    }
+  },
+
+  "response": {
+    "status": 200,
+    "contentType": "application/json",
+    "body": {
+      "caConnectionId": "string - ARY 服务端分配的连接 ID",
+      "status": "string - 'handshaken'",
+      "serverPublicKey": "string - ARY 服务端 Ed25519 公钥（PEM），用于后续签名验证",
+      "signingPrivateKey": "string - ARY 下发的 Ed25519 私钥（PEM），DCR 客户端仅内存保存",
+      "registeredAt": "string (ISO 8601)",
+      "handshakenAt": "string (ISO 8601)"
+    }
+  },
+
+  "errors": {
+    "400": "请求参数缺失或无效",
+    "401": "身份验证失败（GitHub token 无效）",
+    "403": "Registration 未批准、赛事时间窗口已关闭、或 CA 类型不被允许",
+    "409": "caSessionId 已在其他 CAConnection 中登记"
+  },
+
+  "keyManagement": {
+    "algorithm": "Ed25519",
+    "generation": "ARY 服务端在握手时生成密钥对",
+    "privateKeyDelivery": "通过 HTTPS 响应体下发至 DCR Desktop App",
+    "privateKeyStorage": "DCR 客户端仅内存保存，不落盘。客户端重启后需重新握手",
+    "publicKeyStorage": "ARY 服务端持久化，与 caConnectionId 绑定",
+    "signingScope": "整个消息体 canonical JSON（RFC 8785 JCS）",
+    "signer": "DCR Desktop App",
+    "verifier": "ARY 服务端"
+  },
+
+  "constraints": [
+    "CAConnection 登记和握手可发生在参赛过程中",
+    "Rider 必须拥有该 Race 的 approved Registration 和 RaceProject",
+    "Rider 可以为同一个 RaceProject 登记多个 CAConnection",
+    "只有已登记、已握手、归属正确且未禁用的 CAConnection 后续数据可进入有效证据链",
+    "Race 进入 judging 前，Rider 可继续新增 CAConnection"
+  ]
+}

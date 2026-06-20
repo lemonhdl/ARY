@@ -178,6 +178,16 @@
 }
 ```
 
+### profile_update（资料补全状态变更）
+```json
+{
+  "previousProfile": { "displayName": "Ana Ruiz", "organization": "SZU Design Lab", "contact": "" },
+  "newProfile": { "displayName": "Ana Ruiz", "organization": "SZU Design Lab", "contact": "ana.ruiz@example.com" },
+  "reason": "用户自行补全联系方式"
+}
+```
+> 区别于 `profile_visibility_change`：`profile_update` 记录用户资料字段（displayName、organization、contact）的变更；`profile_visibility_change` 记录 Rider Profile 公开展示开关（public/hidden）的变更。两者是不同的操作类型，下游按 actionType 过滤、聚合时不应混用。
+
 ### projection_rebuild
 ```json
 {
