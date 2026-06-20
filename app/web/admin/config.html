@@ -82,14 +82,18 @@
         </div>`;
       }
 
+      function renderAll() {
+        document.getElementById('feature-flags').innerHTML = configs.filter(c => c.category === 'feature_flag').map(renderConfig).join('') || '<p style="color:#94a3b8;">暂无功能开关配置</p>';
+        document.getElementById('ca-connector').innerHTML = configs.filter(c => c.category === 'ca_connector').map(renderConfig).join('') || '<p style="color:#94a3b8;">暂无 CA Connector 配置</p>';
+        document.getElementById('system-params').innerHTML = configs.filter(c => c.category === 'system_param').map(renderConfig).join('') || '<p style="color:#94a3b8;">暂无系统参数配置</p>';
+      }
+
       async function load() {
         try {
           const resp = await fetch('/api/runtime/assembled-view');
           const data = await resp.json();
           configs = data.systemConfigs || [];
-          document.getElementById('feature-flags').innerHTML = configs.filter(c => c.category === 'feature_flag').map(renderConfig).join('') || '<p style="color:#94a3b8;">暂无功能开关配置</p>';
-          document.getElementById('ca-connector').innerHTML = configs.filter(c => c.category === 'ca_connector').map(renderConfig).join('') || '<p style="color:#94a3b8;">暂无 CA Connector 配置</p>';
-          document.getElementById('system-params').innerHTML = configs.filter(c => c.category === 'system_param').map(renderConfig).join('') || '<p style="color:#94a3b8;">暂无系统参数配置</p>';
+          renderAll();
         } catch (e) {
           document.getElementById('feature-flags').innerHTML = `<p style="color:#dc2626;">加载失败：${e.message}</p>`;
         }
@@ -104,7 +108,7 @@
           cfg.updatedAt = new Date().toISOString();
           cfg.updatedBy = 'ary-admin (demo)';
         }
-        load();
+        renderAll();
         alert(`配置 "${key}" 已更新为 ${newValue}\n原因：${reason}\n（演示模式。实际将通过 API 持久化并写入审计日志。）`);
       };
 
