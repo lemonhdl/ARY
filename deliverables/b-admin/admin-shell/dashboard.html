@@ -74,12 +74,14 @@
 
         <h2 class="section-title">CA 接入全局健康</h2>
         <div class="stat-grid" id="ca-health">加载中...</div>
+        <div class="table-wrap" id="ca-anomaly-wrap" style="margin-top:16px;"><table><thead><tr><th>赛事</th><th>骑手</th><th>状态</th><th>失败原因</th></tr></thead><tbody id="ca-anomaly-table"></tbody></table></div>
 
         <h2 class="section-title">Projection 状态</h2>
         <div class="table-wrap"><table><thead><tr><th>赛事</th><th>Projection 类型</th><th>健康状态</th><th>最近重建</th></tr></thead><tbody id="projection-status-table"></tbody></table></div>
 
         <h2 class="section-title">Report 状态</h2>
         <div class="table-wrap"><table><thead><tr><th>赛事</th><th>Report 类型</th><th>发布状态</th><th>最近修改</th></tr></thead><tbody id="report-status-table"></tbody></table></div>
+        <div id="report-reminder" style="margin-top:16px;"></div>
 
         <h2 class="section-title">性能指标</h2>
         <div class="table-wrap"><table><thead><tr><th>指标</th><th>当前值</th><th>目标值</th></tr></thead><tbody id="perf-table"></tbody></table></div>
@@ -134,6 +136,27 @@
             <div class="stat-card"><p class="label">未配置 CA</p><p class="value"><span class="health-dot stale"></span>${ca.notConfigured || 0}</p></div>
           `;
 
+          // CA 接入异常列表
+          const caStatuses = data.caStatuses || [];
+          const anomalies = [];
+          for (const race of caStatuses) {
+            for (const c of (race.connections || [])) {
+              if (c.ingestionStatus === 'failed' || c.flaggedAnomaly) {
+                anomalies.push({ raceTitle: race.raceTitle, ...c });
+              }
+            }
+          }
+          document.getElementById('ca-anomaly-table').innerHTML = anomalies.length
+            ? anomalies.map(a => `
+              <tr>
+                <td>${a.raceTitle}</td>
+                <td><strong>${a.riderName}</strong></td>
+                <td><span class="badge badge-${a.ingestionStatus === 'failed' ? 'failed' : 'degraded'}">${a.ingestionStatus}${a.flaggedAnomaly ? ' ⚠️' : ''}</span></td>
+                <td style="font-size:12px;color:#dc2626;">${a.failureReason || (a.flaggedAnomaly ? a.anomalyNote || '已标记异常' : '--')}</td>
+              </tr>`).join('')
+            : '<tr><td colspan="4" style="text-align:center;color:#16a34a;">✅ 当前无接入异常</td></tr>';
+          document.getElementById('ca-anomaly-wrap').style.display = anomalies.length ? '' : 'none';
+
           const projections = data.projectionStatuses || [];
           document.getElementById('projection-status-table').innerHTML = projections.length
             ? projections.map(p => `
@@ -155,6 +178,25 @@
                 <td style="font-size:12px;">${r.lastModifiedAt ? new Date(r.lastModifiedAt).toLocaleString('zh-CN') : '--'}</td>
               </tr>`).join('')
             : '<tr><td colspan="4" style="text-align:center;color:#94a3b8;">暂无 Report 数据</td></tr>';
+
+          // Report 失败列表与未发布提醒
+          const failedReports = reports.filter(r => r.publicationStatus === 'withdrawn');
+          const completedRaces = (data.races || []).filter(r => r.status === 'completed');
+          const unpublishedReminders = [];
+          for (const race of completedRaces) {
+            const raceReports = reports.filter(r => r.raceId === race.id || r.raceId === race.raceId);
+            const hasPublished = raceReports.some(r => r.publicationStatus === 'published');
+            if (!hasPublished && raceReports.length === 0) {
+              unpublishedReminders.push({ raceTitle: race.title, raceId: race.id || race.raceId, reason: '该赛事已结束但尚未生成任何 Report' });
+            } else if (!hasPublished) {
+              const drafts = raceReports.filter(r => r.publicationStatus === 'draft');
+              if (drafts.length) unpublishedReminders.push({ raceTitle: race.title, raceId: race.id || race.raceId, reason: `已有 ${drafts.length} 份 draft Report，但均未发布` });
+            }
+          }
+          document.getElementById('report-reminder').innerHTML = [
+            failedReports.length ? `<div class="alert alert-warning"><strong>⚠️ 失败/撤回的 Report（${failedReports.length} 份）</strong><ul style="margin:8px 0 0;padding-left:20px;">${failedReports.map(r => `<li>${r.raceTitle} — ${r.reportType} — ${r.publicationStatus} — ${r.withdrawnReason || r.failureReason || '无原因记录'}</li>`).join('')}</ul></div>` : '',
+            unpublishedReminders.length ? `<div class="alert alert-warning"><strong>⚠️ 赛事已结束但 Report 未发布（${unpublishedReminders.length} 场）</strong><ul style="margin:8px 0 0;padding-left:20px;">${unpublishedReminders.map(r => `<li>${r.raceTitle} — ${r.reason}</li>`).join('')}</ul></div>` : ''
+          ].join('');
 
           const perf = dash.performance || {};
           document.getElementById('perf-table').innerHTML = `
