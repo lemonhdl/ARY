@@ -4,13 +4,15 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>ARY Live Hall</title>
-    <link rel="stylesheet" href="/shared/styles.css" />
+    <script src="/shared/c-frontend-runtime-bridge.js"></script>
+    <script defer src="/shared/c-frontend-loader.js"></script>
   </head>
-  <body>
-    <main class="page-shell">
-      <a class="back-link" href="/">返回骨架首页</a>
-      <h1>Live Hall</h1>
-      <p>这里是 Live Hall 占位页面，后续读取 assembled runtime view。</p>
+  <body data-entry="live">
+    <main class="shell-loading">
+      <section class="shell-loading-card">
+        <h1>ARY Live Hall</h1>
+        <p>正在装配 Live Hall 原型壳并接入当前运行时投影。</p>
+      </section>
     </main>
   </body>
 </html>
