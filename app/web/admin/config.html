@@ -15,6 +15,7 @@
       .admin-main h1 { font-size: 28px; margin: 0 0 8px; }
       .subtitle { color: #5a7a9a; font-size: 14px; margin: 0 0 24px; }
       .section-title { font-size: 18px; margin: 32px 0 16px; color: #14314f; }
+      .toolbar { display: flex; gap: 12px; align-items: center; margin: 0 0 20px; flex-wrap: wrap; }
       .config-card { background: rgba(255,255,255,0.85); border: 1px solid rgba(49,103,152,0.12); border-radius: 16px; padding: 20px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
       .config-info { flex: 1; }
       .config-info .key { font-size: 14px; font-weight: 600; color: #14314f; font-family: monospace; margin: 0 0 4px; }
@@ -47,6 +48,9 @@
       <main class="admin-main">
         <h1>⚙️ 系统配置</h1>
         <p class="subtitle">管理 ARY 平台全局参数。配置变更自动写入审计日志。</p>
+        <div class="toolbar">
+          <select id="current-admin-select" title="当前管理员身份"></select>
+        </div>
 
         <h2 class="section-title">功能开关</h2>
         <div id="feature-flags"></div>
@@ -59,7 +63,11 @@
       </main>
     </div>
     <script type="module">
+      import { resolveAdminSession, writeAdminSession } from '/shared/admin-session.js';
+
       let configs = [];
+      let adminUsers = [];
+      let currentAdmin = null;
 
       function renderConfig(cfg) {
         const isBool = typeof cfg.configValue === 'boolean';
@@ -88,29 +96,68 @@
         document.getElementById('system-params').innerHTML = configs.filter(c => c.category === 'system_param').map(renderConfig).join('') || '<p style="color:#94a3b8;">暂无系统参数配置</p>';
       }
 
+      function renderAdminSelector() {
+        const select = document.getElementById('current-admin-select');
+        if (!select) return;
+        if (!adminUsers.length) {
+          select.innerHTML = '<option value="">无 admin 用户</option>';
+          select.disabled = true;
+          return;
+        }
+
+        select.disabled = false;
+        select.innerHTML = adminUsers.map(user => {
+          const label = `${user.displayName || user.githubAccount} (${user.githubAccount})`;
+          const selected = currentAdmin?.userId === user.userId ? ' selected' : '';
+          return `<option value="${user.userId}"${selected}>当前管理员：${label}</option>`;
+        }).join('');
+      }
+
       async function load() {
         try {
           const resp = await fetch('/api/runtime/assembled-view');
           const data = await resp.json();
           configs = data.systemConfigs || [];
+          adminUsers = (data.userRoles || []).filter(user => (user.roles || []).includes('admin'));
+          currentAdmin = resolveAdminSession(adminUsers);
+          renderAdminSelector();
           renderAll();
         } catch (e) {
           document.getElementById('feature-flags').innerHTML = `<p style="color:#dc2626;">加载失败：${e.message}</p>`;
         }
       }
 
-      window.toggleConfig = function(key, newValue) {
+      window.toggleConfig = async function(key, newValue) {
         const reason = prompt(`请输入切换 "${key}" 的原因（必填）：`);
         if (!reason) return;
         const cfg = configs.find(c => c.configKey === key);
-        if (cfg) {
-          cfg.configValue = newValue;
-          cfg.updatedAt = new Date().toISOString();
-          cfg.updatedBy = 'ary-admin (demo)';
+        if (!cfg) return;
+
+        try {
+          if (!currentAdmin?.userId) throw new Error('请先选择当前管理员身份');
+          const response = await fetch('/api/admin/system-config', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              configKey: key,
+              configValue: newValue,
+              reason,
+              actorUserId: currentAdmin.userId
+            })
+          });
+          const payload = await response.json();
+          if (!response.ok) throw new Error(payload.message || payload.error || '保存失败');
+          await load();
+          alert(`配置 "${key}" 已更新为 ${newValue}\n原因：${reason}\n\n变更已持久化，并写入审计日志。`);
+        } catch (error) {
+          alert(`保存失败：${error.message}`);
         }
-        renderAll();
-        alert(`配置 "${key}" 已更新为 ${newValue}\n原因：${reason}\n（演示模式。实际将通过 API 持久化并写入审计日志。）`);
       };
+
+      document.getElementById('current-admin-select').addEventListener('change', (event) => {
+        currentAdmin = adminUsers.find(user => user.userId === event.target.value) || currentAdmin;
+        if (currentAdmin) writeAdminSession(currentAdmin);
+      });
 
       load();
     </script>

@@ -13,7 +13,11 @@
       "displayName": "ARY Root Admin",
       "avatarUrl": "https://avatars.githubusercontent.com/u/admin01",
       "profileCompleted": true,
-      "roles": ["admin", "organizer"],
+      "roles": [
+        "admin",
+        "organizer",
+        "judge"
+      ],
       "registeredAt": "2026-05-01T08:00:00Z",
       "lastSignInAt": "2026-06-19T11:30:00Z",
       "raceCount": 0
@@ -24,7 +28,9 @@
       "displayName": "ARY Ops Admin",
       "avatarUrl": "https://avatars.githubusercontent.com/u/admin02",
       "profileCompleted": true,
-      "roles": ["admin"],
+      "roles": [
+        "admin"
+      ],
       "registeredAt": "2026-05-01T09:00:00Z",
       "lastSignInAt": "2026-06-19T10:45:00Z",
       "raceCount": 0
@@ -35,7 +41,10 @@
       "displayName": "Alice Wang",
       "avatarUrl": "https://avatars.githubusercontent.com/u/org01",
       "profileCompleted": true,
-      "roles": ["organizer", "rider"],
+      "roles": [
+        "organizer",
+        "rider"
+      ],
       "registeredAt": "2026-05-15T10:00:00Z",
       "lastSignInAt": "2026-06-19T11:00:00Z",
       "raceCount": 3
@@ -46,7 +55,9 @@
       "displayName": "Bob Zhang",
       "avatarUrl": "https://avatars.githubusercontent.com/u/org02",
       "profileCompleted": true,
-      "roles": ["organizer"],
+      "roles": [
+        "organizer"
+      ],
       "registeredAt": "2026-05-20T14:00:00Z",
       "lastSignInAt": "2026-06-19T10:00:00Z",
       "raceCount": 2
@@ -57,7 +68,10 @@
       "displayName": "New Organizer",
       "avatarUrl": "https://avatars.githubusercontent.com/u/org03",
       "profileCompleted": true,
-      "roles": ["rider", "organizer"],
+      "roles": [
+        "rider",
+        "organizer"
+      ],
       "registeredAt": "2026-06-01T16:00:00Z",
       "lastSignInAt": "2026-06-19T05:00:00Z",
       "raceCount": 1
@@ -68,7 +82,9 @@
       "displayName": "Mira Chen",
       "avatarUrl": "https://avatars.githubusercontent.com/u/rider01",
       "profileCompleted": true,
-      "roles": ["rider"],
+      "roles": [
+        "rider"
+      ],
       "registeredAt": "2026-06-01T08:00:00Z",
       "lastSignInAt": "2026-06-19T11:40:00Z",
       "raceCount": 1
@@ -79,7 +95,9 @@
       "displayName": "Ana Ruiz",
       "avatarUrl": "https://avatars.githubusercontent.com/u/rider02",
       "profileCompleted": false,
-      "roles": ["rider"],
+      "roles": [
+        "rider"
+      ],
       "registeredAt": "2026-06-01T09:00:00Z",
       "lastSignInAt": "2026-06-19T11:20:00Z",
       "raceCount": 1
@@ -90,7 +108,9 @@
       "displayName": "Jun Park",
       "avatarUrl": "https://avatars.githubusercontent.com/u/rider03",
       "profileCompleted": true,
-      "roles": ["rider"],
+      "roles": [
+        "rider"
+      ],
       "registeredAt": "2026-06-02T10:00:00Z",
       "lastSignInAt": "2026-06-19T11:10:00Z",
       "raceCount": 1
@@ -101,7 +121,9 @@
       "displayName": "Rae Stone",
       "avatarUrl": "https://avatars.githubusercontent.com/u/rider04",
       "profileCompleted": false,
-      "roles": ["rider"],
+      "roles": [
+        "rider"
+      ],
       "registeredAt": "2026-06-03T11:00:00Z",
       "lastSignInAt": "2026-06-18T09:00:00Z",
       "raceCount": 1
@@ -112,7 +134,10 @@
       "displayName": "New Judge User",
       "avatarUrl": "https://avatars.githubusercontent.com/u/judge01",
       "profileCompleted": true,
-      "roles": ["rider", "judge"],
+      "roles": [
+        "rider",
+        "judge"
+      ],
       "registeredAt": "2026-06-05T12:00:00Z",
       "lastSignInAt": "2026-06-19T11:15:00Z",
       "raceCount": 2
@@ -123,7 +148,9 @@
       "displayName": "Carol Liu",
       "avatarUrl": "https://avatars.githubusercontent.com/u/judge02",
       "profileCompleted": true,
-      "roles": ["judge"],
+      "roles": [
+        "judge"
+      ],
       "registeredAt": "2026-06-10T13:00:00Z",
       "lastSignInAt": "2026-06-19T10:30:00Z",
       "raceCount": 0
@@ -134,7 +161,10 @@
       "displayName": "David Tan",
       "avatarUrl": "https://avatars.githubusercontent.com/u/judge03",
       "profileCompleted": true,
-      "roles": ["judge", "rider"],
+      "roles": [
+        "judge",
+        "rider"
+      ],
       "registeredAt": "2026-06-12T15:00:00Z",
       "lastSignInAt": "2026-06-19T09:30:00Z",
       "raceCount": 1
@@ -167,7 +197,12 @@
       "displayName": "ARY Super Admin",
       "avatarUrl": "https://avatars.githubusercontent.com/u/admin03",
       "profileCompleted": true,
-      "roles": ["admin", "organizer", "judge", "rider"],
+      "roles": [
+        "admin",
+        "organizer",
+        "judge",
+        "rider"
+      ],
       "registeredAt": "2026-05-01T07:00:00Z",
       "lastSignInAt": "2026-06-19T11:55:00Z",
       "raceCount": 5
@@ -177,7 +212,7 @@
     "totalUsers": 287,
     "adminCount": 3,
     "organizerCount": 5,
-    "judgeCount": 8,
+    "judgeCount": 9,
     "riderCount": 245,
     "noRoleCount": 42,
     "multiRoleCount": 16

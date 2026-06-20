@@ -8,6 +8,71 @@
   },
   "logs": [
     {
+      "logId": "log_013",
+      "timestamp": "2026-06-20T16:59:03.503Z",
+      "actorUserId": "user_admin_01",
+      "actorGithubAccount": "ary-root-admin",
+      "actionType": "config_update",
+      "targetResourceType": "Config",
+      "targetResourceId": "maintenance_mode",
+      "detail": {
+        "configKey": "maintenance_mode",
+        "previousValue": false,
+        "newValue": true,
+        "reason": "2"
+      },
+      "ip": "::1",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36",
+      "result": "success"
+    },
+    {
+      "logId": "log_012",
+      "timestamp": "2026-06-20T16:46:38.922Z",
+      "actorUserId": "user_admin_01",
+      "actorGithubAccount": "ary-root-admin",
+      "actionType": "projection_rebuild",
+      "targetResourceType": "Projection",
+      "targetResourceId": "bay-area-happy-trip:race_progress",
+      "detail": {
+        "raceId": "bay-area-happy-trip",
+        "scope": null,
+        "projectionTypes": [
+          "race_progress"
+        ],
+        "reason": "aaa",
+        "result": "success",
+        "rebuildDurationMs": 1380
+      },
+      "ip": "::1",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36",
+      "result": "success"
+    },
+    {
+      "logId": "log_011",
+      "timestamp": "2026-06-20T16:35:30.168Z",
+      "actorUserId": "user_admin_01",
+      "actorGithubAccount": "ary-root-admin",
+      "actionType": "role_change",
+      "targetResourceType": "User",
+      "targetResourceId": "user_admin_01",
+      "detail": {
+        "targetGithubAccount": "ary-root-admin",
+        "previousRoles": [
+          "admin",
+          "organizer"
+        ],
+        "newRoles": [
+          "admin",
+          "organizer",
+          "judge"
+        ],
+        "reason": "12"
+      },
+      "ip": "::1",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36",
+      "result": "success"
+    },
+    {
       "logId": "log_001",
       "timestamp": "2026-06-19T11:58:00Z",
       "actorUserId": "user_admin_01",
@@ -17,7 +82,9 @@
       "targetResourceId": "bay-area-happy-trip:screen_feed",
       "detail": {
         "raceId": "bay-area-happy-trip",
-        "projectionTypes": ["screen_feed"],
+        "projectionTypes": [
+          "screen_feed"
+        ],
         "reason": "screen_feed 数据延迟，手动触发重算",
         "result": "success",
         "rebuildDurationMs": 2340
@@ -73,8 +140,13 @@
       "targetResourceId": "user_rider_05",
       "detail": {
         "targetGithubAccount": "new-judge-user",
-        "previousRoles": ["rider"],
-        "newRoles": ["rider", "judge"],
+        "previousRoles": [
+          "rider"
+        ],
+        "newRoles": [
+          "rider",
+          "judge"
+        ],
         "reason": "被指定为自媒体运营 Agent 赛事的评委"
       },
       "ip": "192.168.1.101",
@@ -141,8 +213,16 @@
       "targetResourceType": "User",
       "targetResourceId": "user_rider_02",
       "detail": {
-        "previousProfile": { "displayName": "Ana Ruiz", "organization": "SZU Design Lab", "contact": "" },
-        "newProfile": { "displayName": "Ana Ruiz", "organization": "SZU Design Lab", "contact": "ana.ruiz@example.com" },
+        "previousProfile": {
+          "displayName": "Ana Ruiz",
+          "organization": "SZU Design Lab",
+          "contact": ""
+        },
+        "newProfile": {
+          "displayName": "Ana Ruiz",
+          "organization": "SZU Design Lab",
+          "contact": "ana.ruiz@example.com"
+        },
         "reason": "用户自行补全联系方式"
       },
       "ip": "10.0.0.55",
@@ -193,8 +273,13 @@
       "targetResourceId": "user_organizer_03",
       "detail": {
         "targetGithubAccount": "new-organizer",
-        "previousRoles": ["rider"],
-        "newRoles": ["rider", "organizer"],
+        "previousRoles": [
+          "rider"
+        ],
+        "newRoles": [
+          "rider",
+          "organizer"
+        ],
         "reason": "指定为湾区开心游赛事主办方"
       },
       "ip": "192.168.1.100",

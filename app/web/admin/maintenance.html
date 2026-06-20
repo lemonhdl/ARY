@@ -46,6 +46,7 @@
       .alert-info { background: rgba(59,130,246,0.08); border: 1px solid rgba(59,130,246,0.15); color: #1e40af; }
       .alert-warning { background: rgba(234,179,8,0.1); border: 1px solid rgba(234,179,8,0.2); color: #92400e; }
       .action-row { display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 0 16px; }
+      .toolbar { display: flex; gap: 12px; align-items: center; margin: 0 0 20px; flex-wrap: wrap; }
       .summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 20px; }
       .summary-card { background: rgba(255,255,255,0.85); border: 1px solid rgba(49,103,152,0.12); border-radius: 16px; padding: 16px; }
       .summary-card h3 { margin: 0 0 6px; font-size: 12px; color: #5a7a9a; text-transform: uppercase; letter-spacing: 0.04em; }
@@ -72,6 +73,9 @@
       <main class="admin-main">
         <h1>🔧 内部数据维护</h1>
         <p class="subtitle">CA 接入状态详情 · Projection 重算 · Report 重跑 · 公开展示异常处理</p>
+        <div class="toolbar">
+          <select id="current-admin-select" title="当前管理员身份"></select>
+        </div>
 
         <h2 class="section-title">CA 接入状态详情</h2>
         <div class="alert alert-info">按 Race 查看 CAConnection 接入详情、失败原因和 RaceProject 聚合健康度。可标记已知异常连接。</div>
@@ -91,31 +95,56 @@
           <button class="btn" onclick="batchRebuild('stale')">批量重算过期项</button>
         </div>
         <div class="table-wrap"><table><thead><tr><th>赛事</th><th>Projection 类型</th><th>健康状态</th><th>最近重建</th><th>失败原因</th><th>操作</th></tr></thead><tbody id="projection-table"></tbody></table></div>
-<<<<<<< HEAD
         <div id="projection-bulk-actions" style="margin-top: 8px;"></div>
-        <details id="projection-history-details" style="margin-top: 16px;"><summary style="cursor:pointer;font-size:14px;color:#3d6d99;">📜 查看重算历史</summary><div class="table-wrap" style="margin-top:8px;"><table><thead><tr><th>时间</th><th>赛事</th><th>Projection 类型</th><th>结果</th></tr></thead><tbody id="projection-history-table"></tbody></table></div></details>
-=======
-        <div class="table-wrap"><table><thead><tr><th>时间</th><th>操作人</th><th>动作</th><th>目标</th><th>结果</th></tr></thead><tbody id="projection-history-table"></tbody></table></div>
->>>>>>> 7b04444157fe27eef26051f4ebe535349ece406c
+        <details id="projection-history-details" style="margin-top: 16px;"><summary style="cursor:pointer;font-size:14px;color:#3d6d99;">📜 查看重算历史</summary><div class="table-wrap" style="margin-top:8px;"><table><thead><tr><th>时间</th><th>来源</th><th>目标</th><th>结果</th><th>备注</th></tr></thead><tbody id="projection-history-table"></tbody></table></div></details>
 
         <h2 class="section-title">公开展示异常处理</h2>
         <div class="alert alert-warning">隐藏操作不删除数据，仅控制公开端可见性。所有变更写入审计日志。</div>
         <div class="table-wrap"><table><thead><tr><th>资源类型</th><th>资源名称</th><th>所属赛事</th><th>当前可见性</th><th>公开可见</th><th>操作</th></tr></thead><tbody id="published-table"></tbody></table></div>
 
         <h2 class="section-title">Report 重跑</h2>
-<<<<<<< HEAD
         <div class="alert alert-info">Report 重跑不自动发布。未发布 Report 不在 Public Site 出现。支持失败重跑、查看失败原因和标记已审核。</div>
         <div class="table-wrap"><table><thead><tr><th>赛事</th><th>Report 类型</th><th>状态</th><th>失败原因</th><th>最近修改</th><th>操作</th></tr></thead><tbody id="report-table"></tbody></table></div>
-=======
-        <div class="alert alert-info">Report 重跑不自动发布。未发布 Report 不在 Public Site 出现。</div>
-        <div class="table-wrap"><table><thead><tr><th>赛事</th><th>Report 类型</th><th>状态</th><th>最近修改</th><th>失败原因</th><th>操作</th></tr></thead><tbody id="report-table"></tbody></table></div>
->>>>>>> 7b04444157fe27eef26051f4ebe535349ece406c
       </main>
     </div>
     <script type="module">
+      import { resolveAdminSession, writeAdminSession } from '/shared/admin-session.js';
+
       const healthBadges = { healthy: 'badge-healthy', degraded: 'badge-degraded', failed: 'badge-failed', stale: 'badge-stale' };
       const visBadges = { public: 'badge-public', hidden: 'badge-hidden', private: 'badge-private', review: 'badge-review' };
       const pubBadges = { published: 'badge-published', draft: 'badge-draft', withdrawn: 'badge-withdrawn', generated: 'badge-draft' };
+      let adminUsers = [];
+      let currentAdmin = null;
+
+      function renderAdminSelector() {
+        const select = document.getElementById('current-admin-select');
+        if (!select) return;
+
+        if (!adminUsers.length) {
+          select.innerHTML = '<option value="">无 admin 用户</option>';
+          select.disabled = true;
+          return;
+        }
+
+        select.disabled = false;
+        select.innerHTML = adminUsers.map((user) => {
+          const label = `${user.displayName || user.githubAccount} (${user.githubAccount})`;
+          const selected = currentAdmin?.userId === user.userId ? ' selected' : '';
+          return `<option value="${user.userId}"${selected}>当前管理员：${label}</option>`;
+        }).join('');
+      }
+
+      async function postMaintenanceAction(endpoint, payload) {
+        if (!currentAdmin?.userId) throw new Error('请先选择当前管理员身份');
+        const response = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ...payload, actorUserId: currentAdmin.userId })
+        });
+        const result = await response.json();
+        if (!response.ok) throw new Error(result.message || result.error || '操作失败');
+        return result;
+      }
 
       function formatDateTime(value) {
         if (!value) return '--';
@@ -129,6 +158,9 @@
           const data = await resp.json();
           const auditLogs = data.auditLogs || [];
           const aRider = data.aRider || null;
+          adminUsers = (data.userRoles || []).filter((user) => (user.roles || []).includes('admin'));
+          currentAdmin = resolveAdminSession(adminUsers);
+          renderAdminSelector();
 
           // CA 接入状态详情
           const caRaces = data.caStatuses || [];
@@ -142,11 +174,7 @@
                     <tr>
                       <td><strong>${c.riderName}</strong></td>
                       <td>${c.caType}</td>
-<<<<<<< HEAD
-                      <td><span class="badge badge-${c.ingestionStatus === 'active' ? 'healthy' : c.ingestionStatus === 'handshaken' ? 'degraded' :c.ingestionStatus === 'failed' ? 'failed' : 'stale'}">${c.ingestionStatus}</span>${c.flaggedAnomaly ? ' ⚠️' : ''}</td>
-=======
                       <td><span class="badge badge-${c.ingestionStatus === 'active' ? 'healthy' : (c.ingestionStatus === 'handshaken' || c.ingestionStatus === 'registered') ? 'degraded' : c.ingestionStatus === 'failed' ? 'failed' : 'stale'}">${c.ingestionStatus}</span>${c.flaggedAnomaly ? ' ⚠️' : ''}</td>
->>>>>>> 7b04444157fe27eef26051f4ebe535349ece406c
                       <td style="font-size:12px;">${c.registeredAt ? new Date(c.registeredAt).toLocaleDateString('zh-CN') : '--'}</td>
                       <td style="font-size:12px;">${c.lastSyncedAt ? new Date(c.lastSyncedAt).toLocaleString('zh-CN') : '--'}</td>
                       <td style="font-size:12px;color:#dc2626;">${c.failureReason || c.anomalyNote || '--'}</td>
@@ -235,29 +263,24 @@
             }
           }
           history.sort((a, b) => new Date(b.lastRebuiltAt) - new Date(a.lastRebuiltAt));
-          document.getElementById('projection-history-table').innerHTML = history.length ? history.map(h => `
-            <tr>
-              <td style="font-size:12px;">${h.lastRebuiltAt ? new Date(h.lastRebuiltAt).toLocaleString('zh-CN') : '--'}</td>
-              <td>${h.raceTitle}</td>
-              <td>${h.projectionType}</td>
-              <td><span class="badge ${healthBadges[h.health] || ''}">${h.health}</span> · 累计 ${h.rebuildCount} 次${h.lastFailedAt ? ' · 最近失败: ' + new Date(h.lastFailedAt).toLocaleString('zh-CN') : ''}</td>
-            </tr>
-          `).join('') : '<tr><td colspan="4" style="text-align:center;color:#94a3b8;">暂无重算历史</td></tr>';
-
-          const projectionHistory = auditLogs.filter(log => {
-            const target = String(log.target || '');
-            const action = String(log.action || '');
-            return target.includes('Projection') || action.includes('projection');
-          });
+          const projectionHistory = auditLogs.filter((log) => log.actionType === 'projection_rebuild');
           document.getElementById('projection-history-table').innerHTML = projectionHistory.length ? projectionHistory.map(log => `
             <tr>
-              <td style="font-size:12px;">${log.at ? new Date(log.at).toLocaleString('zh-CN') : '--'}</td>
-              <td><strong>${log.actor || '--'}</strong></td>
-              <td>${log.action || '--'}</td>
-              <td>${log.target || '--'}</td>
-              <td>${log.result || log.severity || '--'}</td>
+              <td style="font-size:12px;">${log.timestamp ? new Date(log.timestamp).toLocaleString('zh-CN') : '--'}</td>
+              <td><strong>${log.actorGithubAccount || log.actorUserId || '--'}</strong></td>
+              <td>${log.targetResourceId || '--'}</td>
+              <td>${log.result || '--'}</td>
+              <td>${log.detail?.reason || '--'}</td>
             </tr>
-          `).join('') : `<tr><td colspan="5" style="text-align:center;color:#94a3b8;padding:40px;">暂无 Projection 重算历史。</td></tr>`;
+          `).join('') : history.length ? history.map(h => `
+            <tr>
+              <td style="font-size:12px;">${h.lastRebuiltAt ? new Date(h.lastRebuiltAt).toLocaleString('zh-CN') : '--'}</td>
+              <td><strong>${h.raceTitle}</strong></td>
+              <td>${h.projectionType}</td>
+              <td><span class="badge ${healthBadges[h.health] || ''}">${h.health}</span></td>
+              <td>累计 ${h.rebuildCount} 次${h.lastFailedAt ? ' · 最近失败: ' + new Date(h.lastFailedAt).toLocaleString('zh-CN') : ''}</td>
+            </tr>
+          `).join('') : '<tr><td colspan="5" style="text-align:center;color:#94a3b8;">暂无重算历史</td></tr>';
 
           // Published artifacts
           const arts = data.publishedArtifacts || [];
@@ -278,7 +301,11 @@
           // Reports
           const reports = (data.publishedArtifacts || []).filter(a => a.artifactType === 'report');
           document.getElementById('report-table').innerHTML = reports.length ? reports.map(r => {
-            const failureInfo = r.publicationStatus === 'withdrawn' ? (r.withdrawnReason || '已撤回') : (r.failureReason || (r.publicationStatus === 'failed' ? '生成失败' : '--'));
+            const failureInfo = r.publicationStatus === 'withdrawn'
+              ? (r.withdrawnReason || '已撤回')
+              : (r.reviewStatus === 'reviewed'
+                ? `已审核，待发布${r.reviewedBy ? ' · ' + r.reviewedBy : ''}`
+                : (r.failureReason || (r.publicationStatus === 'failed' ? '生成失败' : '--')));
             return `
             <tr>
               <td><strong>${r.raceTitle}</strong></td>
@@ -286,67 +313,133 @@
               <td><span class="badge ${pubBadges[r.publicationStatus] || ''}">${r.publicationStatus}</span></td>
               <td style="font-size:12px;color:${r.publicationStatus === 'withdrawn' || r.publicationStatus === 'failed' ? '#dc2626' : '#5a7a9a'};">${failureInfo}</td>
               <td style="font-size:12px;">${r.lastModifiedAt ? new Date(r.lastModifiedAt).toLocaleString('zh-CN') : '--'}</td>
-<<<<<<< HEAD
               <td>
                 <button class="btn btn-primary" onclick="regenerateReport('${r.artifactId}')">重跑</button>
-                ${r.publicationStatus === 'draft' ? `<button class="btn btn-sm" onclick="markReviewed('${r.artifactId}')" style="margin-left:4px;" title="标记为已审核，可进入发布流程">✔ 已审核</button>` : ''}
+                ${r.publicationStatus !== 'published' && r.reviewStatus !== 'reviewed' ? `<button class="btn btn-sm" onclick="markReportReviewed('${r.artifactId}')" style="margin-left:4px;" title="标记为已审核，可进入发布流程">✔ 已审核</button>` : ''}
               </td>
             </tr>
           `;}).join('') : `<tr><td colspan="6" style="text-align:center;color:#94a3b8;padding:40px;">暂无 Report 数据。</td></tr>`;
-=======
-              <td style="font-size:12px;color:#dc2626;">${r.withdrawnReason || r.statusNote || '--'}</td>
-              <td>
-                <button class="btn btn-primary" onclick="regenerateReport('${r.artifactId}')">重跑</button>
-                ${r.publicationStatus !== 'published' ? `<button class="btn" onclick="markReportReviewed('${r.artifactId}')">已审核</button>` : ''}
-              </td>
-            </tr>
-          `).join('') : `<tr><td colspan="6" style="text-align:center;color:#94a3b8;padding:40px;">暂无 Report 数据。</td></tr>`;
->>>>>>> 7b04444157fe27eef26051f4ebe535349ece406c
         } catch (e) {
           document.getElementById('projection-table').innerHTML = `<tr><td colspan="6" style="color:#dc2626;">加载失败：${e.message}</td></tr>`;
           document.getElementById('a-rider-summary').innerHTML = `<div class="alert alert-warning">A-Rider 区块加载失败：${e.message}</div>`;
         }
       }
 
-      window.toggleAnomalyFlag = function(connectionId) {
-        alert('CAConnection ' + connectionId + ' 异常标记已切换\n（演示模式。实际将通过 API 持久化并写入审计日志。）');
+      window.toggleAnomalyFlag = async function(connectionId) {
+        const reason = prompt(`请输入切换 ${connectionId} 异常标记的原因（必填）：`);
+        if (!reason) return;
+        try {
+          await postMaintenanceAction('/api/admin/ca-anomaly-flag', {
+            connectionId,
+            reason
+          });
+          await load();
+          alert(`CAConnection ${connectionId} 异常标记已更新\n原因：${reason}\n\n变更已持久化，并写入审计日志。`);
+        } catch (error) {
+          alert(`异常标记更新失败：${error.message}`);
+        }
       };
-      window.bulkRebuild = function(raceId) {
+      window.bulkRebuild = async function(raceId) {
         if (confirm('确认批量重算 ' + raceId + ' 的全部 Projection？\n\n重算期间对应 Live Hall / Screen Console 将回退到上一稳定版本。')) {
-          alert('已触发 ' + raceId + ' 全量 Projection 批量重算\n（演示模式。实际将通过 API 触发并写入审计日志。）');
+          const reason = prompt(`请输入批量重算 ${raceId} 全部 Projection 的原因（必填）：`);
+          if (!reason) return;
+          try {
+            await postMaintenanceAction('/api/admin/projection-rebuild', { raceId, reason });
+            await load();
+            alert(`已触发 ${raceId} 全量 Projection 批量重算\n原因：${reason}\n\n变更已持久化，并写入审计日志。`);
+          } catch (error) {
+            alert(`批量重算失败：${error.message}`);
+          }
         }
       };
-      window.markReviewed = function(artifactId) {
-        if (confirm('确认将 ' + artifactId + ' 标记为已审核？\n\n标记后该 Report 可进入发布流程。')) {
-          alert('Report ' + artifactId + ' 已标记为已审核\n（演示模式。）');
-        }
-      };
-      window.rebuild = function(raceId, type) {
+      window.rebuild = async function(raceId, type) {
         if (confirm(`确认手动重算 ${raceId} 的 ${type} Projection？\n\n重算期间对应 Live Hall / Screen Console 将回退到上一稳定版本。`)) {
-          alert(`已触发 ${raceId}:${type} 重算\n（演示模式。实际将通过 API 触发并写入审计日志。）`);
+          const reason = prompt(`请输入重算 ${raceId}:${type} 的原因（必填）：`);
+          if (!reason) return;
+          try {
+            await postMaintenanceAction('/api/admin/projection-rebuild', { raceId, projectionType: type, reason });
+            await load();
+            alert(`已触发 ${raceId}:${type} 重算\n原因：${reason}\n\n变更已持久化，并写入审计日志。`);
+          } catch (error) {
+            alert(`重算失败：${error.message}`);
+          }
         }
       };
-      window.batchRebuild = function(scope) {
+      window.batchRebuild = async function(scope) {
         const scopeText = scope === 'all' ? '全部 Projection' : (scope === 'failed' ? '失败项 Projection' : '过期项 Projection');
         if (confirm(`确认批量重算${scopeText}？\n\n重算期间对应页面将回退到上一稳定版本。`)) {
-          alert(`已触发${scopeText}批量重算\n（演示模式。实际将通过 API 触发并写入审计日志。）`);
+          const reason = prompt(`请输入批量重算${scopeText}的原因（必填）：`);
+          if (!reason) return;
+          try {
+            await postMaintenanceAction('/api/admin/projection-rebuild', { scope, reason });
+            await load();
+            alert(`已触发${scopeText}批量重算\n原因：${reason}\n\n变更已持久化，并写入审计日志。`);
+          } catch (error) {
+            alert(`批量重算失败：${error.message}`);
+          }
         }
       };
-      window.hideArtifact = function(id, type) {
+      window.hideArtifact = async function(id, type) {
         const reason = prompt(`请输入隐藏 ${id} 的原因（必填）：`);
-        if (reason) alert(`${type} ${id} 已隐藏\n原因：${reason}\n（演示模式。实际将通过 API 持久化并写入审计日志。）`);
-      };
-      window.restoreArtifact = function(id, type) {
-        if (confirm(`确认恢复 ${id} 的公开可见性？`)) alert(`${type} ${id} 已恢复公开展示。`);
-      };
-      window.regenerateReport = function(id) {
-        if (confirm(`确认重跑 Report ${id}？\n\n重跑不自动发布，需人工审核后发布。`)) alert(`已触发 Report ${id} 重跑\n（演示模式。）`);
-      };
-      window.markReportReviewed = function(id) {
-        if (confirm(`确认将 Report ${id} 标记为已审核？\n\n该动作会写入审计日志。`)) {
-          alert(`Report ${id} 已标记为已审核\n（演示模式。实际将通过 API 持久化并写入审计日志。）`);
+        if (!reason) return;
+        try {
+          await postMaintenanceAction('/api/admin/artifact-visibility', {
+            artifactId: id,
+            visibility: 'hidden',
+            reason
+          });
+          await load();
+          alert(`${type} ${id} 已隐藏\n原因：${reason}\n\n变更已持久化，并写入审计日志。`);
+        } catch (error) {
+          alert(`隐藏失败：${error.message}`);
         }
       };
+      window.restoreArtifact = async function(id, type) {
+        if (!confirm(`确认恢复 ${id} 的公开可见性？`)) return;
+        const reason = prompt(`请输入恢复 ${id} 的原因（必填）：`);
+        if (!reason) return;
+        try {
+          await postMaintenanceAction('/api/admin/artifact-visibility', {
+            artifactId: id,
+            visibility: 'public',
+            reason
+          });
+          await load();
+          alert(`${type} ${id} 已恢复公开展示\n原因：${reason}\n\n变更已持久化，并写入审计日志。`);
+        } catch (error) {
+          alert(`恢复失败：${error.message}`);
+        }
+      };
+      window.regenerateReport = async function(id) {
+        if (confirm(`确认重跑 Report ${id}？\n\n重跑不自动发布，需人工审核后发布。`)) {
+          const reason = prompt(`请输入重跑 Report ${id} 的原因（必填）：`);
+          if (!reason) return;
+          try {
+            await postMaintenanceAction('/api/admin/report-regenerate', { artifactId: id, reason });
+            await load();
+            alert(`已触发 Report ${id} 重跑\n原因：${reason}\n\n变更已持久化，并写入审计日志。`);
+          } catch (error) {
+            alert(`Report 重跑失败：${error.message}`);
+          }
+        }
+      };
+      window.markReportReviewed = async function(id) {
+        if (!confirm(`确认将 Report ${id} 标记为已审核？\n\n该动作会写入审计日志。`)) return;
+        const reason = prompt(`请输入将 Report ${id} 标记为已审核的原因（必填）：`);
+        if (!reason) return;
+        try {
+          await postMaintenanceAction('/api/admin/report-reviewed', { artifactId: id, reason });
+          await load();
+          alert(`Report ${id} 已标记为已审核\n原因：${reason}\n\n变更已持久化，并写入审计日志。`);
+        } catch (error) {
+          alert(`标记已审核失败：${error.message}`);
+        }
+      };
+
+      document.getElementById('current-admin-select').addEventListener('change', (event) => {
+        currentAdmin = adminUsers.find((user) => user.userId === event.target.value) || currentAdmin;
+        if (currentAdmin) writeAdminSession(currentAdmin);
+      });
 
       load();
     </script>

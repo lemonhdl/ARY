@@ -20,7 +20,11 @@
       "withdrawnReason": null,
       "isPubliclyVisible": true,
       "lastModifiedAt": "2026-06-18T12:00:00Z",
-      "awards": ["最佳自举作品", "最佳领域拆解", "最佳复盘"]
+      "awards": [
+        "最佳自举作品",
+        "最佳领域拆解",
+        "最佳复盘"
+      ]
     },
     {
       "artifactType": "result",
@@ -34,7 +38,9 @@
       "withdrawnReason": null,
       "isPubliclyVisible": true,
       "lastModifiedAt": "2026-06-16T10:00:00Z",
-      "awards": ["最佳可信流程"]
+      "awards": [
+        "最佳可信流程"
+      ]
     },
     {
       "artifactType": "result",
@@ -75,7 +81,10 @@
       "withdrawnReason": null,
       "isPubliclyVisible": true,
       "lastModifiedAt": "2026-06-18T14:00:00Z",
-      "featuredCases": ["ARY Forge Console", "创世赛道开场"]
+      "featuredCases": [
+        "ARY Forge Console",
+        "创世赛道开场"
+      ]
     },
     {
       "artifactType": "review",
@@ -89,7 +98,9 @@
       "withdrawnReason": null,
       "isPubliclyVisible": true,
       "lastModifiedAt": "2026-06-16T14:00:00Z",
-      "featuredCases": ["Civic Path Navigator"]
+      "featuredCases": [
+        "Civic Path Navigator"
+      ]
     },
     {
       "artifactType": "review",
@@ -251,7 +262,9 @@
       "withdrawnReason": null,
       "isPubliclyVisible": true,
       "lastModifiedAt": "2026-06-18T12:00:00Z",
-      "awardIds": ["award-genesis-001"]
+      "awardIds": [
+        "award-genesis-001"
+      ]
     },
     {
       "artifactType": "work",
@@ -268,7 +281,9 @@
       "withdrawnReason": null,
       "isPubliclyVisible": true,
       "lastModifiedAt": "2026-06-16T10:00:00Z",
-      "awardIds": ["award-gov-001"]
+      "awardIds": [
+        "award-gov-001"
+      ]
     },
     {
       "artifactType": "work",
@@ -317,7 +332,11 @@
       "withdrawnReason": null,
       "isPubliclyVisible": true,
       "lastModifiedAt": "2026-06-19T11:00:00Z",
-      "skillTags": ["local reasoning", "route planning", "prompt debugging"]
+      "skillTags": [
+        "local reasoning",
+        "route planning",
+        "prompt debugging"
+      ]
     },
     {
       "artifactType": "rider_profile",
@@ -333,7 +352,11 @@
       "withdrawnReason": null,
       "isPubliclyVisible": true,
       "lastModifiedAt": "2026-06-19T11:00:00Z",
-      "skillTags": ["race shaping", "content workflow", "design systems"]
+      "skillTags": [
+        "race shaping",
+        "content workflow",
+        "design systems"
+      ]
     },
     {
       "artifactType": "rider_profile",

@@ -49,7 +49,7 @@
         <h1>📋 审计日志</h1>
         <p class="subtitle">平台级敏感操作记录 · <span id="log-count">--</span></p>
         <div class="toolbar">
-          <select id="action-filter"><option value="">全部操作类型</option><option value="role_change">角色变更</option><option value="admin_login">管理员登录</option><option value="projection_rebuild">Projection 重算</option><option value="report_regenerate">Report 重跑</option><option value="work_visibility_change">Work 可见性变更</option><option value="profile_update">资料补全变更</option><option value="profile_visibility_change">Profile 可见性变更</option><option value="config_update">配置变更</option><option value="access_denied">越权尝试</option></select>
+          <select id="action-filter"><option value="">全部操作类型</option><option value="role_change">角色变更</option><option value="admin_login">管理员登录</option><option value="projection_rebuild">Projection 重算</option><option value="report_regenerate">Report 重跑</option><option value="report_reviewed">Report 已审核</option><option value="ca_anomaly_flag_change">CA 异常标记</option><option value="work_visibility_change">Work 可见性变更</option><option value="profile_update">资料补全变更</option><option value="profile_visibility_change">Profile 可见性变更</option><option value="config_update">配置变更</option><option value="access_denied">越权尝试</option></select>
           <select id="result-filter"><option value="">全部结果</option><option value="success">成功</option><option value="denied">拒绝</option><option value="failed">失败</option></select>
         </div>
         <div class="table-wrap"><table><thead><tr><th>时间</th><th>操作人</th><th>操作类型</th><th>目标资源</th><th>结果</th><th>详情</th></tr></thead><tbody id="log-table"></tbody></table></div>
@@ -57,7 +57,7 @@
     </div>
     <script type="module">
       let logs = [];
-      const actionLabels = { role_change:'角色变更', profile_update:'资料补全变更', admin_login:'管理员登录', projection_rebuild:'Projection重算', report_regenerate:'Report重跑', work_visibility_change:'Work可见性变更', profile_visibility_change:'Profile可见性变更', config_update:'配置变更', access_denied:'越权尝试' };
+      const actionLabels = { role_change:'角色变更', profile_update:'资料补全变更', admin_login:'管理员登录', projection_rebuild:'Projection重算', report_regenerate:'Report重跑', report_reviewed:'Report已审核', ca_anomaly_flag_change:'CA异常标记', work_visibility_change:'Work可见性变更', profile_visibility_change:'Profile可见性变更', config_update:'配置变更', access_denied:'越权尝试' };
       const resultBadges = { success:'badge-success', failed:'badge-failed', denied:'badge-denied' };
 
       async function loadLogs() {

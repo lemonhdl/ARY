@@ -9,8 +9,14 @@
   "configs": [
     {
       "configKey": "supported_ca_types",
-      "configValue": ["codex", "claude_code"],
-      "defaultValue": ["codex", "claude_code"],
+      "configValue": [
+        "codex",
+        "claude_code"
+      ],
+      "defaultValue": [
+        "codex",
+        "claude_code"
+      ],
       "description": "平台当前支持的 CA 类型列表。other 类型默认允许但标记为未验证。",
       "category": "ca_connector",
       "updatedAt": "2026-06-15T10:00:00Z",
@@ -72,12 +78,12 @@
     },
     {
       "configKey": "maintenance_mode",
-      "configValue": false,
+      "configValue": true,
       "defaultValue": false,
       "description": "维护模式。开启后全站显示维护页面，仅 Admin 可访问后台。",
       "category": "feature_flag",
-      "updatedAt": "2026-06-19T06:00:00Z",
-      "updatedBy": "ary-ops-admin"
+      "updatedAt": "2026-06-20T16:59:03.503Z",
+      "updatedBy": "ary-root-admin"
     },
     {
       "configKey": "projection.default_refresh_interval_seconds",

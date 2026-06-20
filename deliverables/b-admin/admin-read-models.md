@@ -159,7 +159,7 @@
 | timestamp | string(ISO 8601) | 是 | 操作发生时间 |
 | actorUserId | string | 是 | 操作人 User ID |
 | actorGithubAccount | string | 是 | 操作人 GitHub 账号（冗余，方便展示） |
-| actionType | string | 是 | `role_change` / `profile_update` / `admin_login` / `projection_rebuild` / `report_regenerate` / `work_visibility_change` / `profile_visibility_change` / `config_update` / `access_denied` |
+| actionType | string | 是 | `role_change` / `profile_update` / `admin_login` / `projection_rebuild` / `report_regenerate` / `report_reviewed` / `ca_anomaly_flag_change` / `work_visibility_change` / `profile_visibility_change` / `config_update` / `access_denied` |
 | targetResourceType | string | 是 | 被操作资源类型：`User` / `Race` / `Work` / `Projection` / `Report` / `Config` |
 | targetResourceId | string | 是 | 被操作资源 ID |
 | detail | object | 是 | 操作详情（变更前后值、原因等），结构因 actionType 而异 |
@@ -194,6 +194,31 @@
   "raceId": "bay-area-happy-trip",
   "projectionTypes": ["race_progress", "cost", "screen_feed"],
   "reason": "手动重算"
+}
+```
+
+### report_reviewed
+```json
+{
+  "raceId": "bay-area-happy-trip",
+  "reportType": "race_report",
+  "subjectRegistrationId": null,
+  "previousReviewStatus": "pending",
+  "newReviewStatus": "reviewed",
+  "reason": "人工审核通过，允许进入发布流程"
+}
+```
+
+### ca_anomaly_flag_change
+```json
+{
+  "raceId": "bay-area-happy-trip",
+  "riderId": "rider-bay-fail-01",
+  "previousFlaggedAnomaly": false,
+  "newFlaggedAnomaly": true,
+  "previousAnomalyNote": null,
+  "newAnomalyNote": "已确认该失败为已知异常，等待 connector 修复",
+  "reason": "手动标记为已知异常"
 }
 ```
 

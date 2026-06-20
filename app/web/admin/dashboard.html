@@ -76,11 +76,7 @@
 
         <h2 class="section-title">CA 接入全局健康</h2>
         <div class="stat-grid" id="ca-health">加载中...</div>
-<<<<<<< HEAD
-        <div class="table-wrap" id="ca-anomaly-wrap" style="margin-top:16px;"><table><thead><tr><th>赛事</th><th>骑手</th><th>状态</th><th>失败原因</th></tr></thead><tbody id="ca-anomaly-table"></tbody></table></div>
-=======
-        <div class="table-wrap"><table><thead><tr><th>赛事</th><th>骑手</th><th>状态</th><th>风险 / 失败原因</th></tr></thead><tbody id="ca-exception-table"></tbody></table></div>
->>>>>>> 7b04444157fe27eef26051f4ebe535349ece406c
+        <div class="table-wrap" id="ca-anomaly-wrap" style="margin-top:16px;"><table><thead><tr><th>赛事</th><th>骑手</th><th>状态</th><th>风险 / 失败原因</th></tr></thead><tbody id="ca-anomaly-table"></tbody></table></div>
 
         <h2 class="section-title">Projection 状态</h2>
         <div class="table-wrap"><table><thead><tr><th>赛事</th><th>Projection 类型</th><th>健康状态</th><th>最近重建</th></tr></thead><tbody id="projection-status-table"></tbody></table></div>
@@ -145,46 +141,24 @@
             <div class="stat-card"><p class="label">未配置 CA</p><p class="value"><span class="health-dot stale"></span>${ca.notConfigured || 0}</p></div>
           `;
 
-<<<<<<< HEAD
-          // CA 接入异常列表
-          const caStatuses = data.caStatuses || [];
-          const anomalies = [];
-          for (const race of caStatuses) {
-            for (const c of (race.connections || [])) {
-              if (c.ingestionStatus === 'failed' || c.flaggedAnomaly) {
-                anomalies.push({ raceTitle: race.raceTitle, ...c });
-              }
-            }
-          }
-          document.getElementById('ca-anomaly-table').innerHTML = anomalies.length
-            ? anomalies.map(a => `
-              <tr>
-                <td>${a.raceTitle}</td>
-                <td><strong>${a.riderName}</strong></td>
-                <td><span class="badge badge-${a.ingestionStatus === 'failed' ? 'failed' : 'degraded'}">${a.ingestionStatus}${a.flaggedAnomaly ? ' ⚠️' : ''}</span></td>
-                <td style="font-size:12px;color:#dc2626;">${a.failureReason || (a.flaggedAnomaly ? a.anomalyNote || '已标记异常' : '--')}</td>
-              </tr>`).join('')
-            : '<tr><td colspan="4" style="text-align:center;color:#16a34a;">✅ 当前无接入异常</td></tr>';
-          document.getElementById('ca-anomaly-wrap').style.display = anomalies.length ? '' : 'none';
-=======
           const caExceptions = caRaces.flatMap(race => (race.connections || [])
             .filter(connection => connection.flaggedAnomaly || ['failed', 'handshaken', 'registered'].includes(connection.ingestionStatus))
             .map(connection => ({
               raceTitle: race.raceTitle,
               riderName: connection.riderName,
               ingestionStatus: connection.ingestionStatus,
-              note: connection.failureReason || connection.anomalyNote || '--'
+              note: connection.failureReason || connection.anomalyNote || '--',
+              flaggedAnomaly: connection.flaggedAnomaly
             })));
-          document.getElementById('ca-exception-table').innerHTML = caExceptions.length
+          document.getElementById('ca-anomaly-table').innerHTML = caExceptions.length
             ? caExceptions.map(item => `
               <tr>
                 <td><strong>${item.raceTitle}</strong></td>
                 <td>${item.riderName}</td>
-                <td><span class="badge ${caStatusBadges[item.ingestionStatus] || 'badge-stale'}">${item.ingestionStatus}</span></td>
+                <td><span class="badge ${caStatusBadges[item.ingestionStatus] || 'badge-stale'}">${item.ingestionStatus}${item.flaggedAnomaly ? ' ⚠️' : ''}</span></td>
                 <td>${item.note}</td>
               </tr>`).join('')
-            : '<tr><td colspan="4" style="text-align:center;color:#94a3b8;">当前没有 CA 接入异常。</td></tr>';
->>>>>>> 7b04444157fe27eef26051f4ebe535349ece406c
+            : '<tr><td colspan="4" style="text-align:center;color:#16a34a;">✅ 当前无接入异常</td></tr>';
 
           const projections = data.projectionStatuses || [];
           document.getElementById('projection-status-table').innerHTML = projections.length

@@ -3,7 +3,7 @@
 版本：v0.2
 上游：`todos/02-B-Admin-Publishing.md`、`todos/11-Publication-Visibility-Rules.md`
 
-本文说明管理系统中的四类核心维护操作：Work 可见性变更、Rider Profile 可见性变更、Projection 手动重算、Report 手动重跑。D 的权威 mock 和 E 的集成校验应以本文的操作约束为准。
+本文说明管理系统中的五类核心维护操作：Work 可见性变更、Rider Profile 可见性变更、CAConnection 异常标记、Projection 手动重算、Report 手动重跑。D 的权威 mock 和 E 的集成校验应以本文的操作约束为准。
 
 ---
 
@@ -78,7 +78,33 @@ Admin Console → Internal Maintenance → 公开展示异常处理
 
 ---
 
-# 3. Projection 手动重算
+# 3. CAConnection 异常标记
+
+## 3.1 操作入口
+
+Admin Console → Internal Maintenance → CA 接入状态详情
+
+## 3.2 可执行操作
+
+| 操作 | 说明 | 权限 |
+|------|------|------|
+| 标记已知异常 | 对失败或异常连接打上人工确认标记，提示后续人工跟进 | Admin |
+| 取消异常标记 | 异常处理完成后取消人工标记 | Admin |
+
+## 3.3 操作约束
+
+1. 异常标记**不改变** CAConnection 的真实 `ingestionStatus`，仅增加人工确认标记与备注。
+2. 每次标记或取消标记都必须记录原因。
+3. 标记切换操作写入审计日志（actionType = ca_anomaly_flag_change）。
+4. 仅 Admin 可执行。
+
+## 3.4 样例数据映射
+
+参见 `ca-status.sample.json` 中各 `connections[].flaggedAnomaly` 与 `connections[].anomalyNote` 字段。
+
+---
+
+# 4. Projection 手动重算
 
 ## 3.1 操作入口
 
@@ -123,7 +149,7 @@ Admin Console → Internal Maintenance → Projection 管理
 
 ---
 
-# 4. Report 手动重跑
+# 5. Report 手动重跑
 
 ## 4.1 操作入口
 
@@ -155,7 +181,8 @@ Admin Console → Internal Maintenance → Report 管理
 2. `rider_report` 重跑后必须仍然关联正确的 `subjectRegistrationId`。
 3. `race_report` / `review_summary` 的 `subjectRegistrationId` 必须为空。
 4. 重跑失败时允许人工编辑后手动发布（MVP 降级路径）。
-5. 重跑操作写入审计日志。
+5. 重跑操作写入审计日志（actionType = report_regenerate）。
+6. 标记 Report 为已审核时，也必须写入审计日志（actionType = report_reviewed），记录审核人、目标 Report 和审核原因。
 
 ## 4.5 样例数据映射
 
@@ -163,12 +190,13 @@ Admin Console → Internal Maintenance → Report 管理
 
 ---
 
-# 5. 操作权限汇总
+# 6. 操作权限汇总
 
 | 操作 | Admin | Organizer(managed race) | Rider | Public |
 |------|-------|------------------------|-------|--------|
 | Work 可见性变更 | ✅ | ✅ | ❌ | ❌ |
 | Rider Profile 可见性变更 | ✅ | ❌ | ❌ | ❌ |
+| CAConnection 异常标记 | ✅ | ❌ | ❌ | ❌ |
 | Projection 状态查看 | ✅ | ✅ | ❌ | ❌ |
 | Projection 手动重算 | ✅ | ✅ | ❌ | ❌ |
 | Report 状态查看 | ✅ | ✅ | ❌ | ❌ |
@@ -179,7 +207,7 @@ Admin Console → Internal Maintenance → Report 管理
 
 ---
 
-# 6. 与 C 和 E 的接口边界
+# 7. 与 C 和 E 的接口边界
 
 1. **C（前端壳）**：admin maintenance 页面读取 `ProjectionStatus` 展示重算入口，读取 `PublishedArtifactStatus` 展示可见性管理入口。非 public 内容绝不出现在公开端页面中。
 2. **D（权威 mock）**：`authority-mock.json` 中需提供 `projectionStatuses` 和 `publishedArtifacts` 的初始样例数据。

@@ -11,10 +11,10 @@
       "raceTitle": "湾区开心游",
       "projectionType": "race_progress",
       "health": "healthy",
-      "lastRebuiltAt": "2026-06-19T11:58:00Z",
+      "lastRebuiltAt": "2026-06-20T16:46:38.922Z",
       "lastFailedAt": null,
       "failureReason": null,
-      "rebuildCount": 24,
+      "rebuildCount": 25,
       "staleThresholdSeconds": 300
     },
     {

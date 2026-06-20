@@ -50,6 +50,8 @@
 20. 已完成 C-Frontend 最新提交复审、本地收口和最终人工验收留痕：`window.ARY_C_FRONTEND` 已成为可消费的 route / CTA contract，`app/web/shared/c-frontend-loader.js` 已改为消费公开 API 并在产品壳层补齐 `popstate` 回放；由于当前没有时间再返给 C 返工，Results / Review 对 archived 已发布赛事的错误排除也已在当前仓库直接修复，并已形成单独的 C 集成收口说明与最终人工验收记录。当前剩余工作量已降为收尾级整理，不再有新的 C 集成 blocker。
 21. 已完成 A-Rider 最新提交复审与本地接线：A 组已关闭握手密钥模型的主矛盾，集成侧也已继续把 `session-fetch.contract.json` 收窄回 `claude_code`、清理 `signature-samples.json` 的脱敏残留，并将 A-Rider 样例、contract 与文档装配进 `runtime-data/assembled-view.json`；当前 app 已暴露 `/api/runtime/a-rider*` API，并在 Admin 维护页增加 “A-Rider 回放与接入验收” 区块。下一步若继续处理，只需补最终人工验收留痕，不再有新的 A 集成 blocker。
 22. 已完成 A-Rider 最终人工验收留痕：运行中 app 已实测通过 A-Rider runtime summary API、contracts API 与 Admin 维护页接线区块渲染。当前 A-Rider 已具备完整收工证据，不再有新的 A 集成 blocker。
+23. 已完成 B-Admin 最新提交 `5ffac20` / `dc98f31` 的复审与二次集成收口：最新交付中的 CA 状态样例、Dashboard 风险呈现和维护页批量 / 历史 / 审核增量已重新并入 `app/web/admin/`；当前发现的问题不是 B 交付缺口，而是程序壳合流时残留的冲突标记，现已在 `dashboard.html` / `maintenance.html` 中清理并验证通过。B-Admin 当前再次回到无 blocker 的可直接收工状态。
+24. 已完成 Admin 维护页当前管理员接线与关键维护动作持久化：`maintenance.html` 现已复用当前管理员会话，`Projection` 单项 / 按赛事 / 按范围重算、`Report` 重跑 / 标记已审核、Work / Rider Profile 可见性变更，以及 CAConnection 异常标记都已接入真实后端写口，能够落盘到 `deliverables/b-admin/*.sample.json`、写入审计日志并重建 runtime；相关 API、维护页与审计页读取已验证通过，测试痕迹已清理回样例基线。
 
 ## 执行纪律
 

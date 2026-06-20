@@ -69,6 +69,7 @@
           <input type="text" class="search-input" placeholder="搜索 GitHub 账号或姓名..." id="search-input" />
           <select id="role-filter"><option value="">全部角色</option><option value="admin">admin</option><option value="organizer">organizer</option><option value="judge">judge</option><option value="rider">rider</option><option value="none">无角色</option></select>
           <select id="profile-filter"><option value="">全部资料状态</option><option value="completed">已补全</option><option value="incomplete">未补全</option></select>
+          <select id="current-admin-select" title="当前管理员身份"></select>
         </div>
         <div class="table-wrap"><table><thead><tr><th>头像</th><th>GitHub 账号</th><th>显示名</th><th>资料</th><th>角色</th><th>注册时间</th><th>最近登录</th><th>赛事数</th><th>操作</th></tr></thead><tbody id="user-table"></tbody></table></div>
       </main>
@@ -96,8 +97,12 @@
     </div>
 
     <script type="module">
+      import { resolveAdminSession, writeAdminSession } from '/shared/admin-session.js';
+
       let users = [];
+      let adminUsers = [];
       let editingUserId = null;
+      let currentAdmin = null;
       const roleBadges = { admin: 'badge-admin', organizer: 'badge-organizer', judge: 'badge-judge', rider: 'badge-rider' };
 
       async function loadUsers() {
@@ -112,10 +117,30 @@
               if (mock.userRoles) users = mock.userRoles;
             } catch (_) { /* use empty */ }
           }
+          adminUsers = users.filter(user => (user.roles || []).includes('admin'));
+          currentAdmin = resolveAdminSession(adminUsers);
+          renderAdminSelector();
           renderTable(users);
         } catch (e) {
           document.getElementById('user-table').innerHTML = `<tr><td colspan="9" style="color:#dc2626;">加载失败：${e.message}</td></tr>`;
         }
+      }
+
+      function renderAdminSelector() {
+        const select = document.getElementById('current-admin-select');
+        if (!select) return;
+        if (!adminUsers.length) {
+          select.innerHTML = '<option value="">无 admin 用户</option>';
+          select.disabled = true;
+          return;
+        }
+
+        select.disabled = false;
+        select.innerHTML = adminUsers.map(user => {
+          const label = `${user.displayName || user.githubAccount} (${user.githubAccount})`;
+          const selected = currentAdmin?.userId === user.userId ? ' selected' : '';
+          return `<option value="${user.userId}"${selected}>当前管理员：${label}</option>`;
+        }).join('');
       }
 
       function filterUsers() {
@@ -164,24 +189,54 @@
         document.getElementById('role-modal').classList.add('open');
       };
 
-      document.getElementById('save-roles-btn').addEventListener('click', () => {
+      document.getElementById('save-roles-btn').addEventListener('click', async () => {
         const newRoles = Array.from(document.querySelectorAll('.role-check:checked')).map(cb => cb.value);
         const reason = document.getElementById('modal-reason').value.trim();
         if (!reason) { alert('请填写变更原因'); return; }
         const u = users.find(x => x.userId === editingUserId);
-        if (u) {
-          const oldRoles = [...(u.roles || [])];
-          u.roles = newRoles;
-          console.log(`[Audit] role_change: ${u.githubAccount} ${JSON.stringify(oldRoles)} -> ${JSON.stringify(newRoles)} reason: ${reason}`);
+        if (!u) {
+          alert('未找到目标用户');
+          return;
         }
-        document.getElementById('role-modal').classList.remove('open');
-        filterUsers();
-        alert(`角色已更新：${newRoles.length ? newRoles.join(', ') : '无角色'}\n原因：${reason}\n\n（注：当前为演示模式，实际变更将通过 API 持久化并写入审计日志）`);
+
+        const saveButton = document.getElementById('save-roles-btn');
+        saveButton.disabled = true;
+        saveButton.textContent = '保存中...';
+
+        try {
+          if (!currentAdmin?.userId) throw new Error('请先选择当前管理员身份');
+          const response = await fetch('/api/admin/user-roles', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              userId: editingUserId,
+              roles: newRoles,
+              reason,
+              actorUserId: currentAdmin.userId
+            })
+          });
+          const payload = await response.json();
+          if (!response.ok) throw new Error(payload.message || payload.error || '保存失败');
+
+          await loadUsers();
+          document.getElementById('role-modal').classList.remove('open');
+          filterUsers();
+          alert(`角色已更新：${newRoles.length ? newRoles.join(', ') : '无角色'}\n原因：${reason}\n\n变更已持久化，并写入审计日志。`);
+        } catch (error) {
+          alert(`保存失败：${error.message}`);
+        } finally {
+          saveButton.disabled = false;
+          saveButton.textContent = '保存变更';
+        }
       });
 
       document.getElementById('search-input').addEventListener('input', filterUsers);
       document.getElementById('role-filter').addEventListener('change', filterUsers);
       document.getElementById('profile-filter').addEventListener('change', filterUsers);
+      document.getElementById('current-admin-select').addEventListener('change', (event) => {
+        currentAdmin = adminUsers.find(user => user.userId === event.target.value) || currentAdmin;
+        if (currentAdmin) writeAdminSession(currentAdmin);
+      });
 
       loadUsers();
     </script>
