@@ -46,6 +46,12 @@
       .alert-info { background: rgba(59,130,246,0.08); border: 1px solid rgba(59,130,246,0.15); color: #1e40af; }
       .alert-warning { background: rgba(234,179,8,0.1); border: 1px solid rgba(234,179,8,0.2); color: #92400e; }
       .action-row { display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 0 16px; }
+      .summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 20px; }
+      .summary-card { background: rgba(255,255,255,0.85); border: 1px solid rgba(49,103,152,0.12); border-radius: 16px; padding: 16px; }
+      .summary-card h3 { margin: 0 0 6px; font-size: 12px; color: #5a7a9a; text-transform: uppercase; letter-spacing: 0.04em; }
+      .summary-card strong { font-size: 24px; color: #14314f; }
+      .summary-card p { margin: 6px 0 0; font-size: 12px; color: #5a7a9a; }
+      .mono { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 12px; }
     </style>
   </head>
   <body>
@@ -71,6 +77,12 @@
         <div class="alert alert-info">按 Race 查看 CAConnection 接入详情、失败原因和 RaceProject 聚合健康度。可标记已知异常连接。</div>
         <div id="ca-status-container">加载中...</div>
 
+        <h2 class="section-title" id="a-rider-replay">A-Rider 回放与接入验收</h2>
+        <div class="alert alert-info">此区块展示 A-Rider 最新交付已装配到 app 的样例事件、握手 / 快照 contract 与验签样例摘要，作为集成与联调入口。</div>
+        <div id="a-rider-summary">加载中...</div>
+        <div class="table-wrap"><table><thead><tr><th>契约</th><th>方法</th><th>路径</th><th>关键信息</th></tr></thead><tbody id="a-rider-contract-table"></tbody></table></div>
+        <div class="table-wrap"><table><thead><tr><th>时间</th><th>信号</th><th>Phase</th><th>Progress</th><th>Risk</th><th>摘要</th></tr></thead><tbody id="a-rider-events-table"></tbody></table></div>
+
         <h2 class="section-title">Projection 状态与重算</h2>
         <div class="alert alert-info">Projection 是过程展示数据，重算不影响核心事实数据。重算期间 Live Hall 和 Screen Console 回退到上一稳定版本。</div>
         <div class="action-row">
@@ -95,11 +107,18 @@
       const visBadges = { public: 'badge-public', hidden: 'badge-hidden', private: 'badge-private', review: 'badge-review' };
       const pubBadges = { published: 'badge-published', draft: 'badge-draft', withdrawn: 'badge-withdrawn', generated: 'badge-draft' };
 
+      function formatDateTime(value) {
+        if (!value) return '--';
+        const date = new Date(value);
+        return Number.isNaN(date.getTime()) ? '--' : date.toLocaleString('zh-CN');
+      }
+
       async function load() {
         try {
           const resp = await fetch('/api/runtime/assembled-view');
           const data = await resp.json();
           const auditLogs = data.auditLogs || [];
+          const aRider = data.aRider || null;
 
           // CA 接入状态详情
           const caRaces = data.caStatuses || [];
@@ -125,6 +144,52 @@
             `).join('');
           } else {
             document.getElementById('ca-status-container').innerHTML = '<div class="alert alert-warning">暂无 CA 接入状态数据。请确认 ca-status.sample.json 已装配。</div>';
+          }
+
+          if (aRider) {
+            const summary = aRider.summary || {};
+            const ridingEvents = aRider.samples?.ridingEvents || {};
+            const eventRows = (ridingEvents.normal || []).concat(ridingEvents.failure || []).slice(0, 8);
+            const handshake = aRider.contracts?.registerHandshake || {};
+            const sessionFetch = aRider.contracts?.sessionFetch || {};
+            const signing = aRider.samples?.signatureSamples?.__GENERATION_NOTE__?.decisions || {};
+
+            document.getElementById('a-rider-summary').innerHTML = `
+              <div class="summary-grid">
+                <div class="summary-card"><h3>Sample Events</h3><strong>${summary.eventSampleCount || 0}</strong><p>normal ${summary.normalEventCount || 0} / failure ${summary.failureEventCount || 0}</p></div>
+                <div class="summary-card"><h3>CA Status Samples</h3><strong>${summary.statusSampleCount || 0}</strong><p>覆盖 registered / handshaken / active / failed / not_configured</p></div>
+                <div class="summary-card"><h3>Snapshot Progress</h3><strong>${summary.snapshotProgressPercent ?? '--'}%</strong><p>${summary.snapshotTaskStatus || '--'}</p></div>
+                <div class="summary-card"><h3>Signing</h3><strong>${summary.signingAlgorithm || '--'}</strong><p>握手与验签链路已装配到 runtime API</p></div>
+              </div>`;
+
+            document.getElementById('a-rider-contract-table').innerHTML = `
+              <tr>
+                <td><strong>Register / Handshake</strong></td>
+                <td>${handshake.endpoint?.method || '--'}</td>
+                <td class="mono">${handshake.endpoint?.path || '--'}</td>
+                <td>caType: ${handshake.request?.body?.caType || '--'} · keyGeneration: ${handshake.keyManagement?.keyGeneration || '--'}</td>
+              </tr>
+              <tr>
+                <td><strong>Session Snapshot Fetch</strong></td>
+                <td>${sessionFetch.endpoint?.method || '--'}</td>
+                <td class="mono">${sessionFetch.endpoint?.path || '--'}</td>
+                <td>supported caType: ${sessionFetch.response?.schema?.ca?.caType || '--'} · signer: ${signing.signer || '--'}</td>
+              </tr>`;
+
+            document.getElementById('a-rider-events-table').innerHTML = eventRows.length ? eventRows.map((event) => `
+              <tr>
+                <td class="mono">${formatDateTime(event.timestamp)}</td>
+                <td><strong>${event.signal?.type || '--'}</strong></td>
+                <td>${event.signal?.phase || '--'}</td>
+                <td>${event.signal?.progressPercent ?? '--'}%</td>
+                <td>${event.summary?.riskLevel || '--'}</td>
+                <td>${event.summary?.latestActivity || event.summary?.currentGoal || '--'}</td>
+              </tr>
+            `).join('') : `<tr><td colspan="6" style="text-align:center;color:#94a3b8;padding:40px;">暂无 A-Rider 事件样例。</td></tr>`;
+          } else {
+            document.getElementById('a-rider-summary').innerHTML = '<div class="alert alert-warning">A-Rider 尚未装配进 runtime-data/assembled-view.json。</div>';
+            document.getElementById('a-rider-contract-table').innerHTML = '<tr><td colspan="4" style="text-align:center;color:#94a3b8;padding:40px;">暂无 A-Rider contract 数据。</td></tr>';
+            document.getElementById('a-rider-events-table').innerHTML = '<tr><td colspan="6" style="text-align:center;color:#94a3b8;padding:40px;">暂无 A-Rider 事件样例。</td></tr>';
           }
 
           // Projections
@@ -188,6 +253,7 @@
           `).join('') : `<tr><td colspan="6" style="text-align:center;color:#94a3b8;padding:40px;">暂无 Report 数据。</td></tr>`;
         } catch (e) {
           document.getElementById('projection-table').innerHTML = `<tr><td colspan="6" style="color:#dc2626;">加载失败：${e.message}</td></tr>`;
+          document.getElementById('a-rider-summary').innerHTML = `<div class="alert alert-warning">A-Rider 区块加载失败：${e.message}</div>`;
         }
       }
 

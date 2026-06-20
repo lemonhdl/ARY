@@ -27,7 +27,8 @@
 * 已完成 B-Admin 当前交付复审并继续由集成侧补齐运行壳：配置页本地开关、审计日志 `profile_update` 筛选、Dashboard 接入异常列表 / Report 风险提醒、维护页批量重算 / 重算历史 / Report 失败原因 / 已审核动作，以及运行时 `caStatuses` 枚举收敛均已完成；`deliverables/b-admin/ca-status.sample.json` 中残留的旧口径 `connected` 也已清理。当前 B-Admin 已进入可直接集成收工状态。
 * 已完成运行时 `caStatuses` 来源优先级清理：装配链路现以 D-Data 的 `CAConnectionHealth` 为权威枚举，并在运行态中把旧口径 `connected` 收敛为 `handshaken`；管理端维护页已同步按共享字段字典渲染，不再展示旧状态值。
 * 已形成 B-Admin / D-Data 最终集成收工说明：当前运行时主源已切到 D-Data，B-Admin 运行壳与样例枚举也已收口；关键 admin 路由与 runtime API 均返回 `200`，当前口径可收敛为“无需等待 B / D 新提交，可直接进入最终集成验收”。
-* 已完成 A-Rider 当前交付复审：样例、contract、`client-source/` 和 replay 流程都已交齐，签名样例生成与哈希链攻防演示可运行；但握手 / 签名密钥归属 contract 仍存在自相矛盾，`session-fetch.contract.json` 也超出了“只支持 Claude Code”的边界，当前更适合先返工再进入正式接线。
+* 已完成 A-Rider 最新提交复审与集成收口：A 组已关闭上轮最核心的握手 / 密钥归属矛盾，`register-handshake.contract.json` 已明确为服务端生成 Ed25519 密钥对并下发私钥给 DCR；集成侧也已继续完成剩余收口，把 `session-fetch.contract.json` 收窄回 `claude_code`、清理 `signature-samples.json` 中残留的真实化示例表达，并将 A-Rider 样例、contract 与文档装配进 `runtime-data/assembled-view.json`。当前 app 已暴露 `/api/runtime/a-rider*` API，并在 Admin 维护页增加 “A-Rider 回放与接入验收” 区块，A-Rider 当前已进入可直接最终验收与收工状态。
+* 已补完成 A-Rider 最终人工验收留痕：运行中 app 已实测通过 A-Rider runtime summary API、contracts API，以及 Admin 维护页 “A-Rider 回放与接入验收” 区块渲染；当前 A-Rider 已具备“主流程已集成且有人工收工证据”的口径。
 * 已完成 C-Frontend 当前交付复审：文档与 `app-shell/` 产物齐全，原型壳可本地运行并能切换 Works / Results / Screen；但当前脚本仍直接绑定 `window.ARY_SAMPLE_DATA`，route-map 也尚未落成真实产品壳路由入口。当前判断完成度约 70% 到 75%，可以开始集成，但仍需继续完善 adapter 边界与路由落地。
 * 已完成 C-Frontend 首轮产品壳接线：当前 `app/web/public/`、`app/web/live/`、`app/web/screen/` 已不再是占位页，而是通过运行时 bridge 复用 `deliverables/c-frontend/app-shell/prototype/` 原型，并接入 `/api/runtime/assembled-view`；浏览器已验证三处入口可打开，其中 `/screen/` 已收敛为纯展示输出面。
 * 已完成 C-Frontend 第二批公开 route 接线：`/race/:raceId`、`/works/:workId`、`/results/:raceId`、`/review/:raceId`、`/riders/:riderId` 与 `/cooperation` 均已落入产品壳入口页，并通过 loader 绑定到对应原型 panel 与资源上下文；浏览器已验证关键 URL 可直接进入对应页面。
@@ -70,7 +71,7 @@
 | B-Admin 提交 `8d520d3` 已完成复审，确认仅提交了 `runtime-data/` 下的生成物与运行日志，不构成新的管理端功能交付 | `reviews/b-admin-8d520d3.review.md` |
 | B-Admin 当前运行壳与交付样例已完成 Dashboard / 维护页末尾残项补齐，并已按共享字段字典收敛运行时与样例 CA 状态，可直接进入最终集成验收 | `reviews/b-admin-rereview-2026-06-20.review.md`、`app/web/admin/dashboard.html`、`app/web/admin/maintenance.html`、`scripts/assemble.js`、`deliverables/b-admin/ca-status.sample.json` |
 | B-Admin / D-Data 最终集成收工口径已形成：当前无需等待 B / D 新提交，可直接进入最终集成验收 | `reviews/integration-closure-2026-06-20.md` |
-| A-Rider 当前交付已完成复审：交付完整且样例/演示可运行，但握手 / 签名 contract 仍未稳定，建议返工一轮后再冻结正式接线 | `reviews/a-rider-review-2026-06-20.md` |
+| A-Rider 最新提交已完成复审与本地集成：握手密钥模型已稳定，剩余 contract / 样例尾项已由集成侧收口，当前 app 已接入 A-Rider runtime API 与 Admin 验收区块，且最终人工验收留痕已补齐 | `reviews/a-rider-review-2026-06-20.md`、`reviews/a-rider-integration-review-2026-06-20.md`、`reviews/a-rider-final-manual-acceptance-2026-06-20.md`、`scripts/assemble.js`、`app/server/index.js`、`app/web/admin/maintenance.html` |
 | C-Frontend 当前交付已完成复审：可作为集成起点，但尚未完成 adapter 边界代码化与 route 落地 | `reviews/c-frontend-review-2026-06-20.md` |
 | C-Frontend 首轮产品壳接线已完成：`/public`、`/live`、`/screen` 已接入运行时 bridge 与原型壳，浏览器验证通过 | `app/server/index.js`、`app/web/shared/c-frontend-runtime-bridge.js`、`app/web/shared/c-frontend-loader.js`、`app/web/public/index.html`、`app/web/live/index.html`、`app/web/screen/index.html` |
 | C-Frontend 第二批公开 route 已接入：Race / Works / Results / Review / Rider / Cooperation 均支持产品壳 URL 直达 | `app/server/index.js`、`app/web/shared/c-frontend-loader.js`、`app/web/race/index.html`、`app/web/works/index.html`、`app/web/results/index.html`、`app/web/review/index.html`、`app/web/riders/index.html`、`app/web/cooperation/index.html` |
@@ -114,5 +115,5 @@
 | 架构、数据模型和接口契约尚未完成 | `DEV-1` 前置风险 |
 | UX/UI 高保真原型和关键页面状态尚未评审验收 | `M2` 前置风险 |
 | 报名 / RaceProject / CA 参赛语义已完成首轮整改，但仍需人工复审确认是否并入正式基线 | `PRD-TEMP-1` 待复审，重点看评审前风险命名、CAConnection 新增窗口和违规作品处理 |
-| 当前仓库已具备本机可执行验证能力 | 已实际执行 `node .\scripts\assemble.js`、`node .\scripts\validate-handoffs.js`，并完成浏览器路由回归；剩余工作主要是最终人工验收留痕与小范围语义整理 |
+| 当前仓库已具备本机可执行验证能力 | 已实际执行 `node .\scripts\assemble.js`、`node .\scripts\validate-handoffs.js`，完成 C-Frontend 浏览器路由回归，并完成 A-Rider runtime/API/管理页接线与最终人工验收；剩余工作主要是小范围语义整理 |
 | C-Frontend 主 blocker 已关闭并完成本地修复 | C 组最新提交已关闭上轮主 blocker，E 侧也已改用 `window.ARY_C_FRONTEND` 收口现有 loader，并直接修复了 Results / Review 对 archived 已发布赛事的错误排除，且最终人工验收留痕已补齐；当前剩余工作已降为收尾级整理 |

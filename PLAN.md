@@ -48,6 +48,8 @@
 18. 已完成 C-Frontend 第二批公开 route 接线：`/race/:raceId`、`/works/:workId`、`/results/:raceId`、`/review/:raceId`、`/riders/:riderId` 与 `/cooperation` 已可直达；下一步从“URL 可进入”继续推进到“站内导航 URL 同步”和更明确的共享 adapter/view model 代码边界。
 19. 已完成 C-Frontend 关键站内导航的 pathname 同步：主导航、关键 CTA 与浏览器 Back/Forward 已能带动对应页面状态；此前暴露出的首页 live switcher、carousel 与 CTA contract 问题，已由 C 最新提交 `7685d6b` 收回到原型自身公开 API。
 20. 已完成 C-Frontend 最新提交复审、本地收口和最终人工验收留痕：`window.ARY_C_FRONTEND` 已成为可消费的 route / CTA contract，`app/web/shared/c-frontend-loader.js` 已改为消费公开 API 并在产品壳层补齐 `popstate` 回放；由于当前没有时间再返给 C 返工，Results / Review 对 archived 已发布赛事的错误排除也已在当前仓库直接修复，并已形成单独的 C 集成收口说明与最终人工验收记录。当前剩余工作量已降为收尾级整理，不再有新的 C 集成 blocker。
+21. 已完成 A-Rider 最新提交复审与本地接线：A 组已关闭握手密钥模型的主矛盾，集成侧也已继续把 `session-fetch.contract.json` 收窄回 `claude_code`、清理 `signature-samples.json` 的脱敏残留，并将 A-Rider 样例、contract 与文档装配进 `runtime-data/assembled-view.json`；当前 app 已暴露 `/api/runtime/a-rider*` API，并在 Admin 维护页增加 “A-Rider 回放与接入验收” 区块。下一步若继续处理，只需补最终人工验收留痕，不再有新的 A 集成 blocker。
+22. 已完成 A-Rider 最终人工验收留痕：运行中 app 已实测通过 A-Rider runtime summary API、contracts API 与 Admin 维护页接线区块渲染。当前 A-Rider 已具备完整收工证据，不再有新的 A 集成 blocker。
 
 ## 执行纪律
 

@@ -30,7 +30,7 @@
     ],
     "example": {
       "before": "{\n  \"schemaVersion\": \"ary.ca.riding_signal.v0.1\",\n  \"messageId\": \"msg_314ddcf4-121\",\n  \"idempotencyKey\": \"claude_code:__MOCK__race_2026_demo:__MOCK__reg_008:__MOCK__dcr_desktop_v0.1:__SAMPLE__session_…",
-      "after": "{\"ca\":{\"caConnectionId\":\"__MOCK__conn_claude_code_001\",\"caProjectId\":\"C:\\\\Users\\\\rider\\\\projects\\\\demo\",\"caSessionId\":\"__SAMPLE__session_abc\",\"caType\":\"claude_code\",\"connectorId\":\"__MOCK__dcr_desktop_v0.1\",\"connectorVersion\":\"0.1.0\"},\"counters\":{\"allRidingMessageLength\":1070,\"messageCount\":2,\"sessio…",
+      "after": "{\"ca\":{\"caConnectionId\":\"__MOCK__conn_claude_code_001\",\"caProjectId\":\"__MOCK__sample_project\",\"caSessionId\":\"__MOCK__sample_session_001\",\"caType\":\"claude_code\",\"connectorId\":\"__MOCK__dcr_desktop_v0.1\",\"connectorVersion\":\"0.1.0\"},\"counters\":{\"allRidingMessageLength\":1070,\"messageCount\":2,\"sessio…",
       "length": 1139
     }
   },
@@ -38,7 +38,7 @@
     "unsignedMessage": {
       "schemaVersion": "ary.ca.riding_signal.v0.1",
       "messageId": "msg_314ddcf4-121",
-      "idempotencyKey": "claude_code:__MOCK__race_2026_demo:__MOCK__reg_008:__MOCK__dcr_desktop_v0.1:__SAMPLE__session_abc:seq_1",
+      "idempotencyKey": "claude_code:__MOCK__race_2026_demo:__MOCK__reg_008:__MOCK__dcr_desktop_v0.1:__MOCK__sample_session_001:seq_1",
       "sequence": 1,
       "timestamp": "2026-06-19T10:01:00.000Z",
       "race": {
@@ -54,8 +54,8 @@
         "caType": "claude_code",
         "connectorId": "__MOCK__dcr_desktop_v0.1",
         "connectorVersion": "0.1.0",
-        "caProjectId": "C:\\Users\\rider\\projects\\demo",
-        "caSessionId": "__SAMPLE__session_abc"
+        "caProjectId": "__MOCK__sample_project",
+        "caSessionId": "__MOCK__sample_session_001"
       },
       "signal": {
         "kind": "event",
@@ -79,13 +79,13 @@
       ],
       "summary": {
         "currentGoal": "Agent Riding in progress",
-        "latestActivity": "好的，我来创建登录页面，包括表单、验证和样式。",
+        "latestActivity": "[示例回复] 开始处理当前赛题并生成所需产物。",
         "riskLevel": "low",
         "riskReason": ""
       },
       "display": {
         "role": "claude",
-        "text": "好的，我来创建登录页面，包括表单、验证和样式。",
+        "text": "[示例回复] 开始处理当前赛题并生成所需产物。",
         "toolCalls": [
           "Write"
         ],
@@ -95,7 +95,7 @@
     "signedMessage": {
       "schemaVersion": "ary.ca.riding_signal.v0.1",
       "messageId": "msg_314ddcf4-121",
-      "idempotencyKey": "claude_code:__MOCK__race_2026_demo:__MOCK__reg_008:__MOCK__dcr_desktop_v0.1:__SAMPLE__session_abc:seq_1",
+      "idempotencyKey": "claude_code:__MOCK__race_2026_demo:__MOCK__reg_008:__MOCK__dcr_desktop_v0.1:__MOCK__sample_session_001:seq_1",
       "sequence": 1,
       "timestamp": "2026-06-19T10:01:00.000Z",
       "race": {
@@ -111,8 +111,8 @@
         "caType": "claude_code",
         "connectorId": "__MOCK__dcr_desktop_v0.1",
         "connectorVersion": "0.1.0",
-        "caProjectId": "C:\\Users\\rider\\projects\\demo",
-        "caSessionId": "__SAMPLE__session_abc"
+        "caProjectId": "__MOCK__sample_project",
+        "caSessionId": "__MOCK__sample_session_001"
       },
       "signal": {
         "kind": "event",
@@ -136,13 +136,13 @@
       ],
       "summary": {
         "currentGoal": "Agent Riding in progress",
-        "latestActivity": "好的，我来创建登录页面，包括表单、验证和样式。",
+        "latestActivity": "[示例回复] 开始处理当前赛题并生成所需产物。",
         "riskLevel": "low",
         "riskReason": ""
       },
       "display": {
         "role": "claude",
-        "text": "好的，我来创建登录页面，包括表单、验证和样式。",
+        "text": "[示例回复] 开始处理当前赛题并生成所需产物。",
         "toolCalls": [
           "Write"
         ],
@@ -151,7 +151,7 @@
       "signature": {
         "algorithm": "Ed25519",
         "value": "kJkvszKOT8H8q6yWQvhW0nEvLyEpmyQMA69soV6n9Z+RGe6Mw11o12w0aR0U0BMWH38hh3pu0Maw7DnvxxIlAQ==",
-        "canonicalJson": "{\"ca\":{\"caConnectionId\":\"__MOCK__conn_claude_code_001\",\"caProjectId\":\"C:\\\\Users\\\\rider\\\\projects\\\\demo\",\"caSessionId\":\"__SAMPLE__session_abc\",\"caType\":\"claude_code\",\"connectorId\":\"__MOCK__dcr_desktop_…",
+        "canonicalJson": "{\"ca\":{\"caConnectionId\":\"__MOCK__conn_claude_code_001\",\"caProjectId\":\"__MOCK__sample_project\",\"caSessionId\":\"__MOCK__sample_session_001\",\"caType\":\"claude_code\",\"connectorId\":\"__MOCK__dcr_desktop_…",
         "canonicalLength": 1139,
         "signedAt": "2026-06-19T15:46:49.066Z",
         "__NOTE__": "签名覆盖 canonical JSON 全文。验签时需重新生成 canonical JSON 并与本签名比对。"

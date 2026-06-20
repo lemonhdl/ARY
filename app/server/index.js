@@ -51,6 +51,25 @@ function serveRuntimeJson(res, fileName) {
   sendFile(res, path.join(runtimeDir, fileName));
 }
 
+function readRuntimeJson(fileName) {
+  const filePath = path.join(runtimeDir, fileName);
+  return JSON.parse(fs.readFileSync(filePath, 'utf8'));
+}
+
+function serveAssembledViewSlice(res, sliceName, selector) {
+  try {
+    const assembledView = readRuntimeJson('assembled-view.json');
+    const payload = selector(assembledView);
+    if (payload === undefined) {
+      sendJson(res, 404, { error: 'Slice not found', sliceName });
+      return;
+    }
+    sendJson(res, 200, payload);
+  } catch (error) {
+    sendJson(res, 500, { error: 'Failed to read assembled view slice', sliceName, message: error.message });
+  }
+}
+
 function serveStaticDir(res, pathname, staticDir, prefix) {
   const relativePath = pathname.slice(prefix.length) || '/index.html';
   const normalized = relativePath === '/' ? '/index.html' : relativePath;
@@ -120,6 +139,31 @@ const server = http.createServer((req, res) => {
 
   if (pathname === '/api/runtime/compatibility-report') {
     serveRuntimeJson(res, 'compatibility-report.json');
+    return;
+  }
+
+  if (pathname === '/api/runtime/a-rider') {
+    serveAssembledViewSlice(res, 'aRider', (assembledView) => assembledView.aRider);
+    return;
+  }
+
+  if (pathname === '/api/runtime/a-rider/riding-events') {
+    serveAssembledViewSlice(res, 'aRider.samples.ridingEvents', (assembledView) => assembledView.aRider?.samples?.ridingEvents);
+    return;
+  }
+
+  if (pathname === '/api/runtime/a-rider/session-snapshot') {
+    serveAssembledViewSlice(res, 'aRider.samples.sessionSnapshot', (assembledView) => assembledView.aRider?.samples?.sessionSnapshot);
+    return;
+  }
+
+  if (pathname === '/api/runtime/a-rider/signature-samples') {
+    serveAssembledViewSlice(res, 'aRider.samples.signatureSamples', (assembledView) => assembledView.aRider?.samples?.signatureSamples);
+    return;
+  }
+
+  if (pathname === '/api/runtime/a-rider/contracts') {
+    serveAssembledViewSlice(res, 'aRider.contracts', (assembledView) => assembledView.aRider?.contracts);
     return;
   }
 

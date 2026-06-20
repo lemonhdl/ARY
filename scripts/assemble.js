@@ -46,6 +46,13 @@ function safeLoadJson(filePath) {
   return null;
 }
 
+function safeLoadText(filePath) {
+  try {
+    if (fs.existsSync(filePath)) return fs.readFileSync(filePath, 'utf8');
+  } catch (_) { /* skip unreadable files */ }
+  return null;
+}
+
 function normalizeCaStatusValue(status) {
   if (status === 'connected') return 'handshaken';
   return status || 'not_configured';
@@ -136,6 +143,35 @@ const bSystemConfig = safeLoadJson(path.join(bAdminDir, 'system-config.sample.js
 const bCaStatus = safeLoadJson(path.join(bAdminDir, 'ca-status.sample.json'));
 const caStatuses = buildCaStatuses(authorityMock, bCaStatus);
 
+const aRiderDir = path.join(rootDir, 'deliverables', 'a-rider');
+const aRiderRidingEvents = safeLoadJson(path.join(aRiderDir, 'riding-events.sample.json'));
+const aRiderCaStatus = safeLoadJson(path.join(aRiderDir, 'ca-status.sample.json'));
+const aRiderSessionSnapshot = safeLoadJson(path.join(aRiderDir, 'session-snapshot.sample.json'));
+const aRiderSignatureSamples = safeLoadJson(path.join(aRiderDir, 'signature-samples.json'));
+const aRiderRegisterHandshake = safeLoadJson(path.join(aRiderDir, 'register-handshake.contract.json'));
+const aRiderSessionFetch = safeLoadJson(path.join(aRiderDir, 'session-fetch.contract.json'));
+const aRiderProtocolSummary = safeLoadText(path.join(aRiderDir, 'protocol-summary.md'));
+const aRiderReplayReadme = safeLoadText(path.join(aRiderDir, 'replay-readme.md'));
+const aRiderErrorCodes = safeLoadText(path.join(aRiderDir, 'error-codes.md'));
+
+const aRiderEventSamples = {
+  normal: Array.isArray(aRiderRidingEvents?.normal) ? aRiderRidingEvents.normal : [],
+  failure: Array.isArray(aRiderRidingEvents?.failure) ? aRiderRidingEvents.failure : []
+};
+
+const aRiderSummary = {
+  eventSampleCount: aRiderEventSamples.normal.length + aRiderEventSamples.failure.length,
+  normalEventCount: aRiderEventSamples.normal.length,
+  failureEventCount: aRiderEventSamples.failure.length,
+  statusSampleCount: Array.isArray(aRiderCaStatus?.statuses) ? aRiderCaStatus.statuses.length : 0,
+  signingAlgorithm: aRiderSignatureSamples?.__GENERATION_NOTE__?.decisions?.algorithm || aRiderRegisterHandshake?.keyManagement?.algorithm || null,
+  handshakePath: aRiderRegisterHandshake?.endpoint?.path || null,
+  fetchPath: aRiderSessionFetch?.endpoint?.path || null,
+  supportedCaType: aRiderSessionFetch?.response?.schema?.ca?.caType || aRiderRegisterHandshake?.request?.body?.caType || null,
+  snapshotTaskStatus: aRiderSessionSnapshot?.snapshot?.task?.taskStatus || null,
+  snapshotProgressPercent: aRiderSessionSnapshot?.snapshot?.task?.progressPercent || null
+};
+
 const dashboard = {
   ...(authorityMock.dashboard || {}),
   ...((bDashboard && bDashboard.overview) ? bDashboard.overview : {}),
@@ -166,6 +202,24 @@ const assembledView = {
   userRoles: (bUserRoles && bUserRoles.users) ? bUserRoles.users : [],
   profileCompletion: (bProfileCompletion && bProfileCompletion.users) ? bProfileCompletion.users : [],
   caStatuses,
+  aRider: {
+    summary: aRiderSummary,
+    samples: {
+      ridingEvents: aRiderRidingEvents || { normal: [], failure: [] },
+      caStatuses: aRiderCaStatus || { statuses: [] },
+      sessionSnapshot: aRiderSessionSnapshot || { snapshot: null },
+      signatureSamples: aRiderSignatureSamples || null
+    },
+    contracts: {
+      registerHandshake: aRiderRegisterHandshake || null,
+      sessionFetch: aRiderSessionFetch || null
+    },
+    docs: {
+      protocolSummary: aRiderProtocolSummary,
+      replayReadme: aRiderReplayReadme,
+      errorCodes: aRiderErrorCodes
+    }
+  },
   manifests
 };
 
