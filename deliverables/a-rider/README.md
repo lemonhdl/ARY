@@ -1,129 +1,173 @@
-# DCR Desktop App — Rider 客户端
+# DCR Desktop App — Rider 客户端 + 中转站
 
-DCR（Desktop Claude Code Relay）是运行在骑手本地的桌面应用，也是 Claude Code 与 ARY 赛事平台之间唯一的数上报通道。它负责实时采集骑行数据、构造标准消息、签名、建立防伪哈希链，并最终交付可被自动集成系统消费的产物。
+## 架构
 
-## 核心问题
-
-一场 Agent 骑行比赛中，骑手用 Claude Code 完成赛题。组织者需要确认：**提交的作品确实是 Claude Code 在比赛期间一步步产生的，没有被删减、替换、或借助其他工具作弊。**
-
-传统的"事后读文件 + 上传"方案无法防伪——文件系统谁都能写。DCR 解决这个问题的方式是：挡在 Claude Code 前面，实时拦截一切。
-
-## 架构思路
+ARY 通过**客户端-中转站两级机制**实现对 Agent 开发过程的完整记录和防伪验证。
 
 ```
-Rider 本机
-    │
-    ├─ Claude Code ──→ DCR Proxy (:3738) ──→ 上游 LLM API
-    │                       │
-    │                       ├── 透明转发（不改请求/响应内容）
-    │                       ├── 记录每轮对话元数据
-    │                       ├── 每轮后对项目文件做 SHA256 快照
-    │                       ├── 链式哈希咬合前后轮次
-    │                       └── 写入 ~/.dcr/sessions/
-    │
-    └─ DCR UI (:3737) ←── 读 ~/.claude/ + ~/.dcr/sessions/
-                            │
-                            └── 骑手看对话流、骑行统计、哈希链
+                         Rider 本机
+                    ┌──────────────────────────────────────────────┐
+                    │                                              │
+  Coding Agent ──→ DCR Proxy (:3738) ──→ One API ──→ 上游 LLM      │
+  (Claude Code)      │     ↑                ↑                      │
+                     │     │                │                      │
+                     │   哈希链 + 快照    格式统一转换              │
+                     │   签名 + 隔离      (任意→OpenAI)             │
+                     │     │                                       │
+                     │     └── 持久化存储 ──→ data/sessions/        │
+                     │                                              │
+  DCR UI (:3737) ←── 读链条目                                       │
+   骑手面板                                              │
+                    └──────────────────────────────────────────────┘
 ```
 
-关键设计决策：**不事后读盘，而是在 API 流量层拦截**。Claude Code 把 API 端点指向 DCR 代理后，每一个请求和响应都经过 DCR，记录在第一现场。绕过 DCR 的任何 Agent 都不会产生链记录。
+### 两级机制
 
-## 三层防伪体系
+| 层级 | 组件 | 端口 | 职责 |
+|------|------|------|------|
+| **中转站** | DCR Proxy + One API | 3738 / 3000 | 透明转发、记录对话、计算哈希链、格式统一转换 |
+| **客户端** | DCR UI | 3737 | 展示骑行数据、项目配置、提交验证、链完整性检查 |
 
-### 第一层：链式哈希
-
-```
-消息1                          消息2                          消息3
-┌──────────────────┐          ┌──────────────────┐          ┌──────────────────┐
-│ prevHash: 0...0  │    ┌───→│ prevHash: H(msg1) │    ┌───→│ prevHash: H(msg2) │
-│ content: ...     │    │    │ content: ...      │    │    │ content: ...      │
-│ hash: H1         │────┘    │ hash: H2          │────┘    │ hash: H3          │
-└──────────────────┘          └──────────────────┘          └──────────────────┘
-```
-
-每条记录 `hash = SHA256(prevHash + 本条 canonical JSON)`。增、删、改任何一条，后续所有 hash 全部对不上。
-
-### 第二层：项目文件快照
-
-每轮对话结束后，对项目目录所有 Git 追踪文件做 SHA256 快照，和对话哈希绑在一起。如果一个回合只消耗了 500 token，文件却多了三个模块、登录页重写了两百行——用能-产出比异常，有外援嫌疑。
-
-### 第三层：Ed25519 签名
+### 数据流
 
 ```
-DCR 持有私钥 → 签名消息 → ARY 服务端公钥验签
+Agent 发出请求
+  │
+  ├─→ DCR 原样转发到上游 LLM（对 Agent 完全透明）
+  │
+  └─→ DCR 调用 One API /v1/convert 转为 OpenAI 格式 → 存入链条目
+        │
+        ├─ SHA256 哈希链（增删改任一条全链断裂）
+        ├─ 项目文件快照（每轮对话后立刻计算）
+        ├─ Ed25519 签名（每条消息可验）
+        └─ 多用户 / 多项目隔离
 ```
 
-算法 Ed25519，签名覆盖整个消息体的 canonical JSON（RFC 8785 JCS）。改一个字段验签失败。
+## 防伪机制
 
-## 模块结构
+**立刻计算，不留时间窗口。**
+
+每轮 Agent 对话结束后，DCR 立刻对项目文件做 SHA256 快照，与对话记录一起写入哈希链。增、删、改任何一条记录，后续所有哈希全部断裂。用户无法在对话结束后替换文件或修改记录——哈希链已经咬合，任何改动立即可检测。
+
+**提交验证：**
+
+项目提交时，DCR 对全部文件重新计算快照，与链条目中记录的快照对账：
+- 匹配 → 文件未被偷换，接受提交
+- 不匹配 → 哈希链断裂，拒绝提交
+
+## 格式兼容性
+
+### One API 集成
+
+DCR 集成了 [One API](https://github.com/songquanpeng/one-api)（MIT 开源），作为格式统一转换引擎：
+
+- 任意 Agent 格式 → OpenAI Chat Completions 格式统一存储
+- 内置 Anthropic / OpenAI 双向转换能力
+- One API 在线时，继承其全部格式能力（40+ 供应商适配器）
+- One API 离线时，内置 format-adapter 保证核心格式可用
+
+### 未来拓展性
+
+未来国产大模型厂商自研 Agent 和 Coding 工具出现时，只要 One API 社区适配了相应格式，DCR 自动获得支持能力。**One API 不死，DCR 的兼容性就持续增长。**
+
+### 保底机制
+
+| 场景 | 处理 |
+|------|------|
+| One API 在线 + 已知格式 | One API /v1/convert 转换 → OpenAI 存储 |
+| One API 离线 + 已知格式 | 内置 format-adapter 转换 |
+| 未知格式 | 原始数据存储，标记异常原因 |
+
+## 项目结构
 
 ```
-rider-client/
-├── proxy.js              ← 中转代理，端口 3738
-├── server.js             ← 用户端 Web UI，端口 3737
-├── message-builder.js    ← Claude Code 事件 → ARY RidingSignalMessage
-├── signing.js            ← Ed25519 密钥生成/签名/验签/篡改检测
-├── chain-store.js        ← SHA256 哈希链读写/追加/完整性验证
-├── file-hash.js          ← 项目目录文件快照哈希
-├── identity-config.json  ← 身份字段假数据占位（等 ARY 服务端替换）
-├── generate-samples.js   ← 用本地 Claude Code 数据生成标准样例
-├── generate-signature-samples.js ← 生成签名样例集
-├── public/               ← 前端界面（对话流/骑行统计/哈希链）
-├── samples/              ← 生成的样例文件
-└── deliverables/         ← 交付产物（见 handoff.manifest.json）
+deliverables/a-rider/
+├── client-source/              ← 骑手端源码 (Node.js)
+│   ├── server.js               ← UI 服务 (:3737)
+│   ├── message-builder.js      ← 消息构造
+│   ├── signing.js              ← Ed25519 签名
+│   └── public/                 ← 前端界面
+│
+├── proxy-source/               ← 中转站源码 (Node.js)
+│   ├── proxy.js                ← 透明代理 (:3738)
+│   ├── format-adapter.js       ← 格式转换
+│   ├── chain-store.js          ← 哈希链存储
+│   ├── file-hash.js            ← 文件快照 + 提交
+│   ├── one-api-launcher.js     ← One API 自动启动
+│   ├── one-api-integration.md  ← One API 集成说明
+│   └── RESTRICTIONS.md         ← 使用限制
+│
+├── one-api-source/             ← One API 源码 (Go, MIT)
+│   ├── main.go                 ← 入口（含 /v1/convert 端点）
+│   ├── controller/convert.go   ← 格式转换端点
+│   └── relay/adaptor/          ← 40+ 供应商适配器
+│
+├── register-handshake.contract.json
+├── session-fetch.contract.json
+├── riding-events.sample.json
+├── ca-status.sample.json
+├── signature-samples.json
+├── error-codes.md
+├── protocol-summary.md
+├── replay-readme.md
+└── handoff.manifest.json
 ```
 
-## 启动
+## 使用
+
+### 前置依赖
+
+- Node.js 24+
+- Go 1.24+（编译 One API）
+- Git（项目文件追踪）
+
+### 启动
 
 ```bash
-# 安装（零外部依赖）
-cd rider-client
-npm install   # 实际上不需要，纯 Node.js 原生模块
+# 1. 编译 One API（首次）
+cd one-api-source
+go build -o one-api.exe .
+cp one-api.exe ../proxy-source/vendor/
 
-# 启动中转代理（必须先启）
-node proxy.js
-# 或指定上游和项目目录：
-# DCR_UPSTREAM_URL=https://api.deepseek.com/anthropic DCR_PROJECT_DIR=/path/to/project node proxy.js
+# 2. 启动中转站（自动拉起 One API）
+cd ../proxy-source
+DCR_UPSTREAM_URL=https://api.deepseek.com/anthropic node proxy.js
 
-# 启动用户端 UI
+# 3. 启动骑手端
+cd ../client-source
 node server.js
 
-# 然后：
-# - 中转站面板: http://localhost:3738
-# - 用户端界面: http://localhost:3737
-# - Claude Code 配置: ANTHROPIC_BASE_URL=http://localhost:3738
+# 4. 配置 Claude Code
+# 在 Claude Code 的 settings.json 中：
+# "ANTHROPIC_BASE_URL": "http://localhost:3738"
 ```
 
-## 数据流
+### 面板
 
-```
-Claude Code 发起请求
-        │
-        ▼
-DCR Proxy 接收 (localhost:3738)
-        │
-        ├──→ 透明转发至上游 LLM API（Authorization 原样透传）
-        │         │
-        │         ▼
-        │    上游返回响应
-        │         │
-        │         ▼
-        ├──→ 提取元数据（模型/token/耗时/tool_calls）
-        ├──→ 项目文件 SHA256 快照
-        ├──→ 追加哈希链条目（prevHash + 本条 canonical JSON）
-        │
-        └──→ 响应返回给 Claude Code（骑手无感知）
-```
+| 面板 | 地址 | 用途 |
+|------|------|------|
+| 骑手端 | `http://localhost:3737` | 查看骑行数据、提交项目、配置 |
+| 中转站 | `http://localhost:3738` | 监控请求、链完整性、多用户状态 |
+| One API | `http://localhost:3000` | 渠道管理、Key 配置（root/123456） |
 
-## 交付产物
+### 多项目 / 多用户
 
-参见 `deliverables/a-rider/handoff.manifest.json`。10 项产物已全部就绪。
+- 每场比赛设置独立 `DCR_PROJECT_DIR`
+- 中转站按 `用户哈希 + 项目路径哈希` 隔离链条
+- **禁止嵌套监测**（A 套 B 同时监测 → 文件快照冲突），详见 `proxy-source/RESTRICTIONS.md`
+
+### 提交项目
+
+1. 在骑手端左侧配置项目目录
+2. 点「提交验证」
+3. 中转站对全项目文件做快照，与哈希链对账
+4. 匹配则接受，文件存储在 `data/submissions/`
 
 ## 当前限制
 
-| 项目 | 状态 | 说明 |
-|------|------|------|
-| 身份字段 | `__MOCK__` | `raceId`/`registrationId`/`caConnectionId` 等 ARY 服务端就绪后替换 |
-| 上游格式 | Anthropic Messages API | 当前默认 DeepSeek Anthropic 兼容端点，改 `DCR_UPSTREAM_URL` 可切换 |
-| 文件快照 | 依赖 Git 仓库 | 非 Git 目录退化为全目录扫描，性能略差 |
-| 部署位置 | 骑手本机 | 后续中转站可迁移至云端，仅需改 Claude Code 的 `ANTHROPIC_BASE_URL` |
+| 项目 | 状态 |
+|------|------|
+| W1/W2/W3 服务端通信 | 契约已定，等 ARY 服务端 API 就绪 |
+| 身份字段 | `__MOCK__` 占位，等服务端分配 |
+| Ed25519 密钥 | 本地演示密钥，服务端就绪后替换 |
+| One API 渠道 | 需用户自行配置 LLM API Key |

@@ -315,15 +315,29 @@ export function buildMessagesFromChain(chainEntries, sessionMeta = {}, overrides
   const messages = [];
 
   for (const entry of chainEntries) {
+    // 跳过基线条目
+    if (entry.agentType === "baseline") continue;
+
     counters.messageCount++;
     counters.tokens += entry.usage?.total_tokens || entry.usage?.totalTokens || 0;
     counters.toolCallCount += (entry.toolCalls || []).length;
 
-    const msg = buildMessageFromChainEntry(entry, identity, { ...overrides, caProjectId: sessionMeta.cwd, caSessionId: sessionMeta.sessionId }, sequence, { ...counters });
-    msg.sequence = sequence++;
+    // ① 骑手 Prompt
+    if (entry.promptPreview) {
+      const riderMsg = buildMessageFromChainEntry(entry, identity, { ...overrides, caProjectId: sessionMeta.cwd, caSessionId: sessionMeta.sessionId }, sequence, { ...counters });
+      riderMsg.sequence = sequence++;
+      riderMsg.display = { role: "rider", text: entry.promptPreview || "", toolCalls: [] };
+      riderMsg.signal.type = sequence === 1 ? "session_started" : "task_progress";
+      counters.allRidingMessageLength += JSON.stringify(riderMsg).length;
+      messages.push(riderMsg);
+    }
 
-    counters.allRidingMessageLength += JSON.stringify(msg).length;
-    messages.push(msg);
+    // ② Agent 回复
+    const claudeMsg = buildMessageFromChainEntry(entry, identity, { ...overrides, caProjectId: sessionMeta.cwd, caSessionId: sessionMeta.sessionId }, sequence, { ...counters });
+    claudeMsg.sequence = sequence++;
+    claudeMsg.display = { role: "claude", text: entry.contentPreview?.slice(0, 500) || "", toolCalls: entry.toolCalls || [], thinking: entry.toolCalls?.length > 0 };
+    counters.allRidingMessageLength += JSON.stringify(claudeMsg).length;
+    messages.push(claudeMsg);
   }
 
   return messages;

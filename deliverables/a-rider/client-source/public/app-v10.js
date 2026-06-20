@@ -148,7 +148,18 @@ async function loadOverview() {
   currentProjectDir = data.currentProject || "";
   var subLabel = document.getElementById("submitProjectLabel");
   if (subLabel) subLabel.textContent = "项目: " + (currentProjectDir || "未配置");
-  $("#caSessionId").textContent = proxyOnline ? (px.totalEntries||0) + " 条记录" : "检查 localhost:3738 是否启动";
+  $("#caSessionId").textContent = proxyOnline ? (px.totalEntries||0) + " 条记录 · " + (px.chainCount||0) + "链" : "检查 localhost:3738 是否启动";
+
+  var riderEl = document.getElementById("riderInfo");
+  if (riderEl) {
+    var pj = data.currentProject || "—";
+    var chains = data.chains || [];
+    var activeChain = chains[0];
+    riderEl.innerHTML =
+      '<div class="ca-row"><span>项目</span><span class="val">' + escapeHtml(pj.slice(-40)) + '</span></div>' +
+      '<div class="ca-row"><span>记录链</span><span class="val">' + chains.length + '链 · ' + (activeChain?.entryCount||0) + '条</span></div>' +
+      '<div class="ca-row"><span>总 Token</span><span class="val">' + ((data.ridingStats?.totalTokens||0).toLocaleString()) + '</span></div>';
+  }
 
   const badge = $("#connectionBadge");
   if (proxyOnline) { badge.className = "badge active"; badge.textContent = "● 已连接"; }

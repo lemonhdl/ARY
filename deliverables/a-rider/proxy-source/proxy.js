@@ -32,6 +32,7 @@ import {
   extractMetaFromOpenedSSE,
   anthropicResponseToOpenAI,
 } from "./format-adapter.js";
+import { launchOneAPI, waitForOneAPI } from "./one-api-launcher.js";
 
 // ═══════════════════════════════ 配置
 
@@ -54,9 +55,13 @@ function saveConfig(cfg) {
   writeFileSync(DCR_CONFIG_FILE, JSON.stringify(cfg, null, 2), "utf-8");
 }
 
-// 上游：配置文件 > 环境变量 > 默认值
+// 上游（LLM 端点）：配置文件 > 环境变量 > 默认 DeepSeek Anthropic
 const savedConfig = loadConfig();
-let UPSTREAM_URL = savedConfig.upstreamUrl || process.env.DCR_UPSTREAM_URL || "http://localhost:3000";
+let UPSTREAM_URL = savedConfig.upstreamUrl || process.env.DCR_UPSTREAM_URL || "https://api.deepseek.com/anthropic";
+
+// One API 转换服务地址（本地自动启动）
+let ONE_API_URL = null;
+let oneApiAvailable = false;
 
 // ═══════════════════════════════ 链（多用户隔离）
 
@@ -174,7 +179,9 @@ function parseSSEToOpenAI(sseLines, openaiRequest, elapsed) {
     } catch { }
   }
   const aggregated = getSSEAggregatedResponse();
-  return extractMetaFromOpenedSSE(aggregated, openaiRequest, elapsed);
+  const meta = extractMetaFromOpenedSSE(aggregated, openaiRequest, elapsed);
+  meta._openaiResponse = JSON.stringify(aggregated).slice(0, 16000);
+  return meta;
 }
 
 // ═══════════════════════════════ 从 OpenAI SSE 直接解析
@@ -358,7 +365,7 @@ const server = createServer(async (req, res) => {
     console.log(`🔄 [${requestId.slice(0, 8)}] ${req.method} ${req.url} [${agentType}]`);
 
     // ══════════════════════════════════════════
-    // ② 原样转发到上游（不做任何修改）
+    // ② 原样转发——Agent 请求/响应不做任何修改
     // ══════════════════════════════════════════
 
     const targetUrl = UPSTREAM_URL + req.url;
@@ -368,13 +375,61 @@ const server = createServer(async (req, res) => {
       const elapsed = Date.now() - startTime;
 
       // ══════════════════════════════════════════
-      // ③ 转为统一格式、记录
+      // ③ 调用 One API 转换 + 记录
       // ══════════════════════════════════════════
 
       if (isAPI && openaiRequest) {
         let meta;
+        const canConvert = agentType === "anthropic" || agentType === "openai";
 
-        if (upstreamResp.isSSE) {
+        // ── 通过 One API 的 /v1/convert 做格式转换 ──
+        let convertedByOneAPI = false;
+        if (oneApiAvailable && canConvert) {
+          try {
+            const convertRes = await fetch(`${ONE_API_URL}/v1/convert`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json", "X-Original-Format": agentType },
+              body: reqBody,
+              signal: AbortSignal.timeout(5000),
+            });
+            if (convertRes.ok) {
+              const converted = await convertRes.json();
+              if (converted.request) {
+                openaiRequest = converted.request;
+                convertedByOneAPI = true;
+              }
+            }
+          } catch { /* One API 不可用时降级到本地转换 */ }
+        }
+
+        if (!canConvert) {
+          // ═══ 保底：格式不支持，直接保存原始信息 ═══
+          console.log(`   ⚠️ 未知格式 [${agentType}]，One API 不可用且本地不支持，保存原始数据`);
+          meta = {
+            model: openaiRequest.model || "",
+            prompt: "",
+            usage: null,
+            finishReason: "",
+            toolCalls: [],
+            contentPreview: "",
+            duration: elapsed,
+            agentType,
+            _raw: true,
+            _rawReason: `格式 [${agentType}] 不在本地支持列表 (anthropic/openai) 中，One API ${oneApiAvailable ? "可用但转换失败" : "不可用"}，原始数据已保存`,
+            _rawRequest: reqBody.slice(0, 4000),
+            _rawResponse: upstreamResp.body.slice(0, 4000),
+          };
+          try {
+            const req = JSON.parse(reqBody);
+            const msgs = req.messages || [];
+            const lastUser = [...msgs].reverse().find(m => m.role === "user");
+            if (lastUser?.content) {
+              meta.prompt = typeof lastUser.content === "string"
+                ? lastUser.content.slice(0, 500)
+                : JSON.stringify(lastUser.content).slice(0, 500);
+            }
+          } catch { }
+        } else if (upstreamResp.isSSE) {
           // 流式响应：按 Agent 类型分别解析
           if (agentType === "anthropic") {
             meta = parseSSEToOpenAI(upstreamResp.sseLines, openaiRequest, elapsed);
@@ -395,11 +450,12 @@ const server = createServer(async (req, res) => {
               // 已经是 OpenAI 格式
               openaiResponse = resJson;
             } else {
-              // 未知格式，尝试兜底
+              // 未知格式，保留原始
               openaiResponse = resJson;
             }
 
             meta = extractMetaFromOpenAI(openaiResponse, openaiRequest, elapsed);
+            meta._openaiResponse = JSON.stringify(openaiResponse).slice(0, 16000);
           } catch {
             meta = extractMetaFromOpenAI({}, openaiRequest, elapsed);
           }
@@ -415,30 +471,29 @@ const server = createServer(async (req, res) => {
         const chain = getOrCreateChain(req.headers, { cwd: projectDir, model: meta.model });
         const entry = appendEntry(chain, {
           requestId,
-          path: req.url,
-          method: req.method,
           agentType,
           model: meta.model,
-          promptPreview: meta.prompt?.slice(0, 200) || "",
-          toolCalls: meta.toolCalls || [],
-          toolNames: meta.toolNames || [],
+          rider: meta.prompt || "",                       // 骑手原话
+          agent: meta.contentPreview || "",               // Agent 回复文本
+          toolCalls: meta.toolCalls || [],                // 工具名（体现哈希里）
           usage: meta.usage,
-          finishReason: meta.finishReason,
-          contentPreview: meta.contentPreview?.slice(0, 200) || "",
           duration: elapsed,
           status: upstreamResp.status,
           fileHash: fileSnapshot.fileHash,
           fileCount: fileSnapshot.fileCount,
           gitStatus: fileSnapshot.status,
+          _raw: meta._raw || false,
+          ...(meta._raw ? { _rawReason: meta._rawReason, _rawRequest: meta._rawRequest, _rawResponse: meta._rawResponse } : {}),
         });
 
-        console.log(`✅ [${requestId.slice(0, 8)}] ${elapsed}ms ${agentType} tokens=${meta.usage?.total_tokens || "?"} tools=${meta.toolCalls?.length || 0} files=${fileSnapshot.fileCount} hash=${entry.hash.slice(0, 12)}…`);
+        const convertTag = convertedByOneAPI ? "[OneAPI]" : "[local]";
+        console.log(`✅ [${requestId.slice(0, 8)}] ${elapsed}ms ${agentType} ${convertTag} tokens=${meta.usage?.total_tokens || "?"} tools=${meta.toolCalls?.length || 0} files=${fileSnapshot.fileCount} hash=${entry.hash.slice(0, 12)}…`);
       } else if (req.url !== "/" && req.url !== "/panel") {
         console.log(`   [${requestId.slice(0, 8)}] ${req.url} (non-API, skipped recording)`);
       }
 
       // ══════════════════════════════════════════
-      // ⑤ 返回原始响应（不做修改）
+      // ⑤ 原样返回——Agent 零感知
       // ══════════════════════════════════════════
 
       res.writeHead(upstreamResp.status, upstreamResp.headers);
@@ -452,17 +507,38 @@ const server = createServer(async (req, res) => {
   });
 });
 
-server.listen(LISTEN_PORT, () => {
+server.listen(LISTEN_PORT, async () => {
+  // ── 1. 自动启动 One API ──
+  const oneApiPort = parseInt(process.env.ONE_API_PORT) || 3000;
+  const oneApiUrl = `http://localhost:${oneApiPort}`;
+  let oneApiOnline = false;
+
+  const oneApi = launchOneAPI({ port: oneApiPort });
+  if (oneApi) {
+    oneApiOnline = await waitForOneAPI(oneApiUrl);
+  }
+
+  // ── 2. 如果 One API 就绪，用它作为上游（格式能力继承） ──
+  if (oneApiOnline) {
+    ONE_API_URL = oneApiUrl;
+    oneApiAvailable = true;
+  }
+
   console.log(`🔄 DCR Proxy 启动: http://localhost:${LISTEN_PORT}`);
-  console.log(`   上游: ${UPSTREAM_URL}`);
+  console.log(`   上游 LLM:  ${UPSTREAM_URL}`);
   console.log(`   模式: 透明转发 + 统一 OpenAI 格式记录`);
+
+  if (oneApiOnline) {
+    console.log(`   🟢 One API 在线 (${oneApiUrl}) — 格式转换: One API /v1/convert`);
+  } else {
+    console.log(`   🟡 One API 未就绪 — 格式转换: 内置 format-adapter`);
+  }
+
   console.log(`   管理: http://localhost:${LISTEN_PORT}/__dcr/chain/status`);
   console.log("");
-  console.log("   支持的 Agent:");
-  console.log(`   ├─ Claude Code:  ANTHROPIC_BASE_URL=http://localhost:${LISTEN_PORT}`);
-  console.log(`   ├─ Codex:        OPENAI_BASE_URL=http://localhost:${LISTEN_PORT}`);
-  console.log(`   └─ 其他:        相应 BASE_URL → http://localhost:${LISTEN_PORT}`);
-  console.log("");
-  console.log("   原始请求/响应原样透传，不做任何修改。");
-  console.log("   记录数据统一为 OpenAI Chat Completions 格式。");
+  console.log(`   Claude Code: ANTHROPIC_BASE_URL=http://localhost:${LISTEN_PORT}`);
+  console.log(`   Codex:       OPENAI_BASE_URL=http://localhost:${LISTEN_PORT}`);
+  if (oneApiOnline) {
+    console.log(`   One API 管理: ${oneApiUrl}  (root / 123456)`);
+  }
 });
