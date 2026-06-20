@@ -1,0 +1,199 @@
+{
+  "__GENERATION_NOTE__": {
+    "generatedAt": "2026-06-20T12:11:18.875Z",
+    "description": "Ed25519 消息签名样例。密钥对为本地生成，生产环境由 ARY 服务端下发。",
+    "decisions": {
+      "algorithm": "Ed25519",
+      "keyGeneration": "ARY 服务端生成，用户每次登录生成当次密钥",
+      "keyDelivery": "登录后由服务端下发私钥至 DCR Desktop App",
+      "keyStorage": "仅内存（本次会话），客户端重启需重新登录获取新密钥",
+      "signingScope": "整个消息体（签名覆盖 JSON 全文）",
+      "signer": "DCR Desktop App",
+      "verifier": "ARY 服务端",
+      "canonicalization": "RFC 8785 JSON Canonicalization Scheme (JCS)",
+      "signaturePlacement": "消息内嵌 signature 字段（canonical JSON 不含 signature，签名后再附加）"
+    }
+  },
+  "demoKeyPair": {
+    "__WARNING__": "以下密钥对仅为演示生成。生产环境中，私钥由 ARY 服务端在登录后下发，不落盘。",
+    "publicKeyPEM": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEALESDYQpxdj8vUMCYUjrEZnAapRBWB/e5eIhOyXF+8mc=\n-----END PUBLIC KEY-----\n…",
+    "privateKeyPEM": "-----BEGIN PRIVATE KEY-----\nMC4CAQAwBQYDK2VwBCIEIA4ABbExCHhD/b0wfWUqjmD2qE+APvnt…（生产环境仅内存）"
+  },
+  "canonicalization": {
+    "scheme": "RFC 8785 JCS (JSON Canonicalization Scheme)",
+    "rules": [
+      "对象 key 按 UTF-8 字节序升序",
+      "字符串原样保留 Unicode",
+      "无多余空白字符",
+      "数字按 ECMAScript 规范序列化",
+      "签名前从消息中移除 signature 字段"
+    ],
+    "example": {
+      "before": "{\n  \"schemaVersion\": \"ary.ca.riding_signal.v0.1\",\n  \"messageId\": \"msg_dfe86a68-868\",\n  \"idempotencyKey\": \"claude_code:__MOCK__race_2026_demo:__MOCK__reg_008:__MOCK__dcr_desktop_v0.1:__SAMPLE__session_…",
+      "after": "{\"ca\":{\"caConnectionId\":\"__MOCK__conn_claude_code_001\",\"caProjectId\":\"C:\\\\Users\\\\rider\\\\projects\\\\demo\",\"caSessionId\":\"__SAMPLE__session_abc\",\"caType\":\"claude_code\",\"connectorId\":\"__MOCK__dcr_desktop_v0.1\",\"connectorVersion\":\"0.1.0\"},\"counters\":{\"allRidingMessageLength\":1070,\"messageCount\":2,\"sessio…",
+      "length": 1139
+    }
+  },
+  "signing": {
+    "unsignedMessage": {
+      "schemaVersion": "ary.ca.riding_signal.v0.1",
+      "messageId": "msg_dfe86a68-868",
+      "idempotencyKey": "claude_code:__MOCK__race_2026_demo:__MOCK__reg_008:__MOCK__dcr_desktop_v0.1:__SAMPLE__session_abc:seq_1",
+      "sequence": 1,
+      "timestamp": "2026-06-19T10:01:00.000Z",
+      "race": {
+        "raceId": "__MOCK__race_2026_demo",
+        "taskId": "__MOCK__DEV-12"
+      },
+      "rider": {
+        "registrationId": "__MOCK__reg_008",
+        "raceProjectId": "__MOCK__rp_008"
+      },
+      "ca": {
+        "caConnectionId": "__MOCK__conn_claude_code_001",
+        "caType": "claude_code",
+        "connectorId": "__MOCK__dcr_desktop_v0.1",
+        "connectorVersion": "0.1.0",
+        "caProjectId": "C:\\Users\\rider\\projects\\demo",
+        "caSessionId": "__SAMPLE__session_abc"
+      },
+      "signal": {
+        "kind": "event",
+        "type": "task_progress",
+        "phase": "riding",
+        "taskStatus": "in_progress",
+        "progressPercent": 50
+      },
+      "counters": {
+        "tokens": 1700,
+        "sessionCount": 1,
+        "messageCount": 2,
+        "toolCallCount": 1,
+        "allRidingMessageLength": 1070
+      },
+      "technicalActions": [
+        {
+          "type": "file_changed",
+          "count": 1
+        }
+      ],
+      "summary": {
+        "currentGoal": "Agent Riding in progress",
+        "latestActivity": "好的，我来创建登录页面，包括表单、验证和样式。",
+        "riskLevel": "low",
+        "riskReason": ""
+      },
+      "display": {
+        "role": "claude",
+        "text": "好的，我来创建登录页面，包括表单、验证和样式。",
+        "toolCalls": [
+          "Write"
+        ],
+        "thinking": false
+      }
+    },
+    "signedMessage": {
+      "schemaVersion": "ary.ca.riding_signal.v0.1",
+      "messageId": "msg_dfe86a68-868",
+      "idempotencyKey": "claude_code:__MOCK__race_2026_demo:__MOCK__reg_008:__MOCK__dcr_desktop_v0.1:__SAMPLE__session_abc:seq_1",
+      "sequence": 1,
+      "timestamp": "2026-06-19T10:01:00.000Z",
+      "race": {
+        "raceId": "__MOCK__race_2026_demo",
+        "taskId": "__MOCK__DEV-12"
+      },
+      "rider": {
+        "registrationId": "__MOCK__reg_008",
+        "raceProjectId": "__MOCK__rp_008"
+      },
+      "ca": {
+        "caConnectionId": "__MOCK__conn_claude_code_001",
+        "caType": "claude_code",
+        "connectorId": "__MOCK__dcr_desktop_v0.1",
+        "connectorVersion": "0.1.0",
+        "caProjectId": "C:\\Users\\rider\\projects\\demo",
+        "caSessionId": "__SAMPLE__session_abc"
+      },
+      "signal": {
+        "kind": "event",
+        "type": "task_progress",
+        "phase": "riding",
+        "taskStatus": "in_progress",
+        "progressPercent": 50
+      },
+      "counters": {
+        "tokens": 1700,
+        "sessionCount": 1,
+        "messageCount": 2,
+        "toolCallCount": 1,
+        "allRidingMessageLength": 1070
+      },
+      "technicalActions": [
+        {
+          "type": "file_changed",
+          "count": 1
+        }
+      ],
+      "summary": {
+        "currentGoal": "Agent Riding in progress",
+        "latestActivity": "好的，我来创建登录页面，包括表单、验证和样式。",
+        "riskLevel": "low",
+        "riskReason": ""
+      },
+      "display": {
+        "role": "claude",
+        "text": "好的，我来创建登录页面，包括表单、验证和样式。",
+        "toolCalls": [
+          "Write"
+        ],
+        "thinking": false
+      },
+      "signature": {
+        "algorithm": "Ed25519",
+        "value": "il4JNthmdVWfma/Wtb42EX8JTQJDrzcDV6ATxIY8Q3VEh/y8xwoGhEiiRn6Zvk5A1ZctCY3wwd6mAc0SXOm1Cw==",
+        "canonicalJson": "{\"ca\":{\"caConnectionId\":\"__MOCK__conn_claude_code_001\",\"caProjectId\":\"C:\\\\Users\\\\rider\\\\projects\\\\demo\",\"caSessionId\":\"__SAMPLE__session_abc\",\"caType\":\"claude_code\",\"connectorId\":\"__MOCK__dcr_desktop_…",
+        "canonicalLength": 1139,
+        "signedAt": "2026-06-20T12:11:18.870Z",
+        "__NOTE__": "签名覆盖 canonical JSON 全文。验签时需重新生成 canonical JSON 并与本签名比对。"
+      }
+    },
+    "note": "签名过程：移除 signature 字段 → canonical JSON → Ed25519 签名 → 附加 signature"
+  },
+  "verification": {
+    "success": {
+      "valid": true
+    },
+    "description": "合法签名验签通过。公钥与签名时使用的私钥匹配，且消息未被篡改。",
+    "tampered": {
+      "tamperedField": "signal.type",
+      "originalValue": "task_progress",
+      "tamperedValue": "fraudulent",
+      "verificationResult": {
+        "valid": false,
+        "reason": "signature verification failed — message may be tampered or key mismatch"
+      },
+      "description": "消息被篡改后验签失败。即使只改一个字段，签名也不再匹配。"
+    },
+    "wrongKey": {
+      "verificationResult": {
+        "valid": false,
+        "reason": "signature verification failed — message may be tampered or key mismatch"
+      },
+      "description": "使用不匹配的公钥验签失败。攻击者无法用自己生成的密钥对伪造合法 CA 的消息。"
+    }
+  },
+  "integrationNotes": {
+    "forARXServer": [
+      "登录后调用 Ed25519 密钥生成，公钥留存，私钥下发给 DCR Desktop App",
+      "接收 push 消息时，提取 signature.value，用对应公钥验签",
+      "验签失败的消息拒收或进入隔离审计",
+      "每条消息独立签名，不依赖 session 级状态"
+    ],
+    "forDCRDesktop": [
+      "私钥仅保存在内存中，不写入磁盘",
+      "客户端重启后需重新登录获取新密钥",
+      "签名前先移除 signature 字段再做 canonical JSON",
+      "每条 push 消息都须签名"
+    ]
+  }
+}
