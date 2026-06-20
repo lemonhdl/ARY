@@ -1,4 +1,22 @@
-const sampleData = window.ARY_SAMPLE_DATA;
+function normalizeCFrontendData(source = {}) {
+  const fallback = window.ARY_SAMPLE_DATA || {};
+  return {
+    ...fallback,
+    ...source,
+    races: source.races || fallback.races || [],
+    raceGroups: source.raceGroups || fallback.raceGroups || {},
+    liveProjections: source.liveProjections || source.projections || fallback.liveProjections || [],
+    works: source.works || source.publishedWorks || fallback.works || [],
+    awards: source.awards || source.results || fallback.awards || [],
+    reviews: source.reviews || fallback.reviews || [],
+    profiles: source.profiles || source.riderProfiles || fallback.profiles || [],
+    caConnections: source.caConnections || source.caStatuses || fallback.caConnections || [],
+    reviewReadiness: source.reviewReadiness || fallback.reviewReadiness || [],
+    publicEvidenceSummaries: source.publicEvidenceSummaries || source.evidenceSummaries || fallback.publicEvidenceSummaries || [],
+  };
+}
+
+const sampleData = normalizeCFrontendData(window.ARY_C_FRONTEND_ADAPTER || window.ARY_ASSEMBLED_VIEW || window.ARY_RUNTIME_VIEW);
 const pageButtons = document.querySelectorAll("[data-page]");
 const pagePanels = document.querySelectorAll("[data-page-panel]");
 let currentRaceId = sampleData?.raceGroups?.featuredRaceId;
@@ -7,19 +25,212 @@ let currentScreenMode = "live";
 let currentWorkFilter = "public";
 let homeRaceCarouselTimer;
 
-function setPage(pageName) {
-  if (pageName !== "works") hideWorkDetail();
+const routePageAliases = {
+  public: "home",
+  home: "home",
+  race: "race",
+  live: "live",
+  works: "works",
+  work: "works",
+  results: "results",
+  review: "review",
+  rider: "rider",
+  riders: "rider",
+  cooperation: "cooperation",
+  screen: "screen",
+  login: "login",
+  console: "console",
+};
+const cRouteState = {
+  page: "home",
+  raceId: currentRaceId,
+  workId: null,
+  riderId: null,
+  resultsRaceId: currentResultsRaceId,
+  workFilter: currentWorkFilter,
+  screenMode: currentScreenMode,
+  homeRacePinned: false,
+};
+
+function setPage(pageName, options = {}) {
+  const nextPage = routePageAliases[pageName] || pageName;
+  cRouteState.page = nextPage;
+  if (nextPage !== "works") hideWorkDetail();
   pagePanels.forEach((panel) => {
-    panel.classList.toggle("active", panel.dataset.pagePanel === pageName);
+    panel.classList.toggle("active", panel.dataset.pagePanel === nextPage);
   });
   pageButtons.forEach((button) => {
-    button.classList.toggle("active", button.dataset.page === pageName);
+    button.classList.toggle("active", button.dataset.page === nextPage);
   });
   requestAnimationFrame(() => {
     resizeAll();
     requestAnimationFrame(resizeAll);
   });
+  if (options.syncUrl) syncCFrontendUrl(options.replace ? "replace" : "push");
 }
+
+function normalizeCFrontendRouteState(input = {}) {
+  const nextPage = routePageAliases[input.page] || routePageAliases[input.route] || cRouteState.page || "home";
+  const nextRaceId = getRace(input.raceId) ? input.raceId : cRouteState.raceId || currentRaceId || sampleData?.raceGroups?.featuredRaceId;
+  const nextWorkId = input.workId !== undefined ? input.workId : cRouteState.workId;
+  const nextRiderId = input.riderId !== undefined ? input.riderId : cRouteState.riderId;
+  const nextResultsRaceId = getRace(input.resultsRaceId || input.raceId) ? input.resultsRaceId || input.raceId : cRouteState.resultsRaceId || currentResultsRaceId;
+  return {
+    page: nextPage,
+    raceId: nextWorkId && getWork(nextWorkId)?.raceId ? getWork(nextWorkId).raceId : nextRaceId,
+    workId: nextWorkId,
+    riderId: nextRiderId,
+    resultsRaceId: nextResultsRaceId,
+    workFilter: input.workFilter || input.filter || cRouteState.workFilter || "public",
+    screenMode: input.screenMode || input.mode || cRouteState.screenMode || "live",
+    homeRacePinned: input.homeRacePinned ?? input.pinHomeRace ?? cRouteState.homeRacePinned,
+  };
+}
+
+function getCFrontendUrlPath(state = cRouteState) {
+  const raceId = encodeURIComponent(state.raceId || currentRaceId || "");
+  const workId = encodeURIComponent(state.workId || "");
+  const riderId = encodeURIComponent(state.riderId || "");
+  const resultsRaceId = encodeURIComponent(state.resultsRaceId || state.raceId || "");
+  const query = new URLSearchParams();
+  switch (state.page) {
+    case "race":
+      return `/race/${raceId}`;
+    case "live":
+      return `/live/${raceId}`;
+    case "works":
+      if (state.workId) return `/works/${workId}`;
+      if (state.raceId) query.set("raceId", state.raceId);
+      if (state.workFilter && state.workFilter !== "public") query.set("filter", state.workFilter);
+      return `/works${query.toString() ? `?${query}` : ""}`;
+    case "results":
+      return `/results/${resultsRaceId || raceId}`;
+    case "review":
+      return `/review/${resultsRaceId || raceId}`;
+    case "rider":
+      return `/riders/${riderId || sampleData?.profiles?.[0]?.riderId || ""}`;
+    case "cooperation":
+      return "/cooperation";
+    case "screen":
+      if (state.screenMode && state.screenMode !== "live") query.set("mode", state.screenMode);
+      return `/screen/${raceId}${query.toString() ? `?${query}` : ""}`;
+    case "home":
+    default:
+      if (state.raceId) query.set("raceId", state.raceId);
+      return `/public/${query.toString() ? `?${query}` : ""}#home`;
+  }
+}
+
+function syncCFrontendUrl(mode = "push") {
+  if (!window.history?.pushState) return;
+  const path = getCFrontendUrlPath(cRouteState);
+  let nextUrl;
+  try {
+    const base = window.location.origin && window.location.origin !== "null" ? window.location.origin : window.location.href;
+    nextUrl = new URL(path, base);
+    if (window.location.href === nextUrl.href) return;
+    const method = mode === "replace" ? "replaceState" : "pushState";
+    window.history[method]({ ...cRouteState, source: "c-frontend" }, "", nextUrl);
+  } catch {
+    return;
+  }
+}
+
+function emitCFrontendRouteChange() {
+  window.dispatchEvent(
+    new CustomEvent("ary:c-frontend-route-change", {
+      detail: {
+        state: { ...cRouteState },
+        url: getCFrontendUrlPath(cRouteState),
+      },
+    }),
+  );
+}
+
+function parseCFrontendPath(pathValue = window.location.href) {
+  let url;
+  try {
+    url = new URL(pathValue, window.location.origin && window.location.origin !== "null" ? window.location.origin : "https://ary.local");
+  } catch {
+    return {};
+  }
+  const segments = url.pathname.split("/").filter(Boolean);
+  const first = segments[0] || "public";
+  const state = { page: routePageAliases[first] || "home", homeRacePinned: true };
+  if (first === "public" || first === "") {
+    state.page = "home";
+    state.raceId = url.searchParams.get("raceId") || cRouteState.raceId;
+  }
+  if (first === "race" || first === "live" || first === "screen") state.raceId = segments[1] || url.searchParams.get("raceId") || cRouteState.raceId;
+  if (first === "works") {
+    state.page = "works";
+    state.workId = segments[1] || null;
+    state.raceId = url.searchParams.get("raceId") || cRouteState.raceId;
+    state.workFilter = url.searchParams.get("filter") || cRouteState.workFilter;
+  }
+  if (first === "results" || first === "review") state.resultsRaceId = segments[1] || url.searchParams.get("raceId") || cRouteState.resultsRaceId;
+  if (first === "riders") {
+    state.page = "rider";
+    state.riderId = segments[1] || cRouteState.riderId;
+  }
+  if (first === "screen") state.screenMode = url.searchParams.get("mode") || cRouteState.screenMode;
+  return state;
+}
+
+function updateHomeCarouselState() {
+  if (cRouteState.homeRacePinned || cRouteState.page !== "home") {
+    window.clearInterval(homeRaceCarouselTimer);
+    return;
+  }
+  restartHomeRaceCarousel();
+}
+
+function selectRiderProfile(riderId) {
+  const profile = sampleData?.profiles?.find((item) => item.riderId === riderId) || sampleData?.profiles?.[0];
+  if (profile) {
+    cRouteState.riderId = profile.riderId;
+    renderRiderProfile(profile);
+  }
+}
+
+function applyCFrontendRouteState(input = {}, options = {}) {
+  const state = normalizeCFrontendRouteState(input);
+  Object.assign(cRouteState, state);
+  currentRaceId = state.raceId;
+  currentWorkFilter = state.workFilter;
+  currentScreenMode = state.screenMode;
+  currentResultsRaceId = state.resultsRaceId;
+
+  renderHomeRace(state.raceId);
+  renderPublicRaceContext(state.raceId);
+  renderResultsAndReview(state.resultsRaceId || state.raceId);
+  selectRiderProfile(state.riderId);
+  if (state.page === "works") renderWorksPage(state.raceId, state.workFilter);
+  if (state.workId) renderWorkDetail(state.workId);
+  if (state.page === "screen") renderScreenDisplay(state.screenMode);
+  setPage(state.page, { syncUrl: false });
+  updateHomeCarouselState();
+  requestAnimationFrame(resizeAll);
+  if (options.syncUrl) syncCFrontendUrl(options.replace ? "replace" : "push");
+  emitCFrontendRouteChange();
+  return { ...cRouteState };
+}
+
+window.ARY_C_FRONTEND = Object.freeze({
+  applyRouteState: applyCFrontendRouteState,
+  applyPath: (path, options = {}) => applyCFrontendRouteState(parseCFrontendPath(path), options),
+  parsePath: parseCFrontendPath,
+  getRouteState: () => ({ ...cRouteState }),
+  getUrlForState: (state = cRouteState) => getCFrontendUrlPath({ ...cRouteState, ...state }),
+  pauseHomeCarousel: () => {
+    cRouteState.homeRacePinned = true;
+    updateHomeCarouselState();
+  },
+  resumeHomeCarousel: () => {
+    cRouteState.homeRacePinned = false;
+    updateHomeCarouselState();
+  },
+});
 
 function getRace(id) {
   return sampleData?.races?.find((race) => race.id === id);
@@ -193,12 +404,16 @@ function html(selector, value) {
 
 const homeRaceAssets = {
   "bay-area-happy-trip": {
+    workId: "work-gba-wander",
+    riderId: "rider-mira",
     workTitle: "GBA WanderMate",
     workMeta: "湾区开心游 / Mira Chen / 三条湾区路线已经上墙：早茶、海岸、夜景，预算和交通都标清。",
     riderName: "Mira Chen",
     riderMeta: "HKU CS / local reasoning / route planning / prompt debugging",
   },
   "smart-investment-analyst": {
+    workId: "work-gba-wander",
+    riderId: "rider-mira",
     workTitle: "Risk Briefing Notebook",
     workMeta: "智能投研助理 / Owen Xu / 财报摘要、风险边界和术语解释已进入作品墙。",
     riderName: "Owen Xu",
@@ -226,11 +441,11 @@ function renderHomeRace(raceId) {
   );
   html(
     ".hero-actions",
-    `<button type="button" data-page="live">${escapeHtml(race.primaryCta)}</button>
-     <button type="button" data-page="race">查看赛题</button>
-     <button type="button" data-page="works">作品墙</button>
-     <button type="button" data-page="results">赛果 / Review</button>
-     <button type="button" data-page="screen">大屏展示</button>`,
+    `<button type="button" data-page="live" data-route-race-id="${escapeHtml(race.id)}">${escapeHtml(race.primaryCta)}</button>
+     <button type="button" data-page="race" data-route-race-id="${escapeHtml(race.id)}">查看赛题</button>
+     <button type="button" data-page="works" data-route-race-id="${escapeHtml(race.id)}">作品墙</button>
+     <button type="button" data-page="results" data-route-race-id="${escapeHtml(race.id)}">赛果 / Review</button>
+     <button type="button" data-page="screen" data-route-race-id="${escapeHtml(race.id)}">大屏展示</button>`,
   );
   html(
     ".benefit-row",
@@ -239,7 +454,7 @@ function renderHomeRace(raceId) {
        <div>
          <h2>${escapeHtml(asset.workTitle)}</h2>
          <p>${escapeHtml(asset.workMeta)}</p>
-         <button type="button" data-page="works">查看作品</button>
+         <button type="button" data-page="works" data-work-id="${escapeHtml(asset.workId)}">查看作品</button>
        </div>
      </article>
      <article>
@@ -247,7 +462,7 @@ function renderHomeRace(raceId) {
        <div>
          <h2>${escapeHtml(asset.riderName)}</h2>
          <p>${escapeHtml(asset.riderMeta)}</p>
-         <button type="button" data-page="rider">查看档案</button>
+         <button type="button" data-page="rider" data-rider-id="${escapeHtml(asset.riderId)}">查看档案</button>
        </div>
      </article>`,
   );
@@ -271,17 +486,15 @@ function renderHomeLiveSwitcher() {
 
 function rotateHomeLiveRace() {
   const liveRaceIds = sampleData?.raceGroups?.liveRaceIds || [];
-  if (liveRaceIds.length < 2 || !document.querySelector(".page-home.active")) return;
+  if (cRouteState.homeRacePinned || liveRaceIds.length < 2 || !document.querySelector(".page-home.active")) return;
   const currentIndex = Math.max(0, liveRaceIds.indexOf(currentRaceId));
   const nextRaceId = liveRaceIds[(currentIndex + 1) % liveRaceIds.length];
-  renderHomeRace(nextRaceId);
-  renderPublicRaceContext(nextRaceId);
-  requestAnimationFrame(resizeAll);
+  applyCFrontendRouteState({ page: "home", raceId: nextRaceId, homeRacePinned: false }, { replace: true, syncUrl: false });
 }
 
 function restartHomeRaceCarousel() {
   window.clearInterval(homeRaceCarouselTimer);
-  homeRaceCarouselTimer = window.setInterval(rotateHomeLiveRace, 6800);
+  if (!cRouteState.homeRacePinned && cRouteState.page === "home") homeRaceCarouselTimer = window.setInterval(rotateHomeLiveRace, 6800);
 }
 
 function getRaceRulesSummary(race) {
@@ -1062,33 +1275,42 @@ function renderPrototypeData() {
 document.addEventListener("click", (event) => {
   const workButton = event.target.closest("[data-work-id]");
   if (workButton) {
-    renderWorkDetail(workButton.dataset.workId);
+    applyCFrontendRouteState({ page: "works", workId: workButton.dataset.workId, homeRacePinned: true }, { syncUrl: true });
     return;
   }
 
   const workCloseButton = event.target.closest("[data-work-close]");
   if (workCloseButton) {
+    cRouteState.workId = null;
     hideWorkDetail();
+    syncCFrontendUrl("push");
+    emitCFrontendRouteChange();
     return;
   }
 
   const workFilterButton = event.target.closest("[data-work-filter]");
   if (workFilterButton) {
-    renderWorksPage(currentRaceId, workFilterButton.dataset.workFilter);
+    applyCFrontendRouteState({ page: "works", raceId: currentRaceId, workId: null, workFilter: workFilterButton.dataset.workFilter, homeRacePinned: true }, { syncUrl: true });
+    return;
+  }
+
+  const riderButton = event.target.closest("[data-rider-id]");
+  if (riderButton) {
+    applyCFrontendRouteState({ page: "rider", riderId: riderButton.dataset.riderId, homeRacePinned: true }, { syncUrl: true });
     return;
   }
 
   const consoleViewButton = event.target.closest("[data-console-view]");
   if (consoleViewButton) {
-    if (consoleViewButton.dataset.page) setPage(consoleViewButton.dataset.page);
+    if (consoleViewButton.dataset.page) setPage(consoleViewButton.dataset.page, { syncUrl: true });
     renderConsoleView(consoleViewButton.dataset.consoleView);
+    emitCFrontendRouteChange();
     return;
   }
 
   const screenModeButton = event.target.closest("[data-screen-mode]");
   if (screenModeButton) {
-    renderScreenDisplay(screenModeButton.dataset.screenMode);
-    if (screenModeButton.dataset.page) setPage(screenModeButton.dataset.page);
+    applyCFrontendRouteState({ page: screenModeButton.dataset.page || "screen", raceId: currentRaceId, screenMode: screenModeButton.dataset.screenMode, homeRacePinned: true }, { syncUrl: true });
     return;
   }
 
@@ -1101,16 +1323,13 @@ document.addEventListener("click", (event) => {
 
   const resultsRaceButton = event.target.closest("[data-results-race]");
   if (resultsRaceButton) {
-    renderResultsAndReview(resultsRaceButton.dataset.resultsRace);
+    applyCFrontendRouteState({ page: cRouteState.page === "review" ? "review" : "results", resultsRaceId: resultsRaceButton.dataset.resultsRace, homeRacePinned: true }, { syncUrl: true });
     return;
   }
 
   const liveRaceButton = event.target.closest("[data-live-race]");
   if (liveRaceButton) {
-    renderHomeRace(liveRaceButton.dataset.liveRace);
-    renderPublicRaceContext(liveRaceButton.dataset.liveRace);
-    restartHomeRaceCarousel();
-    requestAnimationFrame(resizeAll);
+    applyCFrontendRouteState({ page: "home", raceId: liveRaceButton.dataset.liveRace, homeRacePinned: true }, { syncUrl: true });
     return;
   }
 
@@ -1127,7 +1346,12 @@ document.addEventListener("click", (event) => {
 
   const button = event.target.closest("[data-page]");
   if (!button) return;
-  setPage(button.dataset.page);
+  const page = routePageAliases[button.dataset.page] || button.dataset.page;
+  const routeRaceId = button.dataset.routeRaceId || currentRaceId;
+  const nextState = { page, raceId: routeRaceId, homeRacePinned: page !== "home" || cRouteState.homeRacePinned };
+  if (page === "results" || page === "review") nextState.resultsRaceId = routeRaceId || currentResultsRaceId;
+  if (page === "rider") nextState.riderId = cRouteState.riderId || sampleData?.profiles?.[0]?.riderId;
+  applyCFrontendRouteState(nextState, { syncUrl: true });
 });
 
 const canvases = [
@@ -1806,7 +2030,7 @@ if (!CanvasRenderingContext2D.prototype.roundRect) {
 }
 
 renderPrototypeData();
-restartHomeRaceCarousel();
+applyCFrontendRouteState(window.ARY_C_FRONTEND_INITIAL_STATE || parseCFrontendPath(window.location.href), { replace: true, syncUrl: false });
 resizeAll();
 window.addEventListener("resize", resizeAll);
 initGrs002Runtime();
