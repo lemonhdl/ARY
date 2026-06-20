@@ -22,6 +22,7 @@
 * 已补充 Windows 启停脚本 `start-web-app.bat` / `stop-web-app.bat`，通过 `runtime-data/web-app.pid` 管理单机 Web 应用进程，并默认输出启动日志。
 * 已创建 `deliverables/` 统一交付目录骨架，并为 A-E 五组预置 manifest 模板，后续可直接按目录填充真实产物供自动集成读取。
 * 已补充 monorepo 目录 ownership 约定：A-D 默认只改各自 `deliverables/` 目录，E 负责 `app/`、`scripts/`、`runtime-data/` 接线与装配，降低多人并行修改同一运行时代码目录的冲突。
+* 已完成 B-Admin 最新提交 `21e7e38` 的复审：上一轮“未接入 / 未装配 / 用户页空表”的高优先级问题已关闭，但系统配置页交互失效、审计日志 `profile_update` UI 支持不完整、维护页缺少 CA 接入状态详情，以及样例数据内部冲突仍待修复。
 
 ## 任务看板
 
@@ -54,6 +55,7 @@
 | 最小可运行 Node.js 单机骨架已创建，可直接作为真实实现入口 | `package.json`、`app/`、`scripts/`、`runtime-data/` |
 | Windows 启停脚本已生成，可直接用于单机 Web 应用进程管理 | `start-web-app.bat`、`stop-web-app.bat` |
 | 统一交付目录骨架与 manifest 模板已生成，可直接供 A-E 各组落盘产物 | `deliverables/README.md`、`deliverables/*/handoff.manifest.template.json` |
+| B-Admin 最新提交 `21e7e38` 已完成复审，当前已接入程序壳并具备基础可运行性，但仍有配置页交互、审计日志筛选、维护页 CA 接入区块和样例一致性问题待补 | `reviews/b-admin-21e7e38.review.md` |
 | CA 接入契约已形成原始骑行状态消息草案，仍需继续讨论完善 | `docs/ary-ca-integration-spec.md` |
 | 报名 / RaceProject / CA 参赛语义整改已形成临时任务书 | `docs/registration-ca-rules-alignment.taskbook.md` |
 | 当前仓库包含设计原型 | `design-prototype/` |
