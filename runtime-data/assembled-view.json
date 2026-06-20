@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-20T04:05:49.986Z",
+  "generatedAt": "2026-06-20T07:23:01.377Z",
   "source": "scripts/assemble.js",
   "races": [
     {
@@ -1000,7 +1000,7 @@
       "githubAccount": "ana-ruiz",
       "displayName": "Ana Ruiz",
       "avatarUrl": "https://avatars.githubusercontent.com/u/rider02",
-      "profileCompleted": true,
+      "profileCompleted": false,
       "roles": [
         "rider"
       ],
@@ -1224,7 +1224,231 @@
       "completedAt": "2026-06-12T15:10:00Z"
     }
   ],
+  "caStatuses": [
+    {
+      "raceId": "bay-area-happy-trip",
+      "raceTitle": "湾区开心游",
+      "aggregateStatus": "active",
+      "totalRegistrations": 36,
+      "totalRaceProjects": 36,
+      "configuredCount": 30,
+      "activeCount": 24,
+      "failedCount": 2,
+      "notConfiguredCount": 6,
+      "connections": [
+        {
+          "caConnectionId": "conn_mira_codex_001",
+          "riderId": "rider-mira",
+          "riderName": "Mira Chen",
+          "caType": "codex",
+          "ingestionStatus": "active",
+          "registeredAt": "2026-06-14T08:00:00Z",
+          "lastSyncedAt": "2026-06-20T11:58:00Z",
+          "sessionCount": 23,
+          "failureReason": null,
+          "flaggedAnomaly": false
+        },
+        {
+          "caConnectionId": "conn_ana_claude_001",
+          "riderId": "rider-ana",
+          "riderName": "Ana Ruiz",
+          "caType": "claude_code",
+          "ingestionStatus": "active",
+          "registeredAt": "2026-06-14T08:15:00Z",
+          "lastSyncedAt": "2026-06-20T11:57:00Z",
+          "sessionCount": 19,
+          "failureReason": null,
+          "flaggedAnomaly": false
+        },
+        {
+          "caConnectionId": "conn_jun_codex_001",
+          "riderId": "rider-jun",
+          "riderName": "Jun Park",
+          "caType": "codex",
+          "ingestionStatus": "active",
+          "registeredAt": "2026-06-14T09:00:00Z",
+          "lastSyncedAt": "2026-06-20T11:55:00Z",
+          "sessionCount": 15,
+          "failureReason": null,
+          "flaggedAnomaly": true,
+          "anomalyNote": "成本异常偏高，已标记 cost_watch"
+        },
+        {
+          "caConnectionId": "conn_rae_codex_001",
+          "riderId": "rider-rae",
+          "riderName": "Rae Stone",
+          "caType": "codex",
+          "ingestionStatus": "connected",
+          "registeredAt": "2026-06-14T10:00:00Z",
+          "lastSyncedAt": "2026-06-20T11:30:00Z",
+          "sessionCount": 8,
+          "failureReason": null,
+          "flaggedAnomaly": false
+        },
+        {
+          "caConnectionId": "conn_fail_01",
+          "riderId": "rider-bay-fail-01",
+          "riderName": "某异常选手 A",
+          "caType": "claude_code",
+          "ingestionStatus": "failed",
+          "registeredAt": "2026-06-14T08:30:00Z",
+          "lastSyncedAt": "2026-06-19T22:00:00Z",
+          "sessionCount": 4,
+          "failureReason": "ca_session_permission_denied — CA 端权限变更导致连接中断",
+          "flaggedAnomaly": false
+        },
+        {
+          "caConnectionId": "conn_fail_02",
+          "riderId": "rider-bay-fail-02",
+          "riderName": "某异常选手 B",
+          "caType": "codex",
+          "ingestionStatus": "failed",
+          "registeredAt": "2026-06-14T09:15:00Z",
+          "lastSyncedAt": "2026-06-20T10:45:00Z",
+          "sessionCount": 11,
+          "failureReason": "connector_timeout — connector 多次响应超时",
+          "flaggedAnomaly": false
+        }
+      ]
+    },
+    {
+      "raceId": "smart-investment-analyst",
+      "raceTitle": "智能投研助理",
+      "aggregateStatus": "active",
+      "totalRegistrations": 28,
+      "totalRaceProjects": 28,
+      "configuredCount": 22,
+      "activeCount": 18,
+      "failedCount": 1,
+      "notConfiguredCount": 6,
+      "connections": [
+        {
+          "caConnectionId": "conn_owen_codex_001",
+          "riderId": "rider-owen",
+          "riderName": "Owen Xu",
+          "caType": "codex",
+          "ingestionStatus": "active",
+          "registeredAt": "2026-06-15T08:00:00Z",
+          "lastSyncedAt": "2026-06-20T11:56:00Z",
+          "sessionCount": 21,
+          "failureReason": null,
+          "flaggedAnomaly": false
+        },
+        {
+          "caConnectionId": "conn_invest_fail_01",
+          "riderId": "rider-invest-fail-01",
+          "riderName": "某投研异常选手",
+          "caType": "claude_code",
+          "ingestionStatus": "failed",
+          "registeredAt": "2026-06-15T09:00:00Z",
+          "lastSyncedAt": "2026-06-20T08:00:00Z",
+          "sessionCount": 3,
+          "failureReason": "connector_disconnected — CA connector 进程异常退出",
+          "flaggedAnomaly": false
+        }
+      ]
+    },
+    {
+      "raceId": "media-ops-agent",
+      "raceTitle": "自媒体运营 Agent",
+      "aggregateStatus": "degraded",
+      "totalRegistrations": 32,
+      "totalRaceProjects": 32,
+      "configuredCount": 25,
+      "activeCount": 0,
+      "failedCount": 3,
+      "notConfiguredCount": 7,
+      "connections": [
+        {
+          "caConnectionId": "conn_sara_codex_001",
+          "riderId": "rider-sara",
+          "riderName": "Sara Li",
+          "caType": "codex",
+          "ingestionStatus": "connected",
+          "registeredAt": "2026-06-16T08:00:00Z",
+          "lastSyncedAt": "2026-06-19T18:00:00Z",
+          "sessionCount": 28,
+          "failureReason": null,
+          "flaggedAnomaly": false
+        }
+      ]
+    }
+  ],
   "manifests": [
+    {
+      "group": "a-rider",
+      "version": "0.1.0",
+      "contractVersion": "0.1.0",
+      "dependsOn": [
+        "d-data"
+      ],
+      "artifacts": [
+        {
+          "name": "riding-events.sample.json",
+          "path": "deliverables/a-rider/riding-events.sample.json",
+          "required": true,
+          "type": "sample-data",
+          "description": "骑行事件样例集，含正常事件流、乱序重放、失败事件，可映射至 LiveEventEntry / CAConnectionStatusView / LiveHeadlineMetricsView"
+        },
+        {
+          "name": "ca-status.sample.json",
+          "path": "deliverables/a-rider/ca-status.sample.json",
+          "required": true,
+          "type": "sample-data",
+          "description": "CAConnection 状态样例，覆盖 registered / handshaken / active / failed / not_configured"
+        },
+        {
+          "name": "signature-samples.json",
+          "path": "deliverables/a-rider/signature-samples.json",
+          "required": true,
+          "type": "sample-data",
+          "description": "Ed25519 签名样例，含待签名原文、canonical JSON 说明、正常签名、篡改验签失败、密钥不匹配验签失败"
+        },
+        {
+          "name": "session-fetch.contract.json",
+          "path": "deliverables/a-rider/session-fetch.contract.json",
+          "required": true,
+          "type": "contract",
+          "description": "W3 fetch 端点契约，定义 snapshot 请求/响应格式"
+        },
+        {
+          "name": "register-handshake.contract.json",
+          "path": "deliverables/a-rider/register-handshake.contract.json",
+          "required": true,
+          "type": "contract",
+          "description": "W1 握手登记契约，定义 CAConnection 登记请求/响应格式"
+        },
+        {
+          "name": "error-codes.md",
+          "path": "deliverables/a-rider/error-codes.md",
+          "required": true,
+          "type": "documentation",
+          "description": "Rider 客户端错误码定义，覆盖握手失败、签名失败、重放拒绝、sequence 异常等"
+        },
+        {
+          "name": "protocol-summary.md",
+          "path": "deliverables/a-rider/protocol-summary.md",
+          "required": true,
+          "type": "documentation",
+          "description": "DCR 协议摘要，说明消息格式、push/fetch 流程、签名机制、哈希链防伪"
+        },
+        {
+          "name": "replay-readme.md",
+          "path": "deliverables/a-rider/replay-readme.md",
+          "required": true,
+          "type": "documentation",
+          "description": "E 组本地回放与集成测试指南"
+        },
+        {
+          "name": "client-source/",
+          "path": "deliverables/a-rider/client-source/",
+          "required": true,
+          "type": "source-code",
+          "description": "DCR Desktop App 核心源码：消息构造、签名、哈希链、中转代理、用户端"
+        }
+      ],
+      "notes": "身份字段（race.*, rider.*, ca.caConnectionId）当前使用 __MOCK__ 占位，等待 ARY 服务端 API 就绪后替换。中转站和用户端当前部署于骑手本机，后续中转站迁移至云端时仅需修改 ANTHROPIC_BASE_URL 指向。"
+    },
     {
       "group": "b-admin",
       "version": "0.2.0",
@@ -1295,6 +1519,66 @@
         }
       ],
       "notes": "B 组管理系统交付。所有样例遵守 todos/10-Shared-Field-Dictionary.md 和 todos/11-Publication-Visibility-Rules.md 的共享契约。published-artifacts.sample.json 必须覆盖 Results、Review、Report 的发布态和撤回态。"
+    },
+    {
+      "group": "c-frontend",
+      "version": "0.1.0",
+      "contractVersion": "0.1.0",
+      "dependsOn": [
+        "d-data",
+        "b-admin"
+      ],
+      "artifacts": [
+        {
+          "name": "route-map.json",
+          "path": "deliverables/c-frontend/route-map.json",
+          "required": true,
+          "type": "config"
+        },
+        {
+          "name": "page-dependencies.json",
+          "path": "deliverables/c-frontend/page-dependencies.json",
+          "required": true,
+          "type": "config"
+        },
+        {
+          "name": "adapter-contract.md",
+          "path": "deliverables/c-frontend/adapter-contract.md",
+          "required": true,
+          "type": "documentation"
+        },
+        {
+          "name": "fallback-rules.md",
+          "path": "deliverables/c-frontend/fallback-rules.md",
+          "required": true,
+          "type": "documentation"
+        },
+        {
+          "name": "shell-readme.md",
+          "path": "deliverables/c-frontend/shell-readme.md",
+          "required": true,
+          "type": "documentation"
+        },
+        {
+          "name": "app-shell",
+          "path": "deliverables/c-frontend/app-shell",
+          "required": true,
+          "type": "directory"
+        },
+        {
+          "name": "prototype",
+          "path": "deliverables/c-frontend/app-shell/prototype",
+          "required": true,
+          "type": "runnable-frontend"
+        },
+        {
+          "name": "legacy-reuse",
+          "path": "deliverables/c-frontend/app-shell/legacy-reuse",
+          "required": true,
+          "type": "reused-assets"
+        }
+      ],
+      "notes": "C 组前端展示交付。app-shell/prototype 已包含可直接打开的 Week3 Public Site / Live Hall / Works / Results / Review / Rider / Cooperation / Login / Console / Screen Display 原型；app-shell/legacy-reuse 已迁入 GRS-001 Public Yard 公开数据边界样例，以及 GRS-002 Jumbotron track-runtime、adapter、data profile、confirmed track asset 与 rider sprite，可供 Week3 Live Hall 与 Screen Display 继续接入复用。"
     }
   ]
 }

@@ -64,7 +64,11 @@
       </aside>
       <main class="admin-main">
         <h1>🔧 内部数据维护</h1>
-        <p class="subtitle">Projection 重算 · Report 重跑 · 公开展示异常处理</p>
+        <p class="subtitle">CA 接入状态详情 · Projection 重算 · Report 重跑 · 公开展示异常处理</p>
+
+        <h2 class="section-title">CA 接入状态详情</h2>
+        <div class="alert alert-info">按 Race 查看 CAConnection 接入详情、失败原因和 RaceProject 聚合健康度。可标记已知异常连接。</div>
+        <div id="ca-status-container">加载中...</div>
 
         <h2 class="section-title">Projection 状态与重算</h2>
         <div class="alert alert-info">Projection 是过程展示数据，重算不影响核心事实数据。重算期间 Live Hall 和 Screen Console 回退到上一稳定版本。</div>
@@ -88,6 +92,32 @@
         try {
           const resp = await fetch('/api/runtime/assembled-view');
           const data = await resp.json();
+
+          // CA 接入状态详情
+          const caRaces = data.caStatuses || [];
+          if (caRaces.length) {
+            document.getElementById('ca-status-container').innerHTML = caRaces.map(race => `
+              <div class="table-wrap">
+                <table>
+                  <thead><tr><th colspan="7" style="font-size:14px;color:#14314f;">🏁 ${race.raceTitle} · 聚合接入：<span class="badge badge-${race.aggregateStatus === 'active' ? 'healthy' : race.aggregateStatus === 'degraded' ? 'degraded' : 'failed'}">${race.aggregateStatus}</span> · 已配置 ${race.configuredCount}/${race.totalRaceProjects} · Active ${race.activeCount} · Failed ${race.failedCount} · 未配置 ${race.notConfiguredCount}</th></tr></thead>
+                  <thead><tr><th>骑手</th><th>CA 类型</th><th>接入状态</th><th>注册时间</th><th>最近同步</th><th>失败原因</th><th>操作</th></tr></thead>
+                  <tbody>${race.connections.map(c => `
+                    <tr>
+                      <td><strong>${c.riderName}</strong></td>
+                      <td>${c.caType}</td>
+                      <td><span class="badge badge-${c.ingestionStatus === 'active' ? 'healthy' : c.ingestionStatus === 'connected' ? 'degraded' : c.ingestionStatus === 'failed' ? 'failed' : 'stale'}">${c.ingestionStatus}</span>${c.flaggedAnomaly ? ' ⚠️' : ''}</td>
+                      <td style="font-size:12px;">${c.registeredAt ? new Date(c.registeredAt).toLocaleDateString('zh-CN') : '--'}</td>
+                      <td style="font-size:12px;">${c.lastSyncedAt ? new Date(c.lastSyncedAt).toLocaleString('zh-CN') : '--'}</td>
+                      <td style="font-size:12px;color:#dc2626;">${c.failureReason || '--'}</td>
+                      <td>${c.flaggedAnomaly ? `<button class="btn btn-sm" onclick="toggleAnomalyFlag('${c.caConnectionId}')" title="取消异常标记">取消标记</button>` : (c.ingestionStatus === 'failed' ? `<button class="btn btn-sm btn-danger" onclick="toggleAnomalyFlag('${c.caConnectionId}')" title="标记为已知异常">标记已知</button>` : '--')}</td>
+                    </tr>
+                  `).join('')}</tbody>
+                </table>
+              </div>
+            `).join('');
+          } else {
+            document.getElementById('ca-status-container').innerHTML = '<div class="alert alert-warning">暂无 CA 接入状态数据。请确认 ca-status.sample.json 已装配。</div>';
+          }
 
           // Projections
           const projs = data.projectionStatuses || [];
@@ -134,6 +164,9 @@
         }
       }
 
+      window.toggleAnomalyFlag = function(connectionId) {
+        alert('CAConnection ' + connectionId + ' 异常标记已切换\n（演示模式。实际将通过 API 持久化并写入审计日志。）');
+      };
       window.rebuild = function(raceId, type) {
         if (confirm(`确认手动重算 ${raceId} 的 ${type} Projection？\n\n重算期间对应 Live Hall / Screen Console 将回退到上一稳定版本。`)) {
           alert(`已触发 ${raceId}:${type} 重算\n（演示模式。实际将通过 API 触发并写入审计日志。）`);

@@ -49,6 +49,7 @@ const bAuditLogs = safeLoadJson(path.join(bAdminDir, 'audit-log.sample.json'));
 const bUserRoles = safeLoadJson(path.join(bAdminDir, 'user-roles.sample.json'));
 const bProfileCompletion = safeLoadJson(path.join(bAdminDir, 'profile-completion.sample.json'));
 const bSystemConfig = safeLoadJson(path.join(bAdminDir, 'system-config.sample.json'));
+const bCaStatus = safeLoadJson(path.join(bAdminDir, 'ca-status.sample.json'));
 
 const dashboard = {
   ...(authorityMock.dashboard || {}),
@@ -77,6 +78,7 @@ const assembledView = {
   systemConfigs: (bSystemConfig && bSystemConfig.configs) ? bSystemConfig.configs : [],
   userRoles: (bUserRoles && bUserRoles.users) ? bUserRoles.users : [],
   profileCompletion: (bProfileCompletion && bProfileCompletion.users) ? bProfileCompletion.users : [],
+  caStatuses: (bCaStatus && bCaStatus.races) ? bCaStatus.races : [],
   manifests
 };
 

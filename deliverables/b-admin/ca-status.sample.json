@@ -1,0 +1,158 @@
+{
+  "meta": {
+    "model": "CAConnectionStatusView",
+    "sharedContract": "todos/10-Shared-Field-Dictionary.md",
+    "generatedAt": "2026-06-20T12:00:00Z",
+    "source": "deliverables/b-admin/ca-status.sample.json"
+  },
+  "races": [
+    {
+      "raceId": "bay-area-happy-trip",
+      "raceTitle": "湾区开心游",
+      "aggregateStatus": "active",
+      "totalRegistrations": 36,
+      "totalRaceProjects": 36,
+      "configuredCount": 30,
+      "activeCount": 24,
+      "failedCount": 2,
+      "notConfiguredCount": 6,
+      "connections": [
+        {
+          "caConnectionId": "conn_mira_codex_001",
+          "riderId": "rider-mira",
+          "riderName": "Mira Chen",
+          "caType": "codex",
+          "ingestionStatus": "active",
+          "registeredAt": "2026-06-14T08:00:00Z",
+          "lastSyncedAt": "2026-06-20T11:58:00Z",
+          "sessionCount": 23,
+          "failureReason": null,
+          "flaggedAnomaly": false
+        },
+        {
+          "caConnectionId": "conn_ana_claude_001",
+          "riderId": "rider-ana",
+          "riderName": "Ana Ruiz",
+          "caType": "claude_code",
+          "ingestionStatus": "active",
+          "registeredAt": "2026-06-14T08:15:00Z",
+          "lastSyncedAt": "2026-06-20T11:57:00Z",
+          "sessionCount": 19,
+          "failureReason": null,
+          "flaggedAnomaly": false
+        },
+        {
+          "caConnectionId": "conn_jun_codex_001",
+          "riderId": "rider-jun",
+          "riderName": "Jun Park",
+          "caType": "codex",
+          "ingestionStatus": "active",
+          "registeredAt": "2026-06-14T09:00:00Z",
+          "lastSyncedAt": "2026-06-20T11:55:00Z",
+          "sessionCount": 15,
+          "failureReason": null,
+          "flaggedAnomaly": true,
+          "anomalyNote": "成本异常偏高，已标记 cost_watch"
+        },
+        {
+          "caConnectionId": "conn_rae_codex_001",
+          "riderId": "rider-rae",
+          "riderName": "Rae Stone",
+          "caType": "codex",
+          "ingestionStatus": "connected",
+          "registeredAt": "2026-06-14T10:00:00Z",
+          "lastSyncedAt": "2026-06-20T11:30:00Z",
+          "sessionCount": 8,
+          "failureReason": null,
+          "flaggedAnomaly": false
+        },
+        {
+          "caConnectionId": "conn_fail_01",
+          "riderId": "rider-bay-fail-01",
+          "riderName": "某异常选手 A",
+          "caType": "claude_code",
+          "ingestionStatus": "failed",
+          "registeredAt": "2026-06-14T08:30:00Z",
+          "lastSyncedAt": "2026-06-19T22:00:00Z",
+          "sessionCount": 4,
+          "failureReason": "ca_session_permission_denied — CA 端权限变更导致连接中断",
+          "flaggedAnomaly": false
+        },
+        {
+          "caConnectionId": "conn_fail_02",
+          "riderId": "rider-bay-fail-02",
+          "riderName": "某异常选手 B",
+          "caType": "codex",
+          "ingestionStatus": "failed",
+          "registeredAt": "2026-06-14T09:15:00Z",
+          "lastSyncedAt": "2026-06-20T10:45:00Z",
+          "sessionCount": 11,
+          "failureReason": "connector_timeout — connector 多次响应超时",
+          "flaggedAnomaly": false
+        }
+      ]
+    },
+    {
+      "raceId": "smart-investment-analyst",
+      "raceTitle": "智能投研助理",
+      "aggregateStatus": "active",
+      "totalRegistrations": 28,
+      "totalRaceProjects": 28,
+      "configuredCount": 22,
+      "activeCount": 18,
+      "failedCount": 1,
+      "notConfiguredCount": 6,
+      "connections": [
+        {
+          "caConnectionId": "conn_owen_codex_001",
+          "riderId": "rider-owen",
+          "riderName": "Owen Xu",
+          "caType": "codex",
+          "ingestionStatus": "active",
+          "registeredAt": "2026-06-15T08:00:00Z",
+          "lastSyncedAt": "2026-06-20T11:56:00Z",
+          "sessionCount": 21,
+          "failureReason": null,
+          "flaggedAnomaly": false
+        },
+        {
+          "caConnectionId": "conn_invest_fail_01",
+          "riderId": "rider-invest-fail-01",
+          "riderName": "某投研异常选手",
+          "caType": "claude_code",
+          "ingestionStatus": "failed",
+          "registeredAt": "2026-06-15T09:00:00Z",
+          "lastSyncedAt": "2026-06-20T08:00:00Z",
+          "sessionCount": 3,
+          "failureReason": "connector_disconnected — CA connector 进程异常退出",
+          "flaggedAnomaly": false
+        }
+      ]
+    },
+    {
+      "raceId": "media-ops-agent",
+      "raceTitle": "自媒体运营 Agent",
+      "aggregateStatus": "degraded",
+      "totalRegistrations": 32,
+      "totalRaceProjects": 32,
+      "configuredCount": 25,
+      "activeCount": 0,
+      "failedCount": 3,
+      "notConfiguredCount": 7,
+      "connections": [
+        {
+          "caConnectionId": "conn_sara_codex_001",
+          "riderId": "rider-sara",
+          "riderName": "Sara Li",
+          "caType": "codex",
+          "ingestionStatus": "connected",
+          "registeredAt": "2026-06-16T08:00:00Z",
+          "lastSyncedAt": "2026-06-19T18:00:00Z",
+          "sessionCount": 28,
+          "failureReason": null,
+          "flaggedAnomaly": false
+        }
+      ]
+    }
+  ]
+}

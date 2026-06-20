@@ -1,12 +1,10 @@
 {
-  "generatedAt": "2026-06-20T04:05:49.986Z",
+  "generatedAt": "2026-06-20T07:23:01.377Z",
   "ok": false,
   "warnings": [
-    "Missing manifest for a-rider: D:\\ary-grs-003-llt5925\\ARY\\deliverables\\a-rider\\handoff.manifest.json",
-    "Missing manifest for c-frontend: D:\\ary-grs-003-llt5925\\ARY\\deliverables\\c-frontend\\handoff.manifest.json",
     "Missing manifest for d-data: D:\\ary-grs-003-llt5925\\ARY\\deliverables\\d-data\\handoff.manifest.json"
   ],
-  "manifestCount": 1,
+  "manifestCount": 3,
   "runtimeFiles": {
     "authorityMockPath": "D:\\ary-grs-003-llt5925\\ARY\\runtime-data\\authority-mock.json",
     "assembledViewPath": "D:\\ary-grs-003-llt5925\\ARY\\runtime-data\\assembled-view.json"
