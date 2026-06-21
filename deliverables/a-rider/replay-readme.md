@@ -2,6 +2,8 @@
 
 本文说明如何使用 A 组交付的样例数据完成本地回放和集成测试，无需连接真实 Claude Code 或上游 API。
 
+> 本文只适用于直接运行 `deliverables/a-rider/client-source/` 的源码回放原型。若排查已经安装到 Windows 的 `DCR Desktop App` 桌面壳，请改查 `http://127.0.0.1:4302`，不要再用 `3737` 作为桌面壳是否启动成功的判据。
+
 ## 前提
 
 - Node.js 24+

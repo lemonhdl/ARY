@@ -53,6 +53,7 @@
 23. 已完成 A-Rider 最终人工验收留痕：运行中 app 已实测通过 A-Rider runtime summary API、contracts API、ca-status/docs/source-bundles API、One API 集成说明装配，以及 Admin 维护页接线区块渲染。当前 A-Rider 已具备完整收工证据，不再有新的 A 集成 blocker。
 23. 已完成 B-Admin 最新提交 `5ffac20` / `dc98f31` 的复审与二次集成收口：最新交付中的 CA 状态样例、Dashboard 风险呈现和维护页批量 / 历史 / 审核增量已重新并入 `app/web/admin/`；当前发现的问题不是 B 交付缺口，而是程序壳合流时残留的冲突标记，现已在 `dashboard.html` / `maintenance.html` 中清理并验证通过。B-Admin 当前再次回到无 blocker 的可直接收工状态。
 24. 已完成 Admin 维护页当前管理员接线与关键维护动作持久化：`maintenance.html` 现已复用当前管理员会话，`Projection` 单项 / 按赛事 / 按范围重算、`Report` 重跑 / 标记已审核、Work / Rider Profile 可见性变更，以及 CAConnection 异常标记都已接入真实后端写口，能够落盘到 `deliverables/b-admin/*.sample.json`、写入审计日志并重建 runtime；相关 API、维护页与审计页读取已验证通过，测试痕迹已清理回样例基线。
+25. 已完成 DCR 本地运行口径澄清：`deliverables/a-rider/` 文档现已明确区分“源码回放原型 `3737/3738/3000`”与“已安装桌面壳统一入口 `127.0.0.1:4302`”；后续桌面壳排障、人工验收和运行时文档读取都应以 `4302` 为现场核验入口，而不是继续把 `3737/3738` 当作桌面壳启动判据。
 
 ## 执行纪律
 
